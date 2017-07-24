@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.article.ArticleWriteDao">
+
+    <insert id="insert" parameterType="com.party.core.model.article.Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO article
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="title != null">  title,</if>
+            <if test="subTitle != null">  sub_title,</if>
+            <if test="pic != null">  pic,</if>
+            <if test="isHot != null">  hot,</if>
+            <if test="articleType != null">  article_type,</if>
+            <if test="content != null">  content,</if>
+            <if test="sort != null">  sort,</if>
+            <if test="applyUrl != null">  apply_url,</if>
+            <if test="showApply != null">  show_apply,</if>
+            <if test="btnName != null">  btn_name,</if>
+            <if test="channel != null and channel.id != null and channel.id != ''"> channel_id,</if>
+            <if test="member != null"> member_id,</if>
+            <if test="readNum != null"> read_num,</if>
+            <if test="type != null"> type,</if>
+            <if test="url != null"> url,</if>
+            <if test="articleGroupId != null"> article_group_id,</if>
+            
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="title != null">  #{title,jdbcType=VARCHAR},</if>
+            <if test="subTitle != null">  #{subTitle,jdbcType=VARCHAR},</if>
+            <if test="pic != null">  #{pic,jdbcType=VARCHAR},</if>
+            <if test="isHot != null">  #{isHot,jdbcType=INTEGER},</if>
+            <if test="articleType != null">  #{articleType,jdbcType=VARCHAR},</if>
+            <if test="content != null">  #{content,jdbcType=VARCHAR},</if>
+            <if test="sort != null"> #{sort, jdbcType=INTEGER},</if>
+            <if test="applyUrl != null"> #{applyUrl, jdbcType=VARCHAR},</if>
+            <if test="showApply != null"> #{showApply, jdbcType=INTEGER},</if>
+            <if test="btnName != null"> #{btnName, jdbcType=VARCHAR},</if>
+            <if test="channel != null and channel.id != null and channel.id != ''"> #{channel.id, jdbcType=VARCHAR},</if>
+            <if test="member != null"> #{member, jdbcType=VARCHAR},</if>
+            <if test="readNum != null"> #{readNum, jdbcType=INTEGER},</if>
+            <if test="type != null"> #{type, jdbcType=VARCHAR},</if>
+            <if test="url != null"> #{url, jdbcType=VARCHAR},</if>
+            <if test="articleGroupId != null"> #{articleGroupId, jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE article
+        <set>
+            <if test="createBy != null">  create_by = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">  create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="title != null">  title = #{title,jdbcType=VARCHAR},</if>
+            <if test="subTitle != null">  sub_title = #{subTitle,jdbcType=VARCHAR},</if>
+            <if test="pic != null">  pic = #{pic,jdbcType=VARCHAR},</if>
+            <if test="isHot != null">  hot = #{isHot,jdbcType=INTEGER},</if>
+            <if test="articleType != null">  article_type = #{articleType,jdbcType=VARCHAR},</if>
+            <if test="content != null">  content = #{content,jdbcType=VARCHAR},</if>
+            <if test="sort != null">  sort = #{sort,jdbcType=INTEGER},</if>
+            <if test="readNum != null"> read_num = #{readNum,jdbcType=INTEGER},</if>
+            <if test="applyUrl != null"> apply_url = #{applyUrl,jdbcType=VARCHAR},</if>
+            <if test="showApply != null"> show_apply = #{showApply,jdbcType=INTEGER},</if>
+            <if test="btnName != null"> btn_name = #{btnName,jdbcType=VARCHAR},</if>
+            <if test="channel != null and channel.id != null and channel.id != ''"> channel_id = #{channel.id,jdbcType=VARCHAR},</if>
+            <if test="member != null"> member_id = #{member,jdbcType=VARCHAR},</if>
+            <if test="type != null"> type = #{type,jdbcType=VARCHAR},</if>
+            <if test="url != null"> url = #{url,jdbcType=VARCHAR},</if>
+            <if test="articleGroupId != null"> article_group_id = #{articleGroupId,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <update id="deleteLogic">
+        UPDATE article SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM article
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE article SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM article
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

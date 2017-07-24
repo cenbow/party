@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.circle.CircleApplyWriteDao">
+    <insert id="insert" parameterType="com.party.core.model.circle.CircleApply" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO c_apply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="remarks != null">  remarks,</if>
+            <if test="member != null">  member_id,</if>
+            <if test="circle != null">  circle_id,</if>
+            <if test="checkStatus != null">  check_status</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="remarks != null"> #{remarks,jdbcType=VARCHAR},</if>
+            <if test="member != null">  #{member,jdbcType=VARCHAR},</if>
+            <if test="circle != null">  #{circle,jdbcType=VARCHAR},</if>
+            <if test="checkStatus != null"> #{checkStatus,jdbcType=INTEGER}</if>
+        </trim>
+    </insert>
+
+
+    <update id="update">
+        UPDATE c_apply
+        <set>
+            <if test="createBy != null">  create_by = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">  create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="member != null">  member_id = #{member,jdbcType=VARCHAR},</if>
+            <if test="circle != null">  circle_id = #{circle,jdbcType=VARCHAR},</if>
+            <if test="checkStatus != null">  check_status = #{checkStatus,jdbcType=INTEGER}</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE c_apply SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM c_apply
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE c_apply SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM c_apply
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

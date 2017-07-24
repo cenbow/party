@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.store.StoreCountReadDao">
+
+    <resultMap id="storeCountMap" type="com.party.core.model.store.StoreCount">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <id column="store_goods_id" property="storeGoodsId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <id column="goods_id" property="goodsId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <id column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <id column="goods_type" property="goodsType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <id column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <id column="sales_num" property="salesNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <id column="share_num" property="shareNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <id column="view_num" property="viewNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <id column="sales_amount" property="salesAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+    </resultMap>
+
+
+    <sql id="storeCountSql">
+        id, store_goods_id, goods_id, member_id, goods_type, create_date, sales_num, share_num, view_num, sales_amount
+    </sql>
+
+
+    <select id="get" resultMap="storeCountMap">
+        SELECT
+        <include refid="storeCountSql"/>
+        FROM store_count
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="storeCountMap">
+        SELECT
+        <include refid="storeCountSql"/>
+        FROM store_count
+        <where>
+            <if test="goodsId != null and goodsId != ''"> goods_id = #{goodsId}</if>
+            <if test="memberId != null and memberId != ''"> AND member_id = #{memberId}</if>
+            <if test="goodsType != null and goodsType != ''"> AND goods_type = #{goodsType}</if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="storeCountMap">
+        SELECT
+        <include refid="storeCountSql"/>
+        FROM store_count
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    
+    <select id="count" resultMap="storeCountMap">
+        SELECT 
+        SUM(sales_num) AS sales_num,
+	    SUM(share_num) AS share_num,
+	    SUM(view_num) AS view_num,
+	    SUM(sales_amount) AS sales_amount
+	    FROM store_count
+	    <where>
+            <if test="query.goodsId != null and query.goodsId !=''"> goods_id = #{query.goodsId}</if>
+            <if test="query.memberId != null and query.memberId !=''"> AND member_id = #{query.memberId}</if>
+            <choose>
+                <when test="query.timeTpe == 0">
+                    AND TO_DAYS(NOW()) - TO_DAYS(create_date) = 1
+                </when>
+                <when test="query.timeType == 1">
+                    AND TO_DAYS(create_date) = TO_DAYS(
+                    date_sub(
+                    curdate(),
+                    INTERVAL WEEKDAY(curdate()) + 2 DAY
+                    )
+                    )
+                </when>
+                <when test="query.timeType == 2">
+                    AND TO_DAYS(create_date) = TO_DAYS(LAST_DAY(NOW() - INTERVAL 1 month))
+                </when>
+            </choose>
+        </where>
+    </select>
+</mapper>

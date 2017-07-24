@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.charge.LevelReadDao">
+
+    <resultMap id="dynamicMap" type="com.party.core.model.charge.Level">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="price" property="price" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="unit" property="unit" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="picture" property="picture" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sys_role_id" property="sysRoleId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="get" resultMap="dynamicMap">
+        SELECT * FROM charge_level WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="dynamicMap">
+        SELECT * FROM charge_level
+        <where>
+            <if test="delFlag != null">
+                del_flag = #{delFlag}
+            </if>
+        </where>
+        ORDER BY sort ASC,update_date DESC
+    </select>
+
+    <select id="webListPage" resultMap="dynamicMap">
+        SELECT *  FROM charge_level cl
+        <where>
+            <if test="level.delFlag != null">AND cl.del_flag = #{level.delFlag}</if>
+            <if test="level.name != null and level.name != ''">AND cl.name like concat('%',#{level.name},'%')</if>
+            <if test="params != null and params.size > 0">
+                <!-- 创建时间 时间块 -->
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (cl.update_date between #{params.startDate} and #{params.endDate})
+                </if>
+                <!-- 创建时间 时间段 -->
+                <if test="params.c_start != null and params.c_start != ''">
+                    AND TO_DAYS(cl.update_date) &gt;= TO_DAYS(#{params.c_start})
+                </if>
+                <if test="params.c_end != null and params.c_end != ''">
+                    AND TO_DAYS(cl.update_date) &lt;= TO_DAYS(#{params.c_end})
+                </if>
+            </if>
+        </where>
+        ORDER BY cl.sort ASC, cl.update_date DESC
+    </select>
+</mapper>

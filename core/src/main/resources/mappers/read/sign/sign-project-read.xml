@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.sign.SignProjectReadDao">
+
+    <resultMap id="projectMap" type="com.party.core.model.sign.SignProject">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="publisher" property="publisher" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="publisher_logo" property="publisherLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_logo" property="projectLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sign_logo" property="signLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="price" property="price" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="apply_check" property="applyCheck" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="grade_check" property="gradeCheck" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="rank_show" property="rankShow" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="rule" property="rule" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="apply_num" property="applyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="pass_num" property="passNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="refuse_num" property="refuseNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="not_audit_num" property="notAuditNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <resultMap id="projectAuthorMap" type="com.party.core.model.sign.SignProjectAuthor">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="publisher" property="publisher" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="publisher_logo" property="publisherLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_logo" property="projectLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sign_logo" property="signLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="price" property="price" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="apply_check" property="applyCheck" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="grade_check" property="gradeCheck" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="rank_show" property="rankShow" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="rule" property="rule" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="apply_num" property="applyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="pass_num" property="passNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="refuse_num" property="refuseNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="not_audit_num" property="notAuditNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_logo" property="authorLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="projectSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, title, publisher, publisher_logo,
+        project_logo, sign_logo, start_time, end_time, price, apply_check, grade_check, rank_show, rule, apply_num, pass_num,
+        refuse_num, not_audit_num
+    </sql>
+
+    <sql id="projectAuthorSql">
+        sp.id AS id, sp.create_by AS create_by, sp.create_date AS create_date, sp.update_by AS update_by, sp.update_date AS update_date,
+	    sp.remarks AS remarks, sp.del_flag AS del_flag, sp.title AS title, sp.publisher AS publisher, sp.publisher_logo AS publisher_logo,
+        sp.project_logo AS project_logo, sp.sign_logo AS sign_logo, sp.start_time AS start_time, sp.end_time AS end_time,sp.price AS price,
+        sp.apply_check AS apply_check, sp.apply_check AS apply_check, sp.rank_show AS rank_show, sp.rule AS rule,sp.apply_num AS apply_num,
+        sp.pass_num AS pass_num, sp.refuse_num AS refuse_num, sp.not_audit_num AS not_audit_num, m.realname AS author_name, m.logo AS author_logo
+    </sql>
+
+    <select id="get" resultMap="projectMap">
+        SELECT
+        <include refid="projectSql"/>
+        FROM sign_project
+        WHERE id = #{id}
+    </select>
+
+    <select id="getProjectAuthor" resultMap="projectAuthorMap">
+        SELECT
+        <include refid="projectAuthorSql"/>
+        FROM
+        sign_project sp
+        INNER JOIN member m ON sp.create_by = m.id
+        WHERE sp.id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="projectMap">
+        SELECT
+        <include refid="projectSql"/>
+        FROM sign_project
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="applyCheck !=null"> AND apply_check = #{applyCheck}</if>
+            <if test="rankShow !=null"> AND rank_show = #{rankShow}</if>
+        </where>
+    </select>
+
+    <select id="projectAuthorList" resultMap="projectAuthorMap">
+        SELECT
+	    <include refid="projectAuthorSql"/>
+        FROM
+            sign_project sp
+        INNER JOIN member m ON sp.create_by = m.id
+        <where>
+            <if test="createBy != null and createBy != ''"> sp.create_by = #{createBy}</if>
+        </where>
+    </select>
+
+</mapper>

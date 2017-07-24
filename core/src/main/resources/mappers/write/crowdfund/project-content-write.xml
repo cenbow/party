@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.crowdfund.ProjectContentWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.crowdfund.ProjectContent" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO zc_project_content
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="content != null"> content </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="content != null">  #{content,jdbcType=VARCHAR}</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE zc_project_content
+        <set>
+            <if test="content != null">  content = #{content,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <delete id="delete">
+        DELETE FROM zc_project_content
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="batchDelete">
+        DELETE FROM zc_project_content
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

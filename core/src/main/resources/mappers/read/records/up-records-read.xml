@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.records.UpRecordsReadDao">
+
+    <resultMap id="upRecordsMap" type="com.party.core.model.records.UpRecords">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <resultMap id="withProjectMap" type="com.party.core.model.records.UpRecordWithProject">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_title" property="projectTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_logo" property="authorLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_id" property="authorId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+
+    </resultMap>
+
+    <sql id="upRecordsSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, target_id, content, pic
+    </sql>
+
+    <select id="get" resultMap="upRecordsMap">
+        SELECT
+        <include refid="upRecordsSql"/>
+        FROM up_records
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="upRecordsMap">
+        SELECT
+        <include refid="upRecordsSql"/>
+        FROM up_records
+        <where>
+            <if test="targetId != null and targetId != ''"> target_id = #{targetId}</if>
+        </where>
+    </select>
+
+    <select id="listWithProject" resultMap="withProjectMap">
+        SELECT
+        r.id AS id, r.create_by AS create_by, r.create_date AS create_date, r.update_by AS update_by, r.update_date AS update_date,
+        r.remarks AS remarks, r.del_flag AS del_flag, r.target_id AS target_id, r.content AS content, r.pic AS pic, p.title AS project_title,
+        m.realname AS author_name, m.logo AS author_logo, m.id AS authorId
+        FROM up_records r
+        INNER JOIN zc_project p ON r.target_id = p.id
+        INNER JOIN member m ON p.author_id = m.id
+        <where>
+            <if test="param.projectTitle != null and param.projectTitle != ''"> p.title = #{param.projectTitle}</if>
+            <if test="param.targetId != null and param.targetId != ''"> AND r.target_id = #{param.targetId}</if>
+        </where>
+    </select>
+</mapper>

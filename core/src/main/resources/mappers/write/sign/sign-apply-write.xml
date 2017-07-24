@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.sign.SignApplyWriteDao">
+
+    <insert id="insert" parameterType="com.party.core.model.sign.SignApply" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sign_apply
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="projectId != null">  project_id,</if>
+            <if test="groupId != null">  group_id,</if>
+            <if test="memberId != null">  member_id,</if>
+            <if test="stepNum != null">  step_num,</if>
+            <if test="loveNum != null">  love_num,</if>
+            <if test="status != null">  status,</if>
+            <if test="gradeStatus != null">  grade_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="projectId != null">  #{projectId,jdbcType=VARCHAR},</if>
+            <if test="groupId != null">  #{groupId,jdbcType=VARCHAR},</if>
+            <if test="memberId != null">  #{memberId,jdbcType=VARCHAR},</if>
+            <if test="stepNum != null">  #{stepNum,jdbcType=INTEGER},</if>
+            <if test="loveNum != null">  #{loveNum,jdbcType=INTEGER},</if>
+            <if test="status != null">  #{status,jdbcType=INTEGER},</if>
+            <if test="gradeStatus != null">  #{gradeStatus,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE sign_apply
+        <set>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="projectId != null">  project_id = #{projectId,jdbcType=VARCHAR},</if>
+            <if test="groupId != null">  group_id = #{groupId,jdbcType=VARCHAR},</if>
+            <if test="memberId != null">  member_id = #{memberId,jdbcType=VARCHAR},</if>
+            <if test="stepNum != null">  step_num = #{stepNum,jdbcType=INTEGER},</if>
+            <if test="loveNum != null">  love_num = #{loveNum,jdbcType=INTEGER},</if>
+            <if test="status != null">  status = #{status,jdbcType=INTEGER},</if>
+            <if test="gradeStatus != null">  grade_status = #{gradeStatus,jdbcType=INTEGER},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE sign_apply SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM sign_apply
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE sign_apply SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM sign_apply
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

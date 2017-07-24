@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.gatherInfo.GatherInfoProjectReadDao">
+	<resultMap id="memberInfoProjectMap" type="com.party.core.model.gatherInfo.GatherInfoProject">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="base_info_desc" property="baseInfoDesc" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="itinerary_info_desc" property="itineraryInfoDesc" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="insurance_info_desc" property="insuranceInfoDesc" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="get" resultMap="memberInfoProjectMap">
+        SELECT * FROM gather_info_project m WHERE id = #{id}
+    </select>
+    
+    <select id="webListPage" resultMap="memberInfoProjectMap">
+        SELECT * FROM gather_info_project m inner join member mm on mm.id = m.create_by 
+        <where>
+            <if test="project.delFlag !=null and project.delFlag !=''"> AND m.del_flag = #{project.delFlag}</if>
+            <if test="project.title != null and project.title != ''"> AND m.title like concat ('%',#{project.title},'%')</if>
+            <if test="project.createBy != null and project.createBy != ''"> AND m.create_by = #{project.createBy}</if>
+            <if test="params != null">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (m.update_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(m.update_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(m.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<!-- 发起者 -->
+				<if test="params.memberName != null and params.memberName != ''">
+					AND mm.realname like concat('%',#{params.memberName},'%')
+				</if>
+            </if>
+        </where>
+        ORDER BY m.update_date DESC
+    </select>
+</mapper>

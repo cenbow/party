@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.message.MessageSetWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.message.MessageSet" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO message_set
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="memberId != null">  member_id,</if>
+            <if test="loveTip != null">  love_tip,</if>
+            <if test="commentTip != null">  comment_tip,</if>
+            <if test="focusTip != null">  focus_tip,</if>
+            <if test="sysTip != null">  sys_tip,</if>
+            <if test="actTip != null">  act_tip,</if>
+            <if test="goodsTip != null">  goods_tip,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="memberId != null">  #{memberId,jdbcType=VARCHAR},</if>
+            <if test="loveTip != null">  #{loveTip,jdbcType=INTEGER},</if>
+            <if test="commentTip != null"> #{commentTip,jdbcType=INTEGER},</if>
+            <if test="focusTip != null">  #{focusTip,jdbcType=INTEGER},</if>
+            <if test="sysTip != null">  #{sysTip,jdbcType=INTEGER},</if>
+            <if test="actTip != null">  #{actTip,jdbcType=INTEGER},</if>
+            <if test="goodsTip != null"> #{goodsTip,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+
+    <update id="update">
+        UPDATE message_set
+        <set>
+            <if test="createBy != null">  create_by = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">  create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="memberId != null">  member_id = #{memberId,jdbcType=VARCHAR},</if>
+            <if test="loveTip != null">  love_tip = #{loveTip,jdbcType=INTEGER},</if>
+            <if test="commentTip != null">  comment_tip = #{commentTip,jdbcType=INTEGER},</if>
+            <if test="focusTip != null">  focus_tip = #{focusTip,jdbcType=INTEGER},</if>
+            <if test="sysTip != null">  sys_tip = #{sysTip,jdbcType=INTEGER},</if>
+            <if test="actTip != null">  act_tip = #{actTip,jdbcType=INTEGER},</if>
+            <if test="goodsTip != null">  goods_tip = #{goodsTip,jdbcType=INTEGER},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE message_set SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM message_set
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE message_set SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM message_set
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

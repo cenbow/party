@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.dynamic.DynamicWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.dynamic.Dynamic" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO dynamic
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="areaId != null">  area_id,</if>
+            <if test="cityId != null">  city_id,</if>
+            <if test="pics != null">  pics,</if>
+            <if test="content != null">  content,</if>
+            <if test="isHot != null">  is_hot,</if>
+            <if test="clickNum != null">  click_num,</if>
+            <if test="loveNum != null">  love_num,</if>
+            <if test="commentNum != null">  comment_num,</if>
+            <if test="dynamicType != null">  dynamic_type,</if>
+            <if test="dynamicWay != null">  dynamic_way,</if>
+            <if test="sort != null">  sort,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="areaId != null"> #{areaId,jdbcType=VARCHAR},</if>
+            <if test="cityId != null"> #{cityId,jdbcType=VARCHAR},</if>
+            <if test="pics != null">  #{pics,jdbcType=VARCHAR},</if>
+            <if test="content != null"> #{content,jdbcType=VARCHAR},</if>
+            <if test="isHot != null"> #{isHot,jdbcType=INTEGER},</if>
+            <if test="clickNum != null"> #{clickNum,jdbcType=VARCHAR},</if>
+            <if test="loveNum != null"> #{loveNum,jdbcType=VARCHAR},</if>
+            <if test="commentNum != null"> #{commentNum,jdbcType=VARCHAR},</if>
+            <if test="dynamicType != null"> #{dynamicType,jdbcType=VARCHAR},</if>
+            <if test="dynamicWay != null">  #{dynamicWay,jdbcType=INTEGER},</if>
+            <if test="sort != null"> #{sort,jdbcType=INTEGER},</if>
+        </trim>
+
+    </insert>
+
+
+    <update id="update">
+        UPDATE dynamic
+        <set>
+            <if test="createBy != null">  create_by = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">  create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="areaId != null">  area_id = #{areaId,jdbcType=VARCHAR},</if>
+            <if test="cityId != null">  city_id = #{cityId,jdbcType=VARCHAR},</if>
+            <if test="pics != null">  pics = #{pics,jdbcType=VARCHAR},</if>
+            <if test="content != null">  content = #{content,jdbcType=VARCHAR},</if>
+            <if test="isHot != null">  is_hot = #{isHot,jdbcType=INTEGER},</if>
+            <if test="clickNum != null">  click_num = #{clickNum,jdbcType=VARCHAR},</if>
+            <if test="loveNum != null">  love_num = #{loveNum,jdbcType=VARCHAR},</if>
+            <if test="commentNum != null">  comment_num = #{commentNum,jdbcType=VARCHAR},</if>
+            <if test="dynamicType != null">  dynamic_type = #{dynamicType,jdbcType=VARCHAR},</if>
+            <if test="dynamicWay != null">  dynamic_way = #{dynamicWay,jdbcType=INTEGER},</if>
+            <if test="sort != null">  sort = #{sort,jdbcType=INTEGER},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE dynamic SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM dynamic
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE dynamic SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM dynamic
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

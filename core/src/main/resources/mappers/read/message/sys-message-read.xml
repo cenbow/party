@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.message.SysMessageReadDao">
+
+
+    <resultMap id="sysMessageMap" type="com.party.core.model.message.SysMessage">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="status" property="status" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="sysMessageSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, type, content, status
+    </sql>
+
+
+    <select id="get" resultMap="sysMessageMap">
+        SELECT
+        <include refid="sysMessageSql"/>
+        FROM sys_message
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="sysMessageMap">
+        SELECT
+        <include refid="sysMessageSql"/>
+        FROM sys_message
+        <where>
+            <if test="delFlag !=null and delFlag != ''"> del_flag = #{delFlag}</if>
+            <if test="type !=null"> AND type = #{type}</if>
+            <if test="content !=null and content != ''"> AND content = #{content}</if>
+            <if test="status !=null"> AND status = #{status}</if>
+        </where>
+        ORDER BY status ,create_date DESC
+    </select>
+
+    <select id="batchList" resultMap="sysMessageMap">
+        SELECT
+        <include refid="sysMessageSql"/>
+        FROM sys_message
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY status ,create_date DESC
+    </select>
+</mapper>

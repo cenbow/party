@@ -1,0 +1,19 @@
+body, .dark { color: #4c5161; }
+a, .blue, a.dark:hover { color: #00a5e0; }
+a:hover { color: #f7bf3a; }
+.gray { color: #999999; }
+.white { color: #fff; }
+.green { color: #01cf97; }
+.orange { color: #f7bf3a; }
+.red {  color: #e8473f;}
+.light { color: #f7f9fa; }
+
+.bg-dark { background-color: #4c5161; }
+.bg-blue { background-color: #00a5e0; }
+.bg-green { background-color: #01cf97; }
+.bg-orange { background-color: #f28c48; }
+.bg-red { background-color: #f4615c; }
+.bg-light { background-color: #f7f9fa; }
+.bg-gray { background-color: #a2a9b6; }
+.bg-white { background-color: #fff; }
+.bg-light-blue{background-color:#00c0ef;}

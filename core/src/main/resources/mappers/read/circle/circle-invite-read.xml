@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.circle.CircleInviteReadDao">
+    <resultMap id="circleInviteMap" type="com.party.core.model.circle.CircleInvite">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="circle" property="circle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_verify" property="isVerify" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </resultMap>
+
+    <sql id="circleInviteSql">
+        id,
+        del_flag,
+        create_by,
+        update_by,
+        remarks,
+        create_date,
+        update_date,
+        circle,
+        is_verify,
+        end_time
+    </sql>
+
+    <select id="get" resultMap="circleInviteMap">
+        SELECT
+        <include refid="circleInviteSql"/>
+        FROM c_invite
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="circleInviteMap">
+        SELECT
+        <include refid="circleInviteSql"/>
+        FROM c_invite
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="createBy !=null and createBy !=''"> AND (create_by = #{createBy})</if>
+            <if test="circle !=null and circle !=''">AND circle = #{circle}</if>
+            <if test="isOpen != null"> AND is_open = #{isOpen}</if>
+        </where>
+            ORDER BY update_date DESC
+    </select>
+
+    <select id="getTheFirstEmptyInvite" resultMap="circleInviteMap">
+        SELECT
+        <include refid="circleInviteSql"/>
+        FROM c_invite
+        <where>
+            <if test="circle !=null and circle !=''"> circle = #{circle}</if>
+            <if test="createBy !=null and createBy !=''"> AND (create_by = #{createBy})</if>
+            AND (inviter IS NULL OR inviter = '')
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.thirdParty.ThirdPartyWriteDao">
+
+    <insert id="insert" parameterType="com.party.core.model.thirdParty.ThirdParty" useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO third_party
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="comName != null">  com_name,</if>
+            <if test="officalUrl != null">  official_url,</if>
+            <if test="cityId != null">  city_id,</if>
+            <if test="areaId != null">  area_id,</if>
+            <if test="linkman != null">  linkman,</if>
+            <if test="telephone != null">  telephone,</if>
+            <if test="address != null">  address,</if>
+            <if test="postcode != null">  postcode,</if>
+            <if test="sort != null">  sort,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="comName != null">  #{comName,jdbcType=VARCHAR},</if>
+            <if test="officalUrl != null">  #{officalUrl,jdbcType=VARCHAR},</if>
+            <if test="cityId != null">  #{cityId,jdbcType=VARCHAR},</if>
+            <if test="areaId != null">  #{areaId,jdbcType=VARCHAR},</if>
+            <if test="linkman != null">  #{linkman,jdbcType=VARCHAR},</if>
+            <if test="telephone != null">  #{telephone,jdbcType=VARCHAR},</if>
+            <if test="address != null">  #{address,jdbcType=VARCHAR},</if>
+            <if test="postcode != null">  #{postcode,jdbcType=VARCHAR},</if>
+            <if test="sort != null">  #{sort,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE third_party
+        <set>
+            <if test="createBy != null">  create_by = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">  create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="comName != null">  com_name = #{comName,jdbcType=VARCHAR},</if>
+            <if test="officalUrl != null">  official_url = #{officalUrl,jdbcType=VARCHAR},</if>
+            <if test="cityId != null">  city_id = #{cityId,jdbcType=VARCHAR},</if>
+            <if test="areaId != null">  area_id = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="linkman != null">  linkman = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="telephone != null">  telephone = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="address != null">  address = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="postcode != null">  postcode = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="sort != null">  sort = #{createBy,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE third_party SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM third_party
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE third_party SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM third_party
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

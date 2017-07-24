@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.gatherForm.GatherProjectWriteDao">
+	<insert id="insert" parameterType="com.party.core.model.gatherForm.GatherProject" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO gather_d_project
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null"> id,</if>
+			<if test="createBy != null"> create_by,</if>
+			<if test="createDate != null"> create_date,</if>
+			<if test="updateBy != null"> update_by,</if>
+			<if test="updateDate != null"> update_date,</if>
+			<if test="delFlag != null"> del_flag,</if>
+			<if test="remarks != null"> remarks,</if>
+			<if test="title != null"> title,</if>
+			<if test="picture != null"> picture,</if>
+			<if test="showPicture != null"> show_picture,</if>
+			<if test="content != null"> content,</if>
+			<if test="isRemindMe != null"> is_remind_me,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null"> #{id,jdbcType=VARCHAR},</if>
+			<if test="createBy != null"> #{createBy,jdbcType=VARCHAR},</if>
+			<if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="updateBy != null"> #{updateBy,jdbcType=VARCHAR},</if>
+			<if test="updateDate != null"> #{updateDate,jdbcType=TIMESTAMP},</if>
+			<if test="delFlag != null"> #{delFlag,jdbcType=CHAR},</if>
+			<if test="remarks != null"> #{remarks,jdbcType=VARCHAR},</if>
+			<if test="title != null"> #{title,jdbcType=VARCHAR},</if>
+			<if test="picture != null"> #{picture,jdbcType=VARCHAR},</if>
+			<if test="showPicture != null"> #{showPicture,jdbcType=VARCHAR},</if>
+			<if test="content != null"> #{content,jdbcType=VARCHAR},</if>
+			<if test="isRemindMe != null"> #{isRemindMe,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+
+	<update id="update">
+		UPDATE gather_d_project
+		<set>
+			<if test="updateDate != null"> update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+			<if test="remarks != null"> remarks = #{remarks,jdbcType=VARCHAR},</if>
+			<if test="delFlag != null"> del_flag = #{delFlag,jdbcType=CHAR},</if>
+			<if test="title != null"> title = #{title,jdbcType=VARCHAR},</if>
+			<if test="picture != null"> picture = #{picture,jdbcType=VARCHAR},</if>
+			<if test="showPicture != null"> show_picture = #{showPicture,jdbcType=VARCHAR},</if>
+			<if test="content != null"> content = #{content,jdbcType=VARCHAR},</if>
+			<if test="isRemindMe != null"> is_remind_me = #{isRemindMe,jdbcType=VARCHAR},</if>
+		</set>
+		WHERE id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="deleteLogic">
+		UPDATE gather_d_project SET
+		del_flag = 1
+		WHERE id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM gather_d_project
+		WHERE id = #{id,jdbcType=VARCHAR}
+	</delete>
+</mapper>

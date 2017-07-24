@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.gatherInfo.GatherInfoMemberWriteDao">
+	<insert id="insert" parameterType="com.party.core.model.gatherInfo.GatherInfoMember" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO gather_info_member
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="remarks != null"> remarks,</if>
+            
+<!--             <if test="logo != null">  logo,</if> -->
+<!--             <if test="realname != null">  realname,</if> -->
+<!--             <if test="sex != null">   sex,</if> -->
+<!--             <if test="company != null">  company,</if> -->
+<!--             <if test="jobTitle != null">  job_title,</if> -->
+<!--             <if test="mobile != null">  mobile,</if> -->
+<!--             <if test="wechatNum != null">   wechat_num,</if> -->
+<!--             <if test="industryId != null">   industry_id,</if> -->
+<!--             <if test="cityId != null">   city_id,</if> -->
+<!--             <if test="introduction != null">  introduction,</if> -->
+<!--             <if test="size != null">  size,</if> -->
+            
+<!--             <if test="idCard != null">   id_card,</if> -->
+<!--             <if test="bloodGroup != null">  blood_group,</if> -->
+<!--             <if test="medicalHistory != null">  medical_history,</if> -->
+<!--             <if test="contactName != null">  contact_name,</if> -->
+<!--             <if test="contactRelation != null">  contact_relation,</if> -->
+<!--             <if test="contactMobile != null">  contact_mobile,</if> -->
+            
+            <if test="goDepartCity != null">  go_depart_city,</if>
+            <if test="goDepartTime != null">  go_depart_time,</if>
+            <if test="goTime != null">  go_time,</if>
+            <if test="goType != null">  go_type,</if>
+            <if test="goNumber != null">  go_number,</if>
+            <if test="goStation != null">  go_station,</if>
+            <if test="goShuttle != null">  go_shuttle,</if>
+            
+            <if test="backDepartCity != null">  back_depart_city,</if>
+            <if test="backDepartTime != null">  back_depart_time,</if>
+            <if test="backTime != null">  back_time,</if>
+            <if test="backType != null">  back_type,</if>
+            <if test="backNumber != null">  back_number,</if>
+            <if test="backStation != null">  back_station,</if>
+            <if test="backShuttle != null">  back_shuttle,</if>
+            
+            <if test="projectId != null">  project_id,</if>
+            <if test="memberId != null">  member_id,</if>
+            <if test="groupId != null">  group_id,</if>
+            <if test="groupJobTitle != null">  group_job_title,</if>
+            
+            <if test="baseStatus != null">  base_status,</if>
+            <if test="insuranceStatus != null">  insurance_status,</if>
+            <if test="itineraryStatus != null">  itinerary_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="remarks != null"> #{remarks,jdbcType=VARCHAR},</if>
+            
+<!--             <if test="logo != null">  #{logo,jdbcType=VARCHAR},</if> -->
+<!--             <if test="realname != null">  #{realname,jdbcType=VARCHAR},</if> -->
+<!--             <if test="sex != null">   #{sex,jdbcType=INTEGER},</if> -->
+<!--             <if test="company != null">  #{company,jdbcType=VARCHAR},</if> -->
+<!--             <if test="jobTitle != null"> #{jobTitle,jdbcType=VARCHAR},</if> -->
+<!--             <if test="mobile != null">  #{mobile,jdbcType=VARCHAR},</if> -->
+<!--             <if test="wechatNum != null"> #{wechatNum,jdbcType=VARCHAR},</if> -->
+<!--             <if test="industryId != null"> #{industryId,jdbcType=VARCHAR},</if> -->
+<!--             <if test="cityId != null"> #{cityId,jdbcType=VARCHAR},</if> -->
+<!--             <if test="introduction != null">  #{introduction,jdbcType=VARCHAR},</if> -->
+<!--             <if test="size != null">  #{size,jdbcType=VARCHAR},</if> -->
+            
+<!--             <if test="idCard != null">   #{idCard,jdbcType=VARCHAR},</if> -->
+<!--             <if test="bloodGroup != null">  #{bloodGroup,jdbcType=VARCHAR},</if> -->
+<!--             <if test="medicalHistory != null"> #{medicalHistory,jdbcType=VARCHAR},</if> -->
+<!--             <if test="contactName != null">  #{contactName,jdbcType=VARCHAR},</if> -->
+<!--             <if test="contactRelation != null"> #{contactRelation,jdbcType=VARCHAR},</if> -->
+<!--             <if test="contactMobile != null"> #{contactMobile,jdbcType=VARCHAR},</if> -->
+            
+            <if test="goDepartCity != null"> #{goDepartCity,jdbcType=VARCHAR},</if>
+            <if test="goDepartTime != null"> #{goDepartTime,jdbcType=TIMESTAMP},</if>
+            <if test="goTime != null"> #{goTime,jdbcType=TIMESTAMP},</if>
+            <if test="goType != null"> #{goType,jdbcType=VARCHAR},</if>
+            <if test="goNumber != null"> #{goNumber,jdbcType=VARCHAR},</if>
+            <if test="goStation != null">  #{goStation,jdbcType=VARCHAR},</if>
+            <if test="goShuttle != null">  #{goShuttle,jdbcType=INTEGER},</if>
+            
+            <if test="backDepartCity != null"> #{backDepartCity,jdbcType=VARCHAR},</if>
+            <if test="backDepartTime != null"> #{backDepartTime,jdbcType=TIMESTAMP},</if>
+            <if test="backTime != null"> #{backTime,jdbcType=TIMESTAMP},</if>
+            <if test="backType != null"> #{backType,jdbcType=VARCHAR},</if>
+            <if test="backNumber != null"> #{backNumber,jdbcType=VARCHAR},</if>
+            <if test="backStation != null">  #{backStation,jdbcType=VARCHAR},</if>
+            <if test="backShuttle != null">  #{backShuttle,jdbcType=INTEGER},</if>
+            
+            <if test="projectId != null">  #{projectId,jdbcType=VARCHAR},</if>
+            <if test="memberId != null">  #{memberId,jdbcType=VARCHAR},</if>
+            <if test="groupId != null">  #{groupId,jdbcType=VARCHAR},</if>
+            <if test="groupJobTitle != null">  #{groupJobTitle,jdbcType=VARCHAR},</if>
+            
+            <if test="baseStatus != null">  #{baseStatus,jdbcType=VARCHAR},</if>
+            <if test="insuranceStatus != null">  #{insuranceStatus,jdbcType=VARCHAR},</if>
+            <if test="itineraryStatus != null">  #{itineraryStatus,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    
+    <update id="update">
+        UPDATE gather_info_member
+        <set>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            
+<!--             <if test="logo != null">  logo = #{logo,jdbcType=VARCHAR},</if> -->
+<!--             <if test="realname != null">  realname = #{realname,jdbcType=VARCHAR},</if> -->
+<!--             <if test="sex != null">   sex = #{sex,jdbcType=INTEGER},</if> -->
+<!--             <if test="company != null">  company = #{company,jdbcType=VARCHAR},</if> -->
+<!--             <if test="jobTitle != null">  job_title = #{jobTitle,jdbcType=VARCHAR},</if> -->
+<!--             <if test="mobile != null">  mobile = #{mobile,jdbcType=VARCHAR},</if> -->
+<!--             <if test="wechatNum != null">  wechat_num = #{wechatNum,jdbcType=VARCHAR},</if> -->
+<!--             <if test="industryId != null">  industry_id = #{industryId,jdbcType=VARCHAR},</if> -->
+<!--             <if test="cityId != null">  city_id = #{cityId,jdbcType=VARCHAR},</if> -->
+<!--             <if test="introduction != null">  introduction = #{introduction,jdbcType=VARCHAR},</if> -->
+<!--             <if test="size != null">  size = #{size,jdbcType=VARCHAR},</if> -->
+            
+<!--             <if test="idCard != null">   id_card = #{idCard,jdbcType=VARCHAR},</if> -->
+<!--             <if test="bloodGroup != null">  blood_group = #{bloodGroup,jdbcType=VARCHAR},</if> -->
+<!--             <if test="medicalHistory != null">  medical_history = #{medicalHistory,jdbcType=VARCHAR},</if> -->
+<!--             <if test="contactName != null">  contact_name = #{contactName,jdbcType=VARCHAR},</if> -->
+<!--             <if test="contactRelation != null">  contact_relation = #{contactRelation,jdbcType=VARCHAR},</if> -->
+<!--             <if test="contactMobile != null">  contact_mobile = #{contactMobile,jdbcType=VARCHAR},</if> -->
+            
+            <if test="goDepartCity != null">  go_depart_city = #{goDepartCity,jdbcType=VARCHAR},</if>
+            go_depart_time = #{goDepartTime,jdbcType=TIMESTAMP},
+            go_time = #{goTime,jdbcType=TIMESTAMP},
+            <if test="goType != null">  go_type = #{goType,jdbcType=VARCHAR},</if>
+            <if test="goNumber != null">  go_number = #{goNumber,jdbcType=VARCHAR},</if>
+            <if test="goStation != null">  go_station = #{goStation,jdbcType=VARCHAR},</if>
+            <if test="goShuttle != null">  go_shuttle = #{goShuttle,jdbcType=INTEGER},</if>
+            
+            <if test="backDepartCity != null">  back_depart_city = #{backDepartCity,jdbcType=VARCHAR},</if>
+            back_depart_time = #{backDepartTime,jdbcType=TIMESTAMP},
+            back_time = #{backTime,jdbcType=TIMESTAMP},
+            <if test="backType != null">  back_type = #{backType,jdbcType=VARCHAR},</if>
+            <if test="backNumber != null">  back_number = #{backNumber,jdbcType=VARCHAR},</if>
+            <if test="backStation != null">  back_station = #{backStation,jdbcType=VARCHAR},</if>
+            <if test="backShuttle != null">  back_shuttle = #{backShuttle,jdbcType=INTEGER},</if>
+            
+            <if test="baseStatus != null">  base_status = #{baseStatus,jdbcType=VARCHAR},</if>
+            <if test="insuranceStatus != null">  insurance_status = #{insuranceStatus,jdbcType=VARCHAR},</if>
+            <if test="itineraryStatus != null">  itinerary_status = #{itineraryStatus,jdbcType=VARCHAR},</if>
+            
+            <if test="groupId != null">  group_id = #{groupId,jdbcType=VARCHAR},</if>
+            <if test="groupJobTitle != null">  group_job_title = #{groupJobTitle,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+	
+	<update id="deleteLogic">
+		UPDATE gather_info_member SET
+		del_flag = 1
+		WHERE id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM gather_info_member
+		WHERE id = #{id,jdbcType=VARCHAR}
+	</delete>
+</mapper>

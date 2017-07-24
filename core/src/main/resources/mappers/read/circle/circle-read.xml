@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.circle.CircleReadDao">
+    <resultMap id="circleMap" type="com.party.core.model.circle.Circle">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="area" property="area" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="memo" property="memo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="circle_type" property="circleType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="extra_content" property="extraContent" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="topic_num" property="topicNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="visit_num" property="visitNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="member_num" property="memberNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="show_front" property="showFront" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_open" property="isOpen" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="no_type_is_open" property="noTypeIsOpen" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="subject_id" property="subjectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="subject_name" property="subjectName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="circleSql">
+        id,
+        name,
+        logo,
+        area,
+        memo,
+        sort,
+        circle_type,
+        extra_content,
+        topic_num,
+        visit_num,
+        member_num,
+        del_flag,
+        create_by,
+        update_by,
+        remarks,
+        create_date,
+        update_date,
+        show_front,
+        is_open,
+        no_type_is_open,
+        subject_id,
+        subject_name
+    </sql>
+
+    <select id="get" resultMap="circleMap">
+        SELECT
+        <include refid="circleSql"/>
+        FROM circle
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="circleMap">
+        SELECT
+        <include refid="circleSql"/>
+        FROM circle
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="name !=null and name !=''"> AND name like '${name}%'</if>
+            <if test="area !=null and area !=''"> AND (area = #{area})</if>
+            <if test="createBy !=null and createBy !=''"> AND (create_by = #{createBy})</if>
+            <if test="subjectId != null and subjectId != ''"> AND subject_id = #{subjectId}</if>
+            <if test="isOpen != null"> AND is_open = #{isOpen}</if>
+            <if test="showFront != null"> AND show_front = #{showFront}</if>
+        </where>
+            ORDER BY sort DESC,create_date DESC
+    </select>
+
+    <select id="webListPage" resultType="java.util.Map">
+        SELECT
+        c.*, m.id AS mgrId,
+        m.logo AS mgrLogo,
+        m.realname AS mgrRealname
+        FROM
+        circle c
+        LEFT JOIN member m ON c.create_by = m.id
+        <where>
+            <if test="circle.delFlag !=null and circle.delFlag !=''"> c.del_flag = #{circle.delFlag}</if>
+            <if test="circle.createBy !=null and circle.createBy !=''"> c.create_by = #{circle.createBy}</if>
+            <if test="circle.name !=null and circle.name !=''"> AND c.name like '%${circle.name}%'</if>
+            <if test="circle.isOpen != null"> AND c.is_open = #{circle.isOpen}</if>
+            <if test="circle.showFront != null"> AND c.show_front = #{circle.showFront}</if>
+            <if test="params != null and params.size > 0">
+	           	<!-- 创建时间 时间块 -->
+	           	<if test="params.startDate != null and params.endDate != null">
+	           		AND (c.create_date between #{params.startDate} and #{params.endDate})
+	           	</if>
+	           	<!-- 创建时间 时间段 -->
+	           	<if test="params.c_start != null and params.c_start != ''">
+	           		AND TO_DAYS(c.update_date) &gt;= TO_DAYS(#{params.c_start})
+	           	</if>
+	           	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(c.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+	      	</if>
+        </where>
+        ORDER BY sort DESC,create_date DESC
+    </select>
+</mapper>

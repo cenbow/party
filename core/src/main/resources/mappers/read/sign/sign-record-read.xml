@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.sign.SignRecordReadDao">
+
+    <resultMap id="recordMap" type="com.party.core.model.sign.SignRecord">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="apply_id" property="applyId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="proof_url" property="proofUrl" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="step_num" property="stepNum" jdbcType="INTEGER" javaType="java.lang.Long"/>
+    </resultMap>
+
+    <sql id="recordSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, apply_id, proof_url, step_num
+    </sql>
+
+    <select id="get" resultMap="recordMap">
+        SELECT
+        <include refid="recordSql"/>
+        FROM  sign_record
+        WHERE id = #{id}
+    </select>
+
+    <select id="getByDate" resultMap="recordMap">
+        SELECT
+        <include refid="recordSql"/>
+        FROM  sign_record
+        WHERE apply_id = #{applyId} AND TO_DAYS(create_date) = TO_DAYS(#{date});
+    </select>
+
+    <select id="listPage" resultMap="recordMap">
+        SELECT
+        <include refid="recordSql"/>
+        FROM  sign_record
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="applyId !=null and applyId !=''"> AND apply_id = #{applyId}</if>
+        </where>
+    </select>
+
+
+    <select id="getStepNum" resultType="java.lang.Long">
+        SELECT SUM(step_num)
+        FROM sign_record
+        <where>
+            <if test="param.applyId != null and param.applyId != ''">
+                apply_id = #{param.applyId}
+            </if>
+            <if test="param.startTime != null">AND TO_DAYS(create_date) &gt;= TO_DAYS(#{param.startTime}) </if>
+            <if test="param.endTime != null"> AND TO_DAYS(create_date) &lt;= TO_DAYS(#{param.endTime}) </if>
+        </where>
+    </select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sign_record
+        <where>
+            <if test="param.applyId != null and param.applyId != ''">
+                apply_id = #{param.applyId}
+            </if>
+        </where>
+    </select>
+</mapper>

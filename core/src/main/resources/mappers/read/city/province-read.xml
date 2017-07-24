@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.city.ProvinceReadDao">
+
+    <resultMap id="provinceMap" type="com.party.core.model.city.Province">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="code" property="code" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_open" property="isOpen" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="provinceSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, name, code, is_open
+    </sql>
+
+
+    <select id="get" resultMap="provinceMap">
+        SELECT
+        <include refid="provinceSql"/>
+        FROM province
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="provinceMap">
+        SELECT
+        <include refid="provinceSql"/>
+        FROM province
+        <where>
+            <if test="createBy != null and createBy != ''"> create_by = #{createBy}</if>
+            <if test="delFlag != null and delFlag != ''"> AND del_flag = #{delFlag}</if>
+            <if test="name != null and name != ''"> AND name = #{name}</if>
+            <if test="code != null and code != ''"> AND code = #{code}</if>
+            <if test="isOpen != null and isOpen != ''"> AND is_open = #{isOpen}</if>
+        </where>
+    </select>
+
+
+    <select id="batchList" resultMap="provinceMap">
+        SELECT
+        <include refid="provinceSql"/>
+        FROM province
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

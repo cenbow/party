@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.store.StoreCountWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.store.StoreCount" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO store_count
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null"> id,</if>
+            <if test="storeGoodsId != null">  store_goods_id,</if>
+            <if test="goodsId != null">  goods_id,</if>
+            <if test="memberId != null">  member_id,</if>
+            <if test="goodsType != null">  goods_type,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="salesNum != null">  sales_num,</if>
+            <if test="shareNum != null">  share_num,</if>
+            <if test="viewNum != null">  view_num,</if>
+            <if test="salesAmount != null">  sales_amount,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="storeGoodsId != null">  #{storeGoodsId,jdbcType=VARCHAR},</if>
+            <if test="goodsId != null">  #{goodsId,jdbcType=VARCHAR},</if>
+            <if test="memberId != null">  #{memberId,jdbcType=VARCHAR},</if>
+            <if test="goodsType != null">  #{goodsType,jdbcType=INTEGER},</if>
+            <if test="createDate != null">  #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="salesNum != null">  #{salesNum,jdbcType=INTEGER},</if>
+            <if test="shareNum != null">  #{shareNum,jdbcType=INTEGER},</if>
+            <if test="viewNum != null">  #{viewNum,jdbcType=INTEGER},</if>
+            <if test="salesAmount != null">  #{salesAmount,jdbcType=FLOAT},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE store_count
+        <set>
+            <if test="storeGoodsId != null"> store_goods_id = #{storeGoodsId,jdbcType=VARCHAR},</if>
+            <if test="goodsId != null"> goods_id = #{goodsId,jdbcType=VARCHAR},</if>
+            <if test="memberId != null"> member_id = #{memberId,jdbcType=VARCHAR},</if>
+            <if test="goodsType != null"> goods_type = #{goodsType,jdbcType=INTEGER},</if>
+            <if test="createDate != null"> create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="salesNum != null"> sales_num = #{salesNum,jdbcType=INTEGER},</if>
+            <if test="shareNum != null"> share_num = #{shareNum,jdbcType=INTEGER},</if>
+            <if test="viewNum != null"> view_num = #{viewNum,jdbcType=INTEGER},</if>
+            <if test="salesAmount != null"> sales_amount = #{salesAmount,jdbcType=FLOAT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE store_count SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM store_count
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE store_count SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM store_count
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

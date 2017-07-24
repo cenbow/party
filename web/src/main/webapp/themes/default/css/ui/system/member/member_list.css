@@ -1,0 +1,21 @@
+.list-content {
+	padding-top: 10px;
+}
+
+.list-content .member-info{
+	cursor: pointer;
+}
+
+/*logo*/
+.list-content .member-info .member-logo {
+	display: inline-block;
+	vertical-align: middle;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	line-height: 50px;
+	border: 2px solid #fff;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}

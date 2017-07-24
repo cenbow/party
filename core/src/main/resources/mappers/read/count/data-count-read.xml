@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.count.DataCountReadDao">
+
+    <resultMap id="dataCountMap" type="com.party.core.model.count.DataCount">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="view_num" property="viewNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="share_num" property="shareNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="apply_num" property="applyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sales_num" property="salesNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sales_amount" property="salesAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+    </resultMap>
+
+    <sql id="dataCountSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, target_id, view_num,
+        share_num, apply_num, sales_num, sales_amount
+    </sql>
+
+    <select id="get" resultMap="dataCountMap">
+        SELECT
+        <include refid="dataCountSql"/>
+        FROM data_count
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByTargetId" resultMap="dataCountMap">
+        SELECT
+        <include refid="dataCountSql"/>
+        FROM data_count
+        WHERE target_id = #{targetId}
+    </select>
+
+    <select id="listPage" resultMap="dataCountMap">
+        SELECT
+        <include refid="dataCountSql"/>
+        FROM data_count
+    </select>
+</mapper>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.member.ThirdPartyUserReadDao">
+
+
+    <resultMap id="thirdPartyUserMap" type="com.party.core.model.member.ThirdPartyUser">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="CHAR" javaType="java.lang.Integer"/>
+        <result column="third_party_id" property="thirdPartyId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="union_id" property="unionId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="app_id" property="appId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+
+    <sql id="thirdPartyUserSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, member_id, type, third_party_id, union_id, app_id
+    </sql>
+
+
+    <select id="get" resultMap="thirdPartyUserMap">
+        SELECT
+        <include refid="thirdPartyUserSql"/>
+        FROM third_party_user
+        WHERE id = #{id}
+    </select>
+
+    <select id="getByOpenId" resultMap="thirdPartyUserMap">
+        SELECT
+        <include refid="thirdPartyUserSql"/>
+        FROM third_party_user
+        WHERE third_party_id = #{thirdPartyId} limit 0,1
+    </select>
+    
+    <select id="getByUnionId" resultMap="thirdPartyUserMap">
+        SELECT
+        <include refid="thirdPartyUserSql"/>
+        FROM third_party_user
+        WHERE union_id = #{unionId} limit 0,1
+    </select>
+    
+     <select id="getByMemberId" resultMap="thirdPartyUserMap">
+        SELECT
+        <include refid="thirdPartyUserSql"/>
+        FROM third_party_user
+        WHERE member_id = #{memberId}
+    </select>
+    
+    <select id="getTypeUser" resultMap="thirdPartyUserMap">
+        SELECT
+        <include refid="thirdPartyUserSql"/>
+        FROM third_party_user
+        WHERE type = #{type} AND member_id = #{memberId}
+    </select>
+
+    <select id="listPage" resultMap="thirdPartyUserMap">
+        SELECT
+        <include refid="thirdPartyUserSql"/>
+        FROM third_party_user
+        <where>
+            <if test="delFlag != null and delFlag !=''">del_flag = #{delFlag}</if>
+            <if test="memberId != null and memberId !=''">AND member_id = #{memberId}</if>
+            <if test="type != null and type != ''">AND type = #{type}</if>
+            <if test="thirdPartyId != null and thirdPartyId !=''">AND third_party_id = #{thirdPartyId}</if>
+            <if test="appId != null and appId !=''">AND app_id = #{appId}</if>
+        </where>
+    </select>
+
+    <select id="listForAppId" resultMap="thirdPartyUserMap">
+        SELECT
+        <include refid="thirdPartyUserSql"/>
+        FROM third_party_user
+        <where>
+            <if test="param.memberId != null and param.memberId !=''">AND member_id = #{param.memberId}</if>
+            <if test="param.type != null and param.type != ''">AND type = #{param.type}</if>
+            <if test="param.appId != null and param.appId !=''">AND app_id = #{param.appId}</if>
+        </where>
+        GROUP BY third_party_id
+    </select>
+
+    <select id="getByUnionIdType" resultMap="thirdPartyUserMap">
+        SELECT
+        <include refid="thirdPartyUserSql"/>
+        FROM third_party_user
+        <where>
+            AND union_id = #{unionId}
+            AND type = #{type}
+        </where>
+        limit 0,1
+    </select>
+    <select id="getAuthList" resultType="java.util.Map">
+        SELECT DISTINCT
+            m.realname,
+            t.id,t.type,
+            a.official_account_name
+        FROM
+            third_party_user t
+        left JOIN member_merchant a ON a.official_account_id = t.app_id
+        inner JOIN member m ON t.member_id = m.id
+        WHERE
+	    t.member_id = #{memberId}
+    </select>
+    <select id="batchList" resultMap="thirdPartyUserMap">
+        SELECT
+        <include refid="thirdPartyUserSql"/>
+        FROM third_party_user
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

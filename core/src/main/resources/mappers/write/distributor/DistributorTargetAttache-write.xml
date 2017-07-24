@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.distributor.DistributorTargetAttacheWriteDao">
+
+    <insert id="insert" parameterType="com.party.core.model.distributor.DistributorTargetAttache" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO distributor_target_attache
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="style != null">  style,</if>
+            <if test="title != null">  title,</if>
+            <if test="content != null">  content,</if>
+            <if test="distributorRelationId != null">  distributor_relation_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="style != null">  #{style,jdbcType=VARCHAR},</if>
+            <if test="title != null">  #{title,jdbcType=VARCHAR},</if>
+            <if test="content != null">  #{content,jdbcType=VARCHAR},</if>
+            <if test="distributorRelationId != null">  #{distributorRelationId,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE distributor_target_attache
+        <set>
+            <if test="style != null">  style = #{style,jdbcType=VARCHAR},</if>
+            <if test="title != null">  title = #{title,jdbcType=VARCHAR},</if>
+            <if test="content != null">  content = #{content,jdbcType=VARCHAR},</if>
+            <if test="distributorRelationId != null">  distributor_relation_id = #{distributorRelationId,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE distributor_target_attache SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM distributor_target_attache
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE distributor_target_attache SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM distributor_target_attache
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

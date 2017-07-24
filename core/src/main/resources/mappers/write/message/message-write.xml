@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.message.MessageWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.message.Message" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO message
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="remarks != null">  remarks,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="messageType != null">  message_type,</if>
+            <if test="logo != null">  logo,</if>
+            <if test="title != null">  title,</if>
+            <if test="relId != null">  rel_id,</if>
+            <if test="memberId != null">  member,</if>
+            <if test="tag != null">  tag,</if>
+            <if test="content != null">  content,</if>
+            <if test="picUrl != null">  pic_url,</if>
+            <if test="isNew != null">  is_new,</if>
+            <if test="orderId != null">  order_id,</if>
+            <if test="orderStatus != null">  order_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="messageType != null">  #{messageType,jdbcType=VARCHAR},</if>
+            <if test="logo != null">  #{logo,jdbcType=VARCHAR},</if>
+            <if test="title != null">  #{title,jdbcType=VARCHAR},</if>
+            <if test="relId != null">  #{relId,jdbcType=VARCHAR},</if>
+            <if test="memberId != null">  #{memberId,jdbcType=VARCHAR},</if>
+            <if test="tag != null">  #{tag,jdbcType=VARCHAR},</if>
+            <if test="content != null">  #{content,jdbcType=VARCHAR},</if>
+            <if test="picUrl != null">  #{picUrl,jdbcType=VARCHAR},</if>
+            <if test="isNew != null">  #{isNew,jdbcType=INTEGER},</if>
+            <if test="orderId != null">  #{orderId,jdbcType=VARCHAR},</if>
+            <if test="orderStatus != null">  #{orderStatus,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE message
+        <set>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="messageType != null">  message_type = #{messageType,jdbcType=VARCHAR},</if>
+            <if test="logo != null">  logo = #{logo,jdbcType=VARCHAR},</if>
+            <if test="title != null">  title = #{title,jdbcType=VARCHAR},</if>
+            <if test="relId != null">  rel_id = #{relId,jdbcType=VARCHAR},</if>
+            <if test="memberId != null">  member = #{memberId,jdbcType=VARCHAR},</if>
+            <if test="tag != null">  tag = #{tag,jdbcType=VARCHAR},</if>
+            <if test="content != null">  content = #{content,jdbcType=VARCHAR},</if>
+            <if test="picUrl != null">  pic_url = #{picUrl,jdbcType=VARCHAR},</if>
+            <if test="isNew != null">  is_new = #{isNew,jdbcType=VARCHAR},</if>
+            <if test="orderId != null">  order_id = #{orderId,jdbcType=VARCHAR},</if>
+            <if test="orderStatus != null">  order_status = #{orderStatus,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <update id="updateRead">
+        UPDATE message
+        <set>
+            <if test="isNew != null">  is_new = #{isNew,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE message SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM message
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE message SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM message
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

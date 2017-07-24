@@ -1,0 +1,205 @@
+.index-outside>section {
+	background: transparent !important;
+}
+/*banner*/
+.banner {
+	height: 500px;
+}
+
+.banner-img {
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 500px;
+}
+
+.flexslider{
+	border: 0px!important;
+}
+
+.slides .banner-text-shadow {
+	position: absolute;
+	box-sizing: border-box;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	color: #fff;
+	background: rgba(0, 0, 0, 0.5);
+	font-size: 14px;
+	padding: 5px 10px;
+}
+
+.slides .banner-text-shadow .text{
+	font-size: 18px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.slides .banner-text-shadow .text a,.slides .banner-text-shadow .text a:hover{
+	color: white
+}
+
+.flex-control-nav{
+	display: none;
+}
+
+.flexslider:hover .flex-direction-nav .flex-prev {width: 43px; height: 90px; background: url(../../../../static/jquery.flexslider/images/index_scrollBtn.png) no-repeat 0 0; position: absolute; top: 50%;margin-top:-45px;left: 64px;display: inline-block;}
+.flexslider:hover .flex-direction-nav .flex-next {width: 43px; height: 90px; background: url(../../../../static/jquery.flexslider/images/index_scrollBtn.png) no-repeat -50px 0; position: absolute; top: 50%;margin-top:-45px;right: 64px;display: inline-block;}
+.flexslider .flex-direction-nav .flex-prev:hover {width: 43px; height: 90px; background: url(../../../../static/jquery.flexslider/images/index_scrollBtn.png) no-repeat 0 -101px; position: absolute; top: 50%;margin-top:-45px;left: 64px;display: inline-block;}
+.flexslider .flex-direction-nav .flex-next:hover {width: 43px; height: 90px; background: url(../../../../static/jquery.flexslider/images/index_scrollBtn.png) no-repeat -49px -100px; position: absolute; top: 50%;margin-top:-45px;right: 64px;display: inline-block;}
+
+/*活动content*/
+.acts-head {
+	position: relative;
+	height: 40px;
+	border-bottom: 1px solid #cec8c8;
+}
+
+.acts-head::before {
+	position: absolute;
+	display: inline-block;
+	background: #e8473f;
+	left: 0;
+	content: '';
+	width: 4px;
+	height: 30px;
+}
+
+.acts-head .head-title {
+	padding-left: 10px;
+	float: left
+}
+
+.acts-head .more-link {
+	float: right
+}
+
+.acts-content, .goods-content {
+	padding: 20px 0;
+}
+
+.acts-content .act-item-bg, .acts-content .act-item-big-bg {
+	position: relative;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	height: 170px;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.acts-content .act-item-big-bg {
+	height: 350px;
+}
+
+.acts-content .act-front-content {
+	position: absolute;
+	box-sizing: border-box;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	color: #fff;
+	background: rgba(0, 0, 0, 0.5);
+	font-size: 14px;
+	padding: 5px 10px;
+}
+
+.acts-content .act-item-big-bg .act-front-content {
+	font-size: 18px;
+}
+
+.goods-content .good-item-bg {
+	height: 200px;
+}
+
+.goods-content .good-item {
+	background: #fff;
+	overflow: hidden;
+	padding: 10px;
+	cursor: pointer;
+}
+.goods-content .good-item .good-item-bg {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+.goods-content .good-item .good-front-content {
+	padding: 10px 0;
+}
+
+.goods-content .good-detail {
+	position: relative;
+}
+.goods-content .good-title{
+    height: 55px;
+}
+.good-detail .good-type {
+	right: 0;
+	padding: 2px 5px;
+	border-radius: 5px;
+	color: #e8473f;
+	border: 1px solid #e8473f;
+}
+/*合作伙伴*/
+.partner-black {
+	min-height: 300px;
+	width: 100%;
+	text-align: center;
+	background-color: #4A4848;
+}
+
+.partner-black .partner-content {
+	width: 1190px;
+	margin: 0 auto;
+	padding: 35px 0 22px;
+	overflow: hidden;
+	color: #fff;
+	font-size: 14px;
+}
+
+.partner-content .partner {
+/* 	margin-bottom: 40px; */
+}
+
+.partner-content .partner .partner-header {
+	color: #fff;
+	font-size: 18px;
+	text-align: left;
+	margin-bottom: 20px;
+}
+
+.partner-content .partner .partner-icon-list {
+/* 	display: -webkit-box; */
+/* 	display: -webkit-flex; */
+/* 	display: flex; */
+/* 	-webkit-box-pack: justify; */
+/* 	-webkit-justify-content: space-between; */
+/* 	justify-content: space-between; */
+/* 	margin-bottom: 25px; */
+}
+
+.partner-content .partner .partner-icon-list li{
+	margin-right: 44px;
+	margin-bottom: 25px;
+}
+
+.partner-content .partner li .img {
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 110px;
+	height: 110px;
+	border-radius: 15px;
+}
+@media screen and (max-width:1510px) {
+	.banner,.banner-img {
+		height: 400px;
+	}
+}
+
+@media screen and (max-width:1366px) {
+	.banner,.banner-img {
+		height: 400px;
+	}
+}

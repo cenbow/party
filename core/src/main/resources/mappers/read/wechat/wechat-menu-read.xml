@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.wechat.WechatMenuReadDao">
+
+
+    <resultMap id="wechatMenuMap" type="com.party.core.model.wechat.WechatMenu">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="action_type" property="actionType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="message_type" property="messageType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="url" property="url" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="message" property="message" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="media_id" property="mediaId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="image" property="image" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="image_url" property="imageUrl" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="wechatMenuSql">
+      id, create_by, create_date, update_by, update_date, remarks, del_flag,
+      name, parent_id, action_type, message_type, url, message, media_id, image, image_url
+    </sql>
+
+    <select id="get" resultMap="wechatMenuMap">
+        SELECT
+        <include refid="wechatMenuSql"/>
+        FROM wechat_menu
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="wechatMenuMap">
+        SELECT
+        <include refid="wechatMenuSql"/>
+        FROM wechat_menu
+        <where>
+            <if test="name != null and name != ''"> name = #{name}</if>
+            <if test="parentId != null and parentId != ''"> AND parent_id = #{parentId}</if>
+            <if test="actionType != null "> AND action_type = #{actionType}</if>
+            <if test="messageType != null"> AND message_type= #{messageType}</if>
+            <if test="mediaId != null and mediaId != ''"> AND media_id = #{mediaId}</if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="wechatMenuMap">
+        SELECT
+        <include refid="wechatMenuSql"/>
+        FROM wechat_menu
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

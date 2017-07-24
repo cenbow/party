@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.order.OrderFormReadDao">
+
+    <resultMap id="orderFormMap" type="com.party.core.model.order.OrderForm">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="goods_id" property="goodsId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="unit" property="unit" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="payment" property="payment" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="is_pay" property="isPay" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="linkman" property="linkman" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="payment_way" property="paymentWay" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="type" property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="status" property="status" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="store_goods_id" property="storeGoodsId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="initiator_id" property="initiatorId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="merchant_id" property="merchantId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="trade_state" property="tradeState" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="trade_type" property="tradeType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="transaction_id" property="transactionId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <sql id="orderFormSql">
+        of.id, of.create_by, of.create_date, of.update_by, of.update_date, of.remarks, 
+        of.del_flag, of.goods_id, of.member_id, of.unit, of.payment, of.is_pay, of.linkman,
+        of.phone, of.sort, of.payment_way, of.type, of.status, of.store_goods_id,of.title,of.initiator_id,of.trade_state,of.trade_type,of.merchant_id,transaction_id
+    </sql>
+    
+    <sql id="joinActivity">
+    	left join activity act on of.goods_id = act.id
+    </sql>
+    
+   	<sql id="joinMember">
+   		inner join member m on of.member_id = m.id
+   	</sql>
+    
+    <select id="get" resultMap="orderFormMap">
+        SELECT 
+        <include refid="orderFormSql"/>
+        FROM order_form of
+        WHERE of.id = #{id}
+    </select>
+    
+    <!-- 获取预定成功的 -->
+	<select id="getOrderSuccess" resultMap="orderFormMap">
+		SELECT 
+        <include refid="orderFormSql"/>
+        FROM order_form of
+        WHERE of.goods_id = #{goodsId}
+        <if test="memberId != null and memberId != ''">
+        	AND of.member_id = #{memberId}
+        </if>
+        <if test="status != null and status.size > 0">
+	        <choose>
+	        	<when test="isPay == true">
+	        		AND of.status IN 
+	        		<foreach item="st" index="index" collection="status" open="(" separator="," close=")">
+	            		#{st}
+	        		</foreach>
+	        	</when>
+	        	<when test="isPay == false">
+	        		AND of.status not IN 
+	        		<foreach item="st" index="index" collection="status" open="(" separator="," close=")">
+	            		#{st}
+	        		</foreach>
+	        	</when>
+	        </choose>
+		</if>
+	</select>
+    
+    <select id="listPage" resultMap="orderFormMap">
+        SELECT
+        <include refid="orderFormSql"/>
+        FROM order_form of
+       	<if test="order.type == 2">
+       		<include refid="joinActivity"/>
+       	</if>
+        <if test="order.excludeType == 2">
+            <include refid="joinActivity"/>
+        </if>
+        <where>
+        	1=1
+            <if test="order.goodsId != null and order.goodsId != ''"> AND of.goods_id = #{order.goodsId}</if>
+            <if test="order.memberId != null and order.memberId != ''"> AND of.member_id = #{order.memberId}</if>
+            <if test="order.isPay != null and order.isPay != ''"> AND of.is_pay = #{order.isPay}</if>
+            <if test="order.linkman != null and order.linkman != ''"> AND of.linkman = #{order.linkman}</if>
+            <if test="order.phone != null and order.phone != ''"> AND of.phone = #{order.phone}</if>
+            <if test="order.paymentWay != null and order.paymentWay != ''"> AND of.payment_way = #{order.paymentWay}</if>
+            <if test="order.type != null"> AND of.type = #{order.type}</if>
+            <if test="status != null and status.size != 0 "> AND of.status IN 
+        		<foreach item="st" index="index" collection="status" open="(" separator="," close=")">
+            		#{st}
+        		</foreach>
+        	</if>
+        	<if test="order.type == 2">
+        		AND act.is_crowdfunded = 0
+        	</if>
+            <if test="order.excludeType == 2">
+                AND act.is_crowdfunded = 0
+            </if>
+            <if test="order.endDate != null">
+                AND of.create_date &lt;= #{order.endDate}
+            </if>
+        </where>
+        ORDER BY of.update_date DESC
+    </select>
+    
+    <!-- web端 -->
+    <select id="webListPage" resultMap="orderFormMap">
+        SELECT
+        <include refid="orderFormSql"/>, m.realname as 'member.realname', m.logo as 'member.logo',m.id as 'member.id'
+        FROM order_form of inner join member m on of.member_id = m.id
+        <include refid="joinActivity"/>
+        <where>
+        	<if test="order.id != null and order.id != ''"> AND of.id = #{order.id}</if>
+        	<if test="order.delFlag != null and order.delFlag != ''"> AND of.del_flag = #{order.delFlag}</if>
+        	<if test="order.initiatorId != null and order.initiatorId != ''"> AND of.initiator_id = #{order.initiatorId}</if>
+            <if test="order.goodsId != null and order.goodsId != ''"> AND of.goods_id = #{order.goodsId}</if>
+            <if test="order.memberId != null and order.memberId != ''"> AND of.member_id = #{order.memberId}</if>
+            <if test="order.isPay != null and order.isPay != ''"> AND of.is_pay = #{order.isPay}</if>
+            <if test="order.linkman != null and order.linkman != ''"> AND of.linkman = #{order.linkman}</if>
+            <if test="order.title != null and order.title != ''"> AND of.title like concat('%',#{order.title},'%')</if>
+            <if test="order.phone != null and order.phone != ''"> AND of.phone = #{order.phone}</if>
+            <if test="order.paymentWay != null"> AND of.payment_way = #{order.paymentWay}</if>
+            <if test="order.type != null"> AND of.type = #{order.type}</if>
+            <if test="order.status != null"> AND of.status = #{order.status}</if>
+            <if test="order.payment != null"> AND of.payment = #{order.payment}</if>
+            <if test="order.transactionId != null and order.transactionId != ''"> AND of.transaction_id = #{order.transactionId}</if>
+            <if test="order.merchantId != null and order.merchantId != ''"> AND of.merchant_id = #{order.merchantId}</if>
+            <if test="params != null and params.size > 0">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (of.create_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(of.create_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(of.create_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<!-- 订单状态 -->
+				<if test="order.status == null and params.status != null and params.status.size != 0 ">
+					AND of.status IN
+	        		<foreach item="st" index="index" collection="params.status" open="(" separator="," close=")">
+	            		#{st}
+	        		</foreach>
+	        	</if>
+	        	<!-- 交易状态 -->
+				<if test="params.tradeStatus != null and params.tradeStatus.size != 0 ">
+					AND of.trade_state IN
+	        		<foreach item="st" index="index" collection="params.tradeStatus" open="(" separator="," close=")">
+	            		#{st}
+	        		</foreach>
+	        	</if>
+	        	<if test="params.tradeState != null and params.tradeState != ''">
+	        		<if test="params.tradeStatus != null and params.tradeStatus.size != 0">
+	        			OR (of.trade_state is null or of.trade_state = '')
+	        		</if>
+	        		<if test="params.tradeStatus == null">
+	        			AND (of.trade_state is null or of.trade_state = '')
+	        		</if>
+	        	</if>
+	        	<!-- 订单类型 -->
+	        	<if test="params.types != null and params.types.size != 0 ">
+					AND of.type IN
+	        		<foreach item="st" index="index" collection="params.types" open="(" separator="," close=")">
+	            		#{st}
+	        		</foreach>
+	        	</if>
+                <if test="params.isCrowdfund != null and params.flag == null">
+                	AND (act.is_crowdfunded is null or act.is_crowdfunded = 0)
+                </if>
+                <if test="params.isCrowdfund != null and params.flag == true">
+                	AND (act.is_crowdfunded = 1)
+                </if>
+                <if test="params.payment != null and params.flag == null">
+                	AND of.payment &gt; ${params.payment}
+                </if>
+                <if test="params.payment != null and params.flag == true">
+                	OR of.payment = ${params.payment}
+                </if>
+                <if test="params.initiatorId != null">
+                	AND (of.initiator_id is null or of.initiator_id = '')
+                </if>
+                <if test="params.merchantId != null">
+                	AND (of.merchant_id is null or of.merchant_id = '')
+                </if>
+                <if test="params.memberName != null and params.memberName != ''">
+					AND m.realname like concat('%',#{params.memberName},'%')
+				</if>
+				<if test="params.otherMerchantId != null">
+					AND ((OF.merchant_id is null or OF.merchant_id = '') or (OF.merchant_id != 'FREE' AND OF.merchant_id != 'ZCXM'))
+				</if>
+            </if>
+        </where>
+        ORDER BY of.update_date DESC, of.create_date DESC
+    </select>
+
+    <select id="distributorListPage" resultMap="orderFormMap">
+        SELECT
+        <include refid="orderFormSql"/>,mmt.merchant_name as merchantId
+        FROM order_form of left join member_merchant mmt on of.merchant_id = mmt.merchant_id
+        LEFT JOIN distributor_detail dd ON of.id = dd.target_id
+        <include refid="joinMember" />
+        <include refid="joinActivity"/>
+        <where>
+            <if test="order.delFlag != null and order.delFlag != ''"> AND of.del_flag = #{order.delFlag}</if>
+            <if test="order.initiatorId != null and order.initiatorId != ''"> AND of.initiator_id = #{order.initiatorId}</if>
+            <if test="order.goodsId != null and order.goodsId != ''"> AND of.goods_id = #{order.goodsId}</if>
+            <if test="order.memberId != null and order.memberId != ''"> AND of.member_id = #{order.memberId}</if>
+            <if test="order.isPay != null and order.isPay != ''"> AND of.is_pay = #{order.isPay}</if>
+            <if test="order.linkman != null and order.linkman != ''"> AND of.linkman = #{order.linkman}</if>
+            <if test="order.title != null and order.title != ''"> AND of.title like concat('%',#{order.title},'%')</if>
+            <if test="order.phone != null and order.phone != ''"> AND of.phone = #{order.phone}</if>
+            <if test="order.paymentWay != null and order.paymentWay != ''"> AND of.payment_way = #{order.paymentWay}</if>
+            <if test="order.type != null"> AND of.type = #{order.type}</if>
+            <if test="order.status != null"> AND of.status = #{order.status}</if>
+            <if test="params != null and params.size > 0">
+                <!-- 创建时间 时间块 -->
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (of.create_date between #{params.startDate} and #{params.endDate})
+                </if>
+                <!-- 创建时间 时间段 -->
+                <if test="params.c_start != null and params.c_start != ''">
+                    AND TO_DAYS(of.create_date) &gt;= TO_DAYS(#{params.c_start})
+                </if>
+                <if test="params.c_end != null and params.c_end != ''">
+                    AND TO_DAYS(of.create_date) &lt;= TO_DAYS(#{params.c_end})
+                </if>
+                <!-- 订单状态 -->
+                <if test="order.status == null and params.status != null and params.status.size != 0 ">
+                    AND of.status IN
+                    <foreach item="st" index="index" collection="params.status" open="(" separator="," close=")">
+                        #{st}
+                    </foreach>
+                </if>
+                <!-- 订单类型 -->
+                <if test="params.types != null and params.types.size != 0 ">
+                    AND of.type IN
+                    <foreach item="st" index="index" collection="params.types" open="(" separator="," close=")">
+                        #{st}
+                    </foreach>
+                </if>
+                <if test="params.distributionId != null and params.distributionId != ''">
+                    AND dd.distributor_relation_id = #{params.distributionId}
+                </if>
+                <if test="params.isCrowdfund != null and params.flag == null">
+                    AND (act.is_crowdfunded is null or act.is_crowdfunded = 0)
+                </if>
+                <if test="params.isCrowdfund != null and params.flag == true">
+                    AND (act.is_crowdfunded = 1)
+                </if>
+                <if test="params.payment != null and params.flag == null">
+                    AND of.payment &gt; ${params.payment}
+                </if>
+                <if test="params.payment != null and params.flag == true">
+                    OR of.payment = ${params.payment}
+                </if>
+                <if test="params.initiatorId != null">
+                    AND (of.initiator_id is null or of.initiator_id = '')
+                </if>
+                <if test="params.merchantId != null">
+                    AND (of.merchant_id is null or of.merchant_id = '')
+                </if>
+            </if>
+        </where>
+        ORDER BY of.update_date DESC, of.create_date DESC
+    </select>
+
+
+    <select id="getTotalPayment" resultType="java.lang.Double">
+    	select sum(payment) FROM order_form of inner join member m on of.member_id = m.id
+        <include refid="joinActivity"/>
+        <where>
+        	<if test="order.id != null and order.id != ''"> AND of.id = #{order.id}</if>
+        	<if test="order.delFlag != null and order.delFlag != ''"> AND of.del_flag = #{order.delFlag}</if>
+        	<if test="order.initiatorId != null and order.initiatorId != ''"> AND of.initiator_id = #{order.initiatorId}</if>
+            <if test="order.goodsId != null and order.goodsId != ''"> AND of.goods_id = #{order.goodsId}</if>
+            <if test="order.memberId != null and order.memberId != ''"> AND of.member_id = #{order.memberId}</if>
+            <if test="order.isPay != null and order.isPay != ''"> AND of.is_pay = #{order.isPay}</if>
+            <if test="order.linkman != null and order.linkman != ''"> AND of.linkman = #{order.linkman}</if>
+            <if test="order.title != null and order.title != ''"> AND of.title like concat('%',#{order.title},'%')</if>
+            <if test="order.phone != null and order.phone != ''"> AND of.phone = #{order.phone}</if>
+            <if test="order.paymentWay != null"> AND of.payment_way = #{order.paymentWay}</if>
+            <if test="order.type != null"> AND of.type = #{order.type}</if>
+            <if test="order.status != null"> AND of.status = #{order.status}</if>
+            <if test="order.payment != null"> AND of.payment = #{order.payment}</if>
+            <if test="order.transactionId != null and order.transactionId != ''"> AND of.transaction_id = #{order.transactionId}</if>
+            <if test="order.merchantId != null and order.merchantId != ''"> AND of.merchant_id = #{order.merchantId}</if>
+            <if test="params != null and params.size > 0">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (of.create_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(of.create_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(of.create_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<!-- 订单状态 -->
+				<if test="order.status == null and params.status != null and params.status.size != 0 ">
+					AND of.status IN
+	        		<foreach item="st" index="index" collection="params.status" open="(" separator="," close=")">
+	            		#{st}
+	        		</foreach>
+	        	</if>
+	        	<!-- 交易状态 -->
+				<if test="params.tradeStatus != null and params.tradeStatus.size != 0 ">
+					AND of.trade_state IN
+	        		<foreach item="st" index="index" collection="params.tradeStatus" open="(" separator="," close=")">
+	            		#{st}
+	        		</foreach>
+	        	</if>
+	        	<if test="params.tradeState != null and params.tradeState != ''">
+	        		<if test="params.tradeStatus != null and params.tradeStatus.size != 0">
+	        			OR (of.trade_state is null or of.trade_state = '')
+	        		</if>
+	        		<if test="params.tradeStatus == null">
+	        			AND (of.trade_state is null or of.trade_state = '')
+	        		</if>
+	        	</if>
+	        	<!-- 订单类型 -->
+	        	<if test="params.types != null and params.types.size != 0 ">
+					AND of.type IN
+	        		<foreach item="st" index="index" collection="params.types" open="(" separator="," close=")">
+	            		#{st}
+	        		</foreach>
+	        	</if>
+                <if test="params.isCrowdfund != null and params.flag == null">
+                	AND (act.is_crowdfunded is null or act.is_crowdfunded = 0)
+                </if>
+                <if test="params.isCrowdfund != null and params.flag == true">
+                	AND (act.is_crowdfunded = 1)
+                </if>
+                <if test="params.payment != null and params.flag == null">
+                	AND of.payment &gt; ${params.payment}
+                </if>
+                <if test="params.payment != null and params.flag == true">
+                	OR of.payment = ${params.payment}
+                </if>
+                <if test="params.initiatorId != null">
+                	AND (of.initiator_id is null or of.initiator_id = '')
+                </if>
+                <if test="params.merchantId != null">
+                	AND (of.merchant_id is null or of.merchant_id = '')
+                </if>
+                <if test="params.memberName != null and params.memberName != ''">
+					AND m.realname like concat('%',#{params.memberName},'%')
+				</if>
+				<if test="params.txzMerchantId != null and params.txzMerchantId.size != 0">
+					AND (of.payment_way = '0' OR  of.merchant_id IN
+                    <foreach item="st" index="index" collection="params.txzMerchantId" open="(" separator="," close=")">
+                        #{st}
+                    </foreach>
+                    )
+				</if>
+            </if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="orderFormMap">
+        SELECT
+        <include refid="orderFormSql"/>
+        FROM order_form of
+        <where>
+            of.id IN
+            <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+            <if test="param.status != null"> AND  of.status = #{param.status}</if>
+            <if test="param.title != null"> AND  of.title LIKE concat('%',#{param.title},'%')</if>
+        </where>
+        ORDER BY of.update_date DESC
+    </select>
+
+    <select id="countByDate" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT COUNT(of.id) AS count, DATE_FORMAT(of.create_date,'%Y-%m-%d') AS day
+		FROM order_form of
+        LEFT JOIN activity act on of.goods_id = act.id
+        <where>
+            <if test="parameter.startDate != null"> TO_DAYS(of.create_date) &gt;= TO_DAYS(#{parameter.startDate})</if>
+            <if test="parameter.endDate != null"> AND TO_DAYS(of.create_date) &lt;= TO_DAYS(#{parameter.endDate})</if>
+            <if test="parameter.isCrowdfund != null">
+                AND (act.is_crowdfunded is null or act.is_crowdfunded = 0)
+            </if>
+            <if test="parameter.payment != null">
+                AND of.payment &gt; ${parameter.payment}
+            </if>
+            AND of. STATUS IN (1, 2, 4)
+        </where>
+        GROUP BY TO_DAYS(of.create_date)
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        SELECT COUNT(of.id) AS count
+        FROM order_form of
+        INNER JOIN member m ON of.member_id = m.id
+        LEFT JOIN activity act ON of.goods_id = act.id
+        <where>
+            <if test="parameter.delFlag != null">AND of.del_flag = #{parameter.delFlag}</if>
+            <if test="parameter.isCrowdfund != null">
+                AND (act.is_crowdfunded is null or act.is_crowdfunded = 0)
+            </if>
+            <if test="parameter.payment != null">
+                AND of.payment &gt; ${parameter.payment}
+            </if>
+            AND of. STATUS IN (1, 2, 4)
+        </where>
+    </select>
+
+    <select id="getOrderByCondition" resultMap="orderFormMap">
+        select * from order_form of
+        <where>
+            <if test="order.memberId != null and order.memberId != ''">
+                AND of.member_id = #{order.memberId}
+            </if>
+            <if test="order.goodsId != null and order.goodsId != ''">
+                AND of.goods_id = #{order.goodsId}
+            </if>
+            <if test="order.status != null">
+                AND of.status = #{order.status}
+            </if>
+            <if test="params != null and params.size > 0">
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (of.update_date between #{params.startDate} and #{params.endDate})
+                </if>
+            </if>
+        </where>
+    </select>
+</mapper>

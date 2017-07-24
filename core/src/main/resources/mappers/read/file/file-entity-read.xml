@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.file.FileEntityReadDao">
+	
+	<resultMap id="fileMap" type="com.party.core.model.file.FileEntity">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="mimetype" property="mimetype" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="size" property="size" jdbcType="VARCHAR" javaType="java.lang.Long"/>
+        <result column="filename" property="fileName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="extension" property="extension" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="path" property="path" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="option_id" property="optionId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+	
+	<sql id="fileSql">
+        id, create_by, create_date, update_by, update_date, del_flag, mimetype, size, filename, extension,path,option_id
+    </sql>
+    
+    <select id="getByOptionId" resultMap="fileMap">
+        SELECT
+        <include refid="fileSql"/>
+        FROM file_entity
+        WHERE option_id = #{optionId}
+    </select>
+
+    <select id="get" resultMap="fileMap">
+        SELECT
+        <include refid="fileSql"/>
+        FROM file_entity
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="fileMap">
+        SELECT
+        <include refid="fileSql"/>
+        FROM file_entity
+        <where>
+            <if test="delFlag != null"> del_flag = #{delFlag}</if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="fileMap">
+        SELECT
+        <include refid="fileSql"/>
+        FROM feedback
+        <if test="ids != null">
+            AND id IN
+            <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+</mapper>

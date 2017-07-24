@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.wechat.WechatAccountReadDao">
+
+    <resultMap id="wechatAccountMap" type="com.party.core.model.wechat.WechatAccount">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="token" property="token" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="ticket" property="ticket" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="wechatAccountSql" >
+        id, update_date, token, ticket, member_id, type
+    </sql>
+
+    <select id="get" resultMap="wechatAccountMap">
+        SELECT
+        <include refid="wechatAccountSql"/>
+        FROM wechat_account
+        WHERE id = #{id}
+    </select>
+
+    <select id="getSystem" resultMap="wechatAccountMap">
+        SELECT
+        <include refid="wechatAccountSql"/>
+        FROM wechat_account
+        WHERE type = 'SYSTEM'
+    </select>
+
+    <select id="findByMemberId" resultMap="wechatAccountMap">
+        SELECT
+        <include refid="wechatAccountSql"/>
+        FROM wechat_account
+        WHERE member_id = #{memberId} AND type = 'PARTNER'
+    </select>
+
+    <select id="listPage" resultMap="wechatAccountMap">
+        SELECT
+        <include refid="wechatAccountSql"/>
+        FROM wechat_account
+        <where>
+            <if test="token !=null and token !=''"> token = #{token}</if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="wechatAccountMap">
+        SELECT
+        <include refid="wechatAccountSql"/>
+        FROM wechat_account
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

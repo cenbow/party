@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.distributor.DistributorTargetAttacheReadDao">
+
+
+    <resultMap id="attacheMap" type="com.party.core.model.distributor.DistributorTargetAttache">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="style" property="style" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="distributor_relation_id" property="distributorRelationId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="attacheSql">
+        id, style, title,distributor_relation_id,content
+    </sql>
+
+    <select id="get" resultMap="attacheMap">
+        SELECT
+        <include refid="attacheSql"/>
+        FROM distributor_target_attache
+        WHERE id = #{id}
+    </select>
+
+
+    <select id="findByRelationId" resultMap="attacheMap">
+        SELECT
+        <include refid="attacheSql"/>
+        FROM distributor_target_attache
+        WHERE distributor_relation_id = #{relationId}
+    </select>
+
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.help.HelpReadDao">
+
+    <resultMap id="privilegeMap" type="com.party.core.model.help.Help">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="serial_number" property="serialNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="parent_ids" property="parentIds" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <collection property="childrens" ofType="com.party.core.model.help.Help" column="id" select="findByParentId" />
+    </resultMap>
+
+    <select id="findByParentId" resultMap="privilegeMap">
+        SELECT * FROM t_help sp WHERE sp.parent_id = #{id} ORDER BY sort ASC
+    </select>
+
+    <select id="get" resultMap="privilegeMap">
+        SELECT * FROM t_help sp WHERE sp.id = #{id}
+    </select>
+
+    <select id="getMaxSort" resultType="java.lang.Integer">
+        SELECT max(sort) from t_help t
+        <where>
+            <if test="parentId != null and parentId != ''">AND t.parent_id = #{parentId}</if>
+        </where>
+    </select>
+
+    <sql id="cSql">
+        t.id AS 'cId', t.title AS 'cTitle', t.parent_id AS 'cParentId', t.parent_ids AS 'cParentIds', t.serial_number AS 'cSerialNumber', t.update_date AS 'cUpdateDate'
+    </sql>
+
+    <sql id="pSql">
+        t.id AS 'pId', t.title AS 'pTitle', t.parent_id AS 'pParentId', t.parent_ids AS 'pParentIds', t.serial_number AS 'pSerialNumber', t.update_date AS 'pUpdateDate'
+    </sql>
+
+    <select id="listPage" resultMap="privilegeMap">
+        SELECT * FROM t_help t
+        <where>
+            <if test="delFlag != null and delFlag != ''">AND t.del_flag = #{delFlag}</if>
+            <if test="parentId != null and parentId != ''">AND t.parent_id = #{parentId}</if>
+        </where>
+        ORDER BY t.serial_number ASC
+    </select>
+
+    <select id="webListPage" resultMap="privilegeMap">
+        SELECT * FROM t_help t
+        <where>
+            AND t.parent_id = '0'
+            <if test="help.serialNumber != null and help.serialNumber != ''">
+                AND t.serial_number = #{help.serialNumber}
+            </if>
+            <if test="help.title != null and help.title != ''">
+                AND t.title like concat('%',#{help.title},'%')
+            </if>
+            <if test="params != null and params.size > 0">
+                <!-- 创建时间 时间块 -->
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (t.update_date between #{params.startDate} and #{params.endDate})
+                </if>
+                <!-- 创建时间 时间段 -->
+                <if test="params.c_start != null and params.c_start != ''">
+                    AND TO_DAYS(t.update_date) &gt;= TO_DAYS(#{params.c_start})
+                </if>
+                <if test="params.c_end != null and params.c_end != ''">
+                    AND TO_DAYS(t.update_date) &lt;= TO_DAYS(#{params.c_end})
+                </if>
+            </if>
+        </where>
+        ORDER BY t.sort ASC
+    </select>
+
+    <select id="batchList" resultMap="privilegeMap">
+        SELECT * FROM t_help sp WHERE sp.id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

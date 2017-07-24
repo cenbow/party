@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.member.MemberActWriteDao">
+
+    <insert id="insert" parameterType="com.party.core.model.member.MemberAct" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member_act
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="remarks != null">  remarks,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="memberId != null">  member,</if>
+            <if test="actId != null">  act,</if>
+            <if test="collect != null">  collect,</if>
+            <if test="joinin != null">  joinin,</if>
+            <if test="extra != null">  extra,</if>
+            <if test="name != null">  name,</if>
+            <if test="mobile != null">  mobile,</if>
+            <if test="company != null">  company,</if>
+            <if test="jobTitle != null">  job_title,</if>
+            <if test="checkStatus != null">  check_status,</if>
+            <if test="orderId != null">  order_id,</if>
+            <if test="storeGoodsId != null">  store_goods_id,</if>
+            <if test="payment != null"> payment,</if>
+            <if test="wechatNum != null"> wechat_num,</if>
+            <if test="signin != null"> signin,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="memberId != null">  #{memberId,jdbcType=VARCHAR},</if>
+            <if test="actId != null">  #{actId,jdbcType=VARCHAR},</if>
+            <if test="collect != null">  #{collect,jdbcType=INTEGER},</if>
+            <if test="joinin != null">  #{joinin,jdbcType=INTEGER},</if>
+            <if test="extra != null">  #{extra,jdbcType=VARCHAR},</if>
+            <if test="name != null">  #{name,jdbcType=VARCHAR},</if>
+            <if test="mobile != null">  #{mobile,jdbcType=VARCHAR},</if>
+            <if test="company != null">  #{company,jdbcType=VARCHAR},</if>
+            <if test="jobTitle != null">  #{jobTitle,jdbcType=VARCHAR},</if>
+            <if test="checkStatus != null">  #{checkStatus,jdbcType=INTEGER},</if>
+            <if test="orderId != null">  #{orderId,jdbcType=VARCHAR},</if>
+            <if test="storeGoodsId != null">  #{storeGoodsId,jdbcType=VARCHAR},</if>
+            <if test="payment != null">  #{payment,jdbcType=FLOAT},</if>
+            <if test="wechatNum != null">  #{wechatNum,jdbcType=VARCHAR},</if>
+            <if test="signin != null">  #{signin,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+
+    <update id="update">
+        UPDATE member_act
+        <set>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="memberId != null">  member = #{memberId,jdbcType=VARCHAR},</if>
+            <if test="actId != null">  act = #{actId,jdbcType=VARCHAR},</if>
+            <if test="collect != null">  collect = #{collect,jdbcType=INTEGER},</if>
+            <if test="joinin != null">  joinin = #{joinin,jdbcType=INTEGER},</if>
+            <if test="extra != null">  extra = #{extra,jdbcType=VARCHAR},</if>
+            <if test="name != null">  name = #{name,jdbcType=VARCHAR},</if>
+            <if test="mobile != null">  mobile = #{mobile,jdbcType=VARCHAR},</if>
+            <if test="company != null">  company = #{company,jdbcType=VARCHAR},</if>
+            <if test="jobTitle != null">  job_title = #{jobTitle,jdbcType=VARCHAR},</if>
+            <if test="checkStatus != null">  check_status = #{checkStatus,jdbcType=INTEGER},</if>
+            <if test="orderId != null">  order_id = #{orderId,jdbcType=VARCHAR},</if>
+            <if test="storeGoodsId != null">  store_goods_id = #{storeGoodsId,jdbcType=VARCHAR},</if>
+            <if test="payment != null">  payment = #{payment,jdbcType=FLOAT},</if>
+            <if test="wechatNum != null">  wechat_num = #{wechatNum,jdbcType=VARCHAR},</if>
+            <if test="signin != null">  signin = #{signin,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE member_act SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM member_act
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE member_act SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM member_act
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

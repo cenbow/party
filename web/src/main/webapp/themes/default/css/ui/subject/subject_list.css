@@ -1,0 +1,174 @@
+/**活动列表**/
+.my-act-list-header {
+	height: 40px;
+	padding-bottom: 10px;
+	line-height: 40px;
+	border-bottom: 1px solid #dbdee5;
+}
+
+.my-act-list-header .title {
+	margin-right: 10px;
+}
+
+.my-act-list-content {
+	padding-top: 20px;
+	padding-right: 20px;
+}
+
+.my-act-list-content li {
+	border-left: 4px solid #EEEEED;
+	padding-left: 30px;
+	padding-bottom: 30px;
+	position: relative;
+}
+
+.apply-lable {
+	
+}
+
+.apply-lable .time-line-round {
+	position: absolute;
+	left: -12px;
+	top: 0;
+	display: block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: -moz-radial-gradient(circle closest-side, #fff 35%, #F0CE2E 10%, #fff);
+	background: -webkit-radial-gradient(circle closest-side, #fff 35%, #F0CE2E 10%, #fff);
+}
+
+.my-act-list-content .lable-bubble {
+	
+}
+
+.my-act-list-content .lable-bubble .bubble-arrow {
+	content: '';
+	position: absolute;
+	top: 5px;
+	left: 26px;
+	width: 10px;
+	height: 10px;
+	-webkit-transform-origin: 50% 50% 0;
+	transform-origin: 50% 50% 0;
+	background-color: transparent;
+	background-image: -webkit-linear-gradient(45deg, #f1eeec, #f1eeec 50%, transparent 50%);
+	background-image: linear-gradient(45deg, #f1eeec, #f1eeec 50%, transparent 50%);
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.my-act-list-content .lable-bubble .bubble-text {
+	padding: 4px 8px;
+	background: #f1eeec;
+	border-radius: 5px;
+}
+
+.my-act-list-content .act-detail-content {
+	margin-top: 20px;
+	padding: 10px;
+	border: 1px solid #dbdee5;
+	border-radius: 5px;
+	list-style: none;
+	position: relative;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	transition: all 1s;
+}
+
+.my-act-list-content .act-detail-content:hover {
+	cursor: pointer;
+    box-shadow: 2px 2px 5px #999999;
+	transition: all 1s;
+}
+
+.my-act-list-content .act-detail-content:hover .act-title a {
+	color: #f7bf3a;
+}
+
+.my-act-list-content  .act-logo {
+	display: inherit;
+	width: 120px;
+	height: 120px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: relative;
+	-webkit-flex-shrink: 0;
+	flex-shrink: 0;
+	-webkit-flex-wrap: nowrap;
+	flex-wrap: nowrap;
+	-webkit-box-align: center;
+	-webkit-align-items: flex-start;
+	align-items: flex-start;
+}
+
+.my-act-list-content  .act-detail {
+	position: relative;
+	min-height: 2.2rem;
+	margin-left: 10px;
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-box-flex: 1;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	-webkit-box-align: start;
+	-webkit-align-items: flex-start;
+	align-items: flex-start;
+}
+
+.my-act-list-content  .act-detail .opts-btns {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.my-act-list-content .act-title {
+	margin-bottom: 10px;
+}
+
+.my-act-list-content .act-title .title {
+	overflow: hidden;
+	width: calc(100% - 100px);
+}
+
+.my-act-list-content .act-title .status {
+	float: right;
+}
+
+.my-act-list-content .start-time, .my-act-list-content .act-price {
+	display: inline-block;
+	width: 100%;
+	line-height: 24px;
+}
+
+.my-act-list-content .start-time img, .my-act-list-content .act-price img {
+	width: 15px;
+	float: left;
+	padding-top: 4px;
+	margin-right: 5px;
+}
+
+.text-ellipsis{
+	text-overflow: ellipsis!important;
+    overflow: hidden!important;
+    display: inline-block!important;
+    width: 400px!important;
+    white-space: nowrap!important;
+}
+
+.my-act-list-content .qr-code{
+	float: right!important;
+	width: 120px;
+    top: 80px;
+    right: -50px;
+    display: none;
+}

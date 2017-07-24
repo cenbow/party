@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.gatherInfo.GatherInfoMemberReadDao">
+	<resultMap id="memberInfoMap" type="com.party.core.model.gatherInfo.GatherInfoMember">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="group_id" property="groupId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="group_job_title" property="groupJobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        
+        <result column="logo" property="logo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="realname" property="realname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sex" property="sex" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="company" property="company" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="job_title" property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="wechat_num" property="wechatNum" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="industry_id" property="industryId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="city_id" property="cityId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="introduction" property="introduction" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="size" property="size" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        
+        <result column="id_card" property="idCard" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="blood_group" property="bloodGroup" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="medical_history" property="medicalHistory" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="contact_relation" property="contactRelation" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        
+        <result column="go_depart_city" property="goDepartCity" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="go_depart_time" property="goDepartTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="go_time" property="goTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="go_type" property="goType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="go_number" property="goNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="go_station" property="goStation" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="go_shuttle" property="goShuttle" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        
+        <result column="back_depart_city" property="backDepartCity" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="back_depart_time" property="backDepartTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="back_time" property="backTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="back_type" property="backType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="back_number" property="backNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="back_station" property="backStation" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="back_shuttle" property="backShuttle" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        
+        <result column="itinerary_status" property="itineraryStatus" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <resultMap id="memberInfoMapOutput" type="com.party.core.model.gatherInfo.GatherInfoMemberOutput">
+    
+    	<result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="group_id" property="groupId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="group_job_title" property="groupJobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    
+        <result column="go_depart_city" property="goDepartCity" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="go_depart_time" property="goDepartTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="go_time" property="goTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="go_type" property="goType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="go_number" property="goNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="go_station" property="goStation" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="go_shuttle" property="goShuttle" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        
+        <result column="back_depart_city" property="backDepartCity" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="back_depart_time" property="backDepartTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="back_time" property="backTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="back_type" property="backType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="back_number" property="backNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="back_station" property="backStation" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="back_shuttle" property="backShuttle" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        
+        <result column="itinerary_status" property="itineraryStatus" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="get" resultMap="memberInfoMap">
+        SELECT * FROM gather_info_member m WHERE id = #{id}
+    </select>
+    
+    <select id="getUnique" resultMap="memberInfoMap">
+        SELECT * FROM gather_info_member m WHERE member_id = #{memberId} and project_id = #{projectId} ORDER BY create_date DESC LIMIT 0,1
+    </select>
+    
+    <select id="getCountByProject" resultType="java.lang.Integer">
+        SELECT count(1) FROM gather_info_member m WHERE project_id = #{projectId}
+    </select>
+    
+    <select id="getCountByGroup" resultType="java.lang.Integer">
+        SELECT count(1) FROM gather_info_member m WHERE group_id = #{groupId}
+    </select>
+    
+    <select id="exportList" resultMap="memberInfoMapOutput">
+    	select ig.group_name AS 'groupName', m.*, gm.* from gather_info_member gm 
+		left join (
+			SELECT
+				m.id as 'memberId', m.fullname as 'realname', m.sex, m.company, m.job_title as 'jobTitle', m.mobile, m.perfect_state as baseStatus,
+				(select name from sys_area where id = m.city) as 'cityName', mi.perfect_state as insuranceStatus, m.wechat_num as 'wechatNum',
+				(select name from industry where id = m.industry) as 'industryName',
+				m.signature as 'introduction', mi.id_card as 'idCard', mi.blood_group as 'bloodGroup', mi.medical_history as 'medicalHistory',
+				mi.contact_name as 'contactName', mi.contact_mobile as 'contactMobile', mi.contact_relation as 'contactRelation'
+			FROM member m left JOIN member_info mi ON m.id = mi.member_id
+		) m ON gm.member_id = m.memberId
+		left join gather_info_group ig on gm.group_id = ig.id
+		<where>
+            <if test="memberInfo.delFlag !=null and memberInfo.delFlag !=''"> AND gm.del_flag = #{memberInfo.delFlag}</if>
+            <if test="memberInfo.projectId != null and memberInfo.projectId != ''"> AND gm.project_id = #{memberInfo.projectId}</if>
+            <if test="memberInfo.groupId != null and memberInfo.groupId != ''"> AND gm.group_id = #{memberInfo.groupId}</if>
+            <if test="memberInfo.groupJobTitle != null and memberInfo.groupJobTitle != ''"> AND gm.group_job_title like concat ('%',#{memberInfo.groupJobTitle},'%')</if>
+            <if test="memberInfo.baseStatus != null and memberInfo.baseStatus != ''"> AND m.baseStatus = #{memberInfo.baseStatus}</if>
+            <if test="memberInfo.insuranceStatus != null and memberInfo.insuranceStatus != ''"> AND m.insuranceStatus = #{memberInfo.insuranceStatus}</if>
+            <if test="memberInfo.itineraryStatus != null and memberInfo.itineraryStatus != ''"> AND gm.itinerary_status = #{memberInfo.itineraryStatus}</if>
+            <if test="params != null">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (gm.update_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(gm.update_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(gm.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<if test="params.fullname != null and params.fullname != ''">
+					AND m.fullname like concat ('%',#{params.fullname},'%')
+				</if>
+            	<if test="params.mobile != null and params.mobile != ''">
+            		AND m.mobile like concat ('%',#{params.mobile},'%')
+            	</if>
+            	<if test="params.sex != null">
+            		AND m.sex = #{params.sex}
+            	</if>
+            </if>
+        </where>
+        ORDER BY gm.group_id DESC, gm.update_date DESC
+        
+    </select>
+    
+    <select id="webListPage" resultType="java.util.Map">
+        SELECT ig.group_name as 'groupName', gm.id, gm.go_time as 'goTime', gm.itinerary_status as itineraryStatus, m.* FROM gather_info_member gm
+		LEFT JOIN (
+			SELECT 
+				m.id as 'memberId', m.fullname AS 'fullname', m.realname AS 'realname', m.logo, m.sex, m.company, m.perfect_state as baseStatus,
+				m.job_title AS 'jobTitle', m.mobile, mi.id_card AS 'idCard', mi.perfect_state as insuranceStatus
+			FROM member m LEFT JOIN member_info mi ON m.id = mi.member_id
+		) m ON gm.member_id = m.memberId
+		LEFT JOIN gather_info_group ig ON gm.group_id = ig.id
+        <where>
+            <if test="memberInfo.delFlag !=null and memberInfo.delFlag !=''"> AND gm.del_flag = #{memberInfo.delFlag}</if>
+            <if test="memberInfo.projectId != null and memberInfo.projectId != ''"> AND gm.project_id = #{memberInfo.projectId}</if>
+            <if test="memberInfo.groupId != null and memberInfo.groupId != ''"> AND gm.group_id = #{memberInfo.groupId}</if>
+            <if test="memberInfo.groupJobTitle != null and memberInfo.groupJobTitle != ''"> AND gm.group_job_title like concat ('%',#{memberInfo.groupJobTitle},'%')</if>
+            <if test="memberInfo.baseStatus != null and memberInfo.baseStatus != ''"> AND m.baseStatus = #{memberInfo.baseStatus}</if>
+            <if test="memberInfo.insuranceStatus != null and memberInfo.insuranceStatus != ''"> AND m.insuranceStatus = #{memberInfo.insuranceStatus}</if>
+            <if test="memberInfo.itineraryStatus != null and memberInfo.itineraryStatus != ''"> AND gm.itinerary_status = #{memberInfo.itineraryStatus}</if>
+            <if test="params != null">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (gm.update_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(gm.update_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(gm.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<if test="params.fullname != null and params.fullname != ''">
+					AND m.fullname like concat ('%',#{params.fullname},'%')
+				</if>
+            	<if test="params.mobile != null and params.mobile != ''">
+            		AND m.mobile like concat ('%',#{params.mobile},'%')
+            	</if>
+            	<if test="params.sex != null">
+            		AND m.sex = #{params.sex}
+            	</if>
+            </if>
+        </where>
+        ORDER BY gm.group_id DESC, gm.update_date DESC
+    </select>
+    
+    <select id="listPage" resultMap="memberInfoMap">
+        SELECT * FROM gather_info_member m
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> AND m.del_flag = #{delFlag}</if>
+            <if test="projectId != null and projectId != ''"> AND m.project_id = #{projectId}</if>
+            <if test="groupId !=null and groupId !=''">AND m.group_id = #{groupId}</if>
+        </where>
+        ORDER BY m.update_date DESC
+    </select>
+</mapper>

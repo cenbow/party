@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.goods.GoodsReadDao">
+
+
+    <resultMap id="goodsMap" type="com.party.core.model.goods.Goods">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="third_party_id" property="thirdPartyId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pics_url" property="picsURL" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="city_id" property="cityId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="area" property="area" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="place" property="place" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="lng" property="lng" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="lat" property="lat" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="price" property="price" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="join_num" property="joinNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="recommend" property="recommend" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="category_id" property="categoryId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="notice" property="notice" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_use_coupon" property="isUseCoupon" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="check_status" property="checkStatus" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_allowed_outside" property="isAllowedOutside" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="type" property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="minnum" property="minnum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="maxnum" property="maxnum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="limit_num" property="limitNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="max_buy_num" property="maxBuyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="goodsSql">
+        id,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag,
+        title,
+        third_party_id,
+        pics_url,
+        city_id,
+        area,
+        start_time,
+        end_time,
+        place,
+        lng,
+        lat,
+        price,
+        join_num,
+        recommend,
+        category_id,
+        notice,
+        is_use_coupon,
+        check_status,
+        is_allowed_outside,
+        sort,
+        type,
+        minnum,
+        maxnum,
+        limit_num,
+        max_buy_num,
+        member_id
+    </sql>
+    
+    <sql id="goodsSql2">
+        a.id,
+        a.create_by,
+        a.create_date,
+        a.update_by,
+        a.update_date,
+        a.remarks,
+        a.del_flag,
+        a.title,
+        a.third_party_id,
+        a.pics_url,
+        a.city_id,
+        a.area,
+        a.start_time,
+        a.end_time,
+        a.place,
+        a.lng,
+        a.lat,
+        a.price,
+        a.join_num,
+        a.recommend,
+        a.category_id,
+        a.notice,
+        a.is_use_coupon,
+        a.check_status,
+        a.is_allowed_outside,
+        a.sort,
+        a.type,
+        a.minnum,
+        a.maxnum,
+        a.limit_num,
+        a.max_buy_num,
+        m.realname as "memberName",
+        m.id as "memberId"
+    </sql>
+
+    <select id="get" resultMap="goodsMap">
+        SELECT
+        <include refid="goodsSql"/>
+        FROM goods
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="goodsMap">
+        SELECT
+        <include refid="goodsSql"/>
+        FROM goods
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="title !=null and title !=''"> AND title like '${title}%'</if>
+            <if test="cityId !=null and cityId !=''"> AND (city_id = #{cityId} OR is_allowed_outside = '1')</if>
+            <if test="startTime !=null and startTime !=''"> AND start_time = #{startTime}</if>
+            <if test="endTime !=null and endTime !=''" > AND end_time = #{endTime}</if>
+            <if test="categoryId !=null and categoryId !=''"> AND category_id = #{categoryId}</if>
+            <if test="isUseCoupon !=null and isUseCoupon !=''"> AND is_use_coupon = #{isUseCoupon}</if>
+            <if test="checkStatus !=null and checkStatus !=''"> AND check_status = #{checkStatus}</if>
+            <if test="isAllowedOutside !=null and isAllowedOutside !=''"> AND is_allowed_outside = #{isAllowedOutside}</if>
+            <if test="type !=null"> AND type = #{type}</if>
+        </where>
+           ORDER BY sort DESC, (end_time > now()) DESC, update_date DESC
+    </select>
+    
+    <!-- web端查询 -->
+    <select id="webListPage" resultMap="goodsMap">
+        SELECT <include refid="goodsSql2"/> FROM goods a
+        inner join member m on a.member_id = m.id
+        <where>
+            <if test="goods.delFlag !=null"> a.del_flag = #{goods.delFlag}</if>
+            <if test="goods.title !=null and goods.title !=''"> AND a.title like concat('%',#{goods.title},'%')</if>
+            <if test="goods.categoryId !=null and goods.categoryId !=''"> AND a.category_id = #{goods.categoryId}</if>
+            <if test="goods.checkStatus !=null and goods.checkStatus !=''"> AND a.check_status = #{goods.checkStatus}</if>
+            <if test="goods.type !=null"> AND a.type = #{goods.type}</if>
+            <if test="params != null and params.size > 0">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (a.create_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(a.update_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(a.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<!-- 发起者 -->
+				<if test="params.memberName != null and params.memberName != ''">
+					AND m.realname like concat('%',#{params.memberName},'%')
+				</if>
+				<if test="params.startTime !=null and params.startTime !=''">
+           		 	AND TO_DAYS(a.start_time) &gt;= TO_DAYS(#{params.startTime})
+          		</if>
+            	<if test="params.endTime !=null and params.endTime !=''" >
+            		AND TO_DAYS(a.end_time) &lt;= TO_DAYS(#{params.startTime})
+            	</if>
+            </if>
+        </where>
+           ORDER BY a.sort DESC, (end_time > now()) DESC, a.update_date DESC
+    </select>
+
+    <select id="batchList" resultMap="goodsMap">
+        SELECT
+        <include refid="goodsSql"/>
+        FROM goods
+        <where>
+            <if test="param.delFlag !=null"> del_flag = #{param.delFlag}</if>
+            <if test="param.title !=null and param.title !=''"> AND title like '${param.title}%'</if>
+            <if test="param.cityId !=null and param.cityId !=''"> AND city_id = #{param.cityId}</if>
+            <if test="param.startTime !=null and param.startTime !=''"> AND start_time = #{param.startTime}</if>
+            <if test="param.endTime !=null and param.endTime !=''" > AND end_time = #{param.endTime}</if>
+            <if test="param.categoryId !=null and param.categoryId !=''"> AND category_id = #{param.categoryId}</if>
+            <if test="param.isUseCoupon !=null and param.isUseCoupon !=''"> AND is_use_coupon = #{param.isUseCoupon}</if>
+            <if test="param.checkStatus !=null and param.checkStatus !=''"> AND check_status = #{param.checkStatus}</if>
+            <if test="param.isAllowedOutside !=null and param.isAllowedOutside !=''"> AND is_allowed_outside = #{param.isAllowedOutside}</if>
+            <if test="ids != null">
+                AND id IN
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+            ORDER BY sort DESC, end_time DESC
+    </select>
+</mapper>

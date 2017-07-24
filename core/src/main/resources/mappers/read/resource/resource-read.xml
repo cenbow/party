@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.resource.ResourceReadDao">
+
+
+    <resultMap id="advertiseMap" type="com.party.core.model.resource.Resource">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="link" property="link" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="ref_id" property="refId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="advertiseSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, title, pic, link, type, ref_id, sort
+    </sql>
+
+    <select id="get" resultMap="advertiseMap">
+        SELECT
+        <include refid="advertiseSql"/>
+        FROM resource
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="advertiseMap">
+        SELECT
+        <include refid="advertiseSql"/>
+        FROM resource
+        <where>
+            <if test="delFlag != null and delFlag != ''"> del_flag = #{delFlag}</if>
+            <if test="title != null and title != ''">AND title = #{title}</if>
+            <if test="type != null and type != ''"> AND type = #{type}</if>
+        </where>
+        ORDER BY sort asc,update_date DESC
+    </select>
+    
+    <select id="webListPage" resultMap="advertiseMap">
+        SELECT
+        <include refid="advertiseSql"/>
+        FROM resource
+        <where>
+            <if test="resource.delFlag != null and resource.delFlag != ''"> del_flag = #{resource.delFlag}</if>
+            <if test="resource.title != null and resource.title != ''">AND title like concat('%',#{resource.title},'%')</if>
+            <if test="resource.type != null and resource.type != ''"> AND type = #{resource.type}</if>
+            <if test="params != null and params.size > 0">
+	           	<!-- 创建时间 时间块 -->
+	           	<if test="params.startDate != null and params.endDate != null">
+	           		AND (create_date between #{params.startDate} and #{params.endDate})
+	           	</if>
+	           	<!-- 创建时间 时间段 -->
+	           	<if test="params.c_start != null and params.c_start != ''">
+	           		AND TO_DAYS(create_date) &gt;= TO_DAYS(#{params.c_start})
+	           	</if>
+	           	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(create_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+	      	</if>
+        </where>
+        ORDER BY sort asc,create_date DESC
+    </select>
+
+    <select id="batchList" resultMap="advertiseMap">
+        SELECT
+        <include refid="advertiseSql"/>
+        FROM resource
+        <if test="ids != null">
+            AND id IN
+            <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+</mapper>

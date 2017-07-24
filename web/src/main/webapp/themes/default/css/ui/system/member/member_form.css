@@ -1,0 +1,27 @@
+/*海报*/
+.cover-content .cover-img {
+	display: inline-block;
+	width: 80px !important;
+	height: 80px !important;
+	margin-right: 20px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	vertical-align: middle;
+	height: 80px !important;
+}
+
+.layui-form-label {
+	width: 100px !important
+}
+
+.layui-input-block {
+	margin-left: 130px !important;
+}
+
+.layui-tab-brief>.layui-tab-title .layui-this{
+	color: #e8473f!important;
+}
+.layui-tab-brief>.layui-tab-title .layui-this:after{
+	border-bottom-color: #e8473f!important;
+}

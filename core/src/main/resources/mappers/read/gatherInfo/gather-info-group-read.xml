@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.gatherInfo.GatherInfoGroupReadDao">
+	<resultMap id="memberInfoProjectMap" type="com.party.core.model.gatherInfo.GatherInfoGroup">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="group_name" property="groupName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="group_no" property="groupNo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="get" resultMap="memberInfoProjectMap">
+        SELECT * FROM gather_info_group m WHERE id = #{id}
+    </select>
+    
+    <select id="listPage" resultMap="memberInfoProjectMap">
+        SELECT * FROM gather_info_group m
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> AND m.del_flag = #{delFlag}</if>
+            <if test="projectId !=null and projectId !=''">AND m.project_id = #{projectId}</if>
+        </where>
+            ORDER BY m.update_date DESC
+    </select>
+    
+    <select id="webListPage" resultMap="memberInfoProjectMap">
+        SELECT * FROM gather_info_group m
+        <where>
+            <if test="group.delFlag !=null and group.delFlag !=''"> AND m.del_flag = #{group.delFlag}</if>
+            <if test="group.groupName != null and group.groupName != ''"> AND m.group_name like concat ('%',#{group.groupName},'%')</if>
+            <if test="group.groupNo != null and group.groupNo != ''"> AND m.group_no like concat ('%',#{group.groupNo},'%')</if>
+            <if test="group.projectId !=null and group.projectId !=''"> AND m.project_id = #{group.projectId}</if>
+            <if test="params != null">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (m.update_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(m.update_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(m.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+            </if>
+        </where>
+        ORDER BY m.group_no ASC, m.update_date DESC
+    </select>
+</mapper>

@@ -1,0 +1,47 @@
+
+.tag-wrap .tag-item{
+	float: left;
+	margin: 5px;
+	padding: 10px;
+	background: #fff0f3;
+	position: relative;
+}
+.tag-wrap  .tag-name {
+	line-height: 25px;
+	display: inline-block;
+	vertical-align: middle;
+	float: left;
+}
+.tag-wrap .tag-item .dyna-icon{
+	float: right;
+	display: inline-block;
+	font-size: 22px;
+	width: 0;
+	overflow: hidden;
+	transition: all 0.3s;
+}
+.tag-wrap .tag-item .tag-show{
+	display: inherit;
+}
+.tag-wrap .tag-item .tag-edit{
+	display: none;
+}
+.tag-wrap .tag-item.hide .tag-show{
+	display: none;
+}
+.tag-wrap .tag-item.hide .tag-edit{
+	display: inherit;
+}
+.tag-wrap .tag-item:hover{
+	cursor: pointer;
+}
+.tag-wrap .tag-item:hover .dyna-icon{
+	width: 21px;
+	padding-left: 10px;
+}
+.tag-wrap .tag-item:hover .tag-name{
+	color: #999999;
+}
+.tag-wrap .tag-item .dyna-icon:hover{
+	color:#f4615c;
+}

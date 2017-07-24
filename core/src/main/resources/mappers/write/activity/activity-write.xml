@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.activity.ActivityWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.activity.Activity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO activity
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="remarks != null">  remarks,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="activityType != null"> activity_type,</if>
+            <if test="title != null"> title,</if>
+            <if test="price != null"> price,</if>
+            <if test="thirdPartyId != null"> third_party_id,</if>
+            <if test="pic != null"> pic,</if>
+            <if test="area != null"> area,</if>
+            <if test="cityId != null"> city_id,</if>
+            <if test="limitNum != null"> limit_num,</if>
+            <if test="startTime != null"> start_time,</if>
+            <if test="endTime != null"> end_time,</if>
+            <if test="place != null"> place,</if>
+            <if test="lng != null"> lng,</if>
+            <if test="lat != null"> lat,</if>
+            <if test="isOpen != null"> is_open,</if>
+            <if test="inviteOnly != null"> invite_only,</if>
+            <if test="inviteCode != null"> invite_code,</if>
+            <if test="joinHidden != null"> join_hidden,</if>
+            <if test="extra != null"> extra,</if>
+            <if test="shareNum != null"> share_num,</if>
+            <if test="readNum != null"> read_num,</if>
+            <if test="joinNum != null"> join_num,</if>
+            <if test="goodNum != null"> good_num,</if>
+            <if test="member != null"> member,</if>
+            <if test="checkStatus != null"> check_status,</if>
+            <if test="isAllowedOutside != null"> is_allowed_outside,</if>
+            <if test="sort != null"> sort,</if>
+            <if test="micWebStatus != null"> mic_web_status,</if>
+            <if test="favorerNum != null"> favorer_num,</if>
+            <if test="beCrowdfundNum != null"> be_crowdfund_num,</if>
+            <if test="crowdfundedNum != null"> crowdfunded_num,</if>
+            <if test="isCrowdfunded != null"> is_crowdfunded,</if>
+            <if test="representNum != null"> represent_num,</if>
+            <if test="crowdDeclaration != null"> crowd_declaration,</if>
+            <if test="supportDeclaration != null"> support_declaration,</if>
+            <if test="representDeclaration != null"> represent_declaration,</if>
+            <if test="showFront != null"> show_front,</if>
+            <if test="crowdfundHintSwitch != null"> crowdfund_hint_switch,</if>
+            <if test="publisher != null"> publisher,</if>
+            <if test="publisherLogo != null"> publisher_logo,</if>
+            <if test="eventId != null"> event_id,</if>
+            <if test="templateStyle != null"> template_style,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="activityType != null"> #{activityType, jdbcType=INTEGER},</if>
+            <if test="title != null"> #{title, jdbcType=VARCHAR},</if>
+            <if test="price != null"> #{price,jdbcType=FLOAT},</if>
+            <if test="thirdPartyId != null"> #{thirdPartyId,jdbcType=VARCHAR},</if>
+            <if test="pic != null"> #{pic, jdbcType=VARCHAR},</if>
+            <if test="area != null"> #{area, jdbcType=VARCHAR},</if>
+            <if test="cityId != null"> #{cityId, jdbcType=VARCHAR},</if>
+            <if test="limitNum != null"> #{limitNum, jdbcType=INTEGER},</if>
+            <if test="startTime != null"> #{startTime, jdbcType=TIMESTAMP},</if>
+            <if test="endTime != null"> #{endTime, jdbcType=TIMESTAMP},</if>
+            <if test="place != null"> #{place, jdbcType=VARCHAR},</if>
+            <if test="lng != null"> #{lng, jdbcType=VARCHAR},</if>
+            <if test="lat != null"> #{lat, jdbcType=VARCHAR},</if>
+            <if test="isOpen != null"> #{isOpen, jdbcType=INTEGER},</if>
+            <if test="inviteOnly != null"> #{inviteOnly, jdbcType=INTEGER},</if>
+            <if test="inviteCode != null"> #{inviteCode, jdbcType=VARCHAR},</if>
+            <if test="joinHidden != null"> #{joinHidden, jdbcType=INTEGER},</if>
+            <if test="extra != null"> #{extra, jdbcType=VARCHAR},</if>
+            <if test="shareNum != null"> #{shareNum, jdbcType=INTEGER},</if>
+            <if test="readNum != null"> #{readNum, jdbcType=INTEGER},</if>
+            <if test="joinNum != null"> #{joinNum, jdbcType=INTEGER},</if>
+            <if test="goodNum != null"> #{goodNum, jdbcType=INTEGER},</if>
+            <if test="member != null"> #{member, jdbcType=VARCHAR},</if>
+            <if test="checkStatus != null"> #{checkStatus, jdbcType=VARCHAR},</if>
+            <if test="isAllowedOutside != null"> #{isAllowedOutside, jdbcType=INTEGER},</if>
+            <if test="sort != null"> #{sort, jdbcType=INTEGER},</if>
+            <if test="micWebStatus != null"> #{micWebStatus, jdbcType=INTEGER},</if>
+            <if test="favorerNum != null"> #{favorerNum, jdbcType=INTEGER},</if>
+            <if test="beCrowdfundNum != null"> #{beCrowdfundNum, jdbcType=INTEGER},</if>
+            <if test="crowdfundedNum != null"> #{crowdfundedNum, jdbcType=INTEGER},</if>
+            <if test="isCrowdfunded != null"> #{isCrowdfunded, jdbcType=INTEGER},</if>
+            <if test="representNum != null"> #{representNum, jdbcType=INTEGER},</if>
+            <if test="crowdDeclaration != null"> #{crowdDeclaration, jdbcType=VARCHAR},</if>
+            <if test="supportDeclaration != null"> #{supportDeclaration, jdbcType=VARCHAR},</if>
+            <if test="representDeclaration != null"> #{representDeclaration, jdbcType=VARCHAR},</if>
+            <if test="showFront != null"> #{showFront, jdbcType=INTEGER},</if>
+            <if test="crowdfundHintSwitch != null"> #{crowdfundHintSwitch, jdbcType=INTEGER},</if>
+            <if test="publisher != null"> #{publisher, jdbcType=VARCHAR},</if>
+            <if test="publisherLogo != null"> #{publisherLogo, jdbcType=VARCHAR},</if>
+            <if test="eventId != null"> #{eventId, jdbcType=VARCHAR},</if>
+            <if test="templateStyle != null"> #{templateStyle, jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+    
+    
+    <update id="update">
+        UPDATE activity
+        <set>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="activityType != null"> activity_type = #{activityType, jdbcType=INTEGER},</if>
+            <if test="title != null"> title = #{title, jdbcType=VARCHAR},</if>
+            <if test="pic != null"> pic = #{pic, jdbcType=VARCHAR},</if>
+            <if test="price != null"> price = #{price,jdbcType=FLOAT},</if>
+            <if test="area != null"> area = #{area, jdbcType=VARCHAR},</if>
+            <if test="cityId != null"> city_id = #{cityId, jdbcType=VARCHAR},</if>
+            <if test="limitNum != null"> limit_num = #{limitNum, jdbcType=INTEGER},</if>
+            <if test="startTime != null"> start_time = #{startTime, jdbcType=TIMESTAMP},</if>
+            <if test="endTime != null"> end_time = #{endTime, jdbcType=TIMESTAMP},</if>
+            <if test="place != null"> place = #{place, jdbcType=VARCHAR},</if>
+            <if test="lng != null"> lng = #{lng, jdbcType=VARCHAR},</if>
+            <if test="lat != null"> lat = #{lat, jdbcType=VARCHAR},</if>
+            <if test="isOpen != null"> is_open = #{isOpen, jdbcType=INTEGER},</if>
+            <if test="inviteOnly != null"> invite_only = #{inviteOnly, jdbcType=INTEGER},</if>
+            <if test="inviteCode != null"> invite_code = #{inviteCode, jdbcType=VARCHAR},</if>
+            <if test="joinHidden != null"> join_hidden = #{joinHidden, jdbcType=INTEGER},</if>
+            <if test="extra != null"> extra = #{extra, jdbcType=VARCHAR},</if>
+            <if test="shareNum != null"> share_num = #{shareNum, jdbcType=INTEGER},</if>
+            <if test="readNum != null"> read_num = #{readNum, jdbcType=INTEGER},</if>
+            <if test="joinNum != null"> join_num = #{joinNum, jdbcType=INTEGER},</if>
+            <if test="goodNum != null"> good_num = #{goodNum, jdbcType=INTEGER},</if>
+            <if test="member != null"> member = #{member, jdbcType=VARCHAR},</if>
+            <if test="checkStatus != null"> check_status = #{checkStatus, jdbcType=VARCHAR},</if>
+            <if test="isAllowedOutside != null"> is_allowed_outside = #{isAllowedOutside, jdbcType=INTEGER},</if>
+            <if test="sort != null"> sort = #{sort, jdbcType=INTEGER},</if>
+            <if test="micWebStatus != null"> mic_web_status = #{micWebStatus, jdbcType=INTEGER},</if>
+            <if test="favorerNum != null"> favorer_num = #{favorerNum, jdbcType=INTEGER},</if>
+            <if test="beCrowdfundNum != null"> be_crowdfund_num = #{beCrowdfundNum, jdbcType=INTEGER},</if>
+            <if test="crowdfundedNum != null"> crowdfunded_num = #{crowdfundedNum, jdbcType=INTEGER},</if>
+            <if test="isCrowdfunded != null"> is_crowdfunded = #{isCrowdfunded, jdbcType=INTEGER},</if>
+            <if test="representNum != null"> represent_num = #{representNum, jdbcType=INTEGER},</if>
+            <if test="crowdDeclaration != null"> crowd_declaration = #{crowdDeclaration, jdbcType=VARCHAR},</if>
+            <if test="supportDeclaration != null"> support_declaration = #{supportDeclaration, jdbcType=VARCHAR},</if>
+            <if test="representDeclaration != null"> represent_declaration = #{representDeclaration, jdbcType=VARCHAR},</if>
+            <if test="showFront != null"> show_front = #{showFront, jdbcType=INTEGER},</if>
+            <if test="crowdfundHintSwitch != null"> crowdfund_hint_switch = #{crowdfundHintSwitch, jdbcType=INTEGER},</if>
+            <if test="publisher != null"> publisher = #{publisher, jdbcType=VARCHAR},</if>
+            <if test="publisherLogo != null"> publisher_logo = #{publisherLogo, jdbcType=VARCHAR},</if>
+            <if test="eventId != null"> event_id = #{eventId, jdbcType=VARCHAR},</if>
+            <if test="templateStyle != null"> template_style = #{templateStyle, jdbcType=INTEGER},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE activity SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM activity
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE activity SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM activity
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

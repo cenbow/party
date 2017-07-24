@@ -1,0 +1,171 @@
+/**table 列表通用样式 Juliana 20170218**/
+.table-member {
+    max-width: 100px;
+}
+
+.table-member .member-logo {
+    display: inline-block;
+    float: left;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    line-height: 50px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.table-member .member-name {
+    line-height: 30px;
+    padding-left: 5px;
+}
+
+.tb-opts {
+    position: relative;
+}
+
+.tb-opts .comm-opts {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0;
+}
+
+.tb-opts .comm-opts a {
+    position: relative;
+    display: inline-block;
+    padding: 0px 5px;
+    vertical-align: middle;
+    outline: none;
+    font-size: 14px;
+}
+
+.tb-opts .comm-opts a:after {
+    width: 1px;
+    position: absolute;
+    display: inline-block;
+    border-left: 1px solid #ccc;
+    content: ' ';
+    top: 2px;
+    right: -2px;
+    color: #ccc;
+    bottom: 2px;
+}
+
+.tb-opts .comm-opts a:last-child:after {
+    display: none;
+}
+
+.tb-opts .comm-opts span {
+    color: #bdbdbd;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.tb-opts .opt-more {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+}
+
+.tb-opts .opt-more:before {
+    width: 1px;
+    position: absolute;
+    display: inline-block;
+    border-left: 1px solid #ccc;
+    content: ' ';
+    top: 2px;
+    left: -5px;
+    color: #ccc;
+    bottom: 2px;
+}
+
+.tb-opts .before-none:before {
+    display: none;
+}
+
+.tb-opts .opt-more .more {
+    font-size: 12px;
+}
+
+.tb-opts .options-content {
+    display: none;
+}
+
+.out-fix-opts {
+    display: none;
+    position: absolute;
+    background: #fff;
+    z-index: 1;
+    min-width: 100px;
+    text-align: center;
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+}
+
+.tb-opts .opt-more .more-btn {
+    display: block;
+}
+
+.out-fix-opts .options-content li {
+    border-bottom: 1px solid #dbdee5;
+    padding: 5px;
+    border-left: 0px;
+}
+
+.out-fix-opts .options-content li:last-child {
+    border: none;
+}
+
+.out-fix-opts .options-content li a {
+    width: 100%;
+    display: inline-block;
+}
+
+/*.tb-opts a.z-copy-btn.hover {*/
+/*color:#f4615c;*/
+/*}*/
+.c-time-list-content .tb-opts a.zeroclipboard-is-hover {
+    color: #f4615c;
+}
+
+/**fix-col 固定列**/
+.jfix-table-content{
+    position: relative;
+    overflow: auto;
+}
+.jleft-fix-table{
+    display: inline-block;
+    float: left;
+}
+.jleft-fix-table .jfix-table-wrap{
+}
+.jright-fix-table{
+    overflow: auto;
+    display: inline-block;
+    /* float: right; */
+    width: 528px;
+}
+.jright-fix-table table{
+    table-layout: fixed;
+}
+/*行扩展内容*/
+.tr-extra-content {
+    display: table;
+    width: 100%;
+}
+
+.tr-extra-content li {
+    display: table-row;
+    line-height: 24px;
+}
+
+.tr-extra-content .ext-label {
+    display: table-cell;
+    width: 100px;
+    color: #949494;
+    padding-left: 10px;
+}
+
+.tr-extra-content .ext-value {
+    display: table-cell;
+}

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.circle.CircleWriteDao">
+    <insert id="insert" parameterType="com.party.core.model.circle.Circle" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO circle
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="name != null">  name,</if>
+            <if test="logo != null">  logo,</if>
+            <if test="area != null">  area,</if>
+            <if test="memo != null">  memo,</if>
+            <if test="circleType != null">  circle_type,</if>
+            <if test="extraContent != null">  extra_content,</if>
+            <if test="topicNum != null">  topic_num,</if>
+            <if test="visitNum != null">  visit_num,</if>
+            <if test="memberNum != null">  member_num,</if>
+            <if test="sort != null">  sort,</if>
+            <if test="isOpen != null">  is_open,</if>
+            <if test="noTypeIsOpen != null">  no_type_is_open,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="remarks != null">  remarks,</if>
+            <if test="subjectId != null">  subject_id,</if>
+            <if test="subjectName != null">  subject_name,</if>
+            <if test="showFront != null">  show_front,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="name != null">  #{name,jdbcType=VARCHAR},</if>
+            <if test="logo != null">  #{logo,jdbcType=VARCHAR},</if>
+            <if test="area != null">  #{area,jdbcType=VARCHAR},</if>
+            <if test="memo != null">  #{memo,jdbcType=VARCHAR},</if>
+            <if test="circleType != null">  #{circleType,jdbcType=VARCHAR},</if>
+            <if test="extraContent != null">  #{extraContent,jdbcType=VARCHAR},</if>
+            <if test="topicNum != null">  #{topicNum,jdbcType=INTEGER},</if>
+            <if test="visitNum != null">  #{visitNum,jdbcType=INTEGER},</if>
+            <if test="memberNum != null">  #{memberNum,jdbcType=INTEGER},</if>
+            <if test="sort != null">  #{sort,jdbcType=INTEGER},</if>
+            <if test="isOpen != null">  #{isOpen,jdbcType=VARCHAR},</if>
+            <if test="noTypeIsOpen != null">  #{noTypeIsOpen,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>          
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="remarks != null"> #{remarks,jdbcType=VARCHAR},</if>
+            <if test="subjectId != null">  #{subjectId,jdbcType=VARCHAR},</if>
+            <if test="subjectName != null"> #{subjectName,jdbcType=VARCHAR},</if>
+            <if test="showFront != null"> #{showFront,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+
+    <update id="update">
+        UPDATE circle
+        <set>
+            <if test="name != null">  name = #{name,jdbcType=VARCHAR},</if>
+            <if test="logo != null"> logo =  #{logo,jdbcType=VARCHAR},</if>
+            <if test="area != null">  area = #{area,jdbcType=VARCHAR},</if>
+            <if test="memo != null"> memo =  #{memo,jdbcType=VARCHAR},</if>
+            <if test="circleType != null"> circle_type =  #{circleType,jdbcType=VARCHAR},</if>
+            <if test="extraContent != null"> extra_content =  #{extraContent,jdbcType=VARCHAR},</if>
+            <if test="topicNum != null"> topic_num =  #{topicNum,jdbcType=INTEGER},</if>
+            <if test="visitNum != null"> visit_num =  #{visitNum,jdbcType=INTEGER},</if>
+            <if test="memberNum != null">  member_num = #{memberNum,jdbcType=INTEGER},</if>
+            <if test="sort != null">  sort = #{sort,jdbcType=INTEGER},</if>
+            <if test="isOpen != null">  is_open = #{isOpen,jdbcType=VARCHAR},</if>
+            <if test="noTypeIsOpen != null">  no_type_is_open = #{noTypeIsOpen,jdbcType=VARCHAR},</if>
+            <if test="createBy != null"> create_by =  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>          
+            <if test="createDate != null"> create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateDate != null"> update_date =  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="remarks != null"> remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="subjectId != null">  subject_id = #{subjectId,jdbcType=VARCHAR},</if>
+            <if test="subjectName != null"> subject_name = #{subjectName,jdbcType=VARCHAR},</if>
+            <if test="showFront != null"> show_front = #{showFront,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE circle SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM circle
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE circle SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM circle
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

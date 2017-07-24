@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.dynamic.DynamicReadDao">
+
+    <resultMap id="dynamicMap" type="com.party.core.model.dynamic.Dynamic">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="area_id" property="areaId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="city_id" property="cityId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pics" property="pics" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_hot" property="isHot" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="click_num" property="clickNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="love_num" property="loveNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="comment_num" property="commentNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="dynamic_type" property="dynamicType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="dynamic_way" property="dynamicWay" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <collection property="commentList" ofType="com.party.core.model.dynamic.map.DyCmtListMap">
+            <result column="cmtAuthor" property="authorName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <result column="cmtContent" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <result column="cmtCDate" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="topicMap" type="com.party.core.model.circle.TopicMap">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="area_id" property="areaId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="city_id" property="cityId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pics" property="pics" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_hot" property="isHot" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="click_num" property="clickNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="love_num" property="loveNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="comment_num" property="commentNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="dynamic_type" property="dynamicType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="dynamic_way" property="dynamicWay" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="tagName" property="tagName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_top" property="isTop" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="circle" property="circle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <collection property="commentList" ofType="com.party.core.model.dynamic.map.DyCmtListMap">
+            <result column="cmtAuthor" property="authorName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <result column="cmtContent" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <result column="cmtCDate" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        </collection>
+    </resultMap>
+
+    <sql id="dynamicSql">
+        id, create_by, create_date, update_by, update_date,
+         del_flag, area_id, city_id, pics, content, is_hot,
+          click_num, dynamic_type, dynamic_way, sort,love_num,comment_num
+    </sql>
+
+    <sql id="dynamicSql2">
+		d.id, d.create_by, d.create_date, d.update_by, d.update_date,d.del_flag, d.area_id, d.city_id,d.love_num,d.comment_num,
+		d.pics, d.content, d.is_hot,d.click_num, d.dynamic_type, d.dynamic_way, d.sort, m.realname as "memberName"
+	</sql>
+
+    <sql id="dynamicSql3">
+        d.id, d.create_by, d.create_date, d.update_by, d.update_date,d.del_flag, d.area_id, d.city_id,d.love_num,d.comment_num,
+        d.pics, d.content, d.is_hot,d.click_num, d.dynamic_type, d.dynamic_way, d.sort,ctt.name as tagName,ct.is_top,ct.circle_id as circle
+    </sql>
+
+    <select id="get" resultMap="dynamicMap">
+        SELECT
+        <include refid="dynamicSql"/>
+        FROM dynamic
+        WHERE id = #{id}
+    </select>
+
+    <sql id="listDynamicSql">
+        SELECT
+        d.*
+        <if test="params.commentNum != null">
+            ,
+            m.realname as cmtAuthor,c.content as cmtContent,c.create_date as cmtCDate
+        </if>
+        FROM
+        (
+        SELECT
+        d1.*
+        <if test="params.topic != null">
+            ,
+            ct1.circle_id as circle,ctt1.name as tagName,ct1.is_top as is_top
+        </if>
+        FROM
+        dynamic d1
+        <if test="params.isExpert != null and params.isExpert == 1">
+            LEFT JOIN member m1 on m1.id = d1.create_by
+        </if>
+        <if test="params.topic != null">
+            INNER JOIN c_topic ct1 on ct1.dynamic_id = d1.id
+            LEFT JOIN c_topic_tag ctt1 on ct1.topic_tag_id = ctt1.id
+        </if>
+        <!--关注列表-->
+        <if test="params.fans != null">
+            INNER JOIN fans f1 on f1.member = d1.create_by
+            <if test="params.fans != null">
+                AND f1.follower = #{params.fans.followerId}
+            </if>
+        </if>
+        WHERE 1=1
+        <if test="dynamic != null">
+            <if test="dynamic.delFlag != null and dynamic.delFlag != ''">AND d1.del_flag = #{dynamic.delFlag}</if>
+            <if test="dynamic.createBy != null and dynamic.createBy != ''">AND d1.create_by = #{dynamic.createBy}</if>
+            <if test="dynamic.dynamicType != null and dynamic.dynamicType != ''">AND d1.dynamic_type = #{dynamic.dynamicType}</if>
+            <if test="dynamic.isHot != null">AND d1.is_hot = #{dynamic.isHot}</if>
+        </if>
+        <if test="params.isExpert != null and params.isExpert == 1"> AND m1.is_expert = #{params.isExpert}</if>
+        <if test="params.topic != null">
+            <if test="params.topic.circle != null and params.topic.circle != ''">
+                AND ct1.circle_id = #{params.topic.circle}
+            </if>
+            <if test="params.topic.delFlag != null and params.topic.delFlag != ''">
+                AND ct1.del_flag = #{params.topic.delFlag}
+            </if>
+        </if>
+        ORDER BY
+        d1.create_date DESC
+        LIMIT  #{params.startRow},
+        #{params.pageSize}
+        ) d
+        <if test="params.commentNum != null">
+            LEFT JOIN `comment` c ON d.id = c.ref_id
+            LEFT JOIN member m on m.id = c.create_by
+            WHERE
+            (
+            SELECT
+            count(*)
+            FROM
+            `comment`
+            WHERE
+            ref_id = c.ref_id
+            AND create_date > c.create_date
+            )
+            &lt;#{params.commentNum}
+            ORDER BY
+            d.create_date DESC ,
+            c.create_date DESC
+        </if>
+    </sql>
+    <select id="listDynamicMapPage" resultMap="dynamicMap">
+        <include refid="listDynamicSql"/>
+    </select>
+
+    <select id="listTopicMapPage" resultMap="topicMap">
+        <include refid="listDynamicSql"/>
+    </select>
+
+    <select id="listPage" resultMap="dynamicMap">
+        SELECT
+        <include refid="dynamicSql"/>
+        FROM dynamic
+        <where>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag}</if>
+            <if test="createBy != null and createBy != ''">AND create_by = #{createBy}</if>
+            <if test="dynamicType != null and dynamicType != ''">AND dynamic_type = #{dynamicType}</if>
+            <if test="isHot != null">AND is_hot = #{isHot}</if>
+        </where>
+        ORDER BY create_date DESC, is_hot DESC
+    </select>
+
+    <!-- web话题列表查询 -->
+    <select id="listCircleTopicPage" resultMap="topicMap">
+        SELECT
+        <include refid="dynamicSql3"/>
+        FROM c_topic ct
+        INNER JOIN dynamic d on d.id = ct.dynamic_id
+        INNER JOIN member m on m.id = d.create_by
+        LEFT JOIN c_topic_tag ctt on ctt.id = ct.topic_tag_id
+        <where>
+            <if test="dynamic.delFlag != null and dynamic.delFlag != ''">d.del_flag = #{dynamic.delFlag}</if>
+            <if test="dynamic.createBy != null and dynamic.createBy != ''">AND d.create_by = #{dynamic.createBy}</if>
+            <if test="dynamic.content != null and dynamic.content != ''">AND d.content like concat('%',#{dynamic.content},'%')</if>
+            <if test="dynamic.dynamicType != null and dynamic.dynamicType != ''">AND d.dynamic_type = #{dynamic.dynamicType}</if>
+            <if test="dynamic.isHot != null">AND d.is_hot = #{dynamic.isHot}</if>
+            <if test="topic.circle != null and topic.circle != ''">AND ct.circle_id = #{topic.circle}</if>
+            <if test="topic.topicTagId != null and topic.topicTagId != ''">AND ct.topic_tag_id = #{topic.topicTagId}</if>
+            <if test="topic.delFlag != null and topic.delFlag != ''">AND ct.del_flag = #{topic.delFlag}</if>
+            <if test="topic.dynamic != null and topic.dynamic != ''">AND ct.dynamic_id = #{topic.dynamic}</if>
+            <if test="topic.isTop != null">AND ct.is_top = #{topic.isTop}</if>
+            <if test="params != null and params.size > 0">
+                <!-- 创建时间 时间块 -->
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (d.create_date between #{params.startDate} and #{params.endDate})
+                </if>
+                <!-- 创建时间 时间段 -->
+                <if test="params.c_start != null and params.c_start != ''">
+                    AND TO_DAYS(d.create_date) &gt;= TO_DAYS(#{params.c_start})
+                </if>
+                <if test="params.c_end != null and params.c_end != ''">
+                    AND TO_DAYS(d.create_date) &lt;= TO_DAYS(#{params.c_end})
+                </if>
+                <!-- 发起者 -->
+                <if test="params.memberName != null and params.memberName != ''">
+                    AND m.realname like concat('%',#{params.memberName},'%')
+                </if>
+            </if>
+        </where>
+        ORDER BY ct.is_top DESC,ct.sort DESC, ct.create_date DESC
+    </select>
+
+    <!-- web端查询 -->
+    <select id="webListPage" resultMap="dynamicMap">
+        SELECT
+        <include refid="dynamicSql2"/>
+        FROM dynamic d inner join member m on m.id = d.create_by
+        <where>
+            <if test="dynamic.delFlag != null and dynamic.delFlag != ''">d.del_flag = #{dynamic.delFlag}</if>
+            <if test="dynamic.createBy != null and dynamic.createBy != ''">AND d.create_by = #{dynamic.createBy}</if>
+            <if test="dynamic.content != null and dynamic.content != ''">AND d.content like concat('%',#{dynamic.content},'%')</if>
+            <if test="dynamic.dynamicType != null and dynamic.dynamicType != ''">AND d.dynamic_type = #{dynamic.dynamicType}</if>
+            <if test="dynamic.isHot != null">AND d.is_hot = #{dynamic.isHot}</if>
+            <if test="params != null and params.size > 0">
+                <!-- 创建时间 时间块 -->
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (d.create_date between #{params.startDate} and #{params.endDate})
+                </if>
+                <!-- 创建时间 时间段 -->
+                <if test="params.c_start != null and params.c_start != ''">
+                    AND TO_DAYS(d.create_date) &gt;= TO_DAYS(#{params.c_start})
+                </if>
+                <if test="params.c_end != null and params.c_end != ''">
+                    AND TO_DAYS(d.create_date) &lt;= TO_DAYS(#{params.c_end})
+                </if>
+                <!-- 发起者 -->
+                <if test="params.memberName != null and params.memberName != ''">
+                    AND m.realname like concat('%',#{params.memberName},'%')
+                </if>
+            </if>
+        </where>
+        ORDER BY d.create_date DESC, d.is_hot DESC
+    </select>
+
+    <select id="batchList" resultMap="dynamicMap">
+        SELECT
+        <include refid="dynamicSql"/>
+        FROM dynamic
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY update_date DESC
+    </select>
+
+
+    <select id="batchListByMemberId" resultMap="dynamicMap">
+        SELECT
+        <include refid="dynamicSql"/>
+        FROM dynamic
+        <where>
+            1=1
+            <if test="param.delFlag != null and param.delFlag != ''">AND del_flag = #{param.delFlag}</if>
+            <if test="param.content != null and param.content != ''">AND content like '${param.content}%'</if>
+            <if test="param.dynamicType != null and param.dynamicType != ''">AND dynamic_type = #{param.dynamicType}</if>
+            <if test="param.dynamicWay != null and param.dynamicWay != ''">AND dynamic_way = #{param.dynamicWay}</if>
+            <if test="ids != null">
+                AND create_by IN
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+</mapper>

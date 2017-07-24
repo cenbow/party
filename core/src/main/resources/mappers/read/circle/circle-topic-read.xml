@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.circle.CircleTopicReadDao">
+    <resultMap id="circleTopicMap" type="com.party.core.model.circle.CircleTopic">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="circle_id" property="circle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="dynamic_id" property="dynamic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_top" property="isTop" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="topic_tag_id" property="topicTagId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="circleTopicSql">
+        a.id,
+        a.del_flag,
+        a.create_by,
+        a.update_by,
+        a.remarks,
+        a.create_date,
+        a.update_date,
+        a.circle_id,
+        a.dynamic_id,
+        a.topic_tag_id,
+        a.is_top,
+        a.sort
+    </sql>
+
+    <select id="get" resultMap="circleTopicMap">
+        SELECT
+        <include refid="circleTopicSql"/>
+        FROM c_topic a
+        WHERE a.id = #{id}
+    </select>
+
+	<select id="listAll" resultMap="circleTopicMap">
+        SELECT
+        <include refid="circleTopicSql"/>
+        FROM c_topic a
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> a.del_flag = #{delFlag}</if>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="createBy !=null and createBy !=''">AND a.create_by = #{createBy}</if>
+            <if test="dynamic !=null and dynamic !=''">AND a.dynamic_id = #{dynamic}</if>
+            <if test="isTop !=null">AND a.is_top = #{isTop}</if>
+            <if test="topicTagId !=null and topicTagId !=''">AND a.topic_tag_id = #{topicTagId}</if>
+        </where>
+            ORDER BY a.sort DESC,a.update_date DESC
+    </select>
+
+    <select id="listPage" resultMap="circleTopicMap">
+        SELECT
+        <include refid="circleTopicSql"/>
+        FROM c_topic a
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> a.del_flag = #{delFlag}</if>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="createBy !=null and createBy !=''">AND a.create_by = #{createBy}</if>
+            <if test="isTop !=null">AND a.is_top = #{isTop}</if>
+            <if test="dynamic !=null and dynamic !=''">AND a.dynamic_id = #{dynamic}</if>
+            <if test="topicTagId !=null and topicTagId !=''">AND a.topic_tag_id = #{topicTagId}</if>
+        </where>
+            ORDER BY  a.sort DESC,a.update_date DESC
+    </select>
+</mapper>

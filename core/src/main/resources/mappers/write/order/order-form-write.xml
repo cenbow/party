@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.order.OrderFormWriteDao">
+
+    <insert id="insert" parameterType="com.party.core.model.order.OrderForm" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_form
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="remarks != null">  remarks,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="goodsId != null">  goods_id,</if>
+            <if test="memberId != null">  member_id,</if>
+            <if test="unit != null">  unit,</if>
+            <if test="payment != null">  payment,</if>
+            <if test="isPay != null">  is_pay,</if>
+            <if test="linkman != null">  linkman,</if>
+            <if test="phone != null">  phone,</if>
+            <if test="sort != null">  sort,</if>
+            <if test="paymentWay != null">  payment_way,</if>
+            <if test="type != null">  type,</if>
+            <if test="status != null">  status,</if>
+            <if test="storeGoodsId != null">  store_goods_id,</if>
+            <if test="title != null"> title,</if>
+            <if test="initiatorId != null"> initiator_id,</if>
+            <if test="merchantId != null"> merchant_id,</if>
+            <if test="tradeState != null"> trade_state,</if>
+            <if test="tradeType != null"> trade_type,</if>
+            <if test="transactionId != null"> transaction_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="goodsId != null">  #{goodsId,jdbcType=VARCHAR},</if>
+            <if test="memberId != null">  #{memberId,jdbcType=VARCHAR},</if>
+            <if test="unit != null">  #{unit,jdbcType=INTEGER},</if>
+            <if test="payment != null">  #{payment,jdbcType=FLOAT},</if>
+            <if test="isPay != null">  #{isPay,jdbcType=VARCHAR},</if>
+            <if test="linkman != null">  #{linkman,jdbcType=VARCHAR},</if>
+            <if test="phone != null">  #{phone,jdbcType=VARCHAR},</if>
+            <if test="sort != null">  #{sort,jdbcType=INTEGER},</if>
+            <if test="paymentWay != null">  #{paymentWay,jdbcType=INTEGER},</if>
+            <if test="type != null">  #{type,jdbcType=INTEGER},</if>
+            <if test="status != null">  #{status,jdbcType=INTEGER},</if>
+            <if test="storeGoodsId != null">  #{storeGoodsId,jdbcType=VARCHAR},</if>
+            <if test="title != null"> #{title,jdbcType=VARCHAR},</if>
+            <if test="initiatorId != null"> #{initiatorId,jdbcType=VARCHAR},</if>
+            <if test="merchantId != null"> #{merchantId,jdbcType=VARCHAR},</if>
+            <if test="tradeState != null"> #{tradeState,jdbcType=VARCHAR},</if>
+            <if test="tradeType != null"> #{tradeType,jdbcType=VARCHAR},</if>
+            <if test="transactionId != null"> #{transactionId,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE order_form
+        <set>
+            <if test="createBy != null">  create_by = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">  create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="goodsId != null">  goods_id = #{goodsId,jdbcType=VARCHAR},</if>
+            <if test="memberId != null">  member_id = #{memberId,jdbcType=VARCHAR},</if>
+            <if test="unit != null">  unit = #{unit,jdbcType=INTEGER},</if>
+            <if test="payment != null">  payment = #{payment,jdbcType=FLOAT},</if>
+            <if test="isPay != null">  is_pay = #{isPay,jdbcType=VARCHAR},</if>
+            <if test="linkman != null">  linkman = #{linkman,jdbcType=VARCHAR},</if>
+            <if test="phone != null">  phone = #{phone,jdbcType=VARCHAR},</if>
+            <if test="sort != null">  sort = #{sort,jdbcType=INTEGER},</if>
+            <if test="paymentWay != null">  payment_way = #{paymentWay,jdbcType=INTEGER},</if>
+            <if test="type != null">  type = #{type,jdbcType=INTEGER},</if>
+            <if test="status != null">  status = #{status,jdbcType=INTEGER},</if>
+            <if test="title != null"> title = #{title,jdbcType=VARCHAR},</if>
+            <if test="initiatorId != null"> initiator_id = #{initiatorId,jdbcType=VARCHAR},</if>
+            merchant_id = #{merchantId,jdbcType=VARCHAR},
+            trade_type = #{tradeType,jdbcType=VARCHAR},
+            trade_state = #{tradeState,jdbcType=VARCHAR},
+            transaction_id = #{transactionId,jdbcType=VARCHAR},
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE order_form SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM order_form
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE order_form SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM order_form
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

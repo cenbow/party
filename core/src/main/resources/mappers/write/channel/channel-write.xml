@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.channel.ChannelWriteDao">
+
+	<insert id="insert" parameterType="com.party.core.model.channel.Channel"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_channel
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null"> id,</if>
+			<if test="createBy != null"> create_by,</if>
+			<if test="createDate != null"> create_date,</if>
+			<if test="updateBy != null"> update_by,</if>
+			<if test="updateDate != null"> update_date,</if>
+			<if test="delFlag != null"> del_flag,</if>
+			<if test="remarks != null"> remarks,</if>
+			<if test="name != null"> name,</if>
+			<if test="picture != null"> picture,</if>
+			<if test="sort != null"> sort,</if>
+			<if test="member != null"> member_id,</if>
+			<if test="isShow != null"> is_show,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null"> #{id,jdbcType=VARCHAR},</if>
+			<if test="createBy != null"> #{createBy,jdbcType=VARCHAR},</if>
+			<if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="updateBy != null"> #{updateBy,jdbcType=VARCHAR},</if>
+			<if test="updateDate != null"> #{updateDate,jdbcType=TIMESTAMP},</if>
+			<if test="delFlag != null"> #{delFlag,jdbcType=CHAR},</if>
+			<if test="remarks != null"> #{remarks,jdbcType=VARCHAR},</if>
+			<if test="name != null"> #{name,jdbcType=VARCHAR},</if>
+			<if test="picture != null"> #{picture,jdbcType=VARCHAR},</if>
+			<if test="sort != null"> #{sort, jdbcType=INTEGER},</if>
+			<if test="member != null"> #{member, jdbcType=VARCHAR},</if>
+			<if test="isShow != null"> #{isShow, jdbcType=INTEGER},</if>
+		</trim>
+	</insert>
+
+	<update id="update">
+		UPDATE t_channel
+		<set>
+			<if test="createBy != null"> create_by = #{createBy,jdbcType=VARCHAR},</if>
+			<if test="createDate != null"> create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="updateBy != null"> update_by = #{updateBy,jdbcType=VARCHAR},</if>
+			<if test="updateDate != null"> update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+			<if test="remarks != null"> remarks = #{remarks,jdbcType=VARCHAR},</if>
+			<if test="delFlag != null"> del_flag = #{delFlag,jdbcType=CHAR},</if>
+			<if test="name != null"> name = #{name,jdbcType=VARCHAR},</if>
+			<if test="picture != null"> picture = #{picture,jdbcType=VARCHAR},</if>
+			<if test="sort != null"> sort = #{sort,jdbcType=INTEGER},</if>
+			<if test="member != null"> member_id = #{member,jdbcType=VARCHAR},</if>
+			<if test="isShow != null"> is_show = #{isShow,jdbcType=VARCHAR},</if>
+		</set>
+		WHERE id = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+	<update id="deleteLogic">
+		UPDATE t_channel SET
+		del_flag = 1
+		WHERE id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM t_channel
+		WHERE id =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="batchDeleteLogic">
+		UPDATE t_channel SET
+		del_flag = 1
+		WHERE id IN
+		<foreach item="id" index="index" collection="collection" open="("
+			separator="," close=")">
+			#{id,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+
+	<delete id="batchDelete">
+		DELETE FROM t_channel
+		WHERE id IN
+		<foreach item="id" index="index" collection="collection" open="("
+			separator="," close=")">
+			#{id,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+</mapper>

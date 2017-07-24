@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.user.UserRoleWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.user.UserRole" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_user_role
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null">  user_id,</if>
+            <if test="roleId != null">  role_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null"> #{userId,jdbcType=VARCHAR},</if>
+            <if test="roleId != null"> #{roleId,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE sys_user_role
+        <set>
+            <if test="userId != null">  user_id = #{userId,jdbcType=VARCHAR},</if>
+            <if test="roleId != null">  role_id = #{roleId,jdbcType=VARCHAR},</if>
+        </set>
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE sys_user_role SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM sys_user_role
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE sys_user_role SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="deleteByUserId">
+        DELETE FROM sys_user_role
+        WHERE user_id = #{userId,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteByRoleId">
+        DELETE FROM sys_user_role
+        WHERE role_id = #{roleId,jdbcType=VARCHAR}
+    </delete>
+
+
+    <delete id="batchDelete">
+        DELETE FROM sys_user_role
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

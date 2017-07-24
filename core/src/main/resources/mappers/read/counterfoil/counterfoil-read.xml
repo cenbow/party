@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.counterfoil.CounterfoilReadDao">
+
+
+    <resultMap id="counterfoilMap" type="com.party.core.model.counterfoil.Counterfoil">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="payment" property="payment" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="limit_num" property="limitNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="join_num" property="joinNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="max_buy_num" property="maxBuyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="business_id" property="businessId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="business_type" property="businessType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="counterfoilSql">
+		id, create_by, create_date, update_by, update_date, del_flag, name, payment, limit_num, join_num, max_buy_num, business_id, business_type
+	</sql>
+
+    <select id="get" resultMap="counterfoilMap">
+        SELECT
+        <include refid="counterfoilSql"/>
+        FROM counterfoil
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="counterfoilMap">
+        SELECT
+        <include refid="counterfoilSql"/>
+        FROM counterfoil
+        <where>
+            <if test="delFlag != null and delFlag != ''">del_flag = #{delFlag}</if>
+            <if test="businessId != null and businessId != ''">business_id = #{businessId}</if>
+        </where>
+        ORDER BY create_date asc
+    </select>
+
+    <select id="batchList" resultMap="counterfoilMap">
+        SELECT
+        <include refid="counterfoilSql"/>
+        FROM counterfoil
+        <if test="ids != null">
+            AND id IN
+            <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        ORDER BY update_date DESC
+    </select>
+    
+    <select id="getUnique" resultMap="counterfoilMap">
+    	SELECT
+        <include refid="counterfoilSql"/>
+        FROM counterfoil
+        <where>
+        	<if test="name != null and name != ''"> AND name = #{name} </if>
+        	<if test="businessId != null and businessId != ''"> AND business_id = #{businessId} </if>
+        	<if test="businessType != null and businessType != ''"> AND business_type = #{businessType} </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.article.ArticleReadDao">
+
+    <resultMap id="articleMap" type="com.party.core.model.article.Article">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sub_title" property="subTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="hot" property="isHot" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="article_type" property="articleType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="read_num" property="readNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="apply_url" property="applyUrl" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="show_apply" property="showApply" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="btn_name" property="btnName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="channel_id" property="channel.id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="member" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="url" property="url" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="article_group_id" property="articleGroupId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="articleSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag,
+        title, sub_title, pic, hot, article_type, content, sort,read_num,apply_url,show_apply,btn_name,channel_id,member_id,type,url,article_group_id
+    </sql>
+
+    <select id="get" resultMap="articleMap">
+        SELECT
+        <include refid="articleSql"/>
+        FROM article
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="articleMap">
+        SELECT
+        <include refid="articleSql"/>
+        FROM article
+        <where>
+            <if test="delFlag != null and delFlag != ''"> del_flag = #{delFlag}</if>
+            <if test="title !=null and title != ''"> AND title = #{title}</if>
+            <if test="articleType != null and articleType != ''">AND article_type = #{articleType}</if>
+            <if test="isHot != null"> AND hot = #{isHot}</if>
+            <if test="channel != null and (channel.id != null and channel.id != '') ">
+				AND channel_id = #{channel.id}
+			</if>
+			<if test="articleGroupId != null and articleGroupId != ''">
+				AND article_group_id = #{articleGroupId}
+			</if>
+			<if test="member != null and member != ''">
+				AND member_id = #{member}
+			</if>
+        </where>
+        <if test="orderBy != null and orderBy != ''">
+        	<choose>
+        		<when test="orderBy == 'new'">
+        			ORDER BY create_date desc
+        		</when>
+        		<when test="orderBy == 'hot'">
+        			ORDER BY read_num desc
+        		</when>
+        	</choose>
+        </if>
+        <if test="orderBy == null">
+        	ORDER BY sort,update_date desc
+        </if>
+    </select>
+    
+    <!-- web端 -->
+    <select id="webListPage" resultMap="articleMap">
+        SELECT
+        	a.id, a.create_by, a.create_date, a.update_by, a.update_date, a.remarks, a.del_flag,
+        	a.title, a.sub_title, a.pic, a.hot, a.article_type, a.content, a.sort,a.read_num,
+        	a.apply_url,a.show_apply,a.btn_name,a.channel_id,m.realname AS "member",m.id AS "memberId", a.type,a.url
+        FROM article a inner join member m on a.member_id = m.id
+        <where>
+            <if test="article.delFlag != null"> AND a.del_flag = #{article.delFlag}</if>
+            <if test="article.title !=null and article.title != ''"> AND a.title like concat('%',#{article.title},'%')</if>
+            <if test="article.member != null and article.member != ''"> AND a.member_id = #{article.member}</if>
+            <if test="article.articleType != null and article.articleType != ''">AND a.article_type = #{article.articleType}</if>
+            <if test="article.channel != null and (article.channel.id != null and article.channel.id != '') ">
+				AND a.channel_id = #{article.channel.id}
+			</if>
+			<if test="article.articleGroupId != null and article.articleGroupId != ''">
+				AND a.article_group_id = #{article.articleGroupId}
+			</if>
+			<if test="params != null and params.size > 0">
+	           	<!-- 创建时间 时间块 -->
+	           	<if test="params.startDate != null and params.endDate != null">
+	           		AND (a.create_date between #{params.startDate} and #{params.endDate})
+	           	</if>
+	           	<!-- 创建时间 时间段 -->
+	           	<if test="params.c_start != null and params.c_start != ''">
+	           		AND TO_DAYS(a.update_date) &gt;= TO_DAYS(#{params.c_start})
+	           	</if>
+	           	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(a.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<!-- 发起者 -->
+				<if test="params.memberName != null and params.memberName != ''">
+					AND m.realname like concat('%',#{params.memberName},'%')
+				</if>
+	      	</if>
+        </where>
+       	ORDER BY a.sort desc,a.update_date desc
+    </select>
+
+    <select id="batchList" resultMap="articleMap">
+        SELECT
+        <include refid="articleSql"/>
+        FROM article
+        <if test="ids != null">
+            AND id IN
+            <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+    
+    <select id="getByChannelId" resultMap="articleMap">
+    	SELECT
+    		<include refid="articleSql"/>
+    	FROM article
+    	WHERE channel_id = #{channelid} and del_flag = 0
+    </select>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.order.OrderFormInfoWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.order.OrderFormInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO order_form_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="orderFormId != null">  order_form_id,</if>
+            <if test="mchId != null">  mch_id,</if>
+            <if test="appId != null">  app_id,</if>
+            <if test="apiKey != null">  api_key,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="orderFormId != null">  #{orderFormId,jdbcType=VARCHAR},</if>
+            <if test="mchId != null">  #{mchId,jdbcType=VARCHAR},</if>
+            <if test="appId != null">  #{appId,jdbcType=VARCHAR},</if>
+            <if test="apiKey != null">  #{apiKey,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE order_form_info
+        <set>
+            <if test="createDate != null">  create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="orderFormId != null">  order_form_id = #{orderFormId,jdbcType=VARCHAR},</if>
+            <if test="appId != null">  app_id = #{appId,jdbcType=VARCHAR},</if>
+            <if test="mchId != null">  mch_id = #{mchId,jdbcType=VARCHAR},</if>
+            <if test="apiKey != null">  api_key = #{apiKey,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE order_form_info SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM order_form_info
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE order_form_info SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM order_form_info
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

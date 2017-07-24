@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.version.VersionManagerReadDao">
+
+    <resultMap id="versionManagerMap" type="com.party.core.model.version.VersionManager">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="login_qq" property="loginQQ" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="login_wx" property="loginWX" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_debug" property="isDebug" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="version_number" property="versionNumber" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="is_open" property="isOpen" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+
+    <sql id="versionManagerSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag,
+        login_qq, login_wx, is_debug, version_number, is_open
+    </sql>
+
+    <select id="get" resultMap="versionManagerMap">
+        SELECT
+        <include refid="versionManagerSql"/>
+        FROM version_manager
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="versionManagerMap">
+        SELECT
+        <include refid="versionManagerSql"/>
+        FROM version_manager
+        <where>
+            <if test="delFlag !=null and delFlag != ''"> del_flag = #{delFlag}</if>
+            <if test="versionNumber !=null and versionNumber != ''">AND version_number = #{versionNumber}</if>
+            <if test="isDebug !=null">AND is_debug = #{isDebug}</if>
+        </where>
+        ORDER BY create_date DESC
+    </select>
+
+    <select id="batchList" resultMap="versionManagerMap">
+        SELECT
+        <include refid="versionManagerSql"/>
+        FROM version_manager
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

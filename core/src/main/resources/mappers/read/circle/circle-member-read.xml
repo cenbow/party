@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.circle.CircleMemberReadDao">
+    <resultMap id="circleMemberMap" type="com.party.core.model.circle.CircleMember">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_admin" property="isAdmin" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="source" property="source" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+ 		<result column="member_id" property="member" jdbcType="VARCHAR" javaType="java.lang.String"/>
+ 		<result column="circle_id" property="circle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </resultMap>
+
+    <sql id="circleMemberSql">
+        a.id,
+        a.member_id,
+        a.circle_id,
+        a.is_admin,
+        a.source,
+        a.del_flag,
+        a.create_by,
+        a.update_by,
+        a.remarks,
+        a.create_date,
+        a.update_date
+    </sql>
+
+	<sql id="circleMemberJoins">
+	    INNER JOIN member member on a.member_id = member.id	
+	</sql>
+    <select id="get" resultMap="circleMemberMap">
+        SELECT
+        <include refid="circleMemberSql"/>
+        FROM circle_member a
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="getUnique" resultMap="circleMemberMap">
+        SELECT
+        <include refid="circleMemberSql"/>
+        FROM circle_member a
+        <where>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="member !=null and member !=''">AND a.member_id = #{member}</if>
+        </where>
+        limit 0,1
+    </select>
+
+    <select id="getByMobile" resultMap="circleMemberMap">
+        SELECT
+        <include refid="circleMemberSql"/>
+        FROM circle_member a
+        <include refid="circleMemberJoins"/>
+        <where>
+            <if test="cMember.circle !=null and cMember.circle !=''">AND a.circle_id = #{cMember.circle}</if>
+            <if test="cMember.member !=null and cMember.member !=''">AND a.member_id = #{cMember.member}</if>
+            <if test="params.mobile !=null and params.mobile !=''">AND member.mobile = #{params.mobile}</if>
+        </where>
+        limit 0,1
+    </select>
+
+
+    <resultMap id="listAllMap" type="com.party.core.model.circle.ListAllMember">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="cmId" property="cmId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="isAdmin" property="isAdmin" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="industryId" property="industryId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="industryName" property="industryName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="industryPY" property="industryPY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="areaId" property="areaId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="areaName" property="areaName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="areaPY" property="areaPY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="tagName" property="tagName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="realname" property="realname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="jobTitle" property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="company" property="company" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="mPY" property="mPY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <collection property="tags" ofType="com.party.core.model.circle.ListAllTag" >
+            <id column="tagId" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <result column="tagName" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>
+
+
+    <resultMap id="listAllTypeMap" type="com.party.core.model.circle.ListAllMember">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="cmId" property="cmId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="isAdmin" property="isAdmin" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="industryId" property="industryId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="industryName" property="industryName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="industryPY" property="industryPY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="areaId" property="areaId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="areaName" property="areaName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="areaPY" property="areaPY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="tagName" property="tagName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="realname" property="realname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="jobTitle" property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="company" property="company" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="mPY" property="mPY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="listAllSql">
+        SELECT
+        cm.id as cmId,
+        cm.is_admin as isAdmin,m.id as id,
+        i.id as industryId,i.name as industryName,i.pinyin as industryPY,
+        a.id as areaId,a.name as areaName,a.pinyin as areaPY,
+        m.realname as realname,m.job_title as jobTitle,m.company as company,m.pinyin as mPY,m.logo as logo,
+        c.tag_name as tagName,
+        c.id as tagId
+        from circle_member cm
+        LEFT JOIN c_member_tag b ON b.circle_id = cm.circle_id AND b.member_id = cm.member_id
+        LEFT JOIN c_tag c on  c.id = b.tag_id
+        INNER JOIN member m ON cm.member_id = m.id
+        LEFT JOIN sys_area a ON m.city = a.id
+        LEFT JOIN industry i ON m.industry = i.id
+        <where>
+            <if test="cMember.delFlag !=null and cMember.delFlag !=''"> cm.del_flag = #{cMember.delFlag}</if>
+            <if test="cMember.circle !=null and cMember.circle !=''">AND cm.circle_id = #{cMember.circle}</if>
+            <if test="cMember.member !=null and cMember.member !=''">AND cm.member_id = #{cMember.member}</if>
+            <if test="cMember.isAdmin != null">AND cm.is_admin= #{cMember.isAdmin}</if>
+            <if test="tags != null">
+                AND
+                <if test="tags != null or params.noType">
+                    (
+                </if>
+                b.tag_id IN
+                <foreach item="tag" index="index" collection="tags" open="(" close=")" separator=",">
+                    #{tag}
+                </foreach>
+            </if>
+            <if test="params.noType != null and params.noType">
+                <if test="tags != null">
+                    OR b.tag_id IS NULL
+                </if>
+                <if test="tags == null">
+                    AND b.tag_id IS NULL
+                </if>
+            </if>
+            <if test="tags != null or params.noType">)</if>
+        </where>
+        ORDER BY
+        <if test="params.orderBy == null or (params.orderBy != null and params.orderBy == 'name')">  CONVERT( m.realname USING gbk ) COLLATE gbk_chinese_ci ASC,</if>
+        <if test="params.orderBy != null and params.orderBy == 'area'">UPPER(a.pinyin)  ASC,</if>
+        <if test="params.orderBy != null and params.orderBy == 'industry'">UPPER(i.pinyin)  ASC,</if>
+        <if test="params.orderBy != null and params.orderBy == 'type'">c.sort DESC,</if>
+        m.update_date DESC
+    </sql>
+
+	<select id="listAll" resultMap="listAllMap">
+        <include refid="listAllSql"/>
+    </select>
+
+    <select id="listAllByType" resultMap="listAllTypeMap">
+        <include refid="listAllSql"/>
+    </select>
+
+    <select id="listPage" resultMap="circleMemberMap">
+        SELECT
+        <include refid="circleMemberSql"/>
+        FROM circle_member a
+         <include refid="circleMemberJoins"/>
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> a.del_flag = #{delFlag}</if>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="member != null and member !=''">AND a.member_id = #{member}</if>
+            <if test="isAdmin != null">AND a.is_admin= #{isAdmin}</if>
+        </where>
+            ORDER BY UPPER(member.pinyin) ASC, a.is_admin DESC, a.update_date DESC
+    </select>
+
+    <select id="listPageSearch"  resultMap="circleMemberMap">
+        SELECT
+        <include refid="circleMemberSql"/>
+        FROM circle_member a
+        INNER JOIN circle c on a.circle_id = c.id
+        <where>
+            <if test="cMember.delFlag !=null and cMember.delFlag !=''"> a.del_flag = #{cMember.delFlag}</if>
+            <if test="cMember.circle !=null and cMember.circle !=''">AND a.circle_id = #{cMember.circle}</if>
+            <if test="cMember.member !=null and cMember.member !=''">AND a.member_id = #{cMember.member}</if>
+            <if test="params != null">
+                <if test="params.cAreaId !=null and params.cAreaId !=''">AND c.area = #{params.cAreaId}</if>
+                <if test="params.cName !=null and params.cName !=''">AND c.name like concat('%',#{params.cName},'%')</if>
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="webListPage" resultType="java.util.Map">
+        SELECT
+        DISTINCT(member.id) as mId,member.logo as mLogo,member.realname as mName,member.mobile as mMobile,a.create_date as createDate,
+        a.update_date as updateDate,a.is_admin as isAdmin,a.id
+        FROM circle_member a LEFT JOIN c_member_tag cmt on cmt.member_id = a.member_id
+        <include refid="circleMemberJoins"/>
+        <where>
+            <if test="cMember.delFlag !=null and cMember.delFlag !=''"> a.del_flag = #{cMember.delFlag}</if>
+            <if test="cMember.circle !=null and cMember.circle !=''">AND a.circle_id = #{cMember.circle}</if>
+            <if test="cMember.member !=null and cMember.member !=''">AND a.member_id = #{cMember.member}</if>
+            <if test="params != null and params.size > 0">
+	            <if test="params.mobile !=null and params.mobile !=''">AND member.mobile like concat('%',#{params.mobile},'%')</if>
+	            <if test="params.realName !=null and params.realName !=''">AND member.realname like concat('%',#{params.realName},'%')</if>
+	            <if test="params.tagId != null and params.tagId != ''">
+	            	AND cmt.tag_id = #{params.tagId}
+	            </if>
+	           	<!-- 创建时间 时间块 -->
+	           	<if test="params.startDate != null and params.endDate != null">
+	           		AND (a.create_date between #{params.startDate} and #{params.endDate})
+	           	</if>
+	           	<!-- 创建时间 时间段 -->
+	           	<if test="params.c_start != null and params.c_start != ''">
+	           		AND TO_DAYS(a.update_date) &gt;= TO_DAYS(#{params.c_start})
+	           	</if>
+	           	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(a.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+	      	</if>
+        </where>
+        ORDER BY UPPER(member.pinyin) ASC, a.update_date DESC
+    </select>
+    
+</mapper>

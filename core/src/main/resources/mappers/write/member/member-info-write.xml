@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.member.MemberInfoWriteDao">
+	<insert id="insert" parameterType="com.party.core.model.member.MemberInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member_info
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="updateDate != null">  update_date,</if>
+<!--             <if test="size != null">  size,</if> -->
+            <if test="idCard != null">   id_card,</if>
+            <if test="bloodGroup != null">  blood_group,</if>
+            <if test="medicalHistory != null">  medical_history,</if>
+            <if test="contactName != null">  contact_name,</if>
+            <if test="contactRelation != null">  contact_relation,</if>
+            <if test="contactMobile != null">  contact_mobile,</if>
+            <if test="memberId != null">  member_id,</if>
+            <if test="perfectState != null">  perfect_state,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+<!--             <if test="size != null">  #{size,jdbcType=VARCHAR},</if> -->
+            <if test="idCard != null">   #{idCard,jdbcType=VARCHAR},</if>
+            <if test="bloodGroup != null">  #{bloodGroup,jdbcType=VARCHAR},</if>
+            <if test="medicalHistory != null"> #{medicalHistory,jdbcType=VARCHAR},</if>
+            <if test="contactName != null">  #{contactName,jdbcType=VARCHAR},</if>
+            <if test="contactRelation != null"> #{contactRelation,jdbcType=VARCHAR},</if>
+            <if test="contactMobile != null"> #{contactMobile,jdbcType=VARCHAR},</if>
+            <if test="memberId != null">  #{memberId,jdbcType=VARCHAR},</if>
+            <if test="perfectState != null">  #{perfectState,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    
+    <update id="update">
+        UPDATE member_info
+        <set>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            
+<!--             <if test="size != null">  size = #{size,jdbcType=VARCHAR},</if> -->
+            
+            <if test="idCard != null">   id_card = #{idCard,jdbcType=VARCHAR},</if>
+            <if test="bloodGroup != null">  blood_group = #{bloodGroup,jdbcType=VARCHAR},</if>
+            <if test="medicalHistory != null">  medical_history = #{medicalHistory,jdbcType=VARCHAR},</if>
+            <if test="contactName != null">  contact_name = #{contactName,jdbcType=VARCHAR},</if>
+            <if test="contactRelation != null">  contact_relation = #{contactRelation,jdbcType=VARCHAR},</if>
+            <if test="contactMobile != null">  contact_mobile = #{contactMobile,jdbcType=VARCHAR},</if>
+            <if test="perfectState != null">  perfect_state = #{perfectState,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+	
+	<update id="deleteLogic">
+		UPDATE member_info SET
+		del_flag = 1
+		WHERE id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM member_info
+		WHERE id = #{id,jdbcType=VARCHAR}
+	</delete>
+</mapper>

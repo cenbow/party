@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.notify.MsgChannelReadDao">
+
+    <resultMap id="channelMap" type="com.party.core.model.notify.MsgChannel">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="code" property="code" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="channelSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, name, code
+    </sql>
+
+    <select id="get" resultMap="channelMap">
+        SELECT
+        <include refid="channelSql"/>
+        FROM nf_channel
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByCode" resultMap="channelMap">
+        SELECT
+        <include refid="channelSql"/>
+        FROM nf_channel
+        WHERE code = #{code}
+    </select>
+
+    <select id="listPage" resultMap="channelMap">
+        SELECT
+        <include refid="channelSql"/>
+        FROM nf_channel
+        <where>
+            <if test="code != null and code != ''"> code = #{code}</if>
+        </where>
+    </select>
+
+
+    <select id="list" resultMap="channelMap">
+        SELECT
+        c.id AS id, c.create_by AS create_by, c.create_date AS create_date, c.update_by AS update_by,
+        c.update_date AS update_date, c.remarks AS remarks, c.del_flag AS del_flag, c.name AS name, c.code AS code
+        FROM nf_channel c
+        INNER JOIN nf_event_channel ec ON c.id = ec.channel_id
+        <where>
+            <if test="params.code != null and params.code != ''"> c.code = #{params.code}</if>
+            <if test="params.eventId != null and params.eventId != ''">AND ec.event_id = #{params.eventId}</if>
+        </where>
+    </select>
+</mapper>

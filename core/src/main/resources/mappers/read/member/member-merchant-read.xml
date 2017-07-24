@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.member.MemberMerchantReadDao">
+    <resultMap id="merchantMap" type="com.party.core.model.member.MemberMerchant">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="official_account_name" property="officialAccountName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="official_account_id" property="officialAccountId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="official_account_secret" property="officialAccountSecret" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="merchant_name" property="merchantName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="merchant_id" property="merchantId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="merchant_api_key" property="merchantApiKey" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="open_status" property="openStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="memberSql">
+		id, create_by, create_date, update_by, update_date, remarks, del_flag,
+		member_id,official_account_name,official_account_id,official_account_secret,merchant_name,merchant_id,merchant_api_key,open_status
+	</sql>
+
+    <select id="get" resultMap="merchantMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member_merchant
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="merchantMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member_merchant
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="batchList" resultMap="merchantMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member_merchant
+        <where>
+            <if test="param.delFlag !=null and param.delFlag !=''"> del_flag = #{param.delFlag}</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="findByMemberId" resultMap="merchantMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member_merchant
+        WHERE member_id = #{memberId}
+    </select>
+    
+    <select id="findByMerchantId" resultMap="merchantMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member_merchant
+        WHERE merchant_id = #{merchantId}
+    </select>
+
+    <select id="findByAccountId" resultMap="merchantMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member_merchant
+        WHERE official_account_id = #{accountId}
+    </select>
+</mapper>

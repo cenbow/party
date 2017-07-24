@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.role.RoleMenuWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.role.RoleMenu" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_role_menu
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="roleId != null">  role_id,</if>
+            <if test="menuId != null">  menu_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">  #{roleId,jdbcType=VARCHAR},</if>
+            <if test="menuId != null">  #{menuId,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE sys_role_menu
+        <set>
+            <if test="roleId != null">  role_id = #{roleId,jdbcType=VARCHAR},</if>
+            <if test="menuId != null">  menu_id = #{menuId,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE sys_role_menu SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM sys_role_menu
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE sys_role_menu SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="deleteByRoleId">
+        DELETE FROM sys_role_menu
+        WHERE role_id = #{roleId,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteByMenuId">
+        DELETE FROM sys_role_menu
+        WHERE menu_id = #{menuId,jdbcType=VARCHAR}
+    </delete>
+
+
+    <delete id="batchDelete">
+        DELETE FROM sys_role_menu
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.crowdfund.ProjectReadDao">
+
+    <resultMap id="projectMap" type="com.party.core.model.crowdfund.Project">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content_id" property="contentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="favorer_num" property="favorerNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="target_amount" property="targetAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="actual_amount" property="actualAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="author_id" property="authorId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_success" property="isSuccess" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="end_date" property="endDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="declaration" property="declaration" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="style" property="style" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <resultMap id="projectWithAuthorMap" type="com.party.core.model.crowdfund.ProjectWithAuthor">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content_id" property="contentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="favorer_num" property="favorerNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="target_amount" property="targetAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="actual_amount" property="actualAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="author_id" property="authorId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_success" property="isSuccess" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_status" property="authorStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="author_is_expert" property="authorIsExpert" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_logo" property="authorLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_company" property="authorCompany" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_job_title" property="authorJobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_mobile" property="authorMobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="end_date" property="endDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="declaration" property="declaration" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="style" property="style" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="view_num" property="viewNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+
+
+    <resultMap id="analyzeMap" type="com.party.core.model.crowdfund.ProjectAnalyze">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_success" property="isSuccess" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="favorer_num" property="favorerNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="actual_amount" property="actualAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="author_id" property="authorId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_logo" property="authorLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_company" property="company" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_job_title" property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_mobile" property="mobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="parent_name" property="parentName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_friend" property="isFriend" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_group" property="isGroup" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <collection property="labelList" ofType="com.party.core.model.label.Label">
+            <id column="label_id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <result column="label_name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>
+
+    <sql id="projectSql">
+         id, create_by, create_date, update_by, update_date, del_flag, remarks, title, content_id,
+         favorer_num, target_amount, actual_amount, author_id, is_success, pic,end_date,declaration,style
+    </sql>
+
+    <select id="get" resultMap="projectMap">
+        SELECT
+        <include refid="projectSql"/>
+        FROM zc_project
+        WHERE id = #{id}
+    </select>
+
+    <select id="list" resultMap="projectWithAuthorMap">
+        SELECT
+        p.id, p.create_by, p.create_date, p.update_by, p.update_date, p.del_flag,p.remarks, p.title, p.content_id,
+        p.favorer_num, p.target_amount, p.actual_amount, p.author_id, p.is_success, p.pic,p.end_date, p.declaration, p.style,
+        m.user_status AS author_status,m.is_expert AS author_is_expert, m.realname AS author_name, m.logo AS author_logo,m.mobile AS author_mobile
+        FROM zc_project p
+        INNER JOIN zc_target_project tp ON p.id = tp.project_id
+        INNER JOIN activity a ON tp.target_id = a.id
+        INNER JOIN member m ON p.author_id = m.id
+        <where>
+            <if test="param.end"> p.end_date &lt;= NOW()</if>
+            <if test="param.success !=null ">AND p.is_success = #{param.success}</if>
+            <if test="param.crowdfundHintSwitch != null"> AND a.crowdfund_hint_switch = #{param.crowdfundHintSwitch}</if>
+            <if test="param.targetId !=null and param.targetId != ''"> AND tp.target_id = #{param.targetId}</if>
+            <if test="param.authorId != null and param.authorId != ''"> AND p.author_id = #{param.authorId}</if>
+            <if test="param.targetAuthorId != null and param.targetAuthorId !=''"> AND a.member = #{param.targetAuthorId}</if>
+        </where>
+    </select>
+
+
+    <select id="getWithAuthor" resultMap="projectWithAuthorMap">
+        SELECT
+         p.id, p.create_by, p.create_date, p.update_by, p.update_date, p.del_flag,p.remarks, p.title, p.content_id,
+        p.favorer_num, p.target_amount, p.actual_amount, p.author_id, p.is_success, p.pic,p.end_date, p.declaration, p.style, m.user_status AS author_status,
+         m.is_expert AS author_is_expert, m.realname AS author_name, m.logo AS author_logo
+        FROM zc_project p
+        INNER JOIN member m ON p.author_id = m.id
+        WHERE p.id = #{id}
+    </select>
+
+
+    <select id="listWithSupportPage" resultMap="projectMap">
+        SELECT
+        p.id, p.create_by, p.create_date, p.update_by, p.update_date, p.del_flag,p.remarks, p.title, p.content_id,
+        p.favorer_num, p.target_amount, p.actual_amount, p.author_id, p.is_success, p.pic, p.end_date, p.declaration,p.style
+        FROM zc_project p
+        LEFT JOIN zc_support s ON p.id = s.project_id
+        <where>
+            <if test="param.authorId != null and param.authorId != ''"> p.author_id = #{param.authorId}</if>
+            <if test="param.favorerId != null and param.favorerId != ''">AND s.favorer_id = #{param.favorerId}</if>
+        </where>
+        GROUP BY p.id
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="listWithAuthorPage" resultMap="projectWithAuthorMap">
+        SELECT
+        p.id, p.create_by, p.create_date, p.update_by, p.update_date, p.del_flag,p.remarks, p.title, p.content_id,
+        p.favorer_num, p.target_amount, p.actual_amount, p.author_id, p.is_success, p.pic, p.end_date, p.declaration, p.style, m.user_status AS author_status,
+        m.is_expert AS author_is_expert, m.realname AS author_name, m.logo AS author_logo, m.company AS author_company,
+        m.job_title AS author_job_title, m.mobile AS author_mobile,dc.view_num AS view_num,sa.name as city_name
+        FROM zc_project p
+        INNER JOIN member m ON p.author_id = m.id
+        INNER JOIN zc_target_project tg ON p.id = tg.project_id
+        INNER JOIN activity a ON tg.target_id = a.id
+        LEFT JOIN sys_area sa ON m.city = sa.id
+        LEFT JOIN zc_support s ON p.id = s.project_id
+        LEFT JOIN order_form o ON s.order_id = o.id
+        LEFT JOIN distributor_detail dd ON p.id = dd.target_id
+        LEFT JOIN data_count dc ON p.id = dc.target_id
+        <where>
+            <if test="isSuccess != null"> p.is_success = #{isSuccess}</if>
+            <if test="targetId != null and targetId != ''"> AND tg.target_id = #{targetId}</if>
+            <if test="authorId != null and authorId != ''"> AND  p.author_id = #{authorId}</if>
+            <if test="favorerId != null and favorerId != ''"> AND  s.favorer_id = #{favorerId}</if>
+            <if test="orderStatus != null"> AND o.status = #{orderStatus}</if>
+            <if test="delFlag != null"> AND a.del_flag = #{delFlag}</if>
+            <if test="relationId != null"> AND dd.distributor_relation_id = #{relationId}</if>
+            <if test="eventId != null and eventId != ''"> AND a.event_id = #{eventId}</if>
+            <if test="authorName != null and authorName != ''">AND  m.realname LIKE concat('%',#{authorName},'%')</if>
+            <if test="authorMobile != null and authorMobile != ''">AND  m.mobile LIKE concat('%',#{authorMobile},'%')</if>
+            <if test="excludeTargetId != null and excludeTargetId != ''">AND tg.target_id != #{excludeTargetId} </if>
+            <if test="operator != null and operatorNum != null">
+                AND  p.actual_amount <if test="operator ==0"> = </if> <if test="operator ==1"> &lt;= </if> <if test="operator ==2"> &gt;= </if>  #{operatorNum}
+            </if>
+            <if test="authorIds != null and authorIds.size > 0">
+                AND p.author_id IN
+                <foreach item="id" index="index" collection="authorIds" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY p.id
+        <choose>
+            <when test="sort == 0">
+                ORDER BY p.actual_amount DESC, p.update_date DESC
+            </when>
+            <when test="sort == 1">
+                ORDER BY p.update_date DESC, p.actual_amount DESC
+            </when>
+            <otherwise>
+                ORDER BY p.actual_amount DESC, p.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="countForEvent" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM zc_project p
+        INNER JOIN member m ON p.author_id = m.id
+        INNER JOIN zc_target_project tg ON p.id = tg.project_id
+        INNER JOIN activity a ON tg.target_id = a.id
+        WHERE a.event_id = #{eventId}
+    </select>
+
+    <select id="listForDistributionId" resultMap="projectMap">
+        SELECT
+         zp.id AS id, zp.create_by AS create_by, zp.create_date AS create_date, zp.update_by AS update_by,
+         zp.update_date AS update_date, zp.del_flag AS del_flag, zp.remarks AS remarks, zp.title AS title, zp.content_id AS content_id,
+         zp.favorer_num AS favorer_num, zp.target_amount AS target_amount, zp.actual_amount AS actual_amount, zp.author_id AS author_id,
+         zp.is_success AS is_success, zp.pic AS pic,zp.end_date AS end_date, zp.declaration AS declaration,zp.style AS style
+        FROM zc_project zp INNER JOIN zc_target_project zt ON zp.id = zt.project_id
+        INNER JOIN distributor_detail dd ON zt.order_id = dd.target_id
+        WHERE dd.distributor_relation_id = #{distributionId}
+    </select>
+
+    <select id="listForTargetId" resultMap="projectMap">
+        SELECT
+         p.id, p.create_by, p.create_date, p.update_by, p.update_date, p.del_flag,p.remarks, p.title, p.content_id,
+         p.favorer_num, p.target_amount, p.actual_amount, p.author_id, p.is_success, p.pic, p.end_date, p.declaration, p.style
+        FROM zc_project p INNER JOIN zc_target_project zt ON p.id = zt.project_id
+        WHERE zt.target_id = #{targetId}
+    </select>
+
+    <select id="batchList" resultMap="projectMap">
+        SELECT
+        <include refid="projectSql"/>
+        FROM zc_project
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="listPage" resultMap="projectMap">
+        SELECT
+        <include refid="projectSql"/>
+        FROM zc_project
+    </select>
+
+    <select id="sizeForTargetId" resultType="java.lang.Integer" >
+        SELECT
+            COUNT(p.id)
+        FROM
+            zc_project p
+        INNER JOIN zc_target_project tg ON p.id = tg.project_id
+        WHERE tg.target_id = #{targetId}
+    </select>
+
+    <select id="analyzeList" resultMap="analyzeMap">
+        SELECT p.id AS id, p.is_success AS is_success, p.create_date AS create_date, p.favorer_num AS favorer_num, p.actual_amount AS actual_amount,
+        a.id AS  author_id, a.realname AS author_name, a.logo AS author_logo, a.company AS author_company, a.job_title AS author_job_title, a.mobile AS author_mobile,
+        pa.realname AS parent_name, za.is_friend AS is_friend, za.is_group AS is_group, pl.label_id AS label_id, l.name AS label_name,sa.name as city_name
+        FROM zc_project p
+        INNER JOIN member a ON p.author_id = a.id
+        LEFT JOIN distributor_detail dd ON dd.target_id = p.id AND type = 3
+        LEFT JOIN distributor_relation dr ON dr.id = dd.distributor_relation_id
+        LEFT JOIN member pa ON dr.parent_id = pa.id
+        INNER JOIN zc_analyze za ON za.target_id = p.id
+        LEFT JOIN zc_project_label pl ON pl.project_id = p.id
+        LEFT JOIN label l ON l.id = pl.label_id
+        LEFT JOIN sys_area sa ON a.city = sa.id
+        INNER JOIN zc_target_project tp ON tp.project_id = p.id
+        INNER JOIN activity ay ON ay.id = tp.target_id
+        <where>
+            <if test="param.authorName != null and param.authorName != ''"> a.realname LIKE concat('%',#{param.authorName},'%')</if>
+            <if test="param.parentName != null and param.parentName != ''">AND  pa.realname LIKE concat('%',#{param.parentName},'%')</if>
+            <if test="param.isFriend != null"> AND za.is_friend = #{param.isFriend}</if>
+            <if test="param.isGroup != null"> AND za.is_group = #{param.isGroup}</if>
+            <if test="param.isSuccess != null"> AND p.is_success = #{param.isSuccess}</if>
+            <if test="param.labelId != null and param.labelId != ''"> AND  pl.label_id = #{param.labelId}</if>
+            <if test="param.targetId != null and param.targetId != ''"> AND ay.id = #{param.targetId}</if>
+            <if test="param.eventId != null and param.eventId != ''"> AND ay.event_id = #{param.eventId}</if>
+            <if test="param.operator != null and param.operatorNum != null">
+                AND  p.actual_amount <if test="param.operator ==0"> = </if> <if test="param.operator ==1"> &lt;= </if> <if test="param.operator ==2"> &gt;= </if>  #{param.operatorNum }
+            </if>
+            <if test="param.ids != null and param.ids.size > 0">
+                AND p.id IN
+                <foreach item="id" index="index" collection="param.ids " open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        <if test="param.groupBy">
+            GROUP BY p.id
+        </if>
+        <choose>
+            <when test="param.sort == 0">
+                ORDER BY p.actual_amount DESC, p.update_date DESC
+            </when>
+            <when test="param.sort == 1">
+                ORDER BY p.update_date DESC, p.actual_amount DESC
+            </when>
+            <otherwise>
+                ORDER BY p.actual_amount DESC, p.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <select id="sumfavorerNum" resultType="java.lang.Integer">
+        SELECT
+	      SUM(p.favorer_num)
+        FROM
+	      zc_project p
+        INNER JOIN zc_target_project tp ON p.id = tp.project_id
+        WHERE tp.target_id = #{targetId}
+    </select>
+</mapper>

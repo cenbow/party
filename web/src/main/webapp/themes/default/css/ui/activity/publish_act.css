@@ -1,0 +1,19 @@
+/*海报*/
+.cover-content .cover-img {
+	display: inline-block;
+	width: 200px;
+	height: 120px;
+	margin-right: 20px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	vertical-align: middle;
+}
+
+.layui-form-label{
+	width: 100px!important
+}
+
+.layui-input-block{
+	margin-left: 130px!important;
+}

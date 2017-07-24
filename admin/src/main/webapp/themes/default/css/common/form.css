@@ -1,0 +1,129 @@
+/**表单通用样式 Juliana 20170218**/
+.f-verify-red {
+	position: absolute;
+	right: 6px;
+	color: #e94e20;
+	top: 13px;
+	font-size: 16px;
+}
+
+.u-single-upload {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	min-width: 60px;
+	height: 38px;
+	line-height: 38px;
+	border-radius: 2px;
+	overflow: hidden;
+	background-color: #e8473f;
+	color: #fff;
+}
+
+.u-single-upload:hover {
+	opacity: 0.9;
+}
+
+.u-single-upload input {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 10;
+	font-size: 0;
+	width: 100%;
+	height: 100%;
+	opacity: .01;
+	filter: Alpha(opacity = 1);
+	cursor: pointer;
+}
+
+.u-single-upload-icon {
+	display: block;
+	margin: 0 15px;
+	text-align: center;
+}
+.form-word-aux{
+	display: inline-block;
+	color: #bfbfbf;
+	margin-left: 10px;
+}
+/*搜索表单*/
+.f-search-bar {
+	border-bottom: 1px solid #dbdee5;
+	padding: 10px 0;
+}
+
+.f-search-bar .search-form-content {
+	margin-bottom: 10px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-box-align: center;
+	-webkit-box-pack: space-between;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+}
+
+.f-search-bar .search-form-content:last-child {
+	margin-bottom: 0;
+}
+
+.f-search-bar .search-container {
+	-webkit-box-felx: 1;
+	-webkit-flex: 1;
+	flex: 1;
+}
+
+.f-search-bar .search-form-lable {
+	float: left;
+	display: block;
+    padding: 9px 15px 9px 0;
+	font-weight: 400;
+	text-align: right;
+	line-height: 20px;
+	position: relative;
+}
+
+.f-search-bar .search-form-content .form-item, .f-search-bar .search-form-content .form-item-inline
+	{
+	
+}
+
+.f-search-bar .search-form-content .form-item-inline {
+	display: inline-block;
+}
+
+.f-search-bar .sub-btns {
+	margin-left: 20px;
+}
+
+.f-search-bar .form-item .check-btn-inner {
+	display: inline-block;
+}
+
+.f-search-bar .form-item .check-btn-inner a {
+	padding: 10px 15px;
+	display: inline-block;
+}
+
+.f-search-bar .form-item .check-btn-inner a:hover {
+	background: #fff3f3;
+}
+
+.f-search-bar .form-item .check-btn-inner a.active {
+	background: #ea5952;
+	color: #fff;
+}
+/*封面图*/
+.cover-content .cover-img {
+	display: inline-block;
+	width: 200px;
+	height: 120px;
+	margin-right: 20px;
+	background: no-repeat center;
+	background-size: cover;
+	vertical-align: middle;
+}

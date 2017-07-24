@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.member.MemberInfoReadDao">
+	
+    <resultMap id="memberMap" type="com.party.core.model.member.MemberInfo">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        
+        <result column="size" property="size" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="id_card" property="idCard" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="blood_group" property="bloodGroup" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="medical_history" property="medicalHistory" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="contact_relation" property="contactRelation" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="contact_mobile" property="contactMobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="perfect_state" property="perfectState" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="get" resultMap="memberMap">
+        SELECT * FROM member_info WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="memberMap">
+        
+    </select>
+
+    <select id="batchList" resultMap="memberMap">
+        
+    </select>
+
+    <select id="getUnique" resultMap="memberMap">
+        SELECT * FROM member_info
+		<where>
+			<if test="memberId != null and memberId != ''">
+				AND member_id = #{memberId}
+			</if>
+		</where>
+		ORDER BY update_date limit 0,1
+    </select>
+</mapper>

@@ -1,0 +1,83 @@
+.index-outside>section {
+	background: transparent !important;
+}
+/*banner*/
+.banner {
+	height: 500px;
+}
+
+.banner-img {
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: inherit;
+}
+@media screen and (max-width:1510px) {
+	.banner {
+		height: 400px;
+	}
+}
+
+.inner-ctn{
+	background: #fff;
+	overflow: hidden;
+	padding: 10px;
+}
+.inner-ctn .ctn-img{
+	height: 250px;
+	background-size: cover;
+	background: no-repeat center;
+}
+.inner-ctn .ctn-tip{
+	font-size: 16px;
+	text-align: center;
+	margin-top: 5px;
+}
+.content-head{
+	position: relative;
+	height: 40px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #cec8c8;
+}
+.content-head::before {
+	position: absolute;
+	display: inline-block;
+	background: #e8473f;
+	left: 0;
+	content: '';
+	width: 4px;
+	height: 27px;
+}
+.content-head .head-title {
+	padding-left: 10px;
+	float: left;
+}
+.content-text{
+	font-size: 16px;
+	/* margin-bottom: 10px; */
+	text-indent: 40px;
+	line-height: 30px;
+}
+.address{
+	min-height: 100px;
+}
+.address p{
+	font-size: 18px;
+	line-height: 35px;
+}
+/*滚动*/
+.swiper-slide{
+	margin-right: 30px;
+}
+.swiper-slide img{
+	width: 100%;
+}
+.swiper-slide .slide-title {
+	position: absolute;
+	background: rgba(0, 0, 0, 0.51);
+	width: 100%;
+	color: #fff;
+	bottom: 0;
+	padding: 5px 0;
+	text-align: center;
+}

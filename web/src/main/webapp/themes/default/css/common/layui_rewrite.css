@@ -1,0 +1,16 @@
+/**该样式主要重写layui的颜色 使之与系统整体颜色搭配 Juliana 20170218**/
+.layui-btn.layui-btn-danger {
+    background-color:#e8473f;
+}
+.layui-btn.layui-btn-primary:hover{
+	border:1px solid #e8473f;
+}
+.layui-form-select dl dd.layui-this {
+    background-color: #e8473f !important;
+}
+.layui-form-radio i:hover, .layui-form-radioed i {
+    color: #e8473f !important;
+}
+.layui-tab{
+    overflow: inherit !important;
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.system.LogReadDao">
+
+    <resultMap id="logMap" type="com.party.core.model.system.Log">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remote_addr" property="remoteAddr" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="user_agent" property="userAgent" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="request_uri" property="requestUri" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="method" property="method" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="params" property="params" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="exception" property="exception" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="logSql">
+        id, type, title, create_by, create_date, remote_addr, user_agent, request_uri, method, params, exception
+    </sql>
+
+    <select id="get" resultMap="logMap">
+        SELECT
+        <include refid="logSql"/>
+        FROM sys_log
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="logMap">
+        SELECT
+        <include refid="logSql"/>
+        FROM sys_log
+        <where>
+            <if test="type != null"> type = #{type}</if>
+            <if test="title != null and title != ''"> AND title = #{title}</if>
+            <if test="createDate != null"> AND create_by = #{createBy}</if>
+            <if test="createDate != null"> AND create_date = #{createDate}</if>
+            <if test="remoteAddr != null and remoteAddr != ''"> AND remote_addr = #{remoteAddr}</if>
+            <if test="requestUri != null and requestUri != ''"> AND request_uri = #{requestUri}</if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="logMap">
+        SELECT
+        <include refid="logSql"/>
+        FROM sys_log
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

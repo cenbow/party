@@ -1,0 +1,122 @@
+/**报名列表**/
+.my-act-list-header {
+	height: 40px;
+	padding-bottom: 10px;
+	line-height: 40px;
+	border-bottom: 1px solid #dbdee5;
+}
+
+.my-act-list-header .title {
+	margin-right: 10px;
+}
+
+.my-act-list-title {
+	padding-top: 5px;
+	height: 35px;
+	line-height: 35px;
+}
+
+.my-act-list-content {
+	padding-top: 20px;
+	margin-bottom: 20px;
+}
+
+.my-act-list-content .num div{
+	width: 50%;
+    display: inline-block;
+}
+
+.my-act-list-content .num li {
+	padding-right: 30px;
+	padding-bottom: 10px;
+	position: relative;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+}
+
+.my-act-list-content .num li span {
+	padding-left: 5px;
+	font-weight: bold;
+}
+
+/*表格内容*/
+.my-act-list-content .header {
+	height: 38px;
+	background-color: #f8f8f8;
+	border: 1px solid #e2e2e2;
+	background-color: #f2f2f2;
+}
+
+.my-act-list-content .header li {
+	float: left;
+	font-weight: bold;
+	padding: 9px 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+	min-height: 20px;
+	line-height: 20px;
+	font-size: 14px;
+	text-align: center;
+}
+.content-body .info {
+	border-left: 1px solid #e2e2e2;
+	border-right: 1px solid #e2e2e2;
+	border-bottom: 1px solid #e2e2e2;
+}
+.my-act-list-content .content-body ul.content {
+	clear: both;
+	height: 48px;
+	border-top: 0px;
+}
+
+.my-act-list-content .content-body ul.content li {
+	float: left;
+	padding: 9px 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	text-align: center;
+}
+
+.my-act-list-content .content-body ul.member-act-info li {
+	height: 30px;
+	line-height: 30px;
+}
+
+.my-act-list-content .content-body ul.member-act-info li div {
+	padding-left: 50px;
+	display: inline-block;
+	width: 100px;
+}
+
+.my-act-list-content .content-body ul.member-act-info li div.value {
+	width: 40%!important
+}
+
+.my-act-list-content .content-body ul.content .option a {
+	display: block;
+	width: 50px;
+	height: 30px;
+	background:
+		url(http://img1.hudongba.com/static_v4/images/manage/jiao4.png)
+		no-repeat 20px;
+}
+
+.my-act-list-content .content-body ul.content .option-toggle a {
+	background:
+		url(http://img1.hudongba.com/static_v4/images/manage/jiao_up.png)
+		no-repeat 20px;
+}
+
+.table-member{
+	max-width: 148px!important;
+}
+.wechat-width{
+	width: 213px;
+}
+.phone-left{
+	margin-left: 14px;
+}

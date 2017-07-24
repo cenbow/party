@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.distributor.DistributorRelationReadDao">
+
+
+    <resultMap id="distributorRelationMap" type="com.party.core.model.distributor.DistributorRelation">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="distributor_id" property="distributorId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="price" property="price" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="target_end_date" property="targetEndDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </resultMap>
+
+    <resultMap id="withCountMap" type="com.party.core.model.distributor.WithCount">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="distributor_id" property="distributorId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="price" property="price" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="target_end_date" property="targetEndDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="view_num" property="viewNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="share_num" property="shareNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="apply_num" property="applyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sales_num" property="salesNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="crowdfund_num" property="crowdfundNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="favorer_num" property="favorerNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="favorer_amount" property="favorerAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_logo" property="authorLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_company" property="authorCompany" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_jobTitle" property="authorJobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_mobile" property="authorMobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="city_name" property="cityName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+
+    <sql id="distributorRelationSql">
+         id, create_by, create_date, update_by, update_date, remarks, del_flag, type, target_id, distributor_id,
+         parent_id, title, pic, price, target_end_date
+    </sql>
+
+    <select id="get" resultMap="distributorRelationMap">
+        SELECT
+        <include refid="distributorRelationSql"/>
+        FROM distributor_relation
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByUniqueness" resultMap="distributorRelationMap">
+        SELECT
+        <include refid="distributorRelationSql"/>
+        FROM distributor_relation
+        WHERE type = #{type} AND target_id = #{targetId} AND distributor_id = #{distributorId}
+    </select>
+
+    <select id="findByParentId" resultMap="withCountMap">
+        SELECT
+         dr.id AS id, dr.create_by AS create_by, dr.create_date AS create_date, dr.update_by AS update_by, dr.update_date AS update_date,
+         dr.remarks AS remarks, dr.del_flag AS del_flag, dr.type AS type, dr.target_id AS target_id, dr.distributor_id AS distributor_id,
+         dr.parent_id AS parent_id, dr.title AS title, dr.pic AS pic, dr.price AS price, dr.target_end_date AS target_end_date,
+         dc.view_num AS view_num, dc.share_num AS share_num, dc.apply_num AS apply_num,dc.sales_num AS sales_num,sa.name as city_name
+        FROM
+            distributor_relation dr
+        INNER JOIN distributor_count dc ON dr.id = dc.distributor_ralation_id
+        INNER JOIN member m ON m.id = dr.distributor_id
+        LEFT JOIN sys_area sa ON m.city = sa.id
+        <where>
+            dr.parent_id = #{param.parentId} AND dr.target_id = #{param.targetId}
+            <if test="param.type == 0">
+                AND (dr.type = 0 OR dr.type = 1)
+            </if>
+            <if test="param.type == 1">
+                AND dr.type = 2
+            </if>
+            <if test="param.type == 2">
+                AND dr.type = 3
+            </if>
+            <if test="param.excludeType != null">
+                AND dr.type != #{param.excludeType}
+            </if>
+            <if test="param.title != null and param.title != ''">
+                AND dr.title LIKE concat('%',#{param.title},'%')
+            </if>
+            <if test="param.distributorName != null and param.distributorName != ''">
+                AND m.realname LIKE concat('%',#{param.distributorName},'%')
+            </if>
+            <if test="param.startTime != null and param.startTime != ''">
+                AND TO_DAYS(dr.create_date) &gt;= TO_DAYS(#{param.startTime})
+            </if>
+            <if test="param.endTime != null and param.endTime != ''">
+                AND TO_DAYS(dr.create_date) &lt;= TO_DAYS(#{param.endTime})
+            </if>
+        </where>
+    </select>
+
+
+    <select id="listPage" resultMap="distributorRelationMap">
+        SELECT
+        dr.id AS id, dr.create_by AS create_by, dr.create_date AS create_date, dr.update_by AS update_by, dr.update_date AS update_date,
+        dr.remarks AS remarks, dr.del_flag AS del_flag, dr.type AS type, dr.target_id AS target_id, dr.distributor_id AS distributor_id,
+        dr.parent_id AS parent_id, dr.title AS title, dr.pic AS pic, dr.price AS price, dr.target_end_date AS target_end_date
+        FROM distributor_relation dr
+        LEFT JOIN distributor_count dc ON dr.id = dc.distributor_ralation_id
+        <where>
+            <if test="type != null"> dr.type = #{type}</if>
+            <if test="targetId != null and targetId != ''"> AND dr.target_id = #{targetId}</if>
+            <if test="distributorId != null and distributorId != ''"> AND dr.distributor_id = #{distributorId}</if>
+            <if test="parentId != null and parentId != ''"> AND  dr.parent_id = #{parentId}</if>
+        </where>
+        ORDER BY dc.crowdfund_num DESC, dr.update_date DESC
+    </select>
+
+    <select id="listWithCount" resultMap="withCountMap">
+        SELECT
+         dr.id AS id, dr.create_by AS create_by, dr.create_date AS create_date, dr.update_by AS update_by, dr.update_date AS update_date,
+         dr.remarks AS remarks, dr.del_flag AS del_flag, dr.type AS type, dr.target_id AS target_id, dr.distributor_id AS distributor_id,
+         dr.parent_id AS parent_id, dr.title AS title, dr.pic AS pic, dr.price AS price, dr.target_end_date AS target_end_date,
+         dc.view_num AS view_num, dc.share_num AS share_num, dc.apply_num AS apply_num,dc.sales_num AS sales_num,dc.crowdfund_num AS crowdfund_num,
+         dc.favorer_num AS favorer_num, dc.favorer_amount AS favorer_amount,m.realname AS author_name, m.logo AS author_logo, m.company AS author_company,
+         m.job_title AS author_jobTitle, m.mobile AS author_mobile,sa.name as city_name
+        FROM distributor_relation dr
+        INNER JOIN distributor_count dc ON dr.id = dc.distributor_ralation_id
+        INNER JOIN member m ON m.id = dr.distributor_id
+        INNER JOIN activity a ON a.id = dr.target_id
+        LEFT JOIN sys_area sa ON m.city = sa.id
+        <where>
+            <if test="param.status == 1">
+                 dr.target_end_date &lt;= now()
+            </if>
+            <if test="param.status == 0">
+                AND dr.target_end_date &gt; now()
+            </if>
+            <if test="param.type == 0">
+                AND (dr.type = 0 OR dr.type = 1)
+            </if>
+            <if test="param.type == 1">
+                AND dr.type = 2
+            </if>
+            <if test="param.type == 2">
+                AND dr.type = 3
+            </if>
+            <if test="param.type == 3">
+                AND dr.type = 4
+            </if>
+            <if test="param.excludeType != null">
+                AND dr.type != #{param.excludeType}
+            </if>
+            <if test="param.distributorId != null and param.distributorId != ''">
+               AND dr.distributor_id = #{param.distributorId}
+            </if>
+            <if test="param.targetId != null and param.targetId != ''">
+                AND dr.target_id = #{param.targetId}
+            </if>
+            <if test="param.title != null and param.title != ''">
+                AND dr.title LIKE concat('%',#{param.title},'%')
+            </if>
+            <if test="param.distributorName != null and param.distributorName != ''">
+                AND m.realname LIKE concat('%',#{param.distributorName},'%')
+            </if>
+            <if test="param.authorMobile != null and param.authorMobile != ''">
+                AND m.mobile LIKE concat('%',#{param.authorMobile},'%')
+            </if>
+            <if test="param.startTime != null and param.startTime != ''">
+                AND TO_DAYS(dr.create_date) &gt;= TO_DAYS(#{param.startTime})
+            </if>
+            <if test="param.endTime != null and param.endTime != ''">
+                AND TO_DAYS(dr.create_date) &lt;= TO_DAYS(#{param.endTime})
+            </if>
+            <if test="param.eventId != null and param.eventId != ''">
+                AND a.event_id = #{param.eventId}
+            </if>
+        </where>
+        <choose>
+            <when test="param.sort == 0">
+                ORDER BY dr.create_date DESC
+            </when>
+            <when test="param.sort == 1">
+                ORDER BY dc.view_num DESC
+            </when>
+            <when test="param.sort == 2">
+                ORDER BY dc.apply_num DESC
+            </when>
+            <when test="param.sort == 3">
+                ORDER BY dc.sales_num DESC
+            </when>
+            <otherwise>
+                ORDER BY dr.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <select id="countForEvent" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM distributor_relation dr
+        INNER JOIN distributor_count dc ON dr.id = dc.distributor_ralation_id
+        INNER JOIN member m ON m.id = dr.distributor_id
+        INNER JOIN activity a ON a.id = dr.target_id
+        WHERE a.event_id = #{eventId}
+    </select>
+
+    <select id="activityList" resultType="WithActivity">
+        SELECT d.id, d.create_by, d.create_date, d.update_by, d.update_date, d.remarks, d.del_flag, d.type, d.target_id, d.distributor_id, d.parent_id,
+        a.pic AS pic, a.title AS title,a.favorer_num AS favorerNum, a.represent_num AS representNum, a.be_crowdfund_num AS beCrowdfundNum, a.crowdfunded_num AS crowdfundedNum, a.end_time AS endTime
+        FROM distributor_relation d
+        INNER JOIN activity a ON d.target_id = a.id
+        <where>
+            <if test="param.distributorId != null and param.distributorId != ''">
+                d.distributor_id = #{param.distributorId}
+            </if>
+            <if test="param.isCrowdfunded != null">
+                AND a.is_crowdfunded = #{param.isCrowdfunded}
+            </if>
+            <if test="param.type != null">
+                AND d.type = #{param.type}
+            </if>
+            <if test="param.delFlag != null">
+            	AND a.del_flag = #{param.delFlag}
+            </if>
+            <if test="param.status == 1">
+                AND a.end_time &lt;= now();
+            </if>
+            <if test="param.status == 0">
+                AND a.end_time &gt; now();
+            </if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="distributorRelationMap">
+        SELECT
+        <include refid="distributorRelationSql"/>
+        FROM distributor_relation
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+</mapper>

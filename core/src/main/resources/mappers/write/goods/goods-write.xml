@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.goods.GoodsWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.goods.Goods" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO goods
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="remarks != null">  remarks,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="title != null"> title,</if>
+            <if test="thirdPartyId != null"> third_party_id,</if>
+            <if test="picsURL != null"> pics_url,</if>
+            <if test="cityId != null"> city_id,</if>
+            <if test="area != null"> area,</if>
+            <if test="startTime != null"> start_time,</if>
+            <if test="endTime != null"> end_time,</if>
+            <if test="place != null"> place,</if>
+            <if test="lng != null"> lng,</if>
+            <if test="lat != null"> lat,</if>
+            <if test="price != null"> price,</if>
+            <if test="joinNum != null"> join_num,</if>
+            <if test="recommend != null"> recommend,</if>
+            <if test="categoryId != null"> category_id,</if>
+            <if test="notice != null"> notice,</if>
+            <if test="isUseCoupon != null"> is_use_coupon,</if>
+            <if test="checkStatus != null"> check_status,</if>
+            <if test="isAllowedOutside != null"> is_allowed_outside,</if>
+            <if test="sort != null"> sort,</if>
+            <if test="type != null"> type,</if>
+            <if test="minnum != null"> minnum,</if>
+            <if test="maxnum != null"> maxnum,</if>
+            <if test="memberId != null"> member_id,</if>
+            <if test="limitNum != null"> limit_num,</if>
+            <if test="maxBuyNum != null"> max_buy_num,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="title != null"> #{title,jdbcType=VARCHAR},</if>
+            <if test="thirdPartyId != null"> #{thirdPartyId,jdbcType=VARCHAR},</if>
+            <if test="picsURL != null"> #{picsURL,jdbcType=VARCHAR},</if>
+            <if test="cityId != null"> #{cityId,jdbcType=VARCHAR},</if>
+            <if test="area != null"> #{area,jdbcType=VARCHAR},</if>
+            <if test="startTime != null"> #{startTime,jdbcType=TIMESTAMP},</if>
+            <if test="endTime != null"> #{endTime,jdbcType=TIMESTAMP},</if>
+            <if test="place != null"> #{place,jdbcType=VARCHAR},</if>
+            <if test="lng != null"> #{lng,jdbcType=VARCHAR},</if>
+            <if test="lat != null"> #{lat,jdbcType=VARCHAR},</if>
+            <if test="price != null"> #{price,jdbcType=FLOAT},</if>
+            <if test="joinNum != null"> #{joinNum,jdbcType=INTEGER},</if>
+            <if test="recommend != null"> #{recommend,jdbcType=VARCHAR},</if>
+            <if test="categoryId != null"> #{categoryId,jdbcType=VARCHAR},</if>
+            <if test="notice != null"> #{notice,jdbcType=VARCHAR},</if>
+            <if test="isUseCoupon != null"> #{isUseCoupon,jdbcType=VARCHAR},</if>
+            <if test="checkStatus != null">#{checkStatus, jdbcType=VARCHAR},</if>
+            <if test="isAllowedOutside != null"> #{isAllowedOutside, jdbcType=INTEGER},</if>
+            <if test="sort != null"> #{sort, jdbcType=INTEGER},</if>
+            <if test="type != null"> #{type, jdbcType=INTEGER},</if>
+            <if test="minnum != null"> #{minnum, jdbcType=INTEGER},</if>
+            <if test="maxnum != null"> #{maxnum, jdbcType=INTEGER},</if>
+            <if test="memberId != null">#{memberId, jdbcType=VARCHAR},</if>
+            <if test="limitNum != null">#{limitNum, jdbcType=VARCHAR},</if>
+            <if test="maxBuyNum != null">#{maxBuyNum, jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    
+    
+    <update id="update">
+        UPDATE goods
+        <set>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="title != null"> title = #{title,jdbcType=VARCHAR},</if>
+            <if test="thirdPartyId != null"> third_party_id = #{thirdPartyId,jdbcType=VARCHAR},</if>
+            <if test="picsURL != null"> pics_url = #{picsURL,jdbcType=VARCHAR},</if>
+            <if test="cityId != null"> city_id = #{cityId,jdbcType=VARCHAR},</if>
+            <if test="area != null"> area = #{area,jdbcType=VARCHAR},</if>
+            <if test="startTime != null"> start_time = #{startTime,jdbcType=TIMESTAMP},</if>
+            <if test="endTime != null"> end_time = #{endTime,jdbcType=TIMESTAMP},</if>
+            <if test="place != null"> place = #{place,jdbcType=VARCHAR},</if>
+            <if test="lng != null"> lng = #{lng,jdbcType=VARCHAR},</if>
+            <if test="lat != null"> lat = #{lat,jdbcType=VARCHAR},</if>
+            <if test="price != null"> price = #{price,jdbcType=FLOAT},</if>
+            <if test="joinNum != null"> join_num = #{joinNum,jdbcType=INTEGER},</if>
+            <if test="recommend != null"> recommend = #{recommend,jdbcType=VARCHAR},</if>
+            <if test="categoryId != null"> category_id = #{categoryId,jdbcType=VARCHAR},</if>
+            <if test="notice != null"> notice = #{notice,jdbcType=VARCHAR},</if>
+            <if test="isUseCoupon != null"> is_use_coupon = #{isUseCoupon,jdbcType=VARCHAR},</if>
+            <if test="checkStatus != null"> check_status = #{checkStatus, jdbcType=VARCHAR},</if>
+            <if test="isAllowedOutside != null"> is_allowed_outside = #{isAllowedOutside, jdbcType=INTEGER},</if>
+            <if test="sort != null"> sort = #{sort, jdbcType=INTEGER},</if>
+            <if test="type != null"> type = #{type, jdbcType=INTEGER},</if>
+            <if test="limitNum != null"> limit_num = #{limitNum, jdbcType=INTEGER},</if>
+            <if test="maxBuyNum != null"> max_buy_num = #{maxBuyNum, jdbcType=INTEGER},</if>
+            <if test="minnum != null"> minnum = #{minnum, jdbcType=INTEGER},</if>
+            <if test="maxnum != null"> maxnum = #{maxnum, jdbcType=INTEGER},</if>
+            <if test="memberId != null"> member_id = #{memberId, jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE goods SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM goods
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE goods SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM goods
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

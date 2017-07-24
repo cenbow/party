@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.article.ArticleGroupReadDao">
+
+    <resultMap id="dynamicMap" type="com.party.core.model.article.ArticleGroup">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="picture" property="picture" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="member" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_show" property="isShow" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="dynamicSql">
+        id, create_by, create_date, update_by, update_date, del_flag, name, picture,remarks,member_id,sort,is_show
+    </sql>
+
+    <select id="get" resultMap="dynamicMap">
+        SELECT
+        <include refid="dynamicSql"/>
+        FROM article_group
+        WHERE id = #{id}
+    </select>
+    
+    <select id="listPage" resultMap="dynamicMap">
+    	SELECT
+        <include refid="dynamicSql"/>
+        FROM article_group
+        WHERE del_flag = #{delFlag}
+       	<if test="member != null and member != ''">
+       		AND member_id = #{member}
+       	</if>
+       	<if test="isShow != null and isShow != ''">
+       		AND is_show = #{isShow}
+       	</if>
+       	ORDER BY sort ASC,update_date DESC
+    </select>
+    
+    <select id="webListPage" resultMap="dynamicMap">
+    	SELECT
+    		a.id, a.create_by, a.create_date, a.update_by, a.update_date, a.del_flag, a.name, a.picture,a.remarks,a.sort,a.is_show,m.realname as "member"
+    	FROM article_group a inner join member m on a.member_id = m.id
+    	<where>
+    		<if test="channel.delFlag != null"> AND a.del_flag = #{channel.delFlag} </if>
+	       	<if test="channel.name != null and channel.name != ''"> AND a.name like concat('%',#{channel.name},'%') </if>
+	       	<if test="channel.member != null and channel.member != ''"> AND a.member_id = #{channel.member} </if>
+	       	<if test="params != null">
+	           	<!-- 创建时间 时间块 -->
+	           	<if test="params.startDate != null and params.endDate != null">
+	           		AND (a.create_date between #{params.startDate} and #{params.endDate})
+	           	</if>
+	           	<!-- 创建时间 时间段 -->
+	           	<if test="params.c_start != null and params.c_start != ''">
+	           		AND TO_DAYS(a.create_date) &gt;= TO_DAYS(#{params.c_start})
+	           	</if>
+	           	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(a.create_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<!-- 发起者 -->
+				<if test="params.memberName != null and params.memberName != ''">
+					AND m.realname like concat('%',#{params.memberName},'%')
+				</if>
+	      	</if>
+      	</where>
+       	ORDER BY a.sort desc,a.update_date DESC
+    </select>
+</mapper>

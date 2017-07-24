@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.thirdParty.ThirdPartyReadDao">
+
+    <resultMap id="thirdPartyMap" type="com.party.core.model.thirdParty.ThirdParty">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="com_name" property="comName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="official_url" property="officalUrl" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="city_id" property="cityId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="area_id" property="areaId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="linkman" property="linkman" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="address" property="address" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="postcode" property="postcode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="thirdPartySql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, com_name, official_url,
+         city_id, area_id, linkman, telephone, address, postcode, sort
+    </sql>
+
+    <select id="get" resultMap="thirdPartyMap">
+        SELECT
+        <include refid="thirdPartySql"/>
+        FROM third_party
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="thirdPartyMap">
+        SELECT
+        <include refid="thirdPartySql"/>
+        FROM third_party
+        <where>
+            <if test="createBy != null and createBy != ''"> create_by = #{createBy}</if>
+            <if test="delFlag != null and delFlag != ''"> AND del_flag = #{delFlag}</if>
+            <if test="comName != null and comName != ''"> AND com_name like concat('%',#{comName},'%') </if>
+            <if test="cityId != null and cityId != ''"> AND city_id = #{cityId}</if>
+            <if test="linkman != null and linkman != ''"> AND linkman = #{linkman}</if>
+            <if test="telephone != null and telephone != ''"> AND telephone = #{linkman}</if>
+        </where>
+    </select>
+
+
+    <select id="batchList" resultMap="thirdPartyMap">
+        SELECT
+        <include refid="thirdPartySql"/>
+        FROM third_party
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

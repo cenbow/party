@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.wallet.WithdrawalsReadDao">
+    <resultMap id="bankMap" type="com.party.core.model.wallet.Withdrawals">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        
+       	<result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="phone" property="phone" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="bank_name" property="bankName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="account_number" property="accountNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="opened_place" property="openedPlace" jdbcType="VARCHAR" javaType="java.lang.String"/>
+       	<result column="payment" property="payment" jdbcType="FLOAT" javaType="java.lang.Float"/>
+       	<result column="status" property="status" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="memberSql">
+		id, create_by, create_date, update_by, update_date, remarks, del_flag,
+		name, phone, bank_name, account_number, opened_place, payment, status
+	</sql>
+
+    <select id="get" resultMap="bankMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM withdrawals
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="bankMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM withdrawals
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> and del_flag = #{delFlag}</if>
+            <if test="createBy !=null and createBy !=''"> and create_by = #{createBy}</if>
+        </where>
+        ORDER BY update_date DESC, create_date DESC
+    </select>
+    
+    <select id="webListPage" resultMap="bankMap">
+        SELECT
+        	w.id, w.create_by, w.create_date, w.update_by, w.update_date, w.remarks, w.del_flag,
+			w.name, w.phone, w.bank_name, w.account_number, w.opened_place, w.payment, w.status
+        FROM withdrawals w inner join member m on w.create_by = m.id
+        <where>
+            <if test="withdrawal.delFlag !=null and withdrawal.delFlag !=''"> and w.del_flag = #{withdrawal.delFlag}</if>
+            <if test="withdrawal.status !=null and withdrawal.status !=''"> and w.status = #{withdrawal.status}</if>
+            <if test="params != null and params.size > 0">
+	           	<!-- 创建时间 时间块 -->
+	           	<if test="params.startDate != null and params.endDate != null">
+	           		AND (w.create_date between #{params.startDate} and #{params.endDate})
+	           	</if>
+	           	<!-- 创建时间 时间段 -->
+	           	<if test="params.c_start != null and params.c_start != ''">
+	           		AND TO_DAYS(w.create_date) &gt;= TO_DAYS(#{params.c_start})
+	           	</if>
+	           	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(w.create_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<!-- 发起者 -->
+				<if test="params.memberName != null and params.memberName != ''">
+					AND m.realname like concat('%',#{params.memberName},'%')
+				</if>
+	      	</if>
+        </where>
+        ORDER BY w.update_date DESC, w.create_date DESC
+    </select>
+
+    <select id="batchList" resultMap="bankMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM withdrawals
+        <where>
+            <if test="param.delFlag !=null and param.delFlag !=''"> del_flag = #{param.delFlag}</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+    
+    <select id="getTotalPayment" resultType="java.lang.Double">
+    	select sum(payment) from withdrawals where del_flag = #{withdrawal.delFlag} and create_by = #{withdrawal.createBy}
+    	<if test="params != null and params.size > 0">
+	    	<if test="params.status != null and params.status.size > 0">
+	    		and `status` in
+	    		<foreach item="st" index="index" collection="params.status" open="(" separator="," close=")">
+	           		#{st}
+	       		</foreach>
+	    	</if>
+	    </if>
+    </select>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+       default-autowire="byName">
+
+    <context:property-placeholder location="classpath:jdbc.properties,classpath:redis.properties,classpath:party.properties,classpath:jms.properties" ignore-unresolvable="true"/>
+    <context:component-scan base-package="com.party" use-default-filters="true">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    
+    <!-- 支付宝APP支付配置 -->
+    <util:properties id="pay_ali_app" location="classpath:pay-ali-app.properties" local-override="true"/>
+    
+    <!-- 微信APP支付配置 -->
+    <util:properties id="pay_wechat_app" location="classpath:pay-wechat-app.properties" local-override="true"/>
+    
+    <!-- 微信微网站支付配置 -->
+    <util:properties id="pay_wechat_wwz" location="classpath:pay-wechat-wwz.properties" local-override="true"/>
+    
+    <!-- 微信小程序支付配置 -->
+    <util:properties id="pay_wechat_xcx" location="classpath:pay-wechat-xcx.properties" local-override="true"/>
+
+	<util:properties id="sms" location="classpath:sms.properties" local-override="true"/>
+	
+	<util:properties id="refund_wechat" location="classpath:refund-wechat.properties" local-override="true"/>
+	
+	<util:properties id="refund_ali" location="classpath:refund-ali.properties" local-override="true"/>
+
+    <util:properties id="wechat" location="classpath:wechat.properties" local-override="true"/>
+
+    <!-- 加载应用属性实例，可通过  @Value("#{APP_PROP['jdbc.driver']}") String jdbcDriver 方式引用 -->
+    <util:properties id="party" location="classpath:party.properties" local-override="true"/>
+
+    <util:properties id="jpush" location="classpath:jpush.properties" local-override="true"/>
+
+    <import resource="classpath*:spring-dao.xml"/>
+    <import resource="classpath*:spring-shiro.xml"/>
+    <import resource="classpath*:spring-redis.xml"/>
+    <import resource="classpath*:spring-jms.xml"/>
+    <import resource="classpath*:spring-quartz.xml"/>
+</beans>

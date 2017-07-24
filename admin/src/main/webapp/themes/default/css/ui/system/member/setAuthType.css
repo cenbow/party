@@ -1,0 +1,20 @@
+.type-item{
+	width: calc(50% - 20px);
+	float: left;
+	margin: 5px;
+	padding: 5px;
+	cursor: pointer;
+}
+.type-item img{
+	display: inline-block;
+	vertical-align: middle;
+	width: 50px;
+}
+.type-item.active{
+	color: #fff;
+	background: #f4615c;
+}
+.info-inner{
+	display: inline-block;
+	vertical-align: middle;
+}

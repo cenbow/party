@@ -1,0 +1,15 @@
+.img-warp {
+	text-align: center
+}
+
+.demo-img {
+    display: block;
+    width: 312px;
+    height: 231px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    background-image: url(./images/video-demo.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}

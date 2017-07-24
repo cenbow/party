@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.notify.EventReadDao">
+
+    <resultMap id="eventMap" type="com.party.core.model.notify.Event">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="code" property="code" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="msg_switch" property="msgSwitch" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="way" property="way" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="status" property="status" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_sync" property="isSync" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="class_name" property="className" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="method" property="method" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="eventSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag,
+         name, type, code, msg_switch, way, cron_expression, status,is_sync,class_name, method
+    </sql>
+
+    <select id="get" resultMap="eventMap">
+        SELECT
+        <include refid="eventSql"/>
+        FROM nf_event
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByCode" resultMap="eventMap">
+        SELECT
+        <include refid="eventSql"/>
+        FROM nf_event
+        WHERE code = #{code}
+    </select>
+
+    <select id="listPage" resultMap="eventMap">
+        SELECT
+        <include refid="eventSql"/>
+        FROM nf_event
+        <where>
+            <if test="type != null and type != ''">
+                type = #{type}
+            </if>
+            <if test="code != null and code != ''">
+                AND code  like concat('%',#{code},'%')
+            </if>
+            <if test="name != null and name != ''">
+                AND name  like concat('%',#{name},'%')
+            </if>
+            <if test="msgSwitch != null and msgSwitch != ''">
+                AND msg_switch = #{msgSwitch}
+            </if>
+            <if test="way != null and way != ''">
+                AND way = #{way}
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+</mapper>

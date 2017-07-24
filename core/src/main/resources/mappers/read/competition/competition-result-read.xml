@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.competition.CompetitionResultReadDao">
+	<resultMap id="memberInfoProjectMap" type="com.party.core.model.competition.CompetitionResult">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="schedule_id" property="scheduleId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pace" property="pace" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_complete" property="isComplete" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        
+        <result column="hours" property="hours" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="minutes" property="minutes" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="seconds" property="seconds" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        
+        <result column="seconds_reuslt" property="secondsReuslt" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="actual_range" property="actualRange" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="get" resultMap="memberInfoProjectMap">
+        SELECT * FROM competition_result m WHERE id = #{id}
+    </select>
+    
+    <select id="listPage" resultMap="memberInfoProjectMap">
+    	SELECT * from competition_result m
+    	<where>
+    		<if test="delFlag != null and delFlag != ''"> AND m.del_flag = #{delFlag}</if>
+    		<if test="projectId != null and projectId != ''"> AND m.project_id = #{projectId}</if>
+    		<if test="memberId != null and memberId != ''"> AND m.member_id = #{memberId}</if>
+    		<if test="scheduleId != null and scheduleId != ''"> AND m.schedule_id = #{scheduleId}</if>
+    	</where>
+    </select>
+    
+    <select id="getTotalDistanceAndResult" resultType="java.util.Map">
+    	SELECT sum(cr.seconds_result) as 'totalResult', TRUNCATE(sum(cs.distance),1) as 'totalDistance' from competition_result cr 
+    	inner join competition_schedule cs on cr.schedule_id = cs.id
+    	inner join competition_member cm on cm.id = cr.member_id
+    	<where>
+    		AND cr.is_complete = 1
+    		<if test="params.groupId != null and params.groupId != ''">
+				AND cm.group_id = #{params.groupId}
+			</if>
+			<if test="params.memberId != null and params.memberId != ''">
+				AND cm.id = #{params.memberId}
+			</if>
+    	</where>
+    </select>
+    
+    <!-- 日程排行 -->
+    <select id="getScheduleRank" resultType="java.util.Map">
+    	SELECT * FROM (
+			SELECT @rowno :=@rowno + 1 AS rowno, cr.* FROM (
+				SELECT 
+					is_complete as 'isComplete', seconds_result as 'secondsResult', actual_range as 'actualRange', member_id as 'memberId' 
+				FROM `competition_result`
+				<where>
+					<if test="isComplete != null">
+						AND is_complete = #{isComplete}
+					</if>
+					<if test="scheduleId != null and scheduleId != ''">
+						AND schedule_id = #{scheduleId}
+					</if>
+				</where>
+				ORDER BY seconds_result ASC
+			) cr, (SELECT @rowno := 0) b
+		) tt
+		<where>
+			<if test="memberId != null and memberId != ''">
+				tt.memberId = #{memberId}
+			</if>
+		</where>
+    </select>
+    
+    <!-- 小组排行 -->
+    <select id="getByGroup" resultType="java.util.Map">
+    	select * from (
+    	select
+    	@rowno :=@rowno + 1 AS rowno, t.* from 
+    	(SELECT 
+    		sum(cs.distance) AS 'distance', sum(cr.seconds_result) AS 'secondsResult', cg.group_name AS 'groupName', cg.id as 'groupId'
+    	FROM competition_group cg
+    	LEFT JOIN competition_member cm ON cg.id = cm.group_id
+		LEFT JOIN
+		(
+			select * from competition_result
+			<where>
+				<if test="params.projectId != null and params.projectId != ''">
+					AND project_id = #{params.projectId}		
+				</if>
+				<if test="params.isComplete != null">
+					AND is_complete = #{params.isComplete}
+				</if>
+				<if test="params.scheduleId != null and params.scheduleId != ''">
+					AND schedule_id = #{params.scheduleId}
+				</if>
+			</where>
+			
+		) cr ON cr.member_id = cm.id
+		LEFT JOIN competition_schedule cs ON cr.schedule_id = cs.id
+		<where>
+			<if test="params.projectId != null and params.projectId != ''">
+				AND cg.project_id = #{params.projectId}
+			</if>
+		</where>
+		GROUP BY cg.id
+		<if test="params.scheduleId != null and params.scheduleId != ''">
+			order by TRUNCATE(sum(cs.distance),1) desc, sum(cr.seconds_result) asc
+		</if>
+		<if test="params.scheduleId == null or params.scheduleId == ''">
+			order by cg.total_distance desc, cg.total_seconds_result asc
+		</if>
+		) t,(SELECT @rowno := 0) b ) tt
+		<where>
+			<if test="params.groupName != null and params.groupName != ''">
+				AND tt.groupName like concat('%', #{params.groupName}, '%')
+			</if>
+			<if test="params.groupId != null and params.groupId != ''">
+				AND tt.groupId = #{params.groupId}
+			</if>
+		</where>
+    </select>
+    
+    <!-- 所有人员排行 -->
+    <select id="getAllResult" resultType="java.util.Map">
+    	select * from (
+    	select
+    	@rowno :=@rowno + 1 AS rowno, t.* from 
+    	(SELECT 
+			sum(cs.distance) AS 'distance', sum(cr.seconds_result) AS 'secondsResult',cm.group_id AS 'groupId',
+		    cm.number AS 'numberPai', m.fullname AS 'fullName',m.realname as 'realName', cr.is_complete as 'isComplete', cm.id AS 'memberId', cm.member_id as 'memberId2', cg.group_name AS 'groupName'
+		FROM competition_member cm
+		LEFT JOIN 
+		(select * from competition_result
+		<where>
+			<if test="params.projectId != null and params.projectId != ''">
+				AND project_id = #{params.projectId}		
+			</if>
+			<if test="params.isComplete != null">
+				AND is_complete = #{params.isComplete}
+			</if>
+			<if test="params.scheduleId != null and params.scheduleId != ''">
+				AND schedule_id = #{params.scheduleId}
+			</if>
+		</where>
+		) cr ON cr.member_id = cm.id
+		LEFT JOIN competition_schedule cs ON cr.schedule_id = cs.id
+		INNER JOIN member m ON m.id = cm.member_id
+		LEFT JOIN competition_group cg ON cg.id = cm.group_id
+		<where>
+			<if test="params.projectId != null and params.projectId != ''">
+				AND cm.project_id = #{params.projectId}		
+			</if>
+		</where>
+		GROUP BY cm.member_id
+		<if test="params.scheduleId != null and params.scheduleId != ''">
+			order by TRUNCATE(sum(cs.distance),1) desc, sum(cr.seconds_result) asc
+		</if>
+		<if test="params.scheduleId == null or params.scheduleId == ''">
+			order by cm.total_distance desc, cm.total_seconds_result asc
+		</if>
+		) t,(SELECT @rowno := 0) b ) tt
+		<where>
+			<if test="params.searchName != null and params.searchName != ''">
+				AND ((tt.fullName like concat('%', #{params.searchName}, '%')) or (tt.realName like concat('%', #{params.searchName}, '%'))) or (tt.numberPai like concat('%', #{params.searchName}, '%'))
+			</if>
+			<if test="params.fullName != null and params.fullName != ''">
+				AND (tt.fullName like concat('%', #{params.fullName}, '%')) or (tt.realName like concat('%', #{params.fullName}, '%'))
+			</if>
+			<if test="params.numberPai != null and params.numberPai != ''">
+				AND tt.numberPai like concat('%', #{params.numberPai}, '%')
+			</if>
+			<if test="params.groupId != null and params.groupId != ''">
+				AND tt.groupId = #{params.groupId}
+			</if>
+		</where>
+		<if test="params.groupId != null and params.groupId != ''">
+			ORDER BY tt.rowno asc
+		</if>
+    </select>
+    
+    <!-- 获取人员排行 小组人员  -->
+    <select id="getGroupAllPersonResult" resultType="java.util.Map">
+    	select * from (
+    	select
+    	@rowno :=@rowno + 1 AS rowno, t.* from 
+    	(SELECT
+			sum(cs.distance) AS 'distance', sum(cr.seconds_result) AS 'secondsResult',cm.group_id as 'groupId',
+		    cm.number AS 'numberPai', m.fullname AS 'fullName', m.realname as 'realName', cr.is_complete as 'isComplete', cm.id AS 'memberId', cm.member_id as 'memberId2'
+		FROM competition_member cm
+		LEFT JOIN 
+		(select * from competition_result
+		<where>
+			<if test="params.projectId != null and params.projectId != ''">
+				AND project_id = #{params.projectId}		
+			</if>
+			<if test="params.isComplete != null">
+				AND is_complete = #{params.isComplete}
+			</if>
+			<if test="params.scheduleId != null and params.scheduleId != ''">
+				AND schedule_id = #{params.scheduleId}
+			</if>
+		</where>
+		) cr ON cr.member_id = cm.id
+		LEFT JOIN competition_schedule cs ON cr.schedule_id = cs.id
+		INNER JOIN member m ON m.id = cm.member_id
+		<where>
+			<if test="params.projectId != null and params.projectId != ''">
+				AND cm.project_id = #{params.projectId}		
+			</if>
+			<if test="params.groupId != null and params.groupId != ''">
+				AND cm.group_id = #{params.groupId}
+			</if>
+		</where>
+		GROUP BY cm.member_id
+		<if test="params.scheduleId != null and params.scheduleId != ''">
+			order by TRUNCATE(sum(cs.distance),1) desc, sum(cr.seconds_result) asc
+		</if>
+		<if test="params.scheduleId == null or params.scheduleId == ''">
+			order by cm.total_distance desc, cm.total_seconds_result asc
+		</if>
+		) t,(SELECT @rowno := 0) b ) tt
+		<where>
+			<if test="params.searchName != null and params.searchName != ''">
+				AND ((tt.fullName like concat('%', #{params.searchName}, '%')) or (tt.realName like concat('%', #{params.searchName}, '%'))) or (tt.numberPai like concat('%', #{params.searchName}, '%'))
+			</if>
+			<if test="params.fullName != null and params.fullName != ''">
+				AND (tt.fullName like concat('%', #{params.fullName}, '%')) or (tt.realName like concat('%', #{params.fullName}, '%'))
+			</if>
+			<if test="params.numberPai != null and params.numberPai != ''">
+				AND tt.numberPai like concat('%', #{params.numberPai}, '%')
+			</if>
+		</where>
+    </select>
+</mapper>

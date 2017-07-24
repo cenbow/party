@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.contact.ContactReadDao">
+
+
+    <resultMap id="contactMap" type="com.party.core.model.contact.Contact">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="group_name" property="groupName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="group_id" property="groupId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="first_name" property="firstName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="full_name" property="fullName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="last_name" property="lastName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        
+        
+        <result column="middle_name" property="middleName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="prefix" property="prefix" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="suffix" property="suffix" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="email" property="email" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="company" property="company" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="address" property="address" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="note" property="note" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        
+        <result column="phones" property="phones" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="status" property="status" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="contactSql">
+        id, create_by, create_date, update_by, update_date, del_flag, group_name, group_id, first_name, full_name, last_name,middle_name,prefix,suffix,email,company,title,address,note, phones, member_id, sort,status
+    </sql>
+
+    <select id="get" resultMap="contactMap">
+        SELECT
+        <include refid="contactSql"/>
+        FROM contact
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="contactMap">
+        SELECT
+        <include refid="contactSql"/>
+        FROM contact
+        <where>
+            <if test="id != null and id != ''"> id = #{id}</if>
+            <if test="delFlag != null and delFlag != ''"> del_flag = #{delFlag}</if>
+            <if test="createBy != null and createBy != ''"> AND create_by = #{createBy}</if>
+            <if test="memberId != null and memberId != ''"> AND member_id = #{memberId}</if>
+            <if test="fullName != null and fullName != ''"> AND full_name like concat('%',#{fullName},'%')</if>
+            <if test="phones != null and phones != ''"> AND phones like concat('%',#{phones},'%')</if>
+            <if test="status != null"> AND status = #{status}</if>
+        </where>
+        ORDER BY status DESC,sort ASC
+    </select>
+
+    <select id="batchList" resultMap="contactMap">
+        SELECT
+        <include refid="contactSql"/>
+        FROM contact
+        <if test="ids != null">
+            AND id IN
+            <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        ORDER BY status DESC,update_date DESC
+    </select>
+
+    <select id="list" resultMap="contactMap">
+        SELECT
+        <include refid="contactSql"/>
+        FROM contact
+        <where>
+         	<if test="id != null and id != ''"> id = #{id}</if>
+            <if test="delFlag != null and delFlag != ''"> del_flag = #{delFlag}</if>
+            <if test="createBy != null and createBy != ''"> AND create_by = #{createBy}</if>
+            <if test="memberId != null and memberId != ''"> AND member_id = #{memberId}</if>
+            <if test="fullName != null and fullName != ''"> AND full_name like concat('%',#{fullName},'%')</if>
+            <if test="phones != null and phones != ''"> AND phones like concat('%',#{phones},'%')</if>
+            <if test="status != null"> AND status = #{status}</if>
+        </where>
+        ORDER BY status DESC,sort ASC
+    </select>
+    
+    
+    <select id="memberPage" resultType="java.util.Map">
+        select a.countNum,m.* from (
+			SELECT
+				t.member_id,
+				count(t.id) AS countNum
+			FROM
+				contact t
+			GROUP BY
+				t.member_id
+		) a
+		LEFT JOIN member m ON a.member_id = m.id		
+		 <where>
+            <if test="member.delFlag !=null and member.delFlag !=''"> m.del_flag = #{member.delFlag}</if>
+            <if test="member.company !=null and member.company !=''"> AND m.company like concat('%',#{member.company},'%')</if>
+            <if test="member.industry !=null and member.industry !=''"> AND m.industry = #{member.industry}</if>
+            <if test="member.city !=null and member.city !=''"> AND m.city = #{member.city}</if>
+            <if test="member.username !=null and member.username !=''"> AND m.username like concat('%',#{member.username},'%')</if>
+            <if test="member.realname !=null and member.realname !=''" > AND m.realname like concat('%',#{member.realname},'%')</if>
+            <if test="member.mobile !=null and member.mobile !=''"> AND m.mobile like concat('%',#{member.mobile},'%')</if>
+            <if test="member.isAdmin !=null and member.isAdmin !=''"> AND m.is_admin = #{member.isAdmin}</if>
+            <if test="member.isExpert !=null and member.isExpert !=''"> AND m.is_expert = #{member.isExpert}</if>
+            <if test="member.userStatus !=null"> AND m.user_status = #{member.userStatus}</if>
+            <if test="params != null">
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (m.create_date between #{params.startDate} and #{params.endDate}) 
+            	</if>
+            	<if test="params.startTime != null and params.startTime != ''">
+            		AND TO_DAYS(m.create_date) &gt;= TO_DAYS(#{params.startTime})
+            	</if>
+            	<if test="params.endTime != null and params.endTime != ''">
+					AND TO_DAYS(m.create_date) &lt;= TO_DAYS(#{params.endTime})
+				</if>
+				<if test="params.isExpert != null and params.isExpert != ''">
+					AND m.is_expert = #{params.isExpert}
+				</if>
+				<if test="params.isDistributor != null and params.isDistributor != ''">
+					AND m.is_distributor = #{params.isDistributor}
+				</if>
+				<if test="params.userStatus != null">
+					AND m.user_status IN
+	                <foreach item="status" index="index" collection="params.userStatus" open="(" separator="," close=")">
+	                    #{status}
+	                </foreach>
+				</if>
+            </if>
+        </where>
+    </select>
+</mapper>

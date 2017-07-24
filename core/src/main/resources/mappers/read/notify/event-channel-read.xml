@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.notify.EventChannelReadDao">
+
+    <resultMap id="eventChannelMap" type="com.party.core.model.notify.EventChannel">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="channel_id" property="channelId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="event_id" property="eventId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="channel_switch" property="channelSwitch" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="template" property="template" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="write_switch" property="writeSwitch" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="first" property="first" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="url" property="url" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="template_id" property="templateId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <resultMap id="withChannelMap" type="com.party.core.model.notify.RelationWithChannel">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="channel_id" property="channelId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="event_id" property="eventId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="channel_switch" property="channelSwitch" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="template" property="template" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="write_switch" property="writeSwitch" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="code" property="code" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="event_name" property="eventName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="eventChannelSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, channel_id, event_id,
+         channel_switch, template, write_switch, first, remark, url, template_id
+    </sql>
+
+    <select id="get" resultMap="eventChannelMap">
+        SELECT
+        <include refid="eventChannelSql"/>
+        FROM nf_event_channel
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="eventChannelMap">
+        SELECT
+        <include refid="eventChannelSql"/>
+        FROM nf_event_channel
+        <where>
+            <if test="channelId != null and channelId != ''">
+                channel_id = #{channelId}
+            </if>
+            <if test="eventId != null and eventId != ''">
+                AND event_id = #{eventId}
+            </if>
+            <if test="channelSwitch != null and channelSwitch != ''">
+                AND channel_switch = #{channelSwitch}
+            </if>
+        </where>
+    </select>
+
+    <select id="withChannelList" resultMap="withChannelMap">
+        SELECT
+        ec.id AS id, ec.create_by AS create_by, ec.create_date AS create_date, ec.update_by AS update_by,
+        ec.update_date AS update_date, ec.remarks AS remarks, ec.del_flag AS del_flag, ec.channel_id AS channel_id,
+        ec.event_id AS event_id, ec.channel_switch AS channel_switch, ec.template AS template, ec.write_switch AS write_switch,
+        c.name AS name, c.code AS code, e.name AS event_name
+        FROM nf_event_channel ec
+        INNER JOIN nf_channel c ON ec.channel_id = c.id
+        INNER JOIN nf_event e ON ec.event_id = e.id
+        <where>
+            <if test="relationWithChannel.channelId != null and relationWithChannel.channelId != ''">
+                ec.channel_id = #{relationWithChannel.channelId}
+            </if>
+            <if test="relationWithChannel.eventId != null and relationWithChannel.eventId != ''">
+                AND ec.event_id = #{relationWithChannel.eventId}
+            </if>
+            <if test="relationWithChannel.channelSwitch != null and relationWithChannel.channelSwitch != ''">
+                AND ec.channel_switch = #{relationWithChannel.channelSwitch}
+            </if>
+        </where>
+    </select>
+
+</mapper>

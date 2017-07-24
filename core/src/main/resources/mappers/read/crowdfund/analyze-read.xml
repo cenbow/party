@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.crowdfund.AnalyzeReadDao">
+
+    <resultMap id="analyzeMap" type="com.party.core.model.crowdfund.Analyze">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_friend" property="isFriend" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_group" property="isGroup" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+
+    <sql id="analyzeSql">
+        id, create_by, create_date, update_by, update_date, remarks, target_id, is_friend, is_group
+    </sql>
+
+    <select id="get" resultMap="analyzeMap">
+        SELECT
+        <include refid="analyzeSql"/>
+        FROM zc_analyze
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByTargetId" resultMap="analyzeMap">
+        SELECT
+        <include refid="analyzeSql"/>
+        FROM zc_analyze
+        WHERE target_id = #{targetId}
+    </select>
+
+    <select id="listPage" resultMap="analyzeMap">
+        SELECT
+        <include refid="analyzeSql"/>
+        FROM zc_analyze
+        <where>
+            <if test="targetId != null and targetId != '' ">target_id = #{targetId} </if>
+        </where>
+    </select>
+
+</mapper>

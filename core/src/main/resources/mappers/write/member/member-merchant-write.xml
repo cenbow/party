@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.member.MemberMerchantWriteDao">
+	<insert id="insert" parameterType="com.party.core.model.member.MemberMerchant"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO member_merchant
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null"> id,</if>
+			<if test="createBy != null"> create_by,</if>
+			<if test="createDate != null"> create_date,</if>
+			<if test="updateBy != null"> update_by,</if>
+			<if test="updateDate != null"> update_date,</if>
+			<if test="remarks != null"> remarks,</if>
+			<if test="delFlag != null"> del_flag,</if>
+			<if test="memberId != null"> member_id,</if>
+			<if test="officialAccountName != null"> official_account_name,</if>
+			<if test="officialAccountId != null"> official_account_id,</if>
+			<if test="officialAccountSecret != null"> official_account_secret,</if>
+			<if test="merchantName != null"> merchant_name,</if>
+			<if test="merchantId != null"> merchant_id,</if>
+			<if test="merchantApiKey != null"> merchant_api_key,</if>
+			<if test="openStatus != null"> open_status,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null"> #{id,jdbcType=VARCHAR},</if>
+			<if test="createBy != null"> #{createBy,jdbcType=VARCHAR},</if>
+			<if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="updateBy != null"> #{updateBy,jdbcType=VARCHAR},</if>
+			<if test="updateDate != null"> #{updateDate,jdbcType=TIMESTAMP},</if>
+			<if test="delFlag != null"> #{delFlag,jdbcType=CHAR},</if>
+			<if test="remarks != null"> #{remarks,jdbcType=VARCHAR},</if>
+			<if test="memberId != null"> #{memberId,jdbcType=VARCHAR},</if>
+			<if test="officialAccountName != null"> #{officialAccountName,jdbcType=VARCHAR},</if>
+			<if test="officialAccountId != null"> #{officialAccountId,jdbcType=VARCHAR},</if>
+			<if test="officialAccountSecret != null"> #{officialAccountSecret,jdbcType=VARCHAR},</if>
+			<if test="merchantName != null"> #{merchantName,jdbcType=VARCHAR},</if>
+			<if test="merchantId != null"> #{merchantId,jdbcType=VARCHAR},</if>
+			<if test="merchantApiKey != null"> #{merchantApiKey,jdbcType=VARCHAR},</if>
+			<if test="openStatus != null"> #{openStatus,jdbcType=INTEGER},</if>
+		</trim>
+	</insert>
+
+
+	<update id="update">
+		UPDATE member_merchant
+		<set>
+			<if test="createBy != null"> create_by = #{createBy,jdbcType=VARCHAR},</if>
+			<if test="createDate != null"> create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="updateBy != null"> update_by = #{updateBy,jdbcType=VARCHAR},</if>
+			<if test="updateDate != null"> update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+			<if test="remarks != null"> remarks = #{remarks,jdbcType=VARCHAR},</if>
+			<if test="delFlag != null"> del_flag = #{delFlag,jdbcType=CHAR},</if>
+			<if test="officialAccountName != null"> official_account_name =
+				#{officialAccountName,jdbcType=VARCHAR},
+			</if>
+			<if test="officialAccountId != null"> official_account_id =
+				#{officialAccountId,jdbcType=VARCHAR},
+			</if>
+			<if test="officialAccountSecret != null"> official_account_secret =
+				#{officialAccountSecret,jdbcType=VARCHAR},
+			</if>
+			<if test="merchantName != null"> merchant_name = #{merchantName,jdbcType=VARCHAR},</if>
+			<if test="merchantId != null"> merchant_id = #{merchantId,jdbcType=VARCHAR},</if>
+			<if test="merchantApiKey != null"> merchant_api_key = #{merchantApiKey,jdbcType=VARCHAR},</if>
+			<if test="openStatus != null"> open_status = #{openStatus,jdbcType=INTEGER},</if>
+		</set>
+		WHERE id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="deleteLogic">
+		UPDATE member_merchant SET
+		del_flag = 1
+		WHERE id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM member_merchant
+		WHERE id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="batchDeleteLogic">
+		UPDATE member_merchant SET
+		del_flag = 1
+		WHERE id IN
+		<foreach item="id" index="index" collection="collection" open="("
+			separator="," close=")">
+			#{id,jdbcType=VARCHAR}
+		</foreach>
+	</update>
+
+	<delete id="batchDelete">
+		DELETE FROM member_merchant
+		WHERE id IN
+		<foreach item="id" index="index" collection="collection" open="("
+			separator="," close=")">
+			#{id,jdbcType=VARCHAR}
+		</foreach>
+	</delete>
+</mapper>

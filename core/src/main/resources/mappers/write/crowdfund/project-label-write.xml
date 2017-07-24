@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.crowdfund.ProjectLabelWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.crowdfund.ProjectLabel" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO zc_project_label
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="projectId != null">  project_id,</if>
+            <if test="labelId != null">  label_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="projectId != null">  #{projectId,jdbcType=VARCHAR},</if>
+            <if test="labelId != null">  #{labelId,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE zc_project_label
+        <set>
+            <if test="projectId != null">  project_id = #{projectId,jdbcType=VARCHAR},</if>
+            <if test="labelId != null">  label_id = #{labelId,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE zc_project_label SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM zc_project_label
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteByProjectId">
+        DELETE FROM zc_project_label
+        WHERE project_id = #{projectId,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE zc_project_label SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM zc_project_label
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

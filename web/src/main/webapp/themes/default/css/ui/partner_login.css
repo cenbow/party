@@ -1,0 +1,91 @@
+.banner-container{
+    position: relative;
+    text-align: center;
+}
+.banner-container .banner-bg-blur{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    -webkit-filter: blur(15px);
+    -moz-filter: blur(15px);
+    -o-filter: blur(15px);
+    -ms-filter: blur(15px);
+    filter: blur(34px);
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    position: absolute;
+    z-index: -1;
+}
+.banner-container .banner-bg{
+    width: 100%;
+    max-width: 1920px;
+}
+.login-inner-box{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    text-align: left;
+    -webkit-transform: translate(-50%);
+    transform: translate(-50%);
+    margin: 0 auto;
+    width:1190px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.15);
+}
+.login-inner-box .inner-form{
+    width: 855px;
+    margin: 0 auto;
+}
+.inner-back{
+    line-height: 40px;
+    margin-left: 30px;
+    color: #fff;
+}
+.inner-back:hover{
+    color: #fde1e1;
+}
+.inner-logo{
+    height: 280px;
+    text-align: center;
+}
+.inner-logo img{
+    height: 100%;
+}
+@media screen and (max-width:1366px) {
+    .inner-logo{
+        height: 265px;
+    }
+}
+
+.my-form {
+    display: table;
+    margin: 0px auto;
+}
+
+.form-label {
+    color: white !important;
+    font-size: 23px !important;
+}
+
+.form-input {
+    width: 250px !important;
+}
+
+#login_btn {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+    font-size: 21px !important;
+}
+
+.login-inner-box .forget-pwd{
+    text-align: right;
+    padding-top: 5px;
+    padding-right: 135px;
+}
+.login-inner-box .forget-pwd-btn{
+    color: #e8473f;
+}
+.login-inner-box .forget-pwd-btn:hover{
+    color:#fff;
+}

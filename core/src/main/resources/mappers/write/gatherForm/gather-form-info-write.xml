@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.gatherForm.GatherFormInfoWriteDao">
+	<insert id="insert" parameterType="com.party.core.model.gatherForm.GatherFormInfo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO gather_d_form_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null"> id,</if>
+			<if test="createBy != null"> create_by,</if>
+			<if test="createDate != null"> create_date,</if>
+			<if test="delFlag != null"> del_flag,</if>
+			<if test="fieldId != null"> field_id,</if>
+			<if test="fieldValue != null"> field_value,</if>
+			<if test="memberId != null"> member_id,</if>
+			<if test="sort != null"> sort,</if>
+			<if test="maxIndex != null"> max_index,</if>
+			<if test="projectId != null"> project_id,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null"> #{id,jdbcType=VARCHAR},</if>
+			<if test="createBy != null"> #{createBy,jdbcType=VARCHAR},</if>
+			<if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+			<if test="delFlag != null"> #{delFlag,jdbcType=CHAR},</if>
+			<if test="fieldId != null"> #{fieldId,jdbcType=VARCHAR},</if>
+			<if test="fieldValue != null"> #{fieldValue,jdbcType=VARCHAR},</if>
+			<if test="memberId != null"> #{memberId,jdbcType=VARCHAR},</if>
+			<if test="sort != null"> #{sort,jdbcType=VARCHAR},</if>
+			<if test="maxIndex != null"> #{maxIndex,jdbcType=VARCHAR},</if>
+			<if test="projectId != null"> #{projectId,jdbcType=VARCHAR},</if>
+		</trim>
+	</insert>
+
+	<update id="update">
+		UPDATE gather_d_form_info
+		<set>
+			<if test="delFlag != null"> del_flag = #{delFlag,jdbcType=CHAR},</if>
+			<if test="fieldValue != null"> field_value = #{fieldValue,jdbcType=VARCHAR},</if>
+			<if test="sort != null"> sort = #{sort,jdbcType=VARCHAR},</if>
+		</set>
+		WHERE id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="deleteLogic">
+		UPDATE gather_d_form_info SET
+		del_flag = 1
+		WHERE id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM gather_d_form_info
+		WHERE id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="deleteByProjectId">
+		DELETE FROM gather_d_form_info where project_id = #{projectId} and max_index = #{maxIndex}
+	</delete>
+</mapper>

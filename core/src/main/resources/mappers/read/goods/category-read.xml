@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.goods.CategoryReadDao">
+
+
+    <resultMap id="categoryDetailMap" type="com.party.core.model.goods.Category">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="categoryDetailSql">
+        id,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag,
+        name
+    </sql>
+
+    <select id="get" resultMap="categoryDetailMap">
+        SELECT
+        <include refid="categoryDetailSql"/>
+        FROM category
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="categoryDetailMap">
+        SELECT
+        <include refid="categoryDetailSql"/>
+        FROM category
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="name !=null and name !=''"> AND name LIKE '${refId}'</if>
+        </where>
+            ORDER BY update_date DESC
+    </select>
+
+    <select id="batchList" resultMap="categoryDetailMap">
+        SELECT
+        <include refid="categoryDetailSql"/>
+        FROM category
+        <where>
+            <if test="param.delFlag !=null and delFlag !=''"> del_flag = #{param.delFlag}</if>
+            <if test="name !=null and name !=''"> AND name LIKE '${refId}'</if>
+            <if test="ids != null">
+                AND id IN
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+          ORDER BY update_date DESC
+    </select>
+</mapper>

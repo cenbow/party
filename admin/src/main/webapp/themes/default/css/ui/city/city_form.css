@@ -1,0 +1,104 @@
+/*typeahead*/
+.typeahead{
+	border: 1px solid #cccccc;
+	border-radius: 5px;
+	margin-top: 5px;
+	overflow: hidden;
+	background: #fff;
+}
+.typeahead a.dropdown-item {
+	display: block;
+	padding: 5px;
+}
+.typeahead li.active{
+	background: #fff3f3;
+}
+.typeahead  .dropdown-item .t-user-logo {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	background-size: cover;
+	border-radius: 50%;
+	background-position: center;
+	vertical-align: top;
+	margin-right: 10px;
+}
+.typeahead  .dropdown-item .t-user-name {
+	line-height: 25px;
+}
+/*input*/
+.search-wrap{
+	margin: 50px auto;
+	position: relative;
+}
+.search-wrap .search-inner{
+	position: absolute;
+	left: 50%;
+	-webkit-transform: translate(-50%);
+	-moz-transform: translate(-50%);
+	-ms-transform: translate(-50%);
+	-o-transform: translate(-50%);
+	transform: translate(-50%);
+	z-index: 1;
+}
+.search-wrap .search-input{
+	width: 396px;
+	height: 30px;
+	padding: 8px 12px;
+	font-size: 20px;
+	line-height: 30px;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	outline: none;
+}
+.search-wrap .search-input:focus{
+	border: 1px solid #f4615c;
+}
+/*ret-result*/
+.sel-content{
+	position: absolute;
+	top: 100px;
+	width: 100%;
+}
+.sel-result  .t-user-logo {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	background-size: cover;
+	border-radius: 50%;
+	background-position: center;
+	vertical-align: top;
+	margin-right: 10px;
+}
+.sel-result .t-user-name {
+	line-height: 25px;
+}
+.sel-result .ret-item{
+	float: left;
+	margin: 5px;
+	padding: 10px;
+	background: #fff0f3;
+	position: relative;
+}
+.sel-result .ret-item .icon-roundclose{
+	float: right;
+	font-size: 22px;
+	width: 0;
+	overflow: hidden;
+	transition: all 0.3s;
+}
+.sel-result .ret-item:hover{
+	cursor: pointer;
+}
+.sel-result .ret-item:hover .icon-roundclose{
+	width: 21px;
+	padding-left: 10px;
+}
+.sel-result .ret-item:hover .t-user-name{
+	color: #999999;
+}
+.sel-result .ret-item .icon-roundclose:hover{
+	color:#f4615c;
+}

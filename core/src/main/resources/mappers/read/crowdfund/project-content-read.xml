@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.crowdfund.ProjectContentReadDao">
+
+    <resultMap id="projectContentMap" type="com.party.core.model.crowdfund.ProjectContent">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <id column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="projectContentSql">
+        id,content
+    </sql>
+
+    <select id="get" resultMap="projectContentMap">
+        SELECT
+        <include refid="projectContentSql"/>
+        FROM zc_project_content
+        WHERE id = #{id}
+    </select>
+</mapper>

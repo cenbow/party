@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.store.StoreGoodsReadDao">
+
+
+    <resultMap id="storeMap" type="com.party.core.model.store.StoreGoods">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="goods_id" property="goodsId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="goods_type" property="goodsType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sales_num" property="salesNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="apply_num" property="applyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="share_num" property="shareNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="view_num" property="viewNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sales_amount" property="salesAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="is_private" property="isPrivate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="storeSql">
+         sg.id AS id, sg.create_by AS  create_by, sg.create_date AS create_date, sg.update_by AS update_by,
+         sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag,sg.member_id AS member_id,
+         sg.user_id AS user_id, sg.goods_id AS goods_id, sg.goods_type AS goods_type,sg.sales_num AS sales_num, sg.apply_num AS apply_num,
+         sg.share_num AS share_num, sg.view_num AS view_num,sg.sales_amount AS sales_amount, sg.is_private AS is_private
+    </sql>
+
+    <sql id="storeSql2">
+        sg2.id AS id, sg2.create_by AS  create_by, sg2.create_date AS create_date, sg2.update_by AS update_by,
+        sg2.update_date AS update_date, sg2.remarks AS remarks, sg2.del_flag AS del_flag,sg2.member_id AS member_id,
+        sg2.user_id AS user_id, sg2.goods_id AS goods_id, sg2.goods_type AS goods_type,sg2.sales_num AS sales_num, sg2.apply_num AS apply_num,
+        sg2.share_num AS share_num, sg2.view_num AS view_num,sg2.sales_amount AS sales_amount, sg2.is_private AS is_private
+    </sql>
+
+    <select id="get" resultMap="storeMap">
+        SELECT
+        <include refid="storeSql"/>
+        FROM store_goods sg
+        WHERE sg.id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="storeMap">
+        SELECT
+        <include refid="storeSql"/>
+        FROM store_goods sg
+        <where>
+            <if test="memberId != null and memberId != ''"> sg.member_id = #{memberId}</if>
+            <if test="goodsId != null and goodsId != ''"> AND sg.goods_id = #{goodsId}</if>
+            <if test="goodsType != null "> AND sg.goods_type = #{memberId}</if>
+            <if test="userId != null and  userId != ''"> AND sg.user_id = #{userId}</if>
+        </where>
+    </select>
+
+    <select id="listSelect" resultMap="storeMap">
+        SELECT
+        <include refid="storeSql"/>
+        FROM store_goods sg
+        INNER JOIN goods g ON sg.goods_id = g.id
+        <where>
+            <if test="query.goodsType != null"> sg.goods_type = #{query.goodsType}</if>
+            <if test="query.memberId != null"> AND sg.member_id = #{query.memberId}</if>
+            <choose>
+                <when test="query.inSales"> AND g.end_time &gt; NOW()</when>
+                <otherwise> AND g.end_time  &lt; NOW()</otherwise>
+            </choose>
+        </where>
+        UNION
+        SELECT
+        <include refid="storeSql2"/>
+        FROM store_goods sg2
+        INNER JOIN activity a ON sg2.goods_id = a.id
+        <where>
+            <if test="query.goodsType != null"> sg2.goods_type = #{query.goodsType}</if>
+            <if test="query.memberId != null"> AND sg2.member_id = #{query.memberId}</if>
+            <choose>
+                <when test="query.inSales"> AND a.end_time &gt; NOW()</when>
+                <otherwise> AND a.end_time  &lt; NOW()</otherwise>
+            </choose>
+        </where>
+
+        <choose>
+            <when test="query.sort == 0"> ORDER BY  create_date DESC </when>
+            <when test="query.sort == 1"> ORDER BY  sales_num DESC </when>
+            <when test="query.sort == 2"> ORDER BY  sales_amount DESC </when>
+            <otherwise> ORDER BY  create_date DESC </otherwise>
+        </choose>
+    </select>
+
+    <select id="batchList" resultMap="storeMap">
+        SELECT
+        <include refid="storeSql"/>
+        FROM store_goods sg
+        WHERE sg.id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="batchListByUserId" resultMap="storeMap">
+        SELECT
+        <include refid="storeSql"/>
+        FROM store_goods sg
+        <where>
+            <if test="param.goodsId != null and param.goodsId != ''">  sg.goods_id = #{param.goodsId}</if>
+            <if test="ids != null ">
+                AND sg.user_id IN
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <select id="count" resultMap="storeMap">
+        SELECT
+        SUM(sales_num) AS sales_num,
+	    SUM(share_num) AS share_num,
+	    SUM(view_num) AS view_num,
+	    SUM(sales_amount) AS sales_amount
+	    FROM store_goods
+	    <where>
+            <if test="query.goodsId != null and query.goodsId !=''"> goods_id = #{query.goodsId}</if>
+            <if test="query.memberId != null and query.memberId !=''"> AND member_id = #{query.memberId}</if>
+        </where>
+    </select>
+
+</mapper>

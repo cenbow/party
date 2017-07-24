@@ -1,0 +1,132 @@
+.filelist,.attachmentlist{margin: 10px 0px;display: inline-block;}
+.filelist li {float: left;margin-right: 10px; margin-bottom: 10px;}
+.filelist li img{border: 1px solid #ccc;border-radius:3px;width: 100px;height: 100px;}
+.filelist li label,.attachmentlist li label{font-weight: normal;}
+.filelist li label.text{float: left;}
+.filelist li label.del{float: right;}
+
+.attachmentlist{width: 100%}
+.attachmentlist li{line-height: 30px; height:30px; background-color: #e9f1f6; margin-bottom: 3px;}
+.attachmentlist li label.text{padding-left: 10px;}
+.webuploader-pick{padding: 0px;background-color: #fff;color: #666}
+.webuploader-pick-hover{background-color: #fff}
+
+/**万象优图上传**/
+html, body {
+}
+
+.ci-upload-content {	
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical; -webkit-box-direction : normal;
+	-webkit-flex-direction : column; flex-direction : column;
+	padding: 10px;
+}
+
+.ci-img-content {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	width: 100%;
+}
+.ci-img-content .ci-split {
+	width: 1px;
+	margin-top: 33px;
+	background-color: #e2e2e2;
+}
+.ci-img-list {
+	margin-top: 10px;
+}
+.ci-img-list .ci-priview-content{
+	display: table;
+	width: 100%;
+    min-height: 300px;
+    padding: 5px;
+    border: 2px #e2e2e2 dashed;    
+}
+.ci-img-list .ci-priview-content:empty:after{
+    content: '拖拽图片上传';
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 18px;
+    color: #e2e2e2;
+}
+.ci-img-list .ci-priview-content:empty:before{
+	content: '+';
+    line-height: 250px;
+    display: inline-block;
+    width: 100%;
+    height: 150px;
+    text-align: center;
+    font-size: 80px;
+    color: #e2e2e2;
+}
+.upload_drag_hover .ci-priview-content{
+	border: 2px black dashed !important; 
+
+}
+.upload_drag_hover .ci-priview-content:empty:before,.upload_drag_hover .ci-priview-content:empty:after{
+	color:black !important; 
+}
+
+.ci-img-list .img-item {
+	position: relative;
+	float: left;
+	width: 100px;
+	height: 100px;
+	margin-bottom: 30px;
+	margin-right: 10px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	cursor: pointer;
+}
+
+.ci-img-list .img-item .del-icon {
+	right: 0;
+	top: 2px;
+	font-size: 28px;
+	color: #e8473f;
+	position: absolute;
+	-webkit-transition: color .2s ease-in;
+	-moz-transition: color .2s ease-in;
+	transition: color .2s ease-in;
+}
+
+.ci-img-list .img-item:hover .del-icon {
+	color: #5FB878;
+}
+
+.ci-img-list .img-item .status {
+	height: 25px;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	display: inline-block;
+	background: #5FB878;
+	color: #fff;
+	text-align: center;
+	line-height: 25px;
+}
+
+.ci-img-list .img-item .status.success {
+	background: #5FB878;
+}
+
+.ci-img-list .img-item .status.error {
+	background: #e8473f;
+}
+
+.ci-img-list .img-item .file-name {
+	height: 30px;
+	width: 100%;
+	position: absolute;
+	bottom: -30px;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

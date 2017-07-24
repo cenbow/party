@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.wechat.WechatMenuWriteDao">
+
+    <insert id="insert" parameterType="com.party.core.model.wechat.WechatMenu" useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO wechat_menu
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="name != null">  name,</if>
+            <if test="parentId != null">  parent_id,</if>
+            <if test="actionType != null">  action_type,</if>
+            <if test="messageType != null">  message_type,</if>
+            <if test="url != null">  url,</if>
+            <if test="mediaId != null">  media_id,</if>
+            <if test="image != null">  image,</if>
+            <if test="imageUrl != null">  image_url,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="name != null">  #{name,jdbcType=VARCHAR},</if>
+            <if test="parentId != null">  #{parentId,jdbcType=VARCHAR},</if>
+            <if test="actionType != null">  #{actionType,jdbcType=INTEGER},</if>
+            <if test="messageType != null">  #{messageType,jdbcType=INTEGER},</if>
+            <if test="url != null">  #{url,jdbcType=VARCHAR},</if>
+            <if test="mediaId != null">  #{mediaId,jdbcType=VARCHAR},</if>
+            <if test="image != null">  #{image,jdbcType=VARCHAR},</if>
+            <if test="imageUrl != null">  #{imageUrl,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE wechat_menu
+        <set>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="name != null">  name = #{name,jdbcType=VARCHAR},</if>
+            <if test="parentId != null">  parent_id = #{parentId,jdbcType=VARCHAR},</if>
+            <if test="actionType != null">  action_type = #{actionType,jdbcType=INTEGER},</if>
+            <if test="messageType != null">  message_type = #{messageType,jdbcType=INTEGER},</if>
+            <if test="url != null">  url = #{url,jdbcType=VARCHAR},</if>
+            <if test="mediaId != null">  mediaId = #{mediaId,jdbcType=VARCHAR},</if>
+            <if test="image != null">  image = #{image,jdbcType=VARCHAR},</if>
+            <if test="imageUrl != null">  image_url = #{imageUrl,jdbcType=VARCHAR},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE wechat_menu SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM wechat_menu
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE wechat_menu SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM wechat_menu
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

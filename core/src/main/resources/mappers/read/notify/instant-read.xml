@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.notify.InstanceReadDao">
+
+    <resultMap id="instanceMap" type="com.party.core.model.notify.Instance">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="channel_type" property="channelType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="result" property="result" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_success" property="isSuccess" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="time" property="time" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <resultMap id="withMemberMap" type="com.party.core.model.notify.InstanceWithMember">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="channel_type" property="channelType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="result" property="result" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_success" property="isSuccess" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="time" property="time" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_name" property="memberName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="instanceSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, title, channel_type,
+        receiver, result, is_success, time, target_id, member_id
+    </sql>
+
+    <select id="get" resultMap="instanceMap">
+        SELECT
+        <include refid="instanceSql"/>
+        FROM nf_instance
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="instanceMap">
+        SELECT
+        <include refid="instanceSql"/>
+        FROM nf_instance
+        <where>
+            <if test="channelType != null and channelType != ''"> channel_type = #{channelType}</if>
+            <if test="targetId != null and targetId != ''"> AND target_id = #{targetId}</if>
+            <if test="memberId != null and memberId != ''"> AND member_id = #{memberId}</if>
+            <if test="receiver != null and receiver != ''"> AND receiver like concat('%',#{receiver},'%')</if>
+            <if test="isSuccess != null and isSuccess != ''"> AND is_success = #{isSuccess}</if>
+        </where>
+    </select>
+
+    <select id="listWithMemberPage" resultMap="withMemberMap">
+        SELECT
+         i.id AS id, i.create_by create_by, i.create_date AS create_date, i.update_by update_by, i.update_date AS update_date,
+         i.remarks AS remarks, i.del_flag AS del_flag, i.title AS title, i.channel_type AS channel_type,
+         i.receiver AS receiver, i.result AS result, i.is_success AS is_success, i.time AS time,
+         i.target_id AS target_id, i.member_id AS member_id, m.realname AS member_name
+        FROM nf_instance i INNER JOIN member m ON i.member_id = m.id
+        <where>
+            <if test="channelType != null and channelType != ''"> i.channel_type = #{channelType}</if>
+            <if test="targetId != null and targetId != ''"> AND i.target_id = #{targetId}</if>
+            <if test="memberId != null and memberId != ''"> AND i.member_id = #{memberId}</if>
+            <if test="receiver != null and receiver != ''"> AND i.receiver like concat('%',#{receiver},'%')</if>
+            <if test="isSuccess != null and isSuccess != ''"> AND i.is_success = #{isSuccess}</if>
+            <if test="memberName != null and memberName != ''"> AND  m.realname like concat('%',#{memberName},'%')</if>
+            AND member_id IS NOT NULL
+        </where>
+        ORDER BY create_date DESC
+    </select>
+
+
+    <select id="getHistory" resultMap="instanceMap">
+        SELECT
+        <include refid="instanceSql"/>
+        FROM
+        nf_instance
+        WHERE
+        create_date &gt; NOW()-INTERVAL #{param.hour} HOUR
+        AND title = #{param.title} AND receiver = #{param.receiver} for update
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.user.UserRoleReadDao">
+
+    <resultMap id="userRoleMap" type="com.party.core.model.user.UserRole">
+        <result column="user_id" property="userId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="role_id" property="roleId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+
+    <sql id="userRoleSql">
+        user_id, role_id
+    </sql>
+
+    <select id="listPage" resultMap="userRoleMap">
+        SELECT
+        <include refid="userRoleSql"/>
+        FROM sys_user_role
+        <where>
+            <if test="userId != null and userId != ''"> user_id = #{userId}</if>
+            <if test="roleId != null and roleId != ''"> AND role_id = #{roleId}</if>
+        </where>
+    </select>
+</mapper>

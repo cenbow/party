@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.love.LoveReadDao">
+
+
+    <resultMap id="loveMap" type="com.party.core.model.love.Love">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="is_love" property="isLove" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="ref_id" property="refId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="love_type" property="loveType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="loveSql">
+        id, create_by, create_date, update_by, update_date, del_flag, is_love, ref_id, love_type, sort
+    </sql>
+
+    <select id="get" resultMap="loveMap">
+        SELECT
+        <include refid="loveSql"/>
+        FROM love
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="loveMap">
+        SELECT
+        <include refid="loveSql"/>
+        FROM love
+        <where>
+            <if test="delFlag != null and delFlag != ''"> del_flag = #{delFlag}</if>
+            <if test="refId != null and refId != ''"> AND ref_id = #{refId}</if>
+            <if test="isLove != null"> AND is_love = #{isLove}</if>
+            <if test="loveType != null and loveType != ''"> AND love_type = #{loveType}</if>
+            <if test="createBy != null and createBy != ''"> AND create_by = #{createBy}</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+    
+    <select id="webListPage" resultMap="loveMap">
+        SELECT
+        <include refid="loveSql"/>
+        FROM love
+        <where>
+            <if test="love.delFlag != null and love.delFlag != ''"> del_flag = #{love.delFlag}</if>
+            <if test="love.refId != null and love.refId != ''"> AND ref_id = #{love.refId}</if>
+            <if test="love.isLove != null"> AND is_love = #{love.isLove}</if>
+            <if test="love.loveType != null and love.loveType != ''"> AND love_type = #{love.loveType}</if>
+            <if test="love.createBy != null and love.createBy != ''"> AND create_by = #{love.createBy}</if>
+            <if test="params != null and params.size > 0">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (create_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(create_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(create_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="batchList" resultMap="loveMap">
+        SELECT
+        <include refid="loveSql"/>
+        FROM love
+        <if test="ids != null">
+            AND id IN
+            <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        ORDER BY update_date DESC
+    </select>
+
+    <!--统计点赞数-->
+    <select id="countLove" resultType="java.lang.Integer">
+        SELECT COUNT(ref_id)
+        FROM love
+        <where>
+            <if test="delFlag != null and delFlag != ''"> del_flag = #{delFlag}</if>
+            <if test="refId != null and refId != ''"> AND ref_id = #{refId}</if>
+            <if test="isLove != null"> AND is_love = #{isLove}</if>
+            <if test="loveType != null and loveType != ''"> AND love_type = #{loveType}</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+</mapper>

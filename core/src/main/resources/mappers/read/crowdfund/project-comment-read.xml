@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.crowdfund.ProjectCommentReadDao">
+
+    <resultMap id="projectCommentMap" type="com.party.core.model.crowdfund.ProjectComment">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="ref_id" property="refId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="projectCommentSql">
+        id, create_by, create_date, update_by, update_date, del_flag, ref_id, comment
+    </sql>
+
+    <select id="get" resultMap="projectCommentMap">
+        SELECT
+        <include refid="projectCommentSql"/>
+        FROM zc_project_cmt
+        WHERE id = #{id}
+    </select>
+
+
+    <select id="listPage" resultMap="projectCommentMap">
+        SELECT
+        <include refid="projectCommentSql"/>
+        FROM zc_project_cmt
+        <where>
+            <if test="refId != null and refId !=''">
+                AND ref_id = #{refId}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND create_by = #{createBy}
+            </if>
+        </where>
+         ORDER BY update_date ASC
+    </select>
+</mapper>

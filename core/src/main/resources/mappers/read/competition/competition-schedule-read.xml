@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.competition.CompetitionScheduleReadDao">
+	<resultMap id="memberInfoProjectMap" type="com.party.core.model.competition.CompetitionSchedule">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="play_day" property="playDay" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="place" property="place" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="distance" property="distance" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <resultMap id="scheduleResultMap" type="com.party.core.model.competition.CompetitionSchedule">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="play_day" property="playDay" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="place" property="place" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="distance" property="distance" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <collection property="results" ofType="com.party.core.model.competition.CompetitionResult" >
+            <result column="scheduleId" property="scheduleId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+	        <result column="memberId" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+	        <result column="projectId" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+	        <result column="hours" property="hours" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        	<result column="minutes" property="minutes" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        	<result column="seconds" property="seconds" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        	<result column="secondsResult" property="secondsResult" jdbcType="VARCHAR" javaType="java.lang.String"/>
+	        <result column="isComplete" property="isComplete" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        </collection>
+    </resultMap>
+    
+    <select id="get" resultMap="memberInfoProjectMap">
+        SELECT * FROM competition_schedule m WHERE id = #{id}
+    </select>
+    
+    <select id="checkPlayDay" resultMap="memberInfoProjectMap">
+    	SELECT * from competition_schedule where project_id = #{projectId} and play_day = #{playDayStr}
+    	<if test="id != null and id != ''">
+    		and id != #{id}
+    	</if>
+    </select>
+    
+    <select id="scheduleResultAll" resultMap="scheduleResultMap">
+    	SELECT
+			cs.*, cr.schedule_id AS 'scheduleId',
+			cr.member_id AS 'memberId',
+			cr.hours AS 'hours',
+			cr.minutes AS 'minutes',
+			cr.seconds AS 'seconds',
+			cr.project_id AS 'projectId',
+			cr.is_complete AS 'isComplete',
+			cr.seconds_result as 'secondsResult'
+		FROM
+			competition_schedule cs
+		inner JOIN competition_result cr ON cs.id = cr.schedule_id
+		<where>
+    		<if test="schedule.delFlag != null and schedule.delFlag != ''"> AND cs.del_flag = #{schedule.delFlag}</if>
+    		<if test="schedule.projectId != null and schedule.projectId != ''"> AND cs.project_id = #{schedule.projectId}</if>
+    		<if test="params.isComplete != null"> AND is_complete = #{params.isComplete} </if>
+    	</where>
+    	ORDER BY cs.play_day ASC, cr.is_complete ASC, cr.seconds_result ASC
+    </select>
+    
+    <select id="listPage" resultMap="memberInfoProjectMap">
+    	SELECT * from competition_schedule m
+    	<where>
+    		<if test="delFlag != null and delFlag != ''"> AND m.del_flag = #{delFlag}</if>
+    		<if test="projectId != null and projectId != ''"> AND m.project_id = #{projectId}</if>
+    	</where>
+    	ORDER BY m.play_day ASC
+    </select>
+    
+    <select id="getSumDistance" resultType="java.lang.Double">
+    	SELECT sum(cs.distance) from competition_schedule cs where cs.project_id = #{projectId}
+    </select>
+    
+    <select id="webListPage" resultMap="memberInfoProjectMap">
+        SELECT * FROM competition_schedule m
+        <where>
+            <if test="schedule.delFlag !=null and schedule.delFlag !=''"> AND m.del_flag = #{schedule.delFlag}</if>
+            <if test="schedule.createBy != null and schedule.createBy != ''"> AND m.create_by = #{schedule.createBy}</if>
+            <if test="schedule.projectId != null and schedule.projectId != ''"> AND m.project_id = #{schedule.projectId}</if>
+            <if test="params != null">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (m.update_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(m.update_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(m.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+            </if>
+        </where>
+        ORDER BY m.play_day ASC
+    </select>
+</mapper>

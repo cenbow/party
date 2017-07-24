@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.activity.CrowfundResourcesReadDao">
+
+
+	<resultMap id="zc_resourcesMap" type="com.party.core.model.activity.CrowfundResources">
+		<id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String" />
+		<result column="resource_url" property="resourceUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="ref_id" property="refId" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="type" property="type" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer" />
+		<result column="member" property="member" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String" />
+	</resultMap>
+
+	<sql id="zc_resourcesSql">
+		id, create_by, create_date, update_by, update_date, del_flag, resource_url, ref_id, type, sort, member, remarks
+	</sql>
+
+	<select id="get" resultMap="zc_resourcesMap">
+		SELECT
+		<include refid="zc_resourcesSql" />
+		FROM zc_resources
+		WHERE id = #{id}
+	</select>
+
+	<select id="listPage" resultMap="zc_resourcesMap">
+		SELECT
+		<include refid="zc_resourcesSql" />
+		FROM zc_resources
+		<where>
+			<if test="delFlag != null and delFlag != ''"> del_flag = #{delFlag}</if>
+			<if test="refId != null and refId != ''"> AND ref_id = #{refId}</if>
+			<if test="type != null and type != ''"> AND type = #{type}</if>
+			<if test="createBy != null and createBy != ''"> AND create_by = #{createBy}</if>
+		</where>
+		ORDER BY sort ASC
+	</select>
+
+	<select id="batchList" resultMap="zc_resourcesMap">
+		SELECT
+		<include refid="zc_resourcesSql" />
+		FROM zc_resources
+		<if test="ids != null">
+			AND id IN
+			<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		ORDER BY update_date DESC
+	</select>
+</mapper>

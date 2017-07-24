@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.gatherForm.GatherFormOptionReadDao">
+	<resultMap id="memberOptionFormMap" type="com.party.core.model.gatherForm.GatherFormOption">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="field_id" property="fieldId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+    </resultMap>
+    
+    <select id="get" resultMap="memberOptionFormMap">
+        SELECT * FROM gather_d_form_option m WHERE id = #{id}
+    </select>
+    
+    <select id="listPage" resultMap="memberOptionFormMap">
+        SELECT * FROM gather_d_form_option m
+        <where>
+            <if test="fieldId !=null and fieldId !=''"> AND m.field_id = #{fieldId}</if>
+        </where>
+     	ORDER BY m.sort ASC
+    </select>
+</mapper>

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script type="text/javascript" src="../internal.js"></script>
+    <link rel="stylesheet" type="text/css" href="myvideo.css" />
+</head>
+<body>
+<div class="wrapper">
+    <div class="img-warp">
+    <span class="demo-img"></span>
+    <lable>通用视频代码：</lable>
+    <input type="text" id="video_code">
+    </div>
+</div>
+
+<!-- jquery -->
+<script type="text/javascript" src="../../third-party/jquery-1.10.2.min.js"></script>
+<script>
+    dialog.onok = function () {
+        editor.execCommand('inserthtml', $('#video_code').val());
+        dialog.close();
+    };
+</script>
+</body>
+</html>

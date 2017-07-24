@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.counterfoil.CounterfoilBusinessReadDao">
+
+
+    <resultMap id="counterfoilMap" type="com.party.core.model.counterfoil.CounterfoilBusiness">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="business_id" property="businessId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="counterfoil_id" property="counterfoilId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="counterfoilSql">
+		id, create_by, create_date, business_id, counterfoil_id
+	</sql>
+
+    <select id="get" resultMap="counterfoilMap">
+        SELECT
+        <include refid="counterfoilSql"/>
+        FROM counterfoil_business
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="counterfoilMap">
+        SELECT
+        <include refid="counterfoilSql"/>
+        FROM counterfoil_business
+        <where>
+            <if test="businessId != null and businessId != ''"> AND business_id = #{businessId} </if>
+        	<if test="counterfoilId != null and counterfoilId != ''"> AND counterfoil_id = #{counterfoilId} </if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="counterfoilMap">
+        SELECT
+        <include refid="counterfoilSql"/>
+        FROM counterfoil_business
+        <if test="ids != null">
+            AND id IN
+            <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+    
+    <select id="getUnique" resultMap="counterfoilMap">
+    	SELECT
+        <include refid="counterfoilSql"/>
+        FROM counterfoil_business
+        <where>
+        	<if test="businessId != null and businessId != ''"> AND business_id = #{businessId} </if>
+        	<if test="counterfoilId != null and counterfoilId != ''"> AND counterfoil_id = #{counterfoilId} </if>
+        </where>
+    </select>
+</mapper>

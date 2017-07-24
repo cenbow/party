@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.sign.SignGroupReadDao">
+
+    <resultMap id="groupMap" type="com.party.core.model.sign.SignGroup">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="step_num" property="stepNum" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <result column="apply_num" property="applyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="pass_num" property="passNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="refuse_num" property="refuseNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="not_audit_num" property="notAuditNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="member_num" property="memberNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <resultMap id="groupAuthorMap" type="com.party.core.model.sign.GroupAuthor">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="step_num" property="stepNum" jdbcType="INTEGER" javaType="java.lang.Long"/>
+        <result column="apply_num" property="applyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="pass_num" property="passNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="refuse_num" property="refuseNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="not_audit_num" property="notAuditNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="author_logo" property="authorLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_num" property="memberNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="groupSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag,project_id, name, step_num, apply_num, pass_num,
+         refuse_num, not_audit_num, member_num
+    </sql>
+
+    <select id="get" resultMap="groupMap">
+        SELECT
+        <include refid="groupSql"/>
+        FROM sign_group
+        WHERE id = #{id}
+    </select>
+
+    <select id="getGroupAuthor" resultMap="groupAuthorMap">
+         SELECT
+           sg.id AS id, sg.create_by AS create_by, sg.create_date AS create_date, sg.update_by AS update_by,
+           sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag, sg.project_id AS project_id,
+           sg.name AS name,sg.step_num AS step_num, sg.apply_num AS apply_num, sg.pass_num AS pass_num,sg.refuse_num AS refuse_num,
+           sg.not_audit_num AS not_audit_num, sg.member_num AS member_num,m.realname AS author_name, m.logo AS author_logo
+        FROM
+            sign_group sg
+          INNER JOIN member m ON  sg.create_by = m.id
+        WHERE sg.id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="groupMap">
+        SELECT
+        <include refid="groupSql"/>
+        FROM sign_group
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="name !=null and name !=''">AND name = #{name}</if>
+            <if test="projectId != null and projectId != ''">
+                AND project_id = #{projectId}
+            </if>
+        </where>
+    </select>
+
+    <select id="groupAuthorList" resultMap="groupAuthorMap">
+        SELECT
+           sg.id AS id, sg.create_by AS create_by, sg.create_date AS create_date, sg.update_by AS update_by,
+           sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag,sg.project_id AS project_id,
+           sg.name AS name,sg.step_num AS step_num, sg.apply_num AS apply_num, sg.pass_num AS pass_num,sg.refuse_num AS refuse_num,
+           sg.not_audit_num AS not_audit_num,sg.member_num AS member_num,m.realname AS author_name, m.logo AS author_logo
+        FROM
+            sign_group sg
+        INNER JOIN member m ON  sg.create_by = m.id
+        <where>
+            <if test="startDate != null and startDate != ''">
+                AND TO_DAYS(sg.create_date) &gt;= TO_DAYS(#{startDate})
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND TO_DAYS(sg.create_date) &lt;= TO_DAYS(#{endDate})
+            </if>
+            <if test="name != null and name != ''">
+                AND sg.name LIKE concat('%',#{name},'%')
+            </if>
+            <if test="projectId != null and projectId != ''">
+                AND sg.project_id = #{projectId}
+            </if>
+        </where>
+        ORDER BY sg.step_num DESC ,sg.member_num DESC ;
+    </select>
+
+    <select id="rankList" resultMap="groupAuthorMap">
+        SELECT
+           sg.id AS id, sg.create_by AS create_by, sg.create_date AS create_date, sg.update_by AS update_by,
+           sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag,sg.project_id AS project_id,
+           sg.name AS name,SUM(sr.step_num) AS step_num, sg.apply_num AS apply_num, sg.pass_num AS pass_num,sg.refuse_num AS refuse_num,
+           sg.not_audit_num AS not_audit_num,sg.member_num AS member_num,m.realname AS author_name, m.logo AS author_logo
+        FROM
+          sign_group sg
+        INNER JOIN member m ON  sg.create_by = m.id
+        LEFT JOIN sign_apply sa ON sg.id = sa.group_id
+            <if test="param.gradeStatus != null"> AND sa.grade_status = #{param.gradeStatus}</if>
+        LEFT JOIN sign_record sr ON sa.id = sr.apply_id
+        <where>
+            <if test="param.projectId != null and param.projectId != ''"> sg.project_id = #{param.projectId}</if>
+            <if test="param.startTime != null">AND TO_DAYS(sr.create_date) &gt;= TO_DAYS(#{param.startTime}) </if>
+            <if test="param.endTime != null"> AND TO_DAYS(sr.create_date) &lt;= TO_DAYS(#{param.endTime}) </if>
+        </where>
+        GROUP BY sg.id
+        ORDER BY SUM(sr.step_num) DESC,sg.member_num DESC ;
+    </select>
+</mapper>

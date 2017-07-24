@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.message.MessageSetReadDao">
+
+    <resultMap id="messageSetMap" type="com.party.core.model.message.MessageSet">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="love_tip" property="loveTip" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="comment_tip" property="commentTip" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="focus_tip" property="focusTip" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sys_tip" property="sysTip" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="act_tip" property="actTip" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="goods_tip" property="goodsTip" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+
+    <sql id="messageSetSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag,
+        member_id, love_tip, comment_tip, focus_tip, sys_tip, act_tip, goods_tip
+    </sql>
+
+    <select id="get" resultMap="messageSetMap">
+        SELECT
+        <include refid="messageSetSql"/>
+        FROM message_set
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByMemberId" resultMap="messageSetMap">
+        SELECT
+        <include refid="messageSetSql"/>
+        FROM message_set
+        WHERE member_id = #{memberId}
+    </select>
+
+    <select id="listPage" resultMap="messageSetMap">
+        SELECT
+        <include refid="messageSetSql"/>
+        FROM message_set
+        <where>
+            <if test="delFlag !=null and delFlag != ''"> del_flag = #{delFlag}</if>
+            <if test="memberId !=null and memberId != ''"> AND member_id = #{memberId}</if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="messageSetMap">
+        SELECT
+        <include refid="messageSetSql"/>
+        FROM message_set
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

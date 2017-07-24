@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.circle.CircleApplyReadDao">
+    <resultMap id="circleApplyMap" type="com.party.core.model.circle.CircleApply">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="circle_id" property="circle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="member" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="check_status" property="checkStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="circleApplySql">
+        a.id,
+        a.del_flag,
+        a.create_by,
+        a.update_by,
+        a.remarks,
+        a.create_date,
+        a.update_date,
+        a.circle_id,
+        a.member_id,
+        a.check_status
+    </sql>
+
+    <select id="get" resultMap="circleApplyMap">
+        SELECT
+        <include refid="circleApplySql"/>
+        FROM c_apply a
+        WHERE a.id = #{id}
+    </select>
+    
+    <select id="getUnique" resultMap="circleApplyMap">
+        SELECT
+        <include refid="circleApplySql"/>
+        FROM c_apply a
+        <where>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="member !=null and member !=''">AND a.member_id = #{member}</if>
+            <if test="checkStatus !=null">AND a.check_status = #{checkStatus}</if>
+        </where>
+        limit 0,1
+    </select>
+    
+    <select id="count" resultType="java.lang.Long">
+        SELECT
+       	count(a.id)
+        FROM c_apply a
+        <where>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="member !=null and member !=''">AND a.member_id = #{member}</if>
+            <if test="checkStatus !=null">AND a.check_status = #{checkStatus}</if>
+        </where>
+    </select>
+    
+	<select id="listAll" resultMap="circleApplyMap">
+        SELECT
+        <include refid="circleApplySql"/>
+        FROM c_apply a
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> a.del_flag = #{delFlag}</if>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="checkStatus !=null">AND a.check_status = #{checkStatus}</if>
+        </where>
+            ORDER BY update_date DESC
+    </select>
+    
+    <select id="listPage" resultMap="circleApplyMap">
+        SELECT
+        <include refid="circleApplySql"/>
+        FROM c_apply a
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> a.del_flag = #{delFlag}</if>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="checkStatus !=null">AND a.check_status = #{checkStatus}</if>
+        </where>
+            ORDER BY  update_date DESC
+    </select>
+
+    <select id="webListPage" resultType="java.util.Map">
+        SELECT
+        a.*,m.id as mId,m.realname as mName,m.logo as mLogo,m.mobile as mMobile
+        FROM c_apply a
+        LEFT JOIN member m on m.id = a.member_id
+        <where>
+            <if test="apply.delFlag !=null and apply.delFlag !=''"> a.del_flag = #{apply.delFlag}</if>
+            <if test="apply.checkStatus !=null">AND a.check_status = #{apply.checkStatus}</if>
+            <if test="apply.circle !=null and apply.circle != ''">AND a.circle_id = #{apply.circle}</if>
+            <if test="params != null and params.size > 0">
+	            <if test="params.mobile !=null and params.mobile !=''">AND m.mobile like concat('%',#{params.mobile},'%')</if>
+	            <if test="params.realname !=null and params.realname !=''">AND m.realname like concat('%',#{params.realname},'%')</if>
+	           	<!-- 创建时间 时间块 -->
+	           	<if test="params.startDate != null and params.endDate != null">
+	           		AND (a.create_date between #{params.startDate} and #{params.endDate})
+	           	</if>
+	           	<!-- 创建时间 时间段 -->
+	           	<if test="params.c_start != null and params.c_start != ''">
+	           		AND TO_DAYS(a.update_date) &gt;= TO_DAYS(#{params.c_start})
+	           	</if>
+	           	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(a.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+	      	</if>
+        </where>
+        ORDER BY  update_date DESC
+    </select>
+</mapper>

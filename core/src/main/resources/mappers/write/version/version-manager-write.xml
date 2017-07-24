@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.version.VersionManagerWriteDao">
+
+
+    <insert id="insert" parameterType="com.party.core.model.version.VersionManager" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO version_manager
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="loginQQ != null">  login_qq,</if>
+            <if test="loginWX != null">  login_wx,</if>
+            <if test="isDebug != null">  is_debug,</if>
+            <if test="versionNumber != null">  version_number,</if>
+            <if test="isOpen != null">  is_open,</if>            
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="loginQQ != null">  #{login_qq,jdbcType=INTEGER},</if>
+            <if test="loginWX != null"> #{login_wx,jdbcType=INTEGER},</if>
+            <if test="isDebug != null"> #{is_debug,jdbcType=INTEGER},</if>
+            <if test="versionNumber != null">  #{version_number,jdbcType=CHAR},</if>
+            <if test="isOpen != null"> #{is_open,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+
+    <update id="update">
+        UPDATE version_manager
+        <set>
+            <if test="createBy != null">  create_by = #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null">  create_date = #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="loginQQ != null">  login_qq = #{loginQQ,jdbcType=INTEGER},</if>
+            <if test="loginWX != null">  login_wx = #{loginWX,jdbcType=INTEGER},</if>
+            <if test="isDebug != null">  is_debug = #{isDebug,jdbcType=INTEGER},</if>
+            <if test="versionNumber != null">  version_number = #{versionNumber,jdbcType=CHAR},</if>
+            <if test="is_open != null">  is_open = #{isOpen,jdbcType=INTEGER},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE version_manager SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM version_manager
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE version_manager SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM version_manager
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

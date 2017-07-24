@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.competition.CompetitionMemberReadDao">
+	<resultMap id="memberInfoProjectMap" type="com.party.core.model.competition.CompetitionMember">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="group_id" property="groupId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="number" property="number" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="total_seconds_result" property="totalSecondsResult" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="total_distance" property="totalDistance" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+    
+    <select id="get" resultMap="memberInfoProjectMap">
+        SELECT * FROM competition_member m WHERE id = #{id}
+    </select>
+    
+    <select id="getUnique" resultMap="memberInfoProjectMap">
+        SELECT * FROM competition_member m WHERE member_id = #{memberId} and project_id = #{projectId} ORDER BY create_date DESC LIMIT 0,1
+    </select>
+    
+    <select id="listPage" resultMap="memberInfoProjectMap">
+        SELECT m.*, cg.group_name as 'groupName' FROM competition_member m left join competition_group cg on m.group_id = cg.id
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> AND m.del_flag = #{delFlag}</if>
+            <if test="projectId != null and projectId != ''"> AND m.project_id = #{projectId}</if>
+            <if test="groupId !=null and groupId !=''">AND m.group_id = #{groupId}</if>
+        </where>
+        ORDER BY m.update_date DESC
+    </select>
+    
+    <select id="checkNumberPai" resultMap="memberInfoProjectMap">
+    	SELECT * from competition_member where project_id = #{projectId} and number = #{numberPai}
+    	<if test="id != null and id != ''">
+    		and id != #{id}
+    	</if>
+    </select>
+    
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM competition_member m
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> AND m.del_flag = #{delFlag}</if>
+            <if test="projectId != null and projectId != ''"> AND m.project_id = #{projectId}</if>
+            <if test="groupId !=null and groupId !=''">AND m.group_id = #{groupId}</if>
+        </where>
+    </select>
+    
+    <select id="webListPage" resultMap="memberInfoProjectMap">
+        SELECT cm.*, cg.group_name as 'groupName' FROM competition_member cm inner join member m on cm.member_id = m.id
+        left join competition_group cg on cg.id = cm.group_id
+        <where>
+            <if test="cMember.delFlag !=null and cMember.delFlag !=''"> AND cm.del_flag = #{cMember.delFlag}</if>
+            <if test="cMember.groupId != null and cMember.groupId != ''"> AND cm.group_id = #{cMember.groupId}</if>
+            <if test="cMember.projectId != null and cMember.projectId != ''"> AND cm.project_id = #{cMember.projectId}</if>
+            <if test="cMember.number != null and cMember.number != ''"> AND cm.number like concat('%',#{cMember.number},'%')</if>
+            <if test="member.realname !=null and member.realname !=''" > AND ((m.fullname like concat('%',#{member.realname},'%')) or (m.realname like concat('%',#{member.realname},'%')))</if>
+            <if test="member.mobile !=null and member.mobile !=''"> AND m.mobile like concat('%',#{member.mobile},'%')</if>
+            <if test="member.sex != null"> AND m.sex = #{member.sex}</if>
+            <if test="params != null">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (cm.update_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(cm.update_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(cm.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+            </if>
+        </where>
+        ORDER BY cm.group_id DESC, cm.update_date DESC
+    </select>
+</mapper>

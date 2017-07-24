@@ -1,0 +1,58 @@
+.head-main-car {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    padding: 10px;
+}
+
+.head-main-car .info-box {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    padding: 10px;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.head-main-car .info-box:hover .box-icon .iconfont {
+    font-size: 60px;
+}
+
+.info-box .box-content {
+    position: relative;
+}
+
+.info-box .box-content .box-icon {
+    position: absolute;
+    right: 1px;
+    top: 4px;
+}
+
+.info-box .box-content .box-icon .iconfont {
+    font-size: 58px;
+    color: rgba(0, 0, 0, 0.15);
+    transition: all .5s;
+}
+
+.info-box .box-content .box-inner {
+    font-size: 18px;
+}
+
+.info-box .box-content .box-inner .num {
+    font-size: 26px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.info-box .box-content .box-inner .info {
+    margin-bottom: 5px;
+}
+.chart-content{
+    margin: 10px;
+}

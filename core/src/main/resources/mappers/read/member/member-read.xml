@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.member.MemberReadDao">
+
+
+    <resultMap id="memberMap" type="com.party.core.model.member.Member">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="company" property="company" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="username" property="username" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="password" property="password" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="realname" property="realname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pinyin" property="pinyin" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="job_title" property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="industry" property="industry" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="city" property="city" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="want_res" property="wantRes" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="user_status" property="userStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_admin" property="isAdmin" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_expert" property="isExpert" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_distributor" property="isDistributor" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="recommend" property="recommend" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="signature" property="signature" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="registration_id" property="registrationId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="picNum" property="picNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_open" property="isOpen" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_partner" property="isPartner" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sex" property="sex" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="qq" property="qq" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="wechat_num" property="wechatNum" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="fullname" property="fullname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="perfect_state" property="perfectState" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="memberSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag,
+        company, username, password, realname, pinyin, mobile, job_title,fullname, 
+        industry, city, want_res, user_status, logo, is_admin, is_expert, is_distributor,is_partner,
+        recommend, signature, registration_id, picNum, is_open, sex, qq, wechat_num, perfect_state
+    </sql>
+
+    <select id="get" resultMap="memberMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="memberMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member
+        <where>
+            <if test="delFlag !=null and delFlag !=''">del_flag = #{delFlag}</if>
+            <if test="company !=null and company !=''">AND company like concat('%',#{company},'%')</if>
+            <if test="industry !=null and industry !=''">AND industry = #{industry}</if>
+            <if test="city !=null and city !=''">AND city = #{city}</if>
+            <if test="username !=null and username !=''">AND username like concat('%',#{username},'%')</if>
+            <if test="realname !=null and realname !=''">AND realname like concat('%',#{realname},'%')</if>
+            <if test="mobile !=null and mobile !=''">AND mobile = #{mobile}</if>
+            <if test="isAdmin !=null and isAdmin !=''">AND is_admin = #{isAdmin}</if>
+            <if test="isExpert !=null and isExpert !=''">AND is_expert = #{isExpert}</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="webListPage" resultMap="memberMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member
+        <where>
+            <if test="member.delFlag !=null and member.delFlag !=''">del_flag = #{member.delFlag}</if>
+            <if test="member.company !=null and member.company !=''">AND company like concat('%',#{member.company},'%')</if>
+            <if test="member.industry !=null and member.industry !=''">AND industry = #{member.industry}</if>
+            <if test="member.city !=null and member.city !=''">AND city = #{member.city}</if>
+            <if test="member.username !=null and member.username !=''">AND username like concat('%',#{member.username},'%')</if>
+            <if test="member.realname !=null and member.realname !=''">AND realname like concat('%',#{member.realname},'%')</if>
+            <if test="member.mobile !=null and member.mobile !=''">AND mobile like concat('%',#{member.mobile},'%')</if>
+            <if test="member.isAdmin !=null and member.isAdmin !=''">AND is_admin = #{member.isAdmin}</if>
+            <if test="member.isExpert !=null">AND is_expert = #{member.isExpert}</if>
+            <if test="member.isDistributor !=null">AND is_distributor = #{member.isDistributor}</if>
+            <if test="member.isPartner !=null">AND is_partner = #{member.isPartner}</if>
+            <if test="member.userStatus !=null">AND user_status = #{member.userStatus}</if>
+            <if test="params != null and params.size > 0">
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (create_date between #{params.startDate} and #{params.endDate})
+                </if>
+                <if test="params.c_start != null and params.c_start != ''">
+                    AND TO_DAYS(create_date) &gt;= TO_DAYS(#{params.c_start})
+                </if>
+                <if test="params.c_end != null and params.c_end != ''">
+                    AND TO_DAYS(create_date) &lt;= TO_DAYS(#{params.c_end})
+                </if>
+                <if test="params.isExpert != null">
+                    AND is_expert = #{params.isExpert}
+                </if>
+                <if test="params.isDistributor != null">
+                    AND is_distributor = #{params.isDistributor}
+                </if>
+                <if test="params.isPartner != null">
+                    AND is_partner = #{params.isPartner}
+                </if>
+                <if test="params.userStatus != null">
+                    AND user_status IN
+                    <foreach item="status" index="index" collection="params.userStatus" open="(" separator="," close=")">
+                        #{status}
+                    </foreach>
+                </if>
+            </if>
+        </where>
+        ORDER BY create_date DESC
+    </select>
+
+    <select id="batchList" resultMap="memberMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member
+        <where>
+            <if test="param.delFlag !=null and param.delFlag !=''">del_flag = #{param.delFlag}</if>
+            <if test="param.company !=null and param.company !=''">AND company like concat('%',#{param.company},'%')</if>
+            <if test="param.industry !=null and param.industry !=''">AND industry = #{param.industry}</if>
+            <if test="param.city !=null and param.city !=''">AND city = #{param.city}</if>
+            <if test="param.username !=null and param.username !=''">AND username like '${param.username}%'</if>
+            <if test="param.realname !=null and param.realname !=''">AND realname like '${param.realname}%'</if>
+            <if test="param.mobile !=null and param.mobile !=''">AND mobile like '${param.mobile}%'</if>
+            <if test="param.isAdmin !=null and param.isAdmin !=''">AND is_admin = #{param.isAdmin}</if>
+            <if test="param.isExpert !=null and param.isExpert !=''">AND is_expert = #{param.isExpert}</if>
+            <if test="ids != null">
+                AND id IN
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="findByLoginName" resultMap="memberMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member
+        WHERE username = #{loginName} OR mobile = #{loginName}
+    </select>
+
+    <select id="checkUserName" resultMap="memberMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member
+        WHERE 1=1
+        <if test="type == 'username' and (property != null and property != '') ">
+            and member.username = #{property}
+        </if>
+        <if test="type == 'mobile' and (property != null and property != '') ">
+            and member.mobile = #{property}
+        </if>
+        <if test="userId != null and userId != ''">
+            and member.id != #{userId}
+        </if>
+    </select>
+
+    <select id="findMemberByPhoneOrName" resultType="java.util.Map">
+        SELECT
+        a.id,a.realname,a.logo,a.mobile
+        FROM member a
+        <where>
+            <if test="property == 'realName' and (value != null and value != '') ">
+                and a.realname like concat('%',#{value},'%')
+            </if>
+            <if test="property == 'phone' and (value != null and value != '') ">
+                and a.mobile like concat('%',#{value},'%')
+            </if>
+        </where>
+        ORDER BY update_date DESC limit 0,10
+    </select>
+
+    <select id="countByDate" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT COUNT(id) AS count, DATE_FORMAT(create_date,'%Y-%m-%d') AS day
+        FROM member
+        <where>
+            <if test="parameter.startDate != null">TO_DAYS(create_date) &gt;= TO_DAYS(#{parameter.startDate})</if>
+            <if test="parameter.endDate != null">AND TO_DAYS(create_date) &lt;= TO_DAYS(#{parameter.endDate})</if>
+            <if test="parameter.userStatus != null">AND user_status = #{parameter.userStatus}</if>
+            <if test="parameter.delFlag != null">AND del_flag = #{parameter.delFlag}</if>
+        </where>
+        GROUP BY TO_DAYS(create_date)
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        SELECT COUNT(id) AS count
+        FROM member
+        <where>
+            <if test="parameter.userStatus != null">AND user_status = #{parameter.userStatus}</if>
+            <if test="parameter.delFlag != null">AND del_flag = #{parameter.delFlag}</if>
+        </where>
+    </select>
+
+    <select id="getRemoteLogoList" resultMap="memberMap">
+        SELECT
+        <include refid="memberSql"/>
+        FROM member
+        WHERE
+        mobile IS NOT NULL
+        AND logo IS NOT NULL
+        AND logo != ''
+        AND LOCATE('http://txzapp-10052192.image.myqcloud.com',logo) = 0
+        <if test="limit != null">
+        limit 0,#{limit}
+        </if>
+        GROUP BY create_date
+    </select>
+</mapper>

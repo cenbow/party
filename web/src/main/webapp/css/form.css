@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+/*表单发布*/
+.wrap {
+	margin: 0 auto;
+	width: 1190px;
+	background: #FFF;
+	margin-bottom: 30px;
+}
+
+form.form-horizontal {
+	margin: 35px auto 20px
+}
+
+/*封面图*/
+.posterimg_outside {
+	width: 210px;
+	height: 123px;
+	background: url(../image/posterImg.png) no-repeat 100% 100%;
+	float: left;
+}
+
+.posterImg_pic {
+	width: 210px;
+	height: 123px;
+}
+
+/*左边文字*/
+.form-group span {
+	display: inline-block;
+	font-size: 14px;
+	color: #000;
+	margin: 0 5px 0 0;
+}
+
+.input_text {
+	padding-top: 0px !important;
+	height: 34px !important;
+	line-height: 34px !important;
+}
+
+/*表单验证error提示*/
+.error {
+	display: inline-block;
+	color: #eb6877;
+	line-height: 30px;
+	float: left;
+	margin-left: 5px;
+	font-size: 12px;
+}
+
+.errorinput {
+	width: 0px;
+	height: 0px;
+	border-color: transparent;
+}
+
+.errormsg {
+	font-weight: 700;
+	color: #cc5965;
+}
+
+.btnDiv {
+	height: 45px;
+	margin: 25px auto 65px;
+	text-align: center;
+}
+.btnDiv button{
+	width: 150px;
+	margin-right: 15px;
+}
+.imgBtn{
+	margin: 25px 0 0 30px;
+	float: left;
+}
+.f_l {
+	float: left;
+}
+
+.p_l {
+	padding-left: 5px;
+}
+
+/*颜色*/
+.red {
+	color: red;
+}
+
+.white {
+	color: white;
+}
+
+.bg_e7 {
+	background: #e7e7eb;
+}

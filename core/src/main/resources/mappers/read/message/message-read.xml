@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.message.MessageReadDao">
+
+    <resultMap id="messageMap" type="com.party.core.model.message.Message">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="message_type" property="messageType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="rel_id" property="relId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="tag" property="tag" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pic_url" property="picUrl" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_new" property="isNew" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="order_status" property="orderStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="messageSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, message_type,
+         logo, title, rel_id, member, tag, content, pic_url, is_new, order_id, order_status
+    </sql>
+
+    <select id="get" resultMap="messageMap">
+        SELECT
+        <include refid="messageSql"/>
+        FROM message
+        WHERE id = #{id}
+    </select>
+
+    <select id="find" resultMap="messageMap">
+        SELECT
+        <include refid="messageSql"/>
+        FROM message
+        <where>
+            <if test="isNew != null and isNew != ''">
+                AND is_new = #{isNew}
+            </if>
+            <if test="messageType != null and messageType != ''">
+                AND message_type = #{messageType}
+            </if>
+            <if test="relId != null and relId != ''">
+                AND rel_id = #{relId}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND create_by = #{createBy}
+            </if>            
+            <if test="memberId != null and memberId != ''">
+                AND member = #{memberId}
+            </if>
+        </where>
+        ORDER BY update_date DESC  limit 0,1
+    </select>
+
+
+    <select id="listPage" resultMap="messageMap">
+        SELECT
+        <include refid="messageSql"/>
+        FROM message
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="messageType != null and messageType != ''">
+                AND message_type = #{messageType}
+            </if>
+            <if test="relId != null and relId != ''">
+                AND rel_id = #{relId}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND create_by = #{createBy}
+            </if>
+            <if test="isNew != null and isNew != ''">
+                AND is_new = #{isNew}
+            </if>
+            <if test="memberId != null and memberId != ''">
+                AND member = #{memberId}
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+
+    <select id="batchList">
+        SELECT
+        <include refid="messageSql"/>
+        FROM message
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY update_date DESC
+    </select>
+    
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT
+        	count(id)
+        FROM message
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="messageType != null and messageType != ''">
+                AND message_type = #{messageType}
+            </if>
+            <if test="relId != null and relId != ''">
+                AND rel_id = #{relId}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND create_by = #{createBy}
+            </if>
+            <if test="isNew != null and isNew != ''">
+                AND is_new = #{isNew}
+            </if>
+            <if test="memberId != null and memberId != ''">
+                AND member = #{memberId}
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+</mapper>

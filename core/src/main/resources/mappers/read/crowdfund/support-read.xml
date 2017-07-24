@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.crowdfund.SupportReadDao">
+
+    <resultMap id="supportMap" type="com.party.core.model.crowdfund.Support">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="favorer_id" property="favorerId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pay_status" property="payStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <resultMap id="supportWithMemberMap" type="com.party.core.model.crowdfund.SupportWithMember">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="comment" property="comment" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="favorer_id" property="favorerId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pay_status" property="payStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="favorer_name" property="favorerName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="favorer_logo" property="favorerLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="favorer_company" property="favorerCompany" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="favorer_jobTitle" property="favorerJobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="favorer_mobile" property="favorerMobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="payment" property="payment" jdbcType="FLOAT" javaType="java.lang.Float"/>
+    </resultMap>
+
+    <resultMap id="countMap" type="com.party.core.model.crowdfund.SupportCount">
+        <result column="date" property="date" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="payment" property="payment" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="count" property="favorerNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+
+    <sql id="supportSql">
+        id, create_by, create_date, update_by, update_date, del_flag, comment, favorer_id, pay_status, order_id, project_id
+    </sql>
+
+    <select id="get" resultMap="supportMap">
+        SELECT
+        <include refid="supportSql"/>
+        FROM zc_support
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="supportMap">
+        SELECT
+        <include refid="supportSql"/>
+        FROM zc_support
+        <where>
+            <if test="favorerId != null and favorerId != ''"> favorer_id = #{favorerId}</if>
+            <if test="projectId != null and projectId != ''"> AND project_id = #{projectId}</if>
+            <if test="payStatus != null"> AND pay_status = #{payStatus}</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="listWithMember" resultMap="supportWithMemberMap">
+        SELECT
+        s.id AS id, s.create_by AS create_by, s.create_date AS create_date, s.update_by AS update_by,
+        s.update_date AS update_date, s.del_flag AS del_flag, s.comment AS comment, s.favorer_id AS favorer_id,
+        s.order_id AS order_id,s.pay_status AS pay_status,s.project_id AS project_id,m.realname AS favorer_name,
+        m.logo AS favorer_logo, m.company AS favorer_company, m.mobile AS favorer_mobile, m.job_title AS favorer_jobTitle,
+        o.payment AS payment
+        FROM zc_support s
+        INNER JOIN member m ON s.favorer_id = m.id
+        INNER JOIN order_form o ON s.order_id = o.id
+        <where>
+            <if test="favorerId != null and favorerId != ''"> s.favorer_id = #{favorerId}</if>
+            <if test="projectId != null and projectId != ''"> AND s.project_id = #{projectId}</if>
+            <if test="payStatus != null"> AND s.pay_status = #{payStatus}</if>
+            <if test="status != null"> AND o.status = #{status}</if>
+            <if test="excludePayStatus != null">AND  s.pay_status != #{excludePayStatus}</if>
+            <if test="startTime != null"> AND TO_DAYS(s.create_date) = TO_DAYS(#{startTime})</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="distributorList" resultMap="supportWithMemberMap">
+        SELECT
+        s.id AS id, s.create_by AS create_by, s.create_date AS create_date, s.update_by AS update_by,
+        s.update_date AS update_date, s.del_flag AS del_flag, s.comment AS comment, s.favorer_id AS favorer_id,
+        s.order_id AS order_id,s.pay_status AS pay_status,s.project_id AS project_id,m.realname AS favorer_name,
+        m.logo AS favorer_logo,m.company AS favorer_company, m.mobile AS favorer_mobile, m.job_title AS favorer_jobTitle,
+        o.payment AS payment
+        FROM zc_support s
+        INNER JOIN member m ON s.favorer_id = m.id
+        INNER JOIN order_form o ON s.order_id = o.id
+        LEFT JOIN distributor_detail dd ON s.order_id = dd.target_id
+        <where>
+            <if test="favorerId != null and favorerId != ''"> s.favorer_id = #{favorerId}</if>
+            <if test="projectId != null and projectId != ''"> AND s.project_id = #{projectId}</if>
+            <if test="payStatus != null"> AND s.pay_status = #{payStatus}</if>
+            <if test="relationId != null and relationId != ''"> AND dd.distributor_relation_id = #{relationId}</if>
+            <if test="status != null"> AND o.status = #{status}</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="findByOrderId" resultMap="supportMap">
+        SELECT
+        <include refid="supportSql"/>
+        FROM zc_support
+        WHERE order_id = #{orderId}
+    </select>
+
+    <select id="list" resultMap="supportMap">
+        SELECT
+        s.id AS id, s.create_by AS create_by, s.create_date AS create_date, s.update_by AS update_by,
+        s.update_date AS update_date, s.del_flag AS del_flag, s.comment AS comment, s.favorer_id AS favorer_id,
+        s.order_id AS order_id,s.pay_status AS pay_status,s.project_id AS project_id
+        FROM zc_support s
+        LEFT JOIN distributor_detail dd ON s.order_id = dd.target_id
+        <where>
+            s.pay_status = 1
+            <if test="ids.size > 0">
+                AND s.project_id IN
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="param.relationId != null and param.relationId != ''"> AND dd.distributor_relation_id = #{param.relationId}</if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="supportMap">
+        SELECT
+        <include refid="supportSql"/>
+        FROM zc_support
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    
+    <select id="sumByProjectId" resultType="java.lang.Float">
+        SELECT SUM(o.payment)
+        FROM
+            zc_support s
+        INNER JOIN order_form o ON o.id = s.order_id
+        WHERE
+            s.project_id = #{projectId}
+        AND o.status = 2
+    </select>
+
+    <select id="count" resultMap="countMap">
+        SELECT
+            SUM(o.payment) AS payment,
+            DATE_FORMAT(zs.create_date,'%Y-%m-%d') AS date,
+            COUNT(1) AS count
+        FROM
+            zc_support zs
+        INNER JOIN order_form o ON zs.order_id = o.id
+        <where>
+            zs.pay_status = 1
+            <if test="param.projectId != null and param.projectId != ''">AND zs.project_id = #{param.projectId} </if>
+            <if test="param.startTime != null">AND TO_DAYS(zs.create_date) &gt;= TO_DAYS(#{param.startTime}) </if>
+            <if test="param.endTime != null"> AND TO_DAYS(zs.create_date) &lt;= TO_DAYS(#{param.endTime}) </if>
+        </where>
+        GROUP BY
+            TO_DAYS(zs.create_date)
+    </select>
+
+    <select id="countAll" resultType="java.lang.Float">
+        SELECT
+        SUM(o.payment) AS payment
+        FROM
+        zc_support zs
+        INNER JOIN order_form o ON zs.order_id = o.id
+        <where>
+            zs.pay_status = 1
+            <if test="param.projectId != null and param.projectId != ''">AND zs.project_id = #{param.projectId} </if>
+            <if test="param.startTime != null">AND TO_DAYS(zs.create_date) &gt;= TO_DAYS(#{param.startTime}) </if>
+            <if test="param.endTime != null"> AND TO_DAYS(zs.create_date) &lt;= TO_DAYS(#{param.endTime}) </if>
+        </where>
+    </select>
+</mapper>

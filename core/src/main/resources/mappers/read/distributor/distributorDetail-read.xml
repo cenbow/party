@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.distributor.DistributorDetailReadDao">
+
+    <resultMap id="distributorDetailMap" type="com.party.core.model.distributor.DistributorDetail">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="distributor_relation_id" property="distributorRelationId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="type" property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="distributorDetailSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag, target_id, distributor_relation_id, type
+    </sql>
+
+    <select id="get" resultMap="distributorDetailMap">
+        SELECT
+        <include refid="distributorDetailSql"/>
+        FROM distributor_detail
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByTargetId" resultMap="distributorDetailMap">
+        SELECT
+        <include refid="distributorDetailSql"/>
+        FROM distributor_detail
+        WHERE target_id = #{targetId}
+    </select>
+
+
+    <select id="listPage" resultMap="distributorDetailMap">
+        SELECT
+        <include refid="distributorDetailSql"/>
+        FROM distributor_detail
+        <where>
+            <if test="targetId != null and targetId != ''">target_id = #{targetId} </if>
+            <if test="distributorRelationId != null and distributorRelationId != ''"> AND distributor_relation_id = #{distributorRelationId}</if>
+            <if test="type != null "> AND  type = #{type}</if>
+        </where>
+    </select>
+
+    <select id="applyList" resultMap="distributorDetailMap">
+        SELECT d.*
+        FROM distributor_detail d INNER JOIN member_act m
+        ON d.target_id = m.id
+        <where>
+            <if test="distributorRelationId != null and distributorRelationId != ''">
+                d.distributor_relation_id = #{distributorRelationId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="buyList" resultMap="distributorDetailMap">
+        SELECT d.*
+        FROM distributor_detail d INNER JOIN order_form o ON d.target_id = o.id
+        <where>
+            o.status != 3
+            <if test="distributorRelationId != null and distributorRelationId != ''">
+              AND  d.distributor_relation_id = #{distributorRelationId}
+            </if>
+        </where>
+    </select>
+
+    <select id="corowdfundList" resultMap="distributorDetailMap">
+        SELECT d.*
+        FROM distributor_detail d INNER JOIN zc_project p ON p.id = d.target_id
+        <where>
+            p.is_success != 2
+            <if test="distributorRelationId != null and distributorRelationId != ''">
+                AND d.distributor_relation_id = #{distributorRelationId}
+            </if>
+        </where>
+    </select>
+
+    <select id="supportList" resultMap="distributorDetailMap">
+        SELECT d.*
+        FROM distributor_detail d INNER JOIN zc_support s ON s.id = d.target_id
+        <where>
+            s.pay_status = 1
+            <if test="distributorRelationId != null and distributorRelationId != ''">
+                AND d.distributor_relation_id = #{distributorRelationId}
+            </if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="distributorDetailMap">
+        SELECT
+        <include refid="distributorDetailSql"/>
+        FROM distributor_detail
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

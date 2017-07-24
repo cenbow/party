@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.crowdfund.ProjectLabelReadDao">
+
+
+    <resultMap id="projectLabelMap" type="com.party.core.model.crowdfund.ProjectLabel">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="project_id" property="projectId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="label_id" property="labelId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="projectLabelSql">
+        id, project_id, label_id
+    </sql>
+
+    <select id="get" resultMap="projectLabelMap">
+        SELECT
+        <include refid="projectLabelSql"/>
+        FROM zc_project_label
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByProjectId" resultMap="projectLabelMap">
+        SELECT
+        <include refid="projectLabelSql"/>
+        FROM zc_project_label
+        WHERE project_id = #{projectId}
+    </select>
+
+    <select id="findByLabelId" resultMap="projectLabelMap">
+        SELECT
+        <include refid="projectLabelSql"/>
+        FROM zc_project_label
+        WHERE label_id = #{labelId}
+    </select>
+
+    <select id="listPage" resultMap="projectLabelMap">
+        SELECT
+        <include refid="projectLabelSql"/>
+        FROM zc_project_label
+        <where>
+            <if test="projectId != null and projectId != ''"> project_id = #{projectId}</if>
+            <if test="labelId != null and labelId != ''"> AND label_id = #{labelId}</if>
+        </where>
+    </select>
+</mapper>

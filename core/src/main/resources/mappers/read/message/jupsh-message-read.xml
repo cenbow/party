@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.message.JpushMessageReadDao">
+
+    <resultMap id="jpushMessageMap" type="com.party.core.model.message.JpushMessage">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="tag" property="tag" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="alias" property="alias" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="registration_id" property="registrationId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="message" property="message" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_send" property="isSend" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="message_type" property="messageType" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="jpushMessageSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag,
+        tag, alias, registration_id, message, is_send, message_type
+    </sql>
+
+    <select id="get" resultMap="jpushMessageMap">
+        SELECT
+        <include refid="jpushMessageSql"/>
+        FROM jpush_message
+        WHERE id = #{id}
+    </select>
+
+
+    <select id="listPage" resultMap="jpushMessageMap">
+        SELECT
+        <include refid="jpushMessageSql"/>
+        FROM jpush_message
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="registrationId != null and registrationId != ''"> AND registration_id = #{registration_id}</if>
+            <if test="isSend !=null "> AND  is_send = #{isSend}</if>
+            <if test="messageType != null and messageType != ''"> message_type = #{messageType}</if>
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="jpushMessageMap">
+        SELECT
+        <include refid="jpushMessageSql"/>
+        FROM jpush_message
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.menu.MenuReadDao">
+
+
+    <resultMap id="menuMap" type="com.party.core.model.menu.Menu">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="parent_ids" property="parentIds" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="DECIMAL" javaType="java.lang.String"/>
+        <result column="href" property="href" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="target" property="target" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_show" property="isShow" jdbcType="CHAR" javaType="java.lang.Integer"/>
+        <result column="permission" property="permission" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="menuSql">
+        id, create_by, create_date, update_by, update_date, remarks,
+         del_flag, parent_id, parent_ids, name, sort, href, target,
+         icon, is_show, permission
+    </sql>
+
+    <select id="get" resultMap="menuMap">
+        SELECT
+        <include refid="menuSql"/>
+        FROM sys_menu
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="menuMap">
+        SELECT
+        <include refid="menuSql"/>
+        FROM sys_menu
+        <where>
+            <if test="delFlag !=null and delFlag !=''">del_flag = #{delFlag}</if>
+            <if test="parentId !=null and parentId !=''"> AND parent_id = #{parentId}</if>
+            <if test="name !=null and name !=''"> AND name = #{name}</if>
+            <if test="isShow !=null and isShow !=''"> AND is_show = #{isShow}</if>
+            <if test="permission !=null and permission !=''"> AND permission = #{permission}</if>
+        </where>
+        ORDER BY sort
+    </select>
+
+    <select id="batchList" resultMap="menuMap">
+        SELECT
+        <include refid="menuSql"/>
+        FROM sys_menu
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    
+    <select id="findByPermission" resultMap="menuMap">
+        SELECT
+        <include refid="menuSql"/>
+        FROM sys_menu
+        WHERE permission IN
+        <foreach item="permission" index="index" collection="permissions" open="(" separator="," close=")">
+            #{permission}
+        </foreach>
+    </select>
+</mapper>

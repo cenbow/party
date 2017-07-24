@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.order.OrderFormInfoReadDao">
+
+    <resultMap id="orderTradeMap" type="com.party.core.model.order.OrderFormInfo">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="app_id" property="appId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="api_key" property="apiKey" jdbcType="VARCHAR" javaType="java.lang.String"/>
+   		<result column="mch_id" property="mchId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="order_form_id" property="orderFormId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+
+    <sql id="orderTradeSql">
+        id, create_date, app_id, api_key, mch_id, order_form_id
+    </sql>
+
+    <select id="get" resultMap="orderTradeMap">
+        SELECT
+        <include refid="orderTradeSql"/>
+        FROM order_form_info
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="orderTradeMap">
+        SELECT
+        <include refid="orderTradeSql"/>
+        FROM order_form_info
+        <where>
+        	
+        </where>
+    </select>
+
+    <select id="batchList" resultMap="orderTradeMap">
+        SELECT
+        <include refid="orderTradeSql"/>
+        FROM order_form_info
+        WHERE id IN
+        <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    
+    <select id="findByOrderId" resultMap="orderTradeMap">
+    	SELECT
+        <include refid="orderTradeSql"/>
+        FROM order_form_info
+        WHERE order_form_id = #{orderId}
+        ORDER BY create_date desc limit 0,1
+    </select>
+</mapper>

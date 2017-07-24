@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.circle.CircleMemberTagReadDao">
+    <resultMap id="circleMemberTagMap" type="com.party.core.model.circle.CircleMemberTag">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="circle_id" property="circle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="tag_id" property="tag" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="member_id" property="member" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+    <sql id="circleMemberTagSql">
+        a.id,
+        a.del_flag,
+        a.create_by,
+        a.update_by,
+        a.remarks,
+        a.create_date,
+        a.update_date,
+        a.circle_id,
+        a.tag_id,
+        a.member_id
+    </sql>
+    <select id="get" resultMap="circleMemberTagMap">
+        SELECT
+        <include refid="circleMemberTagSql"/>
+        FROM c_member_tag a
+        WHERE a.id = #{id}
+    </select>
+    
+	<select id="listAll" resultMap="circleMemberTagMap">
+        SELECT
+        <include refid="circleMemberTagSql"/>
+        FROM c_member_tag a
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> a.del_flag = #{delFlag}</if>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="tag !=null and tag !=''">AND a.tag_id = #{tag}</if>
+            <if test="member !=null and member !=''">AND a.member_id = #{member}</if>
+        </where>
+            ORDER BY  update_date DESC
+    </select>
+    
+    <select id="listPage" resultMap="circleMemberTagMap">
+        SELECT
+        <include refid="circleMemberTagSql"/>
+        FROM c_member_tag a
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> a.del_flag = #{delFlag}</if>
+            <if test="circle !=null and circle !=''">AND a.circle_id = #{circle}</if>
+            <if test="tag !=null and tag !=''">AND a.tag_id = #{tag}</if>
+            <if test="member !=null and member !=''">AND a.member_id = #{member}</if>
+        </where>
+            ORDER BY update_date DESC
+    </select>
+    
+    <select id="getByTagsId" resultType="java.lang.String">
+        SELECT
+        a.member_id
+        FROM c_member_tag a
+        <where>
+            <if test="tags != null">
+                AND a.tag_id IN
+                <foreach item="id" index="index" collection="a.tag_id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+            ORDER BY update_date DESC
+    </select>
+    
+</mapper>

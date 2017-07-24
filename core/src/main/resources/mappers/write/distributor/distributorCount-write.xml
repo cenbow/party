@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.party.core.dao.write.distributor.DistributorCountWriteDao">
+
+    <insert id="insert" parameterType="com.party.core.model.distributor.DistributorCount" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO distributor_count
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null">  id,</if>
+            <if test="createBy != null">  create_by,</if>
+            <if test="createDate != null">  create_date,</if>
+            <if test="updateBy != null">  update_by,</if>
+            <if test="updateDate != null">  update_date,</if>
+            <if test="remarks != null">  remarks,</if>
+            <if test="delFlag != null">  del_flag,</if>
+            <if test="distributorRalationId != null"> distributor_ralation_id,</if>
+            <if test="viewNum != null">  view_num,</if>
+            <if test="shareNum != null">  share_num,</if>
+            <if test="applyNum != null">  apply_num,</if>
+            <if test="salesNum != null">  sales_num,</if>
+            <if test="crowdfundNum != null">  crowdfund_num,</if>
+            <if test="favorerNum != null">  favorer_num,</if>
+            <if test="favorerAmount != null">  favorer_amount,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">  #{createBy,jdbcType=VARCHAR},</if>
+            <if test="createDate != null"> #{createDate,jdbcType=TIMESTAMP},</if>
+            <if test="updateBy != null">  #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  #{delFlag,jdbcType=CHAR},</if>
+            <if test="distributorRalationId != null">  #{distributorRalationId,jdbcType=VARCHAR},</if>
+            <if test="viewNum != null">  #{viewNum,jdbcType=INTEGER},</if>
+            <if test="shareNum != null">  #{shareNum,jdbcType=INTEGER},</if>
+            <if test="applyNum != null">  #{applyNum,jdbcType=INTEGER},</if>
+            <if test="salesNum != null">  #{salesNum,jdbcType=INTEGER},</if>
+            <if test="crowdfundNum != null">  #{crowdfundNum,jdbcType=INTEGER},</if>
+            <if test="favorerNum != null">  #{favorerNum,jdbcType=INTEGER},</if>
+            <if test="favorerAmount != null">  #{favorerAmount,jdbcType=FLOAT},</if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        UPDATE distributor_count
+        <set>
+            <if test="updateBy != null">  update_by = #{updateBy,jdbcType=VARCHAR},</if>
+            <if test="updateDate != null">  update_date = #{updateDate,jdbcType=TIMESTAMP},</if>
+            <if test="remarks != null">  remarks = #{remarks,jdbcType=VARCHAR},</if>
+            <if test="delFlag != null">  del_flag = #{delFlag,jdbcType=CHAR},</if>
+            <if test="distributorRalationId != null">  distributor_ralation_id = #{distributorRalationId,jdbcType=VARCHAR},</if>
+            <if test="viewNum != null">  view_num = #{viewNum,jdbcType=INTEGER},</if>
+            <if test="shareNum != null">  share_num = #{shareNum,jdbcType=INTEGER},</if>
+            <if test="applyNum != null">  apply_num = #{applyNum,jdbcType=INTEGER},</if>
+            <if test="salesNum != null">  sales_num = #{salesNum,jdbcType=INTEGER},</if>
+            <if test="crowdfundNum != null">  crowdfund_num = #{crowdfundNum,jdbcType=INTEGER},</if>
+            <if test="favorerNum != null">  favorer_num = #{favorerNum,jdbcType=INTEGER},</if>
+            <if test="favorerAmount != null">  favorer_amount = #{favorerAmount,jdbcType=FLOAT},</if>
+        </set>
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteLogic">
+        UPDATE distributor_count SET
+        del_flag = 1
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM distributor_count
+        WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="batchDeleteLogic">
+        UPDATE distributor_count SET
+        del_flag = 1
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM distributor_count
+        WHERE id IN
+        <foreach item="id" index="index" collection="collection" open="(" separator="," close=")">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+</mapper>

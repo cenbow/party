@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.distributor.DistributorCountReadDao">
+
+    <resultMap id="distributorCountMap" type="com.party.core.model.distributor.DistributorCount">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="distributor_ralation_id" property="distributorRalationId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="view_num" property="viewNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="share_num" property="shareNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="apply_num" property="applyNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sales_num" property="salesNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+
+        <result column="crowdfund_num" property="crowdfundNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="favorer_num" property="favorerNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="favorer_amount" property="favorerAmount" jdbcType="FLOAT" javaType="java.lang.Float"/>
+    </resultMap>
+
+    <sql id="distributorCountSql">
+        id, create_by, create_date, update_by, update_date, remarks, del_flag,distributor_ralation_id, view_num,
+        share_num, apply_num, sales_num,crowdfund_num,favorer_num,favorer_amount
+    </sql>
+
+    <select id="get" resultMap="distributorCountMap">
+        SELECT
+        <include refid="distributorCountSql"/>
+        FROM distributor_count
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByRelationId" resultMap="distributorCountMap">
+        SELECT
+        <include refid="distributorCountSql"/>
+        FROM distributor_count
+        WHERE distributor_ralation_id = #{ralationId}
+    </select>
+
+
+    <select id="listPage" resultMap="distributorCountMap">
+        SELECT
+        <include refid="distributorCountSql"/>
+        FROM distributor_count
+        <where>
+            <if test="distributorRalationId != null"> distributor_ralation_id = #{distributorRalationId}</if>
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.system.SysPrivilegeReadDao">
+
+	<resultMap id="privilegeMap" type="com.party.core.model.system.SysPrivilege">
+		<id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		<result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String" />
+		<result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="code" property="code" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="parent_ids" property="parentIds" jdbcType="VARCHAR" javaType="java.lang.String" />
+		<result column="sort" property="sort" jdbcType="DECIMAL" javaType="java.lang.String"/>
+		<result column="permission" property="permission" jdbcType="VARCHAR" javaType="java.lang.String"/>
+		<result column="type" property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+	</resultMap>
+
+	<sql id="privilegeSql">
+		sp.id, sp.create_by, sp.create_date, sp.update_by, sp.update_date, sp.remarks, sp.del_flag, sp.name,
+		sp.code, sp.parent_id, sp.parent_ids, sp.sort, sp.permission, sp.type
+	</sql>
+
+	<sql id="joinSql">
+		left join s_role_privilege srp on sp.id = srp.privilege_id
+		left join s_role sr on sr.id = srp.role_id
+	</sql>
+
+	<select id="get" resultMap="privilegeMap">
+		SELECT
+		<include refid="privilegeSql" />
+		FROM s_privilege sp
+		WHERE sp.id = #{id}
+	</select>
+
+	<select id="listPage" resultMap="privilegeMap">
+		SELECT
+		<include refid="privilegeSql" />
+		FROM s_privilege sp
+		<where>
+			<if test="delFlag != null and delFlag != ''"> AND sp.del_flag = #{delFlag}</if>
+			<if test="parentId != null and parentId != ''"> AND sp.parent_id = #{parentId}</if>
+			<if test="name != null and name != ''">AND  sp.name LIKE concat('%',#{name},'%')</if>
+			<if test="permission != null and permission != ''"> AND sp.permission LIKE concat('%',#{permission},'%')</if>
+			<if test="type != null">AND sp.type = #{type}</if>
+		</where>
+		ORDER BY  sp.sort DESC
+	</select>
+
+	<select id="findByMemberId" resultMap="privilegeMap">
+		SELECT
+		<include refid="privilegeSql" />
+		FROM s_privilege sp
+		INNER JOIN s_member_privilege mp ON sp.id = mp.privilege_id
+		AND mp.member_id = #{memberId}
+	</select>
+
+	<select id="findByRoles" resultMap="privilegeMap">
+		SELECT
+		<include refid="privilegeSql" />
+		FROM s_privilege sp
+		INNER JOIN  s_role_privilege rp ON sp.id = rp.privilege_id
+		AND rp.role_id IN
+		<foreach item="id" index="index" collection="roles" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+
+	<select id="batchList" resultMap="privilegeMap">
+		SELECT
+		<include refid="privilegeSql" />
+		FROM s_privilege sp
+		WHERE sp.id IN
+		<foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+</mapper>

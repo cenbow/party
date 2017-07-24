@@ -1,0 +1,56 @@
+/*海报*/
+.cover-content .cover-img {
+	display: inline-block;
+	width: 200px;
+	height: 120px;
+	margin-right: 20px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	vertical-align: middle;
+}
+
+.layui-form-label {
+	width: 100px !important
+}
+
+.layui-input-block {
+	margin-left: 130px !important;
+}
+
+.temp-item {
+	width: 200px;
+    height: 320px;
+	float: left;
+	margin-right: 15px;
+	position: relative;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	border: 1px solid #dbdee5;
+	cursor: pointer;
+}
+.temp-item:hover {
+	border: 1px solid #e8473f;
+}
+.temp-item.active {
+	border: 1px solid #e8473f;
+}
+
+.temp-item.active .item-check {
+	display: inherit;;
+}
+
+.temp-item .item-check {
+	position: absolute;
+	display: none;
+	width: 100%;
+	text-align: center;
+	padding: 8px 0;
+	color: #fff;
+	background: rgba(232, 71, 63, 0.7);
+}
+
+.temp-item .item-check .icon-check {
+	font-size: 20px;
+}

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.member.MemberActReadDao">
+
+    <resultMap id="memberActMap" type="com.party.core.model.member.MemberAct">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="member" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="act" property="actId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="collect" property="collect" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="joinin" property="joinin" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="extra" property="extra" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="company" property="company" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="job_title" property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="check_status" property="checkStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="store_goods_id" property="storeGoodsId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="payment" property="payment" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="wechat_num" property="wechatNum" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="signin" property="signin" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <resultMap id="withActivityMap" type="com.party.core.model.member.ApplyWithActivity">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="member" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="act" property="actId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="collect" property="collect" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="joinin" property="joinin" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="extra" property="extra" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="company" property="company" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="job_title" property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="check_status" property="checkStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="store_goods_id" property="storeGoodsId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="payment" property="payment" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="wechat_num" property="wechatNum" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="activity_title" property="activityTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+
+    <resultMap id="withBuyerMap" type="com.party.core.model.member.WithBuyer">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="member" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="act" property="actId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="collect" property="collect" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="joinin" property="joinin" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="extra" property="extra" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="company" property="company" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="job_title" property="jobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="check_status" property="checkStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="store_goods_id" property="storeGoodsId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="payment" property="payment" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="wechat_num" property="wechatNum" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="signin" property="signin" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="realname" property="realname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="activity_name" property="activityName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </resultMap>
+
+
+    <sql id="memberActSql">
+        id, create_by, create_date, update_by,update_date, remarks, del_flag, member, act,
+        collect, joinin, extra, name, mobile, company, job_title, check_status, order_id, store_goods_id,payment,wechat_num,signin
+    </sql>
+
+    <select id="get" resultMap="memberActMap">
+        SELECT
+        <include refid="memberActSql"/>
+        FROM member_act
+        WHERE id = #{id}
+    </select>
+
+
+    <select id="listPage" resultMap="memberActMap">
+        SELECT
+        <include refid="memberActSql"/>
+        FROM member_act
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="memberId != null and memberId != ''"> AND member = #{memberId}</if>
+            <if test="actId != null and actId != ''"> AND act = #{actId}</if>
+            <if test="collect != null"> AND collect = #{collect}</if>
+            <if test="joinin != null"> AND joinin = #{joinin}</if>
+            <if test="name != null and name != ''"> AND name = #{name}</if>
+            <if test="storeGoodsId != null and storeGoodsId != ''"> AND store_goods_id = #{storeGoodsId}</if>
+            <if test="checkStatus != null">
+            	AND check_status = #{checkStatus}
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="withActivityList" resultMap="withBuyerMap">
+        SELECT
+        ma.id AS id, ma.create_by AS create_by, ma.create_date AS create_date, ma.update_by AS update_by,
+        ma.update_date AS update_date, ma.remarks AS remarks, ma.del_flag AS del_flag, ma.member AS member, ma.act AS act,
+        ma.collect AS collect, ma.joinin AS joinin, ma.extra AS extra, ma.name AS name, ma.mobile AS mobile, ma.company AS company,
+        ma.job_title AS job_title, ma.check_status AS check_status, ma.order_id AS order_id, ma.store_goods_id AS store_goods_id,
+        ma.payment AS payment,ma.wechat_num AS wechat_num,ma.signin AS signin,m.logo AS logo,m.realname AS realname, a.title AS activity_name
+        FROM member_act ma INNER JOIN member m ON ma.member = m.id
+        INNER JOIN activity a ON a.id = ma.act
+        <where>
+            a.is_crowdfunded = 0
+            <if test="withBuyer.delFlag !=null and withBuyer.delFlag !=''">AND ma.del_flag = #{withBuyer.delFlag}</if>
+            <if test="withBuyer.memberId != null and withBuyer.memberId != ''"> AND ma.member = #{withBuyer.memberId}</if>
+            <if test="withBuyer.actId != null and withBuyer.actId != ''"> AND ma.act = #{withBuyer.actId}</if>
+            <if test="withBuyer.joinin != null"> AND ma.joinin = #{withBuyer.joinin}</if>
+            <if test="withBuyer.name != null and withBuyer.name != ''"> AND ma.name like concat ('%',#{withBuyer.name},'%')</if>
+            <if test="withBuyer.mobile != null and withBuyer.mobile != ''"> AND ma.mobile like concat ('%',#{withBuyer.mobile},'%')</if>
+            <if test="withBuyer.wechatNum != null and withBuyer.wechatNum != ''"> AND ma.wechat_num like concat ('%',#{withBuyer.wechatNum},'%')</if>
+            <if test="withBuyer.activityName != null and withBuyer.activityName != ''"> AND a.title like concat ('%',#{withBuyer.activityName},'%')</if>
+            <if test="withBuyer.checkStatus != null">AND ma.check_status = #{withBuyer.checkStatus}</if>
+            <if test="params != null">
+                <!-- 创建时间 时间块 -->
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (ma.create_date between #{params.startDate} and #{params.endDate})
+                </if>
+                <!-- 创建时间 时间段 -->
+                <if test="params.c_start != null and params.c_start != ''">
+                    AND TO_DAYS(ma.create_date) &gt;= TO_DAYS(#{params.c_start})
+                </if>
+                <if test="params.c_end != null and params.c_end != ''">
+                    AND TO_DAYS(ma.create_date) &lt;= TO_DAYS(#{params.c_end})
+                </if>
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="withBuyerList" resultMap="withBuyerMap">
+        SELECT
+        ma.id AS id, ma.create_by AS create_by, ma.create_date AS create_date, ma.update_by AS update_by,
+        ma.update_date AS update_date, ma.remarks AS remarks, ma.del_flag AS del_flag, ma.member AS member, ma.act AS act,
+        ma.collect AS collect, ma.joinin AS joinin, ma.extra AS extra, ma.name AS name, ma.mobile AS mobile, ma.company AS company,
+        ma.job_title AS job_title, ma.check_status AS check_status, ma.order_id AS order_id, ma.store_goods_id AS store_goods_id,
+        ma.payment AS payment,ma.wechat_num AS wechat_num,ma.signin AS signin,m.logo AS logo,m.realname AS realname
+        FROM member_act ma INNER JOIN member m ON ma.member = m.id
+        <where>
+            (ma.check_status != 5 AND ma.check_status != 4 AND ma.check_status != 2)
+            <if test="actId != null and actId != ''"> AND ma.act = #{actId}</if>
+        </where>
+        order by ma.create_date desc
+    </select>
+
+
+    <!-- 过滤众筹项目报名 -->
+    <select id="listPageTwo" resultMap="memberActMap">
+        SELECT mat.* FROM member_act mat left join activity a  on mat.act = a.id
+        <where>
+        	a.is_crowdfunded = 0
+            <if test="delFlag !=null and delFlag !=''"> AND mat.del_flag = #{delFlag}</if>
+            <if test="memberId != null and memberId != ''"> AND mat.member = #{memberId}</if>
+            <if test="actId != null and actId != ''"> AND mat.act = #{actId}</if>
+            <if test="checkStatus != null"> AND mat.check_status = #{checkStatus}</if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+    
+    <!-- WEB端 -->
+    <select id="webListPage" resultMap="memberActMap">
+        SELECT
+        m.id, m.create_by, m.create_date, m.update_by,m.update_date, m.remarks, m.del_flag, m.member, m.act,
+        m.collect, m.joinin, m.extra, m.name, m.mobile, m.company, m.job_title, m.check_status, m.order_id, m.store_goods_id, m.payment, m.wechat_num, m.signin
+        FROM member_act m
+        LEFT JOIN distributor_detail dd ON m.id = dd.target_id
+        <where>
+            <if test="memberAct.delFlag !=null and memberAct.delFlag !=''"> m.del_flag = #{memberAct.delFlag}</if>
+            <if test="memberAct.memberId != null and memberAct.memberId != ''"> AND m.member = #{memberAct.memberId}</if>
+            <if test="memberAct.actId != null and memberAct.actId != ''"> AND m.act = #{memberAct.actId}</if>
+            <if test="memberAct.joinin != null"> AND m.joinin = #{memberAct.joinin}</if>
+            <if test="memberAct.name != null and memberAct.name != ''"> AND m.name like concat ('%',#{memberAct.name},'%')</if>
+            <if test="memberAct.mobile != null and memberAct.mobile != ''"> AND m.mobile like concat ('%',#{memberAct.mobile},'%')</if>
+            <if test="memberAct.wechatNum != null and memberAct.wechatNum != ''"> AND m.wechat_num like concat ('%',#{memberAct.wechatNum},'%')</if>
+            <if test="memberAct.checkStatus != null">AND m.check_status = #{memberAct.checkStatus}</if>
+            <if test="params != null">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (m.create_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(m.update_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(m.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+            </if>
+            <if test="params.distributionId != null and params.distributionId != ''">
+                AND dd.distributor_relation_id = #{params.distributionId}
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="batchWithActivityList" resultMap="withActivityMap">
+        SELECT
+        m.id AS id, m.create_by AS create_by, m.create_date AS create_date, m.update_by AS update_by,
+        m.update_date AS update_date, m.remarks AS remarks, m.del_flag AS del_flag, m.member AS member, m.act AS act, m.signin AS signin,
+        m.collect AS collect, m.joinin AS joinin, m.extra AS extra, m.name AS name, m.mobile AS mobile, m.company AS company,
+        m.job_title AS job_title, m.check_status AS check_status, m.order_id AS order_id, m.store_goods_id AS store_goods_id,
+        m.payment AS payment,m.wechat_num AS wechat_num, a.title AS activity_title
+        FROM member_act m
+        INNER JOIN activity a ON m.act = a.id
+        <where>
+            <if test="ids != null">
+                 m.id IN
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+            <if test="param.title != null and param.title != null">
+                AND a.title LIKE concat('%',#{param.title},'%')
+            </if>
+            <if test="param.checkStatus !=null ">
+                AND m.check_status = #{param.checkStatus}
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+	
+	<!-- 查询当前用户发布的活动的报名数据 -->
+	<select id="activityListPage" resultMap="memberActMap">
+		SELECT <include refid="memberActSql"/> from member_act where act in (SELECT id from activity where member = #{memberId}) and del_flag = #{delFlag} order by update_date desc
+	</select>
+	
+	<select id="getSuccessMemberAct" resultMap="memberActMap">
+		SELECT <include refid="memberActSql"/> FROM `member_act` where act= #{memberAct.actId} and del_flag = #{memberAct.delFlag}
+		and check_status not IN 
+     	<foreach item="st" index="index" collection="status" open="(" separator="," close=")">
+        	#{st}
+     	</foreach>
+	</select>
+	
+	<select id="getSuccessMemberAct2" resultType="java.lang.Integer">
+		SELECT count(1) from member_act mact inner join counterfoil_business cb on mact.id = cb.business_id 
+     	where mact.act = #{params.actId} and mact.del_flag = #{params.delFlag} and cb.counterfoil_id = #{params.counterfoilId} 
+     	and mact.check_status not in
+     	<foreach item="st" index="index" collection="params.status" open="(" separator="," close=")">
+        	#{st}
+     	</foreach>		
+	</select>
+	
+	<select id="findByOrderId" resultMap="memberActMap">
+		SELECT <include refid="memberActSql"/> from member_act where order_id = #{orderId}
+	</select>
+
+    <select id="countByDate" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        SELECT COUNT(ma.id) AS count, DATE_FORMAT(ma.create_date,'%Y-%m-%d') AS day
+        FROM member_act ma
+        INNER JOIN activity a ON ma.act = a.id
+        <where>
+            a.is_crowdfunded = 0
+            <if test="parameter.startDate != null">AND TO_DAYS(ma.create_date) &gt;= TO_DAYS(#{parameter.startDate})</if>
+            <if test="parameter.endDate != null"> AND TO_DAYS(ma.create_date) &lt;= TO_DAYS(#{parameter.endDate})</if>
+            <if test="parameter.status != null">AND ma.check_status = #{parameter.status}</if>
+            <if test="parameter.joinin != null">AND ma.joinin = #{parameter.joinin}</if>
+        </where>
+        GROUP BY TO_DAYS(ma.create_date)
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        SELECT COUNT(ma.id)
+        FROM member_act ma
+        INNER JOIN activity a ON ma.act = a.id
+        INNER JOIN member m ON ma.member = m.id
+        <where>
+            a.is_crowdfunded = 0
+            <if test="parameter.status != null">AND ma.check_status = #{parameter.status}</if>
+        </where>
+    </select>
+</mapper>

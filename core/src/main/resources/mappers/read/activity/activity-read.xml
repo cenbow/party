@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.activity.ActivityReadDao">
+
+
+    <resultMap id="activityMap" type="com.party.core.model.activity.Activity">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="activity_type" property="activityType" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="price" property="price" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="third_party_id" property="thirdPartyId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="area" property="area" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="city_id" property="cityId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="limit_num" property="limitNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="place" property="place" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="lng" property="lng" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="lat" property="lat" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_open" property="isOpen" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="invite_only" property="inviteOnly" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="invite_code" property="inviteCode" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="join_hidden" property="joinHidden" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="extra" property="extra" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="share_num" property="shareNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="read_num" property="readNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="join_num" property="joinNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="good_num" property="goodNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="member" property="member" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="check_status" property="checkStatus" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_allowed_outside" property="isAllowedOutside" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="mic_web_status" property="micWebStatus" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="favorer_num" property="favorerNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="be_crowdfund_num" property="beCrowdfundNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="crowdfunded_num" property="crowdfundedNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="is_crowdfunded" property="isCrowdfunded" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="represent_num" property="representNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="show_front" property="showFront" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="crowd_declaration" property="crowdDeclaration" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="support_declaration" property="supportDeclaration" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="represent_declaration" property="representDeclaration" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="crowdfund_hint_switch" property="crowdfundHintSwitch" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="publisher" property="publisher" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="publisher_logo" property="publisherLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="event_id" property="eventId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="template_style" property="templateStyle" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <sql id="activitySql">
+        id,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag,
+        activity_type,
+        title,
+        price,
+        third_party_id,
+        pic,
+        area,
+        city_id,
+        limit_num,
+        start_time,
+        end_time,
+        place,
+        lng,
+        lat,
+        is_open,
+        invite_only,
+        invite_code,
+        join_hidden,
+        extra,
+        share_num,
+        read_num,
+        join_num,
+        good_num,
+        member,
+        check_status,
+        is_allowed_outside,
+        sort,
+        mic_web_status,
+        favorer_num,
+        be_crowdfund_num,
+        crowdfunded_num,
+        is_crowdfunded,
+        represent_num,
+        show_front,
+        crowd_declaration,
+        support_declaration,
+        represent_declaration,
+        crowdfund_hint_switch,
+        publisher,
+        publisher_logo,
+        event_id,
+        template_style
+    </sql>
+    
+    <sql id="activitySql2">
+        a.id,
+        a.create_by,
+        a.create_date,
+        a.update_by,
+        a.update_date,
+        a.remarks,
+        a.del_flag,
+        a.activity_type,
+        a.title,
+        a.price,
+        a.third_party_id,
+        a.pic,
+        a.area,
+        a.city_id,
+        a.limit_num,
+        a.start_time,
+        a.end_time,
+        a.place,
+        a.lng,
+        a.lat,
+        a.is_open,
+        a.invite_only,
+        a.invite_code,
+        a.join_hidden,
+        a.extra,
+        a.share_num,
+        a.read_num,
+        a.join_num,
+        a.good_num,
+        a.check_status,
+        a.is_allowed_outside,
+        a.sort,
+        a.mic_web_status,
+        a.favorer_num,
+        a.be_crowdfund_num,
+        a.crowdfunded_num,
+        a.is_crowdfunded,
+        a.represent_num,
+        a.show_front,
+        a.crowd_declaration,
+        a.support_declaration,
+        a.represent_declaration,
+        a.crowdfund_hint_switch,
+        publisher,
+        publisher_logo,
+        event_id,
+        template_style
+    </sql>
+
+    <select id="get" resultMap="activityMap">
+        SELECT
+        <include refid="activitySql"/>
+        FROM activity
+        WHERE id = #{id}
+    </select>
+
+    <select id="listPage" resultMap="activityMap">
+        SELECT
+        <include refid="activitySql"/>
+        FROM activity
+        <where>
+            <if test="delFlag !=null and delFlag !=''"> del_flag = #{delFlag}</if>
+            <if test="activityType !=null and activityType !=''"> AND activity_type = #{activityType}</if>
+            <if test="title !=null and title !=''"> AND title like '${title}%'</if>           
+            <if test="cityId !=null and cityId !=''"> AND (city_id = #{cityId} OR is_allowed_outside = '1')</if>
+            <if test="startTime !=null and startTime !=''"> AND start_time = #{startTime}</if>
+            <if test="endTime !=null and endTime !=''" > AND end_time = #{endTime}</if>
+            <if test="checkStatus !=null and checkStatus !=''"> AND check_status = #{checkStatus}</if>
+            <if test="member !=null and member !=''"> AND member = #{member}</if>
+            <if test="isCrowdfunded != null"> AND is_crowdfunded = #{isCrowdfunded}</if>
+            <if test="showFront != null"> AND show_front = #{showFront}</if>
+            <if test="eventId != null and eventId != ''"> AND  event_id = #{eventId}</if>
+            <if test="status == 1">
+                AND end_time &lt;= now()
+            </if>
+            <if test="status == 0">
+                AND end_time &gt; now()
+            </if>
+        </where>
+            ORDER BY (end_time > now()) DESC, sort DESC, update_date DESC
+    </select>
+
+
+    <select id="webListPage" resultMap="activityMap">
+        SELECT
+        	<include refid="activitySql2"/>
+        	,m.realname as "member",m.id as "memberId"
+        FROM activity a inner join member m on a.member = m.id
+        <where>
+            <if test="activity.delFlag !=null"> a.del_flag = #{activity.delFlag} </if>
+            <if test="activity.activityType !=null and activity.activityType !=''"> AND a.activity_type = #{activity.activityType} </if>
+            <if test="activity.title !=null and activity.title !=''"> AND a.title like concat('%',#{activity.title},'%') </if>
+            <if test="activity.member != null and activity.member != ''"> AND a.member = #{activity.member}</if>           
+            <if test="activity.checkStatus !=null and activity.checkStatus !=''"> AND a.check_status = #{activity.checkStatus} </if>
+            <if test="activity.isCrowdfunded != null"> AND a.is_crowdfunded = #{activity.isCrowdfunded} </if>
+            <if test="activity.eventId != null and activity.eventId != ''"> AND a.event_id = #{activity.eventId} </if>
+            <if test="params != null and params.size > 0">
+            	<!-- 创建时间 时间块 -->
+            	<if test="params.startDate != null and params.endDate != null">
+            		AND (a.create_date between #{params.startDate} and #{params.endDate})
+            	</if>
+            	<!-- 创建时间 时间段 -->
+            	<if test="params.c_start != null and params.c_start != ''">
+            		AND TO_DAYS(a.update_date) &gt;= TO_DAYS(#{params.c_start})
+            	</if>
+            	<if test="params.c_end != null and params.c_end != ''">
+					AND TO_DAYS(a.update_date) &lt;= TO_DAYS(#{params.c_end})
+				</if>
+				<!-- 开始时间 时间段 -->
+            	<if test="params.s_start != null and params.s_start != ''">
+            		AND TO_DAYS(a.start_time) &gt;= TO_DAYS(#{params.s_start})
+            	</if>
+            	<if test="params.s_end != null and params.s_end != ''">
+					AND TO_DAYS(a.start_time) &lt;= TO_DAYS(#{params.s_end})
+				</if>
+				<!-- 截止时间 时间段 -->
+            	<if test="params.e_start != null and params.e_start != ''">
+            		AND TO_DAYS(a.end_time) &gt;= TO_DAYS(#{params.e_start})
+            	</if>
+            	<if test="params.e_end != null and params.e_end != ''">
+					AND TO_DAYS(a.end_time) &lt;= TO_DAYS(#{params.e_end})
+				</if>
+				<!-- 发起者 -->
+				<if test="params.memberName != null and params.memberName != ''">
+					AND m.realname like concat('%',#{params.memberName},'%')
+				</if>
+            </if>
+        </where>
+        <if test="params == null || params.sortType == null">
+            ORDER BY (a.end_time > now()) DESC, a.update_date DESC, a.sort DESC
+        </if>
+        <if test="params != null and params.sortType != null and params.sortType == 'startTime'">
+            ORDER BY (a.end_time > now()) DESC, a.start_time DESC, a.sort DESC
+        </if>
+    </select>
+
+    <select id="batchList" resultMap="activityMap">
+        SELECT
+        <include refid="activitySql"/>
+        FROM activity
+        <where>
+            <if test="param.delFlag !=null and param.delFlag !=''"> del_flag = #{param.delFlag}</if>
+            <if test="param.activityType !=null and param.activityType !=''"> AND activity_type = #{param.activityType}</if>
+            <if test="param.title !=null and param.title !=''"> AND title like '${param.title}%'</if>
+            <if test="param.cityId !=null and param.cityId !=''"> AND city_id = #{param.cityId}</if>
+            <if test="param.startTime !=null and param.startTime !=''"> AND start_time = #{param.startTime}</if>
+            <if test="param.endTime !=null and param.endTime !=''" > AND end_time = #{param.endTime}</if>
+            <if test="param.checkStatus !=null and param.checkStatus !=''"> AND check_status = #{param.checkStatus}</if>
+            <if test="param.showFront != null"> AND show_front = #{param.showFront}</if>
+            <if test="ids != null">
+                AND id IN
+                <foreach item="id" index="index" collection="ids" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+            ORDER BY sort DESC, end_time DESC
+    </select>
+    
+    <select id="joinedList" resultMap="activityMap">
+    	select <include refid="activitySql"/> from activity where id in (SELECT act from member_act where member = #{member} and del_flag = #{delFlag}) and del_flag = #{delFlag}
+    </select>
+
+    <select id="countForEventId" resultMap="activityMap">
+        SELECT
+	    SUM(join_num) AS join_num,
+	    SUM(favorer_num) AS favorer_num,
+	    SUM(crowdfunded_num) AS crowdfunded_num,
+	    SUM(be_crowdfund_num) AS be_crowdfund_num
+        FROM activity
+        WHERE
+	    event_id = #{eventId}
+    </select>
+</mapper>
