@@ -91,10 +91,10 @@ public class WechatPcBizService {
             params.put("sign_type", WechatConstant.MD5_TYPE);
             String sign = WechatPayUtils.getSign(params, apiKey);
             params.put("sign", sign);
-            String requestData = WechatPayUtils.mapToXml(params);
+            String requestData = com.party.common.utils.refund.WechatPayUtils.mapToXml(params);
             logger.info("转换短链接请求：{}", requestData);
             String responseData = WechatPayUtils.httpsPost(WechatConstant.QR_LONG_TO_SHORT_URL, requestData);
-            Map<String, String> responseMap = WechatPayUtils.xmlToMap(responseData);
+            Map<String, String> responseMap = com.party.common.utils.refund.WechatPayUtils.xmlToMap(responseData);
             logger.info("转换短链接响应：{}", responseData);
             if (responseMap.get("return_code").equals(Constant.WECHAT_SUCCESS) && responseMap.get("result_code").equals(Constant.WECHAT_SUCCESS)) {
                 String shortUrl = responseMap.get("short_url");
@@ -247,38 +247,6 @@ public class WechatPcBizService {
             sourceTitle = catString(sourceTitle, maxNum);
         }
         return sourceTitle;
-    }
-
-    /**
-     * 获取微信通知数据
-     *
-     * @param request 请求参数
-     * @return 通知数据
-     */
-    public String getNotifyXml(HttpServletRequest request) {
-
-        StringBuilder requestStr = new StringBuilder();
-
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream()));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                requestStr.append(line);
-            }
-        } catch (IOException e) {
-            logger.error("支付结果通知异常", e);
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                }
-            }
-        }
-
-        return requestStr.toString();
     }
 
     /**

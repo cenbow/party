@@ -105,7 +105,7 @@ public class PayWechatPcController {
     public AjaxResult scanNotify(HttpServletRequest request) {
         logger.info("微信支付系统收到客户端请求，发起对商户后台系统支付回调URL的调用");
         try {
-            String responseData = wechatPcBizService.getNotifyXml(request);
+            String responseData = com.party.common.utils.refund.WechatPayUtils.getNotifyXml(request);
             // 扫描二维码响应
             logger.info("微信扫描二维码响应数据：{}", responseData);
             QrCodeResponse qrCodeResponse = WechatPayUtils.xmlToBean(responseData, QrCodeResponse.class);
@@ -169,7 +169,7 @@ public class PayWechatPcController {
     public String payNotify(HttpServletRequest request) {
         try {
             // String requestStr = "<xml><appid><![CDATA[wx4a3cd04f189325db]]></appid><bank_type><![CDATA[CFT]]></bank_type><cash_fee><![CDATA[2]]></cash_fee><fee_type><![CDATA[CNY]]></fee_type><is_subscribe><![CDATA[Y]]></is_subscribe><mch_id><![CDATA[1371766102]]></mch_id><nonce_str><![CDATA[r4dTOXJaYxTiv0zHIpMoruOc7m4ZSrRc]]></nonce_str><openid><![CDATA[osScduNn3hOxKQXkFAMuII_Ow-l0]]></openid><out_trade_no><![CDATA[a4c8f693ec78418791797228ed514467]]></out_trade_no><result_code><![CDATA[SUCCESS]]></result_code><return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[AD52D99B5220C4B2951F809F4CF8913B]]></sign><time_end><![CDATA[20170719170039]]></time_end><total_fee>2</total_fee><trade_type><![CDATA[NATIVE]]></trade_type><transaction_id><![CDATA[4000142001201707191581188468]]></transaction_id></xml>";
-            String requestStr = wechatPcBizService.getNotifyXml(request);
+            String requestStr = com.party.common.utils.refund.WechatPayUtils.getNotifyXml(request);
             logger.info("获取微信支付异步通知数据:{}", requestStr);
 
             if (Strings.isNullOrEmpty(requestStr)) {
