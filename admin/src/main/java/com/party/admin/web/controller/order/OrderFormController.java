@@ -1,14 +1,13 @@
 package com.party.admin.web.controller.order;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.party.admin.utils.RealmUtils;
+import com.party.core.model.order.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +38,6 @@ import com.party.core.model.goods.GoodsCoupons;
 import com.party.core.model.member.Member;
 import com.party.core.model.member.MemberMerchant;
 import com.party.core.model.member.MerchantUtil;
-import com.party.core.model.order.OrderForm;
-import com.party.core.model.order.OrderRefundTrade;
-import com.party.core.model.order.OrderStatus;
-import com.party.core.model.order.OrderType;
 import com.party.core.model.system.Dict;
 import com.party.core.service.activity.IActivityService;
 import com.party.core.service.crowdfund.IProjectService;
@@ -171,6 +166,7 @@ public class OrderFormController {
 						}
 					}
 				}
+				orderFormOutput.setPaymentWayName(PaymentWay.getValue(input.getPaymentWay()));
 				orderFormOutput.setTypeName(OrderType.getValue(input.getType()));
 				orderFormOutput.setStatusName(OrderStatus.getValue(input.getStatus()));
 				return orderFormOutput;
@@ -396,5 +392,103 @@ public class OrderFormController {
 		}
 		modelAndView.addObject("response", response);
 		return modelAndView;
+	}
+
+	/**
+	 * 合作商订单列表
+	 * @param mmId
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("memberOrderList")
+	public ModelAndView memberOrderList(String mmId, Page page, OrderForm orderForm) {
+		page.setLimit(20);
+		ModelAndView mv = new ModelAndView("system/member/orderList");
+		orderForm.setInitiatorId(mmId);
+		orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
+		orderForm.setStatus(OrderStatus.ORDER_STATUS_HAVE_PAID.getCode()); // 已支付
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("isCrowdfund", "0");
+		params.put("payment", 0);
+		List<OrderForm> orderForms = orderFormService.webListPage(orderForm, params, page);
+		List<OrderFormOutput> orderFormOutputs = LangUtils.transform(orderForms, input -> {
+			OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
+			String label = OrderType.getValue(input.getType());
+			orderFormOutput.setTypeName(label);
+			return orderFormOutput;
+		});
+		mv.addObject("orderForms", orderFormOutputs);
+		mv.addObject("page", page);
+		mv.addObject("orderForm", orderForm);
+
+		Member member = memberService.get(mmId);
+		mv.addObject("member", member);
+
+		// 余额
+		double totalAccount = orderBizService.getTotalAccount(mmId);
+		mv.addObject("totalPayment", totalAccount);
+
+		Map<Integer, String> orderTypes = Maps.newHashMap();
+		orderTypes.put(OrderType.ORDER_ACTIVITY.getCode(), OrderType.ORDER_ACTIVITY.getValue());
+		orderTypes.put(OrderType.ORDER_CROWD_FUND.getCode(), OrderType.ORDER_CROWD_FUND.getValue());
+		mv.addObject("orderTypes", orderTypes);
+		return mv;
+	}
+
+	/**
+	 * 订单导出
+	 *
+	 * @param response
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "exportMemberOrder", method = RequestMethod.POST)
+	public String exportMemberOrder(HttpServletResponse response) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+			String fileName = "订单" + sdf.format(new Date()) + ".xlsx";
+			OrderForm orderForm = new OrderForm();
+			orderForm.setInitiatorId(RealmUtils.getCurrentUser().getId());
+			orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
+			orderForm.setStatus(OrderStatus.ORDER_STATUS_HAVE_PAID.getCode()); // 已支付
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("isCrowdfund", "0");
+			params.put("payment", 0);
+			// 订单类型（只查活动，众筹支持订单）
+			Set<Integer> orderTypes = new HashSet<Integer>();
+			// orderTypes.add(OrderType.ORDER_ACTIVITY.getCode());
+			// orderTypes.add(OrderType.ORDER_CROWD_FUND.getCode());
+			params.put("types", orderTypes);
+			params.put("txzMerchantId", MerchantUtil.TXZ_WWZ_MERCHANT_ID);
+			List<OrderForm> orderForms = orderFormService.webListPage(orderForm, params, null);
+			List<MemberMerchant> merchants = memberMerchantService.list(new MemberMerchant());
+			MemberMerchant merchant = memberMerchantService.findByMemberId(RealmUtils.getCurrentUser().getId());
+			List<OrderFormOutput> orderFormOutputs = LangUtils.transform(orderForms, input -> {
+				OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
+				if (com.party.common.utils.StringUtils.isNotEmpty(input.getMerchantId())) {
+					if (input.getMerchantId().equals(MerchantUtil.TXZ_WWZ_MERCHANT_ID)
+							|| input.getMerchantId().equals(MerchantUtil.TXZ_APP_MERCHANT_ID)) {
+						orderFormOutput.setMerchantName(MerchantUtil.TXZ_MERCHANT_NAME);
+					} else if (merchant != null && merchant.getMerchantId().equals(input.getMerchantId())) {
+						orderFormOutput.setMerchantName(merchant.getMerchantName());
+					} else {
+						for (MemberMerchant memberMerchant : merchants) {
+							if (memberMerchant.getMerchantId().equals(input.getMerchantId())) {
+								orderFormOutput.setMerchantName(merchants.get(0).getMerchantName());
+								break;
+							}
+						}
+					}
+				}
+				orderFormOutput.setPaymentWayName(PaymentWay.getValue(input.getPaymentWay()));
+				orderFormOutput.setTypeName(OrderType.getValue(input.getType()));
+				orderFormOutput.setStatusName(OrderStatus.getValue(input.getStatus()));
+				return orderFormOutput;
+			});
+			new ExportExcel("", OrderFormOutput.class).setDataList(orderFormOutputs).write(response, fileName).dispose();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

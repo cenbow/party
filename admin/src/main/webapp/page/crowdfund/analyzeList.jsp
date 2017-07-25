@@ -154,8 +154,10 @@
                                         <tr>
                                             <td class="jfix-td-item" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${analyze.authorId}','400px','470px')">
                                                 <div class="table-member">
+                                                    <div class="member-cell">
                                                     <div class="member-logo" style="background-image: url('${analyze.authorLogo}'),url(${ctx}/image/def_user_logo.png)"></div>
                                                     <div class="member-name ellipsis-1"><a class="blue" title="${analyze.authorName}" href="javascript:void(0);" >${analyze.authorName}</a></div>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td class="jfix-td-item">

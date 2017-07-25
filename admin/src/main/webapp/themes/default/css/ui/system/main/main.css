@@ -16,7 +16,8 @@
     padding: 10px;
     color: #fff;
     cursor: pointer;
-    border-radius: 5px;
+    -webkit-border-radius: 5px;
+            border-radius: 5px;
     margin: 10px;
 }
 
@@ -37,6 +38,8 @@
 .info-box .box-content .box-icon .iconfont {
     font-size: 58px;
     color: rgba(0, 0, 0, 0.15);
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
     transition: all .5s;
 }
 

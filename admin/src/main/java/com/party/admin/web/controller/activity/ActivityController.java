@@ -640,6 +640,7 @@ public class ActivityController {
 		//众筹金额
 		float actualAmount = activityBizService.actualAmountForTargetId(id);
 		String zipUrl = stringJedis.getValue(Constant.PRE_ZIP_URL + "crowdfund" + id);
+		stringJedis.delete(Constant.PRE_ZIP_URL + "crowdfund" + id);
 		modelAndView.addObject("activity", activity);
 		modelAndView.addObject("actualAmount", actualAmount);
 		modelAndView.addObject("crowdfundNum", page.getTotalCount());
@@ -683,6 +684,7 @@ public class ActivityController {
 		float actualAmount = activityBizService.actualAmountForTargetId(id);
 
 		String zipUrl = stringJedis.getValue(Constant.PRE_ZIP_URL + "represent"  + id);
+		stringJedis.delete(Constant.PRE_ZIP_URL + "represent"  + id);
 		modelAndView.addObject("actualAmount", actualAmount);
 		modelAndView.addObject("crowdfundNum", crowdfundNum);
 		modelAndView.addObject("list", listForTargetOutputList);

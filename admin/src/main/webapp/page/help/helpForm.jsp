@@ -60,11 +60,19 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">内容<span class="f-verify-red">*</span></label>
+                    <label class="layui-form-label">后台内容<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
                         <script id="ueditor1" type="text/plain" style="width: 677px; height: 400px;"></script>
                         <div style="display: none" id="contentView">${help.content}</div>
                         <input type="hidden" name="content" id="content" lay-verify="content" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">前端内容<span class="f-verify-red">*</span></label>
+                    <div class="layui-input-block">
+                        <script id="ueditor2" type="text/plain" style="width: 677px; height: 400px;"></script>
+                        <div style="display: none" id="contentView2">${help.frontContent}</div>
+                        <input type="hidden" name="frontContent" id="content2" lay-verify="frontContent" />
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -87,6 +95,7 @@
 <script type="text/javascript" charset="utf-8" src="${ctxStatic}/UEditor/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
     var ue = UE.getEditor('ueditor1');
+    var ue2 = UE.getEditor('ueditor2');
     $(document).ready(function () {
         layui.use(['form'], function () {
             var form = layui.form();
@@ -109,7 +118,13 @@
                 content: function (value) {
                     var content = $("#contentView").html();
                     if (content == "") {
-                        return "请输入内容";
+                        return "请输入后端内容";
+                    }
+                },
+                frontContent: function (value) {
+                    var content = $("#contentView2").html();
+                    if (content == "") {
+                        return "请输入前端内容";
                     }
                 }
             });
@@ -118,6 +133,7 @@
             form.on('submit', function (data) {
                 $(data.elem).removeAttr("lay-submit");
                 $("#content").val(ue.getContent().replace(/&quot;/gi, ""));
+                $("#content2").val(ue2.getContent().replace(/&quot;/gi, ""));
                 $.post('${ctx}/help/help/save.do', $('#myForm').serialize(), function (res) {
                     if (res.success) {
                         top.layer.msg('提交成功', {icon: 1}, function (index) {
@@ -139,6 +155,16 @@
             });
             ue.addListener('blur', function() {
                 $("#contentView").html(ue.getContent());
+            });
+
+            ue2.addListener('ready', function() {
+                if ($("#contentView2").html() != "" && $("#contentView2").html().length > 200) {
+                    this.setHeight(550);
+                }
+                this.setContent($("#contentView2").html());
+            });
+            ue2.addListener('blur', function() {
+                $("#contentView2").html(ue2.getContent());
             });
         });
     });

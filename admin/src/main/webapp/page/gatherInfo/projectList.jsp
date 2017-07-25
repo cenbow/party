@@ -105,8 +105,10 @@
                                     <div class="member-name ellipsis-1">${project.title}</div>
                                 </td>
                                 <td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${project.member.id}','400px','470px')">
+                                    <div class="member-cell">
                                     <div class="member-logo" style="background-image: url('${project.member.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
                                     <div class="member-name ellipsis-1"><a class="blue" title="${project.member.realname}" href="javascript:void(0);">${project.member.realname}</a></div>
+                                    </div>
                                 </td>
                                 <td><div>${project.groupNum}</div></td>
                                 <td><div>${project.totalNum}</div></td>

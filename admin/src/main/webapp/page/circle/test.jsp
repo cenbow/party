@@ -82,14 +82,18 @@
                             <tr>
                                 <td title="${circle.name}">
                                     <div class=" table-member">
+                                        <div class="member-cell">
                                         <div class="member-logo" style="background-image: url('${circle.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
                                         <div class="member-name ellipsis-1">${circle.name}</div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${circle.mgrId}','400px','470px')">
                                     <div class=" table-member">
+                                        <div class="member-cell">
                                         <div class="member-logo" style="background-image: url('${circle.mgrLogo}'),url(${ctx}/image/def_user_logo.png)"></div>
                                         <div class="member-name ellipsis-1"><a class="blue" title="${circle.mgrRealname}" href="javascript:void(0);">${circle.mgrRealname}</a></div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="tb-opts" style="width: 100px">

@@ -1,7 +1,8 @@
 /*typeahead*/
 .typeahead{
 	border: 1px solid #cccccc;
-	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	        border-radius: 5px;
 	margin-top: 5px;
 	overflow: hidden;
 	background: #fff;
@@ -17,8 +18,10 @@
 	display: inline-block;
 	width: 25px;
 	height: 25px;
-	background-size: cover;
-	border-radius: 50%;
+	-webkit-background-size: cover;
+	        background-size: cover;
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
 	background-position: center;
 	vertical-align: top;
 	margin-right: 10px;
@@ -37,7 +40,6 @@
 	-webkit-transform: translate(-50%);
 	-moz-transform: translate(-50%);
 	-ms-transform: translate(-50%);
-	-o-transform: translate(-50%);
 	transform: translate(-50%);
 	z-index: 1;
 }
@@ -49,7 +51,6 @@
 	line-height: 30px;
 	border: 1px solid #ccc;
 	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
 	border-radius: 8px;
 	outline: none;
 }
@@ -66,8 +67,10 @@
 	display: inline-block;
 	width: 25px;
 	height: 25px;
-	background-size: cover;
-	border-radius: 50%;
+	-webkit-background-size: cover;
+	        background-size: cover;
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
 	background-position: center;
 	vertical-align: top;
 	margin-right: 10px;
@@ -87,6 +90,8 @@
 	font-size: 22px;
 	width: 0;
 	overflow: hidden;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
 	transition: all 0.3s;
 }
 .sel-result .ret-item:hover{

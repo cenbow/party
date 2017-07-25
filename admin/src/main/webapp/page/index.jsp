@@ -15,11 +15,8 @@
 	<div class="flexslider">
 		<ul class="slides">
 			<c:forEach var="advertise" items="${index.advertises}">
-				<li>
+				<li class="slide-item">
 					<div class="banner-img" style="background-image: url('${advertise.pic}'),url(${ctx}/image/img_bg.png)"></div>
-<!-- 					<div class="banner-text-shadow"> -->
-<%-- 						<div class="text"><a href="javascript:void(0)">${advertise.title}</a></div> --%>
-<!-- 					</div> -->
 				</li>
 			</c:forEach>
 		</ul>
@@ -35,49 +32,54 @@
 			<div class="acts-content">
 				<div class="f-row mb10">
 					<div class="f-col-xs-6">
-						<div class="act-item-big-bg mr5" style="background-image:url(${index.bigPic.pic}),url(${ctx}/image/img_bg.png)">
+						<a class="col-inner br" href="javascript:void(0);">
+							<img src="${index.bigPic.pic}?imageMogr2/auto-orient/crop/560x350" alt="${index.bigPic.title}">
 							<div class="act-front-content">
-								<p>${index.bigPic.title}</p>
+								<p class="ellipsis-1">${index.bigPic.title}</p>
 								<p><span>${index.bigPic.area}</span>&nbsp;<span>${index.bigPic.thirdPartyName}</span></p>
 							</div>
-						</div>
+						</a>
 					</div>
 					<div class="f-col-xs-6">
 						<div class="f-row mb10">
 							<c:forEach items="${index.rightTopPicList}" var="topList" varStatus="status">
-								<div class="f-col-xs-6">
-									<div class="act-item-bg ml5 <c:if test="${status.index == 0}">mr5</c:if>" style="background-image:url(${topList.pic}),url(${ctx}/image/img_bg.png)">
+								<div class="f-col-xs-6 col-small">
+									<a class="col-inner bl <c:if test="${status.index == 0}">br</c:if>" href="javascript:void(0);">
+										<img src="${topList.pic}?imageMogr2/auto-orient/crop/273x170" alt="${topList.title}">
 										<div class="act-front-content">
 											<p class="ellipsis-1">${topList.title}</p>
 											<p><span>${topList.area}</span>&nbsp;<span>${topList.thirdPartyName}</span></p>
 										</div>
-									</div>
+									</a>
 								</div>
 							</c:forEach>
 						</div>
 						<div class="f-row">
 							<c:forEach items="${index.rightBottomPicList}" var="bottomList" varStatus="status">
-								<div class="f-col-xs-6">
-									<div class="act-item-bg ml5 <c:if test="${status.index == 0}">mr5</c:if>" style="background-image:url(${bottomList.pic}),url(${ctx}/image/img_bg.png)">
+								<div class="f-col-xs-6 col-small">
+									<a class="col-inner bl <c:if test="${status.index == 0}">br</c:if>" href="javascript:void(0);">
+										<img src="${bottomList.pic}?imageMogr2/auto-orient/crop/273x170" alt="${bottomList.title}">
 										<div class="act-front-content">
 											<p class="ellipsis-1">${bottomList.title}</p>
 											<p><span>${bottomList.area}</span>&nbsp;<span>${bottomList.thirdPartyName}</span></p>
 										</div>
-									</div>
+									</a>
 								</div>
+
 							</c:forEach>
 						</div>
 					</div>
 				</div>
 				<div class="f-row">
 					<c:forEach items="${index.bottomList}" var="bottomList" varStatus="status">
-						<div class="f-col-xs-3">
-							<div class="act-item-bg <c:if test="${status.index == 1||status.index == 2}">ml5 mr5</c:if> <c:if test="${status.index == 0}">mr5</c:if> <c:if test="${status.index == 3}">ml5</c:if>" style="background-image:url(${bottomList.pic})">
+						<div class="f-col-xs-3 col-small">
+							<a href="javascript:void(0);" class="col-inner <c:if test="${status.index == 1||status.index == 2}">br bl</c:if> <c:if test="${status.index == 0}">br</c:if> <c:if test="${status.index == 3}">bl</c:if>">
+								<img src="${bottomList.pic}?imageMogr2/auto-orient/crop/273x170" alt="${bottomList.title}">
 								<div class="act-front-content">
 									<p class="ellipsis-1">${bottomList.title}</p>
-									<p><span>${bottomList.area}</span>&nbsp;${bottomList.thirdPartyName}</p>
+									<p><span>${bottomList.area}</span>&nbsp;<span>${bottomList.thirdPartyName}</span></p>
 								</div>
-							</div>
+							</a>
 						</div>
 					</c:forEach>
 				</div>
@@ -104,14 +106,14 @@
 											&nbsp;<span>${topList.thirdPartyName}</span>
 											</span>
 										</p>
-									</div>									
+									</div>
 								</div>
 							</div>
 						</div>
 					</c:forEach>
 				</div>
 				<div class="f-row">
-					<c:forEach items="${index.goodsBottomList}" var="bottomList"  varStatus="status">
+					<c:forEach items="${index.goodsBottomList}" var="bottomList" varStatus="status">
 						<div class="f-col-xs-4">
 							<div class="good-item ${status.count==2?'ml10 mr10':''}">
 								<div class="good-item-bg" style="background-image:url(${bottomList.pic}),url(${ctx}/image/img_bg.png)">
@@ -127,7 +129,7 @@
 											&nbsp;<span>${bottomList.thirdPartyName}</span>
 											</span>
 										</p>
-									</div>									
+									</div>
 								</div>
 							</div>
 						</div>

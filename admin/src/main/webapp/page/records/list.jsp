@@ -63,8 +63,10 @@
                         <c:forEach var="record" items="${recordList}">
                             <tr>
                                 <td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${record.authorId}','400px','470px')">
+                                    <div class="member-cell">
                                     <div class="member-logo" style="background-image: url('${record.authorLogo}'),url(${ctx}/image/def_user_logo.png)"></div>
                                     <div class="member-name ellipsis-1"><a class="blue" title="${record.authorName}" href="javascript:void(0);" >${record.authorName}</a></div>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="dib ellipsis-1" style="width: 100px;"  title="${record.content}">${record.content}</div>

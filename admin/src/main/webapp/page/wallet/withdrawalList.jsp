@@ -92,7 +92,7 @@
 				</ul>
 				<div class="cl">
 					<ul class="header">
-						<li class="table-member" style="width: 15%; text-align: left;">提现者</li>
+						<li style="width: 20%;">提现者</li>
 						<li style="width: 20%">提现账号</li>
 						<li style="width: 13%">提现金额</li>
 						<li style="width: 13%">提现时间</li>
@@ -107,16 +107,18 @@
 						<c:forEach var="withdrawal" items="${withdrawals}">
 							<div class="info">
 								<ul class="content">
-									<li style="width: 15%; text-align: left;" class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${withdrawal.member.id}','400px','470px')">
-										<div class="member-logo" style="background-image: url('${withdrawal.member.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
-										<div class="member-name ellipsis-1">
-											<a class="blue" title="${withdrawal.member.realname}" href="javascript:void(0);">${withdrawal.member.realname}</a>
+									<li style="width: 20%;" class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${withdrawal.member.id}','400px','470px')">
+										<div class="member-cell">
+											<div class="member-logo" style="background-image: url('${withdrawal.member.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
+											<div class="member-name ellipsis-1">
+												<a class="blue" title="${withdrawal.member.realname}" href="javascript:void(0);">${withdrawal.member.realname}</a>
+											</div>
 										</div>
 									</li>
 									<li style="width: 20%">${withdrawal.accountNumber}</li>
 									<li style="width: 13%">¥<fmt:formatNumber pattern="#.##" value="${withdrawal.payment}"/></li>
 									<li style="width: 13%"><fmt:formatDate value="${withdrawal.createDate}" pattern="yyyy-MM-dd HH:mm" /></li>
-									<li style="width: 7%">
+									<li style="width: 6%">
 										<c:if test="${withdrawal.status == 1}">
 											<span>处理中</span>
 										</c:if>
@@ -133,10 +135,11 @@
 											<a class="red" href="javascript:check('确认要审核拒绝该提现吗？', '${withdrawal.id}', '3')" >拒绝</a>
 										</c:if>
 									</li>
-									<li style="width: 7%; padding-left: 0" class="option"><a class='click-obj' href="javascript:void(0)"></a></li>
+									<li style="width: 7%;" class="option"><i class="iconfont icon-unfold"></i>
+										<i class="iconfont icon-fold"></i></li>
 									<div class="cl"></div>
 								</ul>
-								<ul class="tr-extra-content" style="display: none;">
+								<ul class="tr-extra-content">
 									<li>
 										<label class="ext-label">开户名</label>
 										<div class="ext-value">${withdrawal.name}</div>
@@ -208,29 +211,15 @@
 
         //加载分页
         loadPage("page_content", '${page.totalPages}', '${page.page}', '#myForm');
-		$('.content-body').delegate('.option', 'click',function(e) {
-			var $target = $(e.target);
-			if ($target.hasClass("click-obj")) {
-				if ($(this).hasClass("option-toggle")) {
-					$(this).removeClass("option-toggle");
-					$(this).closest("ul").parent("div").css(
-							"background-color", "#fff");
-					$(this).closest("ul").siblings(".tr-extra-content")
-							.hide();
-				} else {
-					$(".option").removeClass("option-toggle");
-					$(".content-body .tr-extra-content").hide();
-					$(".info").css("background-color", "#fff");
-
-					$(this).addClass("option-toggle");
-					$(this).closest("ul").parent("div").css(
-							"background-color", "#eee");
-					$(this).closest("ul").siblings(".tr-extra-content")
-							.show();
-				}
-				e.stopPropagation();
-			}
-		});
+        $('.content-body').delegate('.option', 'click', function (e) {
+            var info = $(this).closest('.info');
+            if (!info.hasClass('active')) {//打开
+                $('.info').removeClass('active');
+                info.toggleClass('active');
+            } else {
+                info.toggleClass('active');
+            }
+        });
 
 		$("#btnExport").click(function() {
 			layer.confirm('确认要导出Excel吗?', {

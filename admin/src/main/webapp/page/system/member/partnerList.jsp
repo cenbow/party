@@ -106,8 +106,10 @@
 							<c:forEach var="member" items="${members}">
 								<tr>
 									<td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${member.id}','400px','470px')">
+										<div class="member-cell">
 										<div class="member-logo" style="background-image: url('${member.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
 										<div class="member-name ellipsis-1"><a class="blue" title="${member.realname}" href="javascript:void(0);" >${member.realname}</a></div>
+										</div>
 									</td>
 									<td>
 										${member.mobile}
@@ -147,6 +149,9 @@
 											</a>
 											<a target="_self" href="${ctx}/system/member/merchantForm.do?memberId=${member.id}">
 												绑定商户信息
+											</a>
+											<a target="_self" href="${ctx}/order/order/memberOrderList.do?mmId=${member.id}">
+												查看余额
 											</a>
 											<c:if test="${member.userStatus == 0 || member.userStatus == 3}">
 												<a class="green" href="javascript:verify('确认要通过吗？','1','${member.id}')">通过</a>

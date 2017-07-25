@@ -102,7 +102,7 @@
 				</ul>
 				<div class="cl">
 					<ul class="header">
-						<li class="table-member" style="width: 15%; text-align: left;">参与者</li>
+						<li class="table-member" style="width: 15%;">参与者</li>
 						<li style="width: 9%">手机号</li>
 						<li style="width: 9%">微信号</li>
 						<li style="width: 13%">报名时间</li>
@@ -119,12 +119,14 @@
 						<c:forEach var="memberAct" items="${memberActs}">
 							<div class="info">
 								<ul class="content">
-									<li style="width: 15%; text-align: left;" class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${memberAct.member.id}','400px','470px')">
+									<li style="width: 15%;" class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${memberAct.member.id}','400px','470px')">
+										<div class="member-cell">
 										<div class="member-logo"
 											style="background-image: url('${memberAct.member.logo}'),url(${ctx}/image/def_user_logo.png)"
 										></div>
 										<div class="member-name ellipsis-1">
 											<a class="blue" title="${memberAct.member.realname}" href="javascript:void(0);">${memberAct.member.realname}</a>
+										</div>
 										</div>
 									</li>
 									<li style="width: 9%">${memberAct.mobile}</li>
@@ -133,7 +135,7 @@
 									<li style="width: 7%"><c:if test="${memberAct.payment == 0}">免费报名</c:if> <c:if
 											test="${memberAct.payment != 0}"
 										>¥${memberAct.payment}</c:if></li>
-									<li style="width: 7%"><c:choose>
+									<li style="width: 6%"><c:choose>
 											<c:when test="${memberAct.checkStatus == 0}">
 												<span>审核中</span>
 											</c:when>
@@ -153,7 +155,7 @@
 												<span>未参与</span>
 											</c:when>
 										</c:choose></li>
-									<li>${memberAct.signin == 1 ? '已签到' : '未签到'}</li>
+									<li style="width: 6%;">${memberAct.signin == 1 ? '已签到' : '未签到'}</li>
 									<li style="width: 8%">
 										<c:if test="${memberAct.checkStatus == 0}">
 											<a class="green" href="javascript:check('确认要审核通过该报名吗？', '${memberAct.id}', '1')" target="_self">通过</a>
@@ -169,10 +171,11 @@
 											</c:if>
 										</c:if>
 									</li>
-									<li style="width: 7%; padding-left: 0" class="option"><a class='click-obj' href="javascript:void(0)"></a></li>
+									<li style="width: 7%;" class="option"><i class="iconfont icon-unfold"></i>
+										<i class="iconfont icon-fold"></i></li>
 									<div class="cl"></div>
 								</ul>
-								<ul class="tr-extra-content" style="display: none;">
+								<ul class="tr-extra-content">
 									<c:if test="${memberAct.name != ''}">
 										<li>
 											<label class="ext-label">联系人</label>
@@ -249,25 +252,15 @@
 	$(function() {
         //加载分页
         loadPage("page_content", '${page.totalPages}', '${page.page}', '#myForm');
-		$('.content-body').delegate('.option', 'click', function(e) {
-			var $target = $(e.target);
-			if ($target.hasClass("click-obj")) {
-				if ($(this).hasClass("option-toggle")) {
-					$(this).removeClass("option-toggle");
-					$(this).closest("ul").parent("div").css("background-color", "#fff");
-					$(this).closest("ul").siblings(".tr-extra-content").hide();
-				} else {
-					$(".option").removeClass("option-toggle");
-					$(".content-body .tr-extra-content").hide();
-					$(".info").css("background-color", "#fff");
-
-					$(this).addClass("option-toggle");
-					$(this).closest("ul").parent("div").css("background-color", "#eee");
-					$(this).closest("ul").siblings(".tr-extra-content").show();
-				}
-				e.stopPropagation();
-			}
-		});
+        $('.content-body').delegate('.option', 'click', function (e) {
+            var info = $(this).closest('.info');
+            if (!info.hasClass('active')) {//打开
+                $('.info').removeClass('active');
+                info.toggleClass('active');
+            } else {
+                info.toggleClass('active');
+            }
+        });
 		
 		$("#btnExport").click(function() {
 			layer.confirm('确认要导出Excel吗?', {

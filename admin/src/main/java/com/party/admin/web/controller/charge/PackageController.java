@@ -5,9 +5,11 @@ import com.party.admin.web.dto.input.common.CommonInput;
 import com.party.common.paging.Page;
 import com.party.common.utils.StringUtils;
 import com.party.core.model.BaseModel;
-import com.party.core.model.charge.Level;
+import com.party.core.model.charge.PackageMember;
+import com.party.core.model.charge.ProductPackage;
 import com.party.core.model.system.SysRole;
-import com.party.core.service.charge.ILevelService;
+import com.party.core.service.charge.IPackageMemberService;
+import com.party.core.service.charge.IPackageService;
 import com.party.core.service.system.ISysRoleService;
 import com.party.core.utils.MyBeanUtils;
 import org.slf4j.Logger;
@@ -29,39 +31,41 @@ import java.util.Map;
  * 等级
  */
 @Controller
-@RequestMapping("/charge/level")
-public class LevelController {
+@RequestMapping("/charge/package")
+public class PackageController {
     @Autowired
-    private ILevelService levelService;
+    private IPackageService packageService;
     @Autowired
     private ISysRoleService sysRoleService;
+    @Autowired
+    private IPackageMemberService packageMemberService;
 
-    protected static Logger logger = LoggerFactory.getLogger(LevelController.class);
+    protected static Logger logger = LoggerFactory.getLogger(PackageController.class);
 
     /**
      * 列表
      *
-     * @param level
+     * @param productPackage
      * @param commonInput
      * @param page
      * @return
      */
-    @RequestMapping("levelList")
-    public ModelAndView levelList(Level level, CommonInput commonInput, Page page) {
+    @RequestMapping("packageList")
+    public ModelAndView packageList(ProductPackage productPackage, CommonInput commonInput, Page page) {
         page.setLimit(20);
-        level.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
+        productPackage.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
         Map<String, Object> params = CommonInput.appendParams(commonInput);
-        List<Level> levelList = levelService.webListPage(level, params, page);
-        for (Level dbLevel : levelList) {
-            SysRole sysRole = sysRoleService.get(dbLevel.getSysRoleId());
-            dbLevel.setSysRoleName(sysRole.getName());
+        List<ProductPackage> packageList = packageService.webListPage(productPackage, params, page);
+        for (ProductPackage dbPackage : packageList) {
+            SysRole sysRole = sysRoleService.get(dbPackage.getSysRoleId());
+            dbPackage.setSysRoleName(sysRole.getName());
         }
-        ModelAndView modelAndView = new ModelAndView("charge/levelList");
-        modelAndView.addObject("levels", levelList);
-        modelAndView.addObject("page", page);
-        modelAndView.addObject("level", level);
-        modelAndView.addObject("input", commonInput);
-        return modelAndView;
+        ModelAndView mv = new ModelAndView("charge/packageList");
+        mv.addObject("packages", packageList);
+        mv.addObject("page", page);
+        mv.addObject("level", productPackage);
+        mv.addObject("input", commonInput);
+        return mv;
     }
 
     /**
@@ -72,12 +76,12 @@ public class LevelController {
      */
     @RequestMapping("{levelId}/toForm")
     public ModelAndView toForm(@PathVariable("levelId") String levelId) {
-        ModelAndView mv = new ModelAndView("charge/levelForm");
+        ModelAndView mv = new ModelAndView("charge/packageForm");
         if (StringUtils.isNotEmpty(levelId) && !levelId.equals("0")) {
-            Level level = levelService.get(levelId);
-            SysRole sysRole = sysRoleService.get(level.getSysRoleId());
-            level.setSysRoleName(sysRole.getName());
-            mv.addObject("level", level);
+            ProductPackage productPackage = packageService.get(levelId);
+            SysRole sysRole = sysRoleService.get(productPackage.getSysRoleId());
+            productPackage.setSysRoleName(sysRole.getName());
+            mv.addObject("productPackage", productPackage);
         }
         return mv;
     }
@@ -85,13 +89,13 @@ public class LevelController {
     /**
      * 新增/编辑
      *
-     * @param level
+     * @param productPackage
      * @param result
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public AjaxResult save(Level level, BindingResult result, String isFree) {
+    public AjaxResult save(ProductPackage productPackage, BindingResult result, String isFree) {
         // 数据验证
         if (result.hasErrors()) {
             List<ObjectError> allErros = result.getAllErrors();
@@ -99,15 +103,15 @@ public class LevelController {
         }
 
         try {
-            if (StringUtils.isEmpty(level.getId())) {
+            if (StringUtils.isEmpty(productPackage.getId())) {
                 if (isFree.equals("free")) {
-                    level.setPrice(0f);
+                    productPackage.setPrice(0f);
                 }
-                levelService.insert(level);
+                packageService.insert(productPackage);
             } else {
-                Level dbLevel = levelService.get(level.getId());
-                MyBeanUtils.copyBeanNotNull2Bean(level, dbLevel);
-                levelService.update(dbLevel);
+                ProductPackage dbProductPackage = packageService.get(productPackage.getId());
+                MyBeanUtils.copyBeanNotNull2Bean(productPackage, dbProductPackage);
+                packageService.update(dbProductPackage);
             }
             return AjaxResult.success();
         } catch (Exception e) {
@@ -128,8 +132,15 @@ public class LevelController {
         if (StringUtils.isEmpty(levelId)) {
             return AjaxResult.error("主键不能为空");
         }
-        levelService.delete(levelId);
-        return AjaxResult.success();
+        PackageMember packageMember = new PackageMember();
+        packageMember.setLevelId(levelId);
+        List<PackageMember> packageMembers = packageMemberService.list(packageMember);
+        if (packageMembers.size() == 0) {
+            packageService.delete(levelId);
+            return AjaxResult.success();
+        } else {
+            return AjaxResult.error("套餐已被购买");
+        }
     }
 
     /**

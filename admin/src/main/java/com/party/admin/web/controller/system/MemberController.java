@@ -242,7 +242,7 @@ public class MemberController {
         return AjaxResult.success((Object) type);
     }
 
-    @ResponseBody
+/*    @ResponseBody
     @RequestMapping("delete")
     public AjaxResult delete(String id) {
         try {
@@ -255,7 +255,7 @@ public class MemberController {
             return new AjaxResult(false);
         }
         return new AjaxResult(true);
-    }
+    }*/
 
     /**
      * 分销商

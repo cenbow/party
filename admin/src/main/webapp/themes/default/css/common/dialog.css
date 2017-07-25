@@ -23,12 +23,14 @@
 	left: 50%;
 	width: 500px;
 	height: 300px;
-	transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	     transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%); /* IE 9 */
 	-webkit-transform: translate(-50%, -50%); /* Safari and Chrome */
 	z-index: 3001;
 	background: #fff;
-	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	        border-radius: 20px;
 	overflow: hidden;
 }
 
@@ -85,7 +87,8 @@
 
 .dialog-detail .login-btn {
 	width: 100px;
-    border-radius: 10px;
+    -webkit-border-radius: 10px;
+            border-radius: 10px;
 }
 /*弹出下载*/
 .dialog-detail .download-img{

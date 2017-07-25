@@ -62,6 +62,7 @@ public class OrderFormOutput{
 
 	// 支付方式（0：支付宝，1微信支付）
 	private Integer paymentWay;
+	private String paymentWayName;
 
 	// 订单类型（0：正常预定商品订单，1：定制商品订单，2：活动订单）
 	private Integer type;
@@ -191,7 +192,7 @@ public class OrderFormOutput{
 		this.createBy = createBy;
 	}
 
-	@ExcelField(title = "下单时间", align = 2, sort = 11)
+	@ExcelField(title = "下单时间", align = 2, sort = 12)
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -294,7 +295,7 @@ public class OrderFormOutput{
 		this.merchantId = merchantId;
 	}
 
-	@ExcelField(title = "交易状态", align = 2, sort = 10)
+	@ExcelField(title = "交易状态", align = 2, sort = 11)
 	public String getTradeState() {
 		return tradeState;
 	}
@@ -303,7 +304,7 @@ public class OrderFormOutput{
 		this.tradeState = tradeState;
 	}
 
-	@ExcelField(title = "订单状态", align = 2, sort = 9)
+	@ExcelField(title = "订单状态", align = 2, sort = 10)
 	public String getStatusName() {
 		return statusName;
 	}
@@ -321,4 +322,12 @@ public class OrderFormOutput{
 		this.merchantName = merchantName;
 	}
 
+	@ExcelField(title = "支付方式", align = 2, sort = 9)
+	public String getPaymentWayName() {
+		return paymentWayName;
+	}
+
+	public void setPaymentWayName(String paymentWayName) {
+		this.paymentWayName = paymentWayName;
+	}
 }

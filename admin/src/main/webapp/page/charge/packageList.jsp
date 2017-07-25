@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <title>等级管理</title>
+    <title>套餐管理</title>
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/table.css">
     <%@include file="../include/commonFile.jsp" %>
@@ -17,22 +17,22 @@
         <div class="section-main">
             <div class="c-time-list-header">
                 <div class="r">
-                    <a href="${ctx}/charge/level/0/toForm.do" class="layui-btn layui-btn-radius layui-btn-danger"> <i class="iconfont icon-add btn-icon"></i>
-                        创建等级
+                    <a href="${ctx}/charge/package/0/toForm.do" class="layui-btn layui-btn-radius layui-btn-danger"> <i class="iconfont icon-add btn-icon"></i>
+                        创建套餐
                     </a>
                 </div>
                 <div class="ovh">
-                    <span class="title f20">等级管理</span> <span class="f12">共<b id="totalCount">${page.totalCount}</b>条记录</span>
+                    <span class="title f20">套餐管理</span> <span class="f12">共<b id="totalCount">${page.totalCount}</b>条记录</span>
                 </div>
             </div>
-            <form class="layui-form" action="${ctx}/charge/level/levelList.do" id="myForm" method="post">
+            <form class="layui-form" action="${ctx}/charge/package/packageList.do" id="myForm" method="post">
                 <input type="hidden" name="pageNo" id="pageNo" value="${page.page}"/>
                 <div class="f-search-bar">
                     <div class="search-container">
                         <ul class="search-form-content">
-                            <li class="form-item-inline"><label class="search-form-lable">等级名称</label>
+                            <li class="form-item-inline"><label class="search-form-lable">套餐名称</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="name" autocomplete="off" class="layui-input" value="${level.name}" placeholder="请输入查询等级名称">
+                                    <input type="text" name="name" autocomplete="off" class="layui-input" value="${level.name}" placeholder="请输入查询套餐名称">
                                 </div>
                             </li>
                             <li class="form-item-inline">
@@ -74,42 +74,52 @@
                             <col>
                             <col>
                             <col>
+                            <col>
+                            <col>
                         </colgroup>
                         <thead>
                         <tr>
                             <th>名称</th>
                             <th>金额/单位</th>
                             <th>角色</th>
+                            <th>等级</th>
+                            <th>风格</th>
                             <th>创建时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="level" items="${levels}">
+                        <c:forEach var="productPackage" items="${packages}">
                             <tr>
                                 <td>
-                                    <div>${level.name}</div>
+                                    <div>${productPackage.name}</div>
                                 </td>
                                 <td>
                                     <div>
-                                        <c:if test="${level.price == 0.0}">
+                                        <c:if test="${productPackage.price == 0.0}">
                                             免费
                                         </c:if>
-                                        <c:if test="${level.price > 0.0}">
-                                            ${level.price}元/${level.unit}
+                                        <c:if test="${productPackage.price > 0.0}">
+                                            ${productPackage.price}元/${productPackage.unit}
                                         </c:if>
                                     </div>
                                 </td>
                                 <td>
-                                    <div>${level.sysRoleName}</div>
+                                    <div>${productPackage.sysRoleName}</div>
                                 </td>
                                 <td>
-                                    <div><fmt:formatDate value="${level.updateDate}" pattern="yyyy-MM-dd HH:mm"/></div>
+                                    <div>${productPackage.level}</div>
+                                </td>
+                                <td>
+                                    <div>${productPackage.style}</div>
+                                </td>
+                                <td>
+                                    <div><fmt:formatDate value="${productPackage.updateDate}" pattern="yyyy-MM-dd HH:mm"/></div>
                                 </td>
                                 <td class="opts-btns tb-opts">
                                     <div class="comm-opts">
-                                        <a class="green" href="${ctx}/charge/level/${level.id}/toForm.do">编辑</a>
-                                        <a class="red" href="javascript:deleteObj('确定要删除吗', '${ctx}/charge/level/${level.id}/delete.do');">删除</a>
+                                        <a class="green" href="${ctx}/charge/package/${productPackage.id}/toForm.do">编辑</a>
+                                        <a class="red" href="javascript:deleteObj('确定要删除吗', '${ctx}/charge/package/${productPackage.id}/delete.do');">删除</a>
                                     </div>
                                 </td>
                             </tr>
@@ -117,7 +127,7 @@
                         </tbody>
                     </table>
                     <c:if test="${page.totalCount == 0}">
-                        <div class="f16 tc mt15">还没有等级</div>
+                        <div class="f16 tc mt15">还没有套餐</div>
                     </c:if>
                 </div>
             </div>

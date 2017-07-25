@@ -1,9 +1,19 @@
 package com.party.admin.biz.activity;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
+import com.party.admin.utils.RealmUtils;
+import com.party.common.utils.BigDecimalUtils;
+import com.party.core.model.BaseModel;
+import com.party.core.model.member.MerchantUtil;
+import com.party.core.model.order.OrderForm;
+import com.party.core.model.order.OrderStatus;
+import com.party.core.model.order.OrderType;
+import com.party.core.model.wallet.WithdrawalStatus;
+import com.party.core.model.wallet.Withdrawals;
+import com.party.core.service.goods.IGoodsService;
+import com.party.core.service.member.IMemberActService;
+import com.party.core.service.order.IOrderFormService;
+import com.party.core.service.wallet.IWithdrawalService;
+import com.party.pay.model.query.TradeStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.party.core.model.order.OrderForm;
-import com.party.core.model.order.OrderStatus;
-import com.party.core.model.order.OrderType;
-import com.party.core.service.goods.IGoodsService;
-import com.party.core.service.member.IMemberActService;
-import com.party.core.service.order.IOrderFormService;
-import com.party.pay.model.query.TradeStatus;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 订单逻辑业务服务 party Created by wei.li on 2016/10/8 0008.
@@ -34,6 +41,8 @@ public class OrderBizService {
 
 	@Autowired
 	IMemberActService memberActService;
+	@Autowired
+	IWithdrawalService withdrawalService;
 
 	protected static Logger logger = LoggerFactory.getLogger(OrderBizService.class);
 
@@ -113,6 +122,78 @@ public class OrderBizService {
 			params.put("status", status);
 		}
 		return tradeStatusSet;
+	}
+
+	/**
+	 * 活动，众筹已支付的订单总额
+	 *
+	 * @return
+	 */
+	public Double getOrderTotal(boolean isTxz, String memberId) {
+		OrderForm orderForm = new OrderForm();
+		orderForm.setInitiatorId(memberId);
+		orderForm.setStatus(OrderStatus.ORDER_STATUS_HAVE_PAID.getCode()); // 已支付
+		orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
+		Map<String, Object> params = new HashMap<String, Object>();
+		Set<Integer> orderTypes = new HashSet<Integer>();
+//		orderTypes.add(OrderType.ORDER_ACTIVITY.getCode()); // 活动
+//		orderTypes.add(OrderType.ORDER_CROWD_FUND.getCode()); // 众筹
+
+		if (isTxz) {
+			Set<String> merchants = new HashSet<String>();
+			merchants.add(MerchantUtil.TXZ_WWZ_MERCHANT_ID);
+			merchants.add(MerchantUtil.TXZ_APP_MERCHANT_ID);
+			params.put("txzMerchantId", merchants);
+		}
+
+		params.put("types", orderTypes);
+		params.put("isCrowdfund", 0);
+		params.put("payment", 0);
+		return orderFormService.getTotalPayment(orderForm, params);
+	}
+
+	/**
+	 * 提现总额
+	 *
+	 * @return
+	 */
+	public Double getWithdrawalTotal(String memberId) {
+		Withdrawals withdrawal = new Withdrawals();
+		withdrawal.setCreateBy(memberId);
+		withdrawal.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
+		Map<String, Object> params = new HashMap<String, Object>();
+		Set<Integer> status = new HashSet<Integer>();
+		status.add(WithdrawalStatus.STATUS_HAVE_PAID.getCode()); // 已付款
+		status.add(WithdrawalStatus.STATUS_IN_REVIEW.getCode()); // 处理中
+		params.put("status", status);
+		return withdrawalService.getTotalPayment(withdrawal, params);
+	}
+
+	/**
+	 * 获取余额
+	 *
+	 * @return
+	 * @param memberId
+	 */
+	public double getTotalAccount(String memberId) {
+		Double orderTotal = getOrderTotal(true, memberId);
+		Double withdrawalTotal = getWithdrawalTotal(memberId);
+
+		double blance = 0.0;
+
+		if (orderTotal == null) {
+			orderTotal = 0.0;
+			blance = 0;
+		}
+		if(withdrawalTotal == null) {
+			withdrawalTotal = 0.0;
+			blance = orderTotal;
+		}
+
+		if (orderTotal != null && withdrawalTotal != null) {
+			blance = BigDecimalUtils.sub(orderTotal, withdrawalTotal);
+		}
+		return blance;
 	}
 
 }

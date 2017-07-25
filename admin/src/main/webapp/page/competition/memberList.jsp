@@ -207,9 +207,11 @@
 								<tr>
 									<td title="${competitionMember.groupName}"><div class="word-break">${empty competitionMember.groupName ? '未分配' : competitionMember.groupName}</div></td>
 									<td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${competitionMember.member.id}','400px','550px')">
+										<div class="member-cell">
 										<div class="member-logo" style="background-image: url('${competitionMember.member.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
 										<c:set var="fullName" value="${empty competitionMember.member.fullname ? competitionMember.member.realname : competitionMember.member.fullname}"></c:set>
 										<div class="member-name ellipsis-1"><a class="blue" title="${fullName}" href="javascript:void(0);" >${fullName}</a></div>
+										</div>
 									</td>
 									<td style="text-align: center;"><c:if test="${competitionMember.member.sex == 1}">男</c:if><c:if test="${competitionMember.member.sex == 0}">女</c:if></td>
 									<td title="${competitionMember.member.company}"><div class="word-break">${competitionMember.member.company}</div></td>

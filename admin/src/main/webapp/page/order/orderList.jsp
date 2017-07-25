@@ -193,12 +193,14 @@
 						<tbody>
 							<c:forEach var="orderForm" items="${orderForms}">
 							<tr>
-								<td width="25%" title="${orderForm.title}" onclick="openDialogNoButton('订单详情','${ctx}/order/order/orderInfo.do?id=${orderForm.id}','450px','570px')">
-									<a style="width: 250px;cursor: pointer;" class="dib ellipsis-1 blue">${orderForm.title}</a>
+								<td class="table-member" title="${orderForm.title}" onclick="openDialogNoButton('订单详情','${ctx}/order/order/orderInfo.do?id=${orderForm.id}','450px','570px')">
+									<div class="member-name ellipsis-1 blue" style="cursor: pointer">${orderForm.title}</div>
 								</td>
 								<td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${orderForm.member.id}','400px','470px')">
+									<div class="member-cell">
 									<div class="member-logo" style="background-image: url('${orderForm.member.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
 									<div class="member-name ellipsis-1"><a class="blue" title="${orderForm.member.realname}" style="cursor: pointer;">${orderForm.member.realname}</a></div>
+									</div>
 								</td>
 								<td width="12%">
 									<c:choose>

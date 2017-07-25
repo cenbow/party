@@ -51,7 +51,7 @@ public class HelpController {
         page.setLimit(10);
         Map<String, Object> params = CommonInput.appendParams(commonInput);
         List<Help> helpList = helpService.webListPage(help, params, page);
-        List<Help> newHelpList = Lists.newArrayList();
+        /*List<Help> newHelpList = Lists.newArrayList();
         for (Help hh : helpList) {
             if ("0".equals(hh.getParentId())) {
                 newHelpList.add(hh); // 父节点
@@ -83,7 +83,7 @@ public class HelpController {
                     return o1.getSort() > o2.getSort() ? 0 : -1;
                 }
             });
-        }
+        }*/
         // page.setTotalCount(count);
         ModelAndView mv = new ModelAndView("help/helpList");
         mv.addObject("helpList", helpList);
@@ -108,6 +108,10 @@ public class HelpController {
             if (StringUtils.isNotEmpty(help.getContent())) {
                 String content = StringUtils.stringtohtml(help.getContent());
                 help.setContent(content);
+            }
+            if (StringUtils.isNotEmpty(help.getFrontContent())) {
+                String content = StringUtils.stringtohtml(help.getFrontContent());
+                help.setFrontContent(content);
             }
             mv.addObject("help", help);
         }
@@ -184,6 +188,11 @@ public class HelpController {
             if (StringUtils.isNotEmpty(help.getContent())) {
                 String content = StringEscapeUtils.escapeHtml4(help.getContent().trim());
                 help.setContent(content);
+            }
+
+            if (StringUtils.isNotEmpty(help.getFrontContent())) {
+                String content = StringEscapeUtils.escapeHtml4(help.getFrontContent().trim());
+                help.setFrontContent(content);
             }
 
             if (help.getSerialNumber().lastIndexOf(".") != -1) {

@@ -5,7 +5,8 @@
 	height: 120px;
 	margin-right: 20px;
 	background: no-repeat center;
-	background-size: cover;
+	-webkit-background-size: cover;
+	        background-size: cover;
 	vertical-align: middle;
 }
 
@@ -36,9 +37,11 @@
 	display: inline-block;
 	width: 80px;
 	height: 80px;
-	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
 	background: no-repeat center;
-	background-size: cover;
+	-webkit-background-size: cover;
+	        background-size: cover;
 	vertical-align: middle;
 }
 

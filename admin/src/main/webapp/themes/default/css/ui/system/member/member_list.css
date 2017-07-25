@@ -12,10 +12,12 @@
 	vertical-align: middle;
 	width: 30px;
 	height: 30px;
-	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
 	line-height: 50px;
 	border: 2px solid #fff;
-	background-size: cover;
+	-webkit-background-size: cover;
+	        background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }

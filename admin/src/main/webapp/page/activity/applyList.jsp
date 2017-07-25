@@ -118,7 +118,7 @@
                 </ul>
                 <div class="cl">
                     <ul class="header">
-                        <li class="table-member" style="width: 15%; text-align: left;">参与者</li>
+                        <li class="table-member" style="width: 15%;">参与者</li>
                         <li style="width: 9%">手机号</li>
                         <li style="width: 9%">微信号</li>
                         <li style="width: 13%">报名时间</li>
@@ -130,104 +130,107 @@
                     </ul>
                     <div id="view" class="cl content-body">
                         <c:if test="${page.totalCount == 0}">
-                        <div class="f16 tc mt15">还没有人报名</div>
+                            <div class="f16 tc mt15">还没有人报名</div>
                         </c:if>
                         <c:forEach var="memberAct" items="${list}">
-                        <div class="info">
-                            <ul class="content">
-                                <li style="width: 15%; text-align: left;" class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${memberAct.memberId}','400px','470px')">
-                                    <div class="member-logo"
-                                         style="background-image: url('${memberAct.logo}'),url(${ctx}/image/def_user_logo.png)"
-                                    ></div>
-                                    <div class="member-name ellipsis-1">
-                                        <a class="blue" title="${memberAct.realname}" href="javascript:void(0);">${memberAct.realname}</a>
-                                    </div>
-                                </li>
-                                <li style="width: 9%">${memberAct.mobile}</li>
-                                <li style="width: 9%" class="table-member ellipsis-1">${memberAct.wechatNum}</li>
-                                <li style="width: 13%"><fmt:formatDate value="${memberAct.createDate}" pattern="yyyy-MM-dd HH:mm"/></li>
-                                <li style="width: 7%"><c:if test="${memberAct.payment == 0}">免费报名</c:if> <c:if
-                                        test="${memberAct.payment != 0}"
-                                >¥${memberAct.payment}</c:if></li>
-                                <li style="width: 7%"><c:choose>
-                                    <c:when test="${memberAct.checkStatus == 0}">
-                                        <span>审核中</span>
-                                    </c:when>
-                                    <c:when test="${memberAct.checkStatus == 1}">
-                                        <span>待支付</span>
-                                    </c:when>
-                                    <c:when test="${memberAct.checkStatus == 2}">
-                                        <span>审核拒绝</span>
-                                    </c:when>
-                                    <c:when test="${memberAct.checkStatus == 3}">
-                                        <span>已支付</span>
-                                    </c:when>
-                                    <c:when test="${memberAct.checkStatus == 4}">
-                                        <span>已取消</span>
-                                    </c:when>
-                                    <c:when test="${memberAct.checkStatus == 5}">
-                                        <span>未参与</span>
-                                    </c:when>
-                                </c:choose></li>
-                                <li>${memberAct.signin == 1 ? '已签到' : '未签到'}</li>
-                                <li style="width: 8%">
-                                    <c:if test="${memberAct.checkStatus == 0}">
-                                        <a class="green" href="javascript:check('确认要审核通过该报名吗？', '${memberAct.id}', '1')" target="_self">通过</a>
-                                        <span>|</span>
-                                        <a class="red" href="javascript:check('确认要审核拒绝该报名吗？', '${memberAct.id}', '2')" target="_self">拒绝</a>
-                                    </c:if>
-                                    <c:if test="${memberAct.checkStatus == 3}">
-                                        <c:if test="${memberAct.payment == 0.0}">
-                                            <a class="red" href="javascript:check('确认要拒绝该报名吗？', '${memberAct.id}', '2')" target="_self">拒绝</a>
+                            <div class="info">
+                                <ul class="content">
+                                    <li style="width: 15%;" class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${memberAct.memberId}','400px','470px')">
+                                        <div class="member-cell">
+                                        <div class="member-logo"
+                                             style="background-image: url('${memberAct.logo}'),url(${ctx}/image/def_user_logo.png)"
+                                        ></div>
+                                        <div class="member-name ellipsis-1">
+                                            <a class="blue" title="${memberAct.realname}" href="javascript:void(0);">${memberAct.realname}</a>
+                                        </div>
+                                        </div>
+                                    </li>
+                                    <li style="width: 9%">${memberAct.mobile}</li>
+                                    <li style="width: 9%" class="table-member ellipsis-1">${memberAct.wechatNum}</li>
+                                    <li style="width: 13%"><fmt:formatDate value="${memberAct.createDate}" pattern="yyyy-MM-dd HH:mm"/></li>
+                                    <li style="width: 7%"><c:if test="${memberAct.payment == 0}">免费报名</c:if> <c:if
+                                            test="${memberAct.payment != 0}"
+                                    >¥${memberAct.payment}</c:if></li>
+                                    <li style="width: 6%"><c:choose>
+                                        <c:when test="${memberAct.checkStatus == 0}">
+                                            <span>审核中</span>
+                                        </c:when>
+                                        <c:when test="${memberAct.checkStatus == 1}">
+                                            <span>待支付</span>
+                                        </c:when>
+                                        <c:when test="${memberAct.checkStatus == 2}">
+                                            <span>审核拒绝</span>
+                                        </c:when>
+                                        <c:when test="${memberAct.checkStatus == 3}">
+                                            <span>已支付</span>
+                                        </c:when>
+                                        <c:when test="${memberAct.checkStatus == 4}">
+                                            <span>已取消</span>
+                                        </c:when>
+                                        <c:when test="${memberAct.checkStatus == 5}">
+                                            <span>未参与</span>
+                                        </c:when>
+                                    </c:choose></li>
+                                    <li style="width: 6%;">${memberAct.signin == 1 ? '已签到' : '未签到'}</li>
+                                    <li style="width: 8%">
+                                        <c:if test="${memberAct.checkStatus == 0}">
+                                            <a class="green" href="javascript:check('确认要审核通过该报名吗？', '${memberAct.id}', '1')" target="_self">通过</a>
+                                            <span>|</span>
+                                            <a class="red" href="javascript:check('确认要审核拒绝该报名吗？', '${memberAct.id}', '2')" target="_self">拒绝</a>
                                         </c:if>
-                                        <c:if test="${memberAct.payment > 0.0}">
-                                            <a class="red" href="javascript:check('确认要拒绝并退款该报名吗？', '${memberAct.id}', '2')" target="_self">拒绝并退款</a>
+                                        <c:if test="${memberAct.checkStatus == 3}">
+                                            <c:if test="${memberAct.payment == 0.0}">
+                                                <a class="red" href="javascript:check('确认要拒绝该报名吗？', '${memberAct.id}', '2')" target="_self">拒绝</a>
+                                            </c:if>
+                                            <c:if test="${memberAct.payment > 0.0}">
+                                                <a class="red" href="javascript:check('确认要拒绝并退款该报名吗？', '${memberAct.id}', '2')" target="_self">拒绝并退款</a>
+                                            </c:if>
                                         </c:if>
+                                    </li>
+                                    <li style="width: 7%;" class="option"><i class="iconfont icon-unfold"></i>
+                                        <i class="iconfont icon-fold"></i></li>
+                                    <div class="cl"></div>
+                                </ul>
+                                <ul class="tr-extra-content">
+                                    <c:if test="${memberAct.activityName != ''}">
+                                        <li>
+                                            <label class="ext-label">活动名称</label>
+                                            <div class="ext-value">${memberAct.activityName}</div>
+                                        </li>
                                     </c:if>
-                                </li>
-                                <li style="width: 7%; padding-left: 0" class="option"><a class='click-obj' href="javascript:void(0)"></a></li>
-                                <div class="cl"></div>
-                            </ul>
-                            <ul class="tr-extra-content" style="display: none;">
-                                <c:if test="${memberAct.activityName != ''}">
-                                    <li>
-                                        <label class="ext-label">活动名称</label>
-                                        <div class="ext-value">${memberAct.activityName}</div>
-                                    </li>
-                                </c:if>
-                                <c:if test="${memberAct.name != ''}">
-                                    <li>
-                                        <label class="ext-label">联系人</label>
-                                        <div class="ext-value">${memberAct.name}</div>
-                                    </li>
-                                </c:if>
-                                <c:if test="${memberAct.company != ''}">
-                                    <li>
-                                        <label class="ext-label">公司名称</label>
-                                        <div class="ext-value">${memberAct.company}</div>
-                                    </li>
-                                </c:if>
-                                <c:if test="${memberAct.jobTitle != ''}">
-                                    <li>
-                                        <label class="ext-label">公司职位</label>
-                                        <div class="ext-value">${memberAct.jobTitle}</div>
-                                    </li>
-                                </c:if>
-                                <c:if test="${memberAct.extra != ''}">
-                                    <li>
-                                        <label class="ext-label">备注信息</label>
-                                        <div class="ext-value">${memberAct.extra}</div>
-                                    </li>
-                                </c:if>
-                            </ul>
-</div>
-</c:forEach>
-</div>
-</div>
-</div>
-<div id="page_content" class="page-container"></div>
-</div>
-</section>
+                                    <c:if test="${memberAct.name != ''}">
+                                        <li>
+                                            <label class="ext-label">联系人</label>
+                                            <div class="ext-value">${memberAct.name}</div>
+                                        </li>
+                                    </c:if>
+                                    <c:if test="${memberAct.company != ''}">
+                                        <li>
+                                            <label class="ext-label">公司名称</label>
+                                            <div class="ext-value">${memberAct.company}</div>
+                                        </li>
+                                    </c:if>
+                                    <c:if test="${memberAct.jobTitle != ''}">
+                                        <li>
+                                            <label class="ext-label">公司职位</label>
+                                            <div class="ext-value">${memberAct.jobTitle}</div>
+                                        </li>
+                                    </c:if>
+                                    <c:if test="${memberAct.extra != ''}">
+                                        <li>
+                                            <label class="ext-label">备注信息</label>
+                                            <div class="ext-value">${memberAct.extra}</div>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+            <div id="page_content" class="page-container"></div>
+        </div>
+    </section>
 </div>
 <!--底部-->
 <%@include file="../include/footer.jsp" %>
@@ -264,22 +267,12 @@
         //加载分页
         loadPage("page_content", '${page.totalPages}', '${page.page}', '#myForm');
         $('.content-body').delegate('.option', 'click', function (e) {
-            var $target = $(e.target);
-            if ($target.hasClass("click-obj")) {
-                if ($(this).hasClass("option-toggle")) {
-                    $(this).removeClass("option-toggle");
-                    $(this).closest("ul").parent("div").css("background-color", "#fff");
-                    $(this).closest("ul").siblings(".tr-extra-content").hide();
-                } else {
-                    $(".option").removeClass("option-toggle");
-                    $(".content-body .tr-extra-content").hide();
-                    $(".info").css("background-color", "#fff");
-
-                    $(this).addClass("option-toggle");
-                    $(this).closest("ul").parent("div").css("background-color", "#eee");
-                    $(this).closest("ul").siblings(".tr-extra-content").show();
-                }
-                e.stopPropagation();
+            var info = $(this).closest('.info');
+            if (!info.hasClass('active')) {//打开
+                $('.info').removeClass('active');
+                info.toggleClass('active');
+            } else {
+                info.toggleClass('active');
             }
         });
 

@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.common.collect.Maps;
 import com.party.admin.biz.activity.OrderBizService;
 import com.party.admin.biz.wallet.WithdrawalsBizService;
-import com.party.admin.utils.WithdrawalStatus;
+import com.party.core.model.wallet.WithdrawalStatus;
 import com.party.admin.utils.excel.ExportExcel;
 import com.party.admin.web.dto.AjaxResult;
 import com.party.admin.web.dto.input.common.CommonInput;

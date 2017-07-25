@@ -81,9 +81,11 @@
 						<div class="word-break">${empty competitionMember.groupName ? '未分配' : competitionMember.groupName}</div>
 					</td>
 					<td class="table-member">
+						<div class="member-cell">
 						<div class="member-logo" style="background-image: url('${competitionMember.member.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
 						<div class="member-name ellipsis-1">
 							<a title="${competitionMember.member.realname}" href="javascript:void(0);">${competitionMember.member.realname}</a>
+						</div>
 						</div>
 					</td>
 					<td style="text-align: center;"><c:if test="${competitionMember.member.sex == 1}">男</c:if> <c:if test="${competitionMember.member.sex == 0}">女</c:if></td>

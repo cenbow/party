@@ -77,6 +77,7 @@ public class DistributionController {
         ModelAndView modelAndView = new ModelAndView("/distribution/distributionList");
         List<DistributionListOutput> listOutputs = distributionBizService.targetList(targetId, input, page);
         String zipUrl = stringJedis.getValue(Constant.PRE_ZIP_URL + "distribution" + targetId);
+        stringJedis.delete(Constant.PRE_ZIP_URL + "distribution" + targetId);
         modelAndView.addObject("targetId", targetId);
         modelAndView.addObject("page", page);
         modelAndView.addObject("input", input);

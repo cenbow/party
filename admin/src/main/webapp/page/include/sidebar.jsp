@@ -37,11 +37,11 @@
 			<dt class="aside-dt">系统管理<i class="iconfont icon-right"></i></dt>
 			<dd class="aside-dd">
 				<a href="${ctx}/system/member/memberList.do" data-tag="system/member/member" class="aside-nav " id="member_list" data-title="用户管理">用户管理</a>
-				<a href="${ctx}/system/member/partnerList.do" data-tag="system/member/partner|system/member/merchantForm" class="aside-nav " id="hz_list" data-title="合作商管理">合作商管理</a>
+				<a href="${ctx}/system/member/partnerList.do" data-tag="system/member/partner|system/member/merchantForm|order/order/memberOrderList" class="aside-nav " id="hz_list" data-title="合作商管理">合作商管理</a>
 				<a href="${ctx}/system/member/distributorList.do" data-tag="system/member/distributor" class="aside-nav " id="fx_list" data-title="分销商管理">分销商管理</a>
 				<a href="${ctx}/system/role/roleList.do" data-tag="system/role/roleList"class="aside-nav " data-title="角色管理" id="role_list">角色管理</a>
 				<a href="${ctx}/system/privilege/list.do" data-tag="system/privilege/list|system/privilege/view"class="aside-nav " data-title="权限管理" id="privilege_list">权限管理</a>
-				<%--<a href="${ctx}/charge/level/levelList.do" data-tag = "charge/level" class = "aside-nav" data-title="等级管理" id="level_list">等级管理</a>--%>
+				<a href="${ctx}/charge/package/packageList.do" data-tag = "charge/package" class = "aside-nav" data-title="等级管理" id="package_list">产品套餐管理</a>
 			</dd>
 		</dl>
 		<div class="aside-divide"></div>

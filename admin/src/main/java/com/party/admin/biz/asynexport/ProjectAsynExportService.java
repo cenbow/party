@@ -96,11 +96,11 @@ public class ProjectAsynExportService implements IAsynExportService {
             String realPath = baseDir + Constant.BATCH + Constant.EXCEL_URL + id + "/" + output.getAuthorName()
                     + DateUtils.formatNowToYMDHMS().replace(" ", "").replace("|", "") +"/";
             String fileName = DateUtils.formatNowToYMDHMS() + ".xlsx";
-            asynExportBizService.export(fileName, ProjectForActivityOutput.class, list, realPath, this);
+            asynExportBizService.export(fileName, SupportWithMember.class, list, realPath, this);
         }
 
         Activity activity = activityService.get(id);
-        asynExportBizService.export(activity.getTitle() + "的众筹.xlsx", ListForTargetOutput.class,
+        asynExportBizService.export(activity.getTitle() + "的众筹.xlsx", ProjectForActivityOutput.class,
                 projectForActivityOutputList, baseDir + Constant.BATCH + Constant.EXCEL_URL + id + "/", this);
     }
 }

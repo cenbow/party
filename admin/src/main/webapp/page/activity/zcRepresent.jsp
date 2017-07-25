@@ -101,8 +101,10 @@
                                     <c:forEach var="distribution" items="${list}">
                                         <tr>
                                             <td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${distribution.distributorId}','400px','470px')">
+                                                <div class="member-cell">
                                                 <div class="member-logo" style="background-image: url('${distribution.authorLogo}'),url(${ctx}/image/def_user_logo.png)"></div>
                                                 <div class="member-name ellipsis-1"><a class="blue" title="${distribution.authorName}" href="javascript:void(0);" >${distribution.authorName}</a></div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <div class="dib ellipsis-1" style="width: 70px;" title="${distribution.authorCompany}">${distribution.authorCompany}</div>

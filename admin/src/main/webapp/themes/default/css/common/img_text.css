@@ -35,6 +35,8 @@
 
 .file-name {
  margin-left: 35px;
+ width: -webkit-calc(100% - 70px);
+ width: -moz-calc(100% - 70px);
  width: calc(100% - 70px);
 }
 
@@ -48,7 +50,8 @@
  position: relative;
  height: 200px;
  opacity: 0.8;
- border-radius: 5px;
+ -webkit-border-radius: 5px;
+         border-radius: 5px;
 }
 
 .news_video:after {
@@ -56,10 +59,12 @@
  width: 70px;
  height: 70px;
  background-image: url('../image/Video.png');
- background-size: 70px;
+ -webkit-background-size: 70px 70px;
+         background-size: 70px;
  left: 50%;
  top: 50%;
- transform: translate(-50%, -50%);
+ -ms-transform: translate(-50%, -50%);
+     transform: translate(-50%, -50%);
  -moz-transform: translate(-50%, -50%);
  -webkit-transform: translate(-50%, -50%);
  position: absolute;

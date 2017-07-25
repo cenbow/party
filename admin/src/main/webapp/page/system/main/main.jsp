@@ -79,7 +79,8 @@
 
         var applyOption = {
             title : {
-                text:'近半月活动报名趋势图'
+                text:'近半月活动报名趋势图',
+                x:'center'
             },
             color: ['#3398DB'],
 
@@ -118,7 +119,8 @@
 
         var orderOption = {
             title : {
-                text:'近半月订单数趋势图'
+                text:'近半月订单数趋势图',
+                x:'center'
             },
             color: ['#3398DB'],
 
@@ -157,7 +159,8 @@
 
         var memberOption = {
             title : {
-                text:'近半月注册人数趋势图'
+                text:'近半月注册人数趋势图',
+                x:'center'
             },
             color: ['#3398DB'],
 

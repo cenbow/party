@@ -117,6 +117,14 @@ body{
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-inline">
+				<label class="layui-form-label">用&nbsp;户&nbsp;名</label>
+				<div class="layui-input-inline">
+					<span class="layui-input">${member.username}</span>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
 				<label class="layui-form-label">真实姓名</label>
 				<div class="layui-input-inline">
 					<span class="layui-input">${member.fullname}</span>

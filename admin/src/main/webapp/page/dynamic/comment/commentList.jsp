@@ -91,8 +91,10 @@
 							<c:forEach var="comment" items="${comments}">
 								<tr>
 									<td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${comment.author.id}','400px','470px')">
+										<div class="member-cell">
 										<div class="member-logo" style="background-image: url('${comment.author.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
 										<div class="member-name ellipsis-1"><a class="blue" title="${comment.author.realname}" href="javascript:void(0);" >${comment.author.realname}</a></div>
+										</div>
 									</td>
 									<td>${comment.content}</td>
 									<td><fmt:formatDate value="${comment.createDate}" pattern="yyyy-MM-dd HH:mm" /></td>
