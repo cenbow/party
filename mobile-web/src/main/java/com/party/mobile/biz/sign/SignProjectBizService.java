@@ -1,6 +1,7 @@
 package com.party.mobile.biz.sign;
 
 import com.google.common.base.Strings;
+import com.party.common.utils.DateUtils;
 import com.party.core.model.member.Member;
 import com.party.core.model.sign.*;
 import com.party.core.service.sign.ISignApplyService;
@@ -14,6 +15,7 @@ import com.party.mobile.web.dto.sign.output.SignProjectOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,6 +79,12 @@ public class SignProjectBizService {
             signProjectOutput.setApply(false);
         }
 
+        //是否在有效时间内
+        Date now = new Date();
+        if (DateUtils.compareDate(now, signProjectAuthor.getStartTime()) == 1
+                && DateUtils.compareDate(signProjectAuthor.getEndTime(), now) == 1){
+            signProjectOutput.setValidTime(true);
+        }
         return signProjectOutput;
     }
 

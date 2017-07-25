@@ -111,6 +111,13 @@ public class SignRecordBizService {
         //报名叠加
         SignApply signApply = signApplyService.get(signRecord.getApplyId());
 
+        //验证报名时间
+        SignProject signProject = signProjectService.get(signApply.getProjectId());
+        Date now = new Date();
+        if (DateUtils.compareDate(signProject.getStartTime(), now) == 1
+                || DateUtils.compareDate(now, signProject.getEndTime()) == 1){
+            throw new BusinessException("签到异常,在签到时间外");
+        }
         signApply.setStepNum(signApply.getStepNum() + signRecord.getStepNum());
         signApplyService.update(signApply);
 

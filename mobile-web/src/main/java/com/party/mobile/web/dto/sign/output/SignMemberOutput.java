@@ -38,6 +38,10 @@ public class SignMemberOutput extends GroupMember {
     //备注
     private String remarks;
 
+    //是否在有效时间
+    @JSONField(name = "isValidTime")
+    private boolean isValidTime;
+
     public String getPic() {
         return pic;
     }
@@ -103,6 +107,14 @@ public class SignMemberOutput extends GroupMember {
     @Override
     public void setRemarks(String remarks) {
         this.remarks = remarks;
+    }
+
+    public boolean isValidTime() {
+        return isValidTime;
+    }
+
+    public void setValidTime(boolean validTime) {
+        isValidTime = validTime;
     }
 
     public static SignMemberOutput transform(GroupMember groupMember){

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -122,7 +123,7 @@ public class SignMemberBizService {
                 }
             }
             Long stepNum = signRecordService.stepNum(groupMember.getId(), startTime, endTime);
-            Integer rank = signRankService.projectRankRecord(projectId, stepNum, startTime, endTime);
+            Integer rank = signRankService.projectRankRecord(projectId, groupMember.getId(), startTime, endTime);
 
             //没有签到
             if (0 == stepNum){
@@ -184,7 +185,7 @@ public class SignMemberBizService {
                 }
             }
             Long stepNum = signRecordService.stepNum(groupMember.getId(), startTime, endTime);
-            Integer rank = signRankService.groupRankRecord(groupId, stepNum, startTime, endTime);
+            Integer rank = signRankService.groupRankRecord(groupId, groupMember.getId(), startTime, endTime);
             //没有签到
             if (0 == stepNum){
                 if (null != type){
@@ -242,6 +243,9 @@ public class SignMemberBizService {
         SignProject signProject = signProjectService.get(signMemberOutput.getProjectId());
         signMemberOutput.setPic(signProject.getSignLogo());
         signMemberOutput.setRankShow(signProject.getRankShow());
+        signMemberOutput.setStartTime(DateUtils.formatDate(signProject.getStartTime(), "yyyy-MM-dd"));
+        signMemberOutput.setEndTime(DateUtils.formatDate(signProject.getEndTime(), "yyyy-MM-dd"));
+
         //今日步数
         Long todayStep = signRecordService.todayStep(groupMember.getId());
 
@@ -268,6 +272,13 @@ public class SignMemberBizService {
         }
         else {
             signMemberOutput.setStatus(null);
+        }
+
+        //是否在有效时间内
+        Date now = new Date();
+        if (DateUtils.compareDate(now, signProject.getStartTime()) == 1
+                && DateUtils.compareDate(signProject.getEndTime(), now) == 1){
+            signMemberOutput.setValidTime(true);
         }
         signMemberOutput.setTodayStep(todayStep);
         signMemberOutput.setMonthStep(mothStep);

@@ -58,6 +58,9 @@ public class SignProjectOutput {
     //备注
     private String remarks;
 
+    //是否在有效时间内
+    @JSONField(name = "isValidTime")
+    private boolean isValidTime;
 
     public String getId() {
         return id;
@@ -169,6 +172,14 @@ public class SignProjectOutput {
 
     public void setSign(boolean sign) {
         isSign = sign;
+    }
+
+    public boolean isValidTime() {
+        return isValidTime;
+    }
+
+    public void setValidTime(boolean validTime) {
+        isValidTime = validTime;
     }
 
     public static SignProjectOutput transform(SignProject signProject){
