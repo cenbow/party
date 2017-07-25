@@ -36,6 +36,9 @@ public class GroupMember extends SignApply{
     //结束时间
     private String endTime;
 
+    //排名数
+    private Integer rank;
+
     public String getMemberName() {
         return memberName;
     }
@@ -100,52 +103,13 @@ public class GroupMember extends SignApply{
         this.endTime = endTime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        GroupMember that = (GroupMember) o;
-
-        if (memberName != null ? !memberName.equals(that.memberName) : that.memberName != null) return false;
-        if (memberLogo != null ? !memberLogo.equals(that.memberLogo) : that.memberLogo != null) return false;
-        if (memberCompany != null ? !memberCompany.equals(that.memberCompany) : that.memberCompany != null)
-            return false;
-        if (memberJobTitle != null ? !memberJobTitle.equals(that.memberJobTitle) : that.memberJobTitle != null)
-            return false;
-        if (memberMobile != null ? !memberMobile.equals(that.memberMobile) : that.memberMobile != null) return false;
-        if (groupName != null ? !groupName.equals(that.groupName) : that.groupName != null) return false;
-        if (startTime != null ? !startTime.equals(that.startTime) : that.startTime != null) return false;
-        return endTime != null ? endTime.equals(that.endTime) : that.endTime == null;
-
+    public Integer getRank() {
+        return rank;
     }
 
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (memberName != null ? memberName.hashCode() : 0);
-        result = 31 * result + (memberLogo != null ? memberLogo.hashCode() : 0);
-        result = 31 * result + (memberCompany != null ? memberCompany.hashCode() : 0);
-        result = 31 * result + (memberJobTitle != null ? memberJobTitle.hashCode() : 0);
-        result = 31 * result + (memberMobile != null ? memberMobile.hashCode() : 0);
-        result = 31 * result + (groupName != null ? groupName.hashCode() : 0);
-        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
-        result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
-        return result;
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 
-    @Override
-    public String toString() {
-        return "GroupMember{" +
-                "memberName='" + memberName + '\'' +
-                ", memberLogo='" + memberLogo + '\'' +
-                ", memberCompany='" + memberCompany + '\'' +
-                ", memberJobTitle='" + memberJobTitle + '\'' +
-                ", memberMobile='" + memberMobile + '\'' +
-                ", groupName='" + groupName + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                '}';
-    }
+
 }

@@ -2,11 +2,11 @@ package com.party.core.service.charge.impl;
 
 import com.party.common.paging.Page;
 import com.party.common.utils.StringUtils;
-import com.party.core.dao.read.charge.LevelMemberReadDao;
-import com.party.core.dao.write.charge.LevelMemberWriteDao;
+import com.party.core.dao.read.charge.PackageMemberReadDao;
+import com.party.core.dao.write.charge.PackageMemberWriteDao;
 import com.party.core.model.BaseModel;
-import com.party.core.model.charge.LevelMember;
-import com.party.core.service.charge.ILevelMemberService;
+import com.party.core.model.charge.PackageMember;
+import com.party.core.service.charge.IPackageMemberService;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +23,17 @@ import java.util.Set;
  * @author Administrator
  */
 @Service
-public class LevelMemberService implements ILevelMemberService {
+public class PackageMemberService implements IPackageMemberService {
 
     @Autowired
-    private LevelMemberReadDao levelMemberReadDao;
+    private PackageMemberReadDao packageMemberReadDao;
     @Autowired
-    private LevelMemberWriteDao levelMemberWriteDao;
+    private PackageMemberWriteDao packageMemberWriteDao;
 
     @Override
-    public String insert(LevelMember t) {
+    public String insert(PackageMember t) {
         BaseModel.preInsert(t);
-        boolean result = levelMemberWriteDao.insert(t);
+        boolean result = packageMemberWriteDao.insert(t);
         if (result) {
             return t.getId();
         }
@@ -41,11 +41,11 @@ public class LevelMemberService implements ILevelMemberService {
     }
 
     @Override
-    public boolean update(LevelMember t) {
+    public boolean update(PackageMember t) {
         if (null == t)
             return false;
         t.setUpdateDate(new Date());
-        return levelMemberWriteDao.update(t);
+        return packageMemberWriteDao.update(t);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class LevelMemberService implements ILevelMemberService {
         if (StringUtils.isBlank(id))
             return false;
 
-        return levelMemberWriteDao.deleteLogic(id);
+        return packageMemberWriteDao.deleteLogic(id);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class LevelMemberService implements ILevelMemberService {
         if (StringUtils.isBlank(id))
             return false;
 
-        return levelMemberWriteDao.delete(id);
+        return packageMemberWriteDao.delete(id);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class LevelMemberService implements ILevelMemberService {
         if (CollectionUtils.isEmpty(ids))
             return false;
 
-        return levelMemberWriteDao.batchDeleteLogic(ids);
+        return packageMemberWriteDao.batchDeleteLogic(ids);
     }
 
     @Override
@@ -77,30 +77,34 @@ public class LevelMemberService implements ILevelMemberService {
         if (CollectionUtils.isEmpty(ids))
             return false;
 
-        return levelMemberWriteDao.batchDelete(ids);
+        return packageMemberWriteDao.batchDelete(ids);
     }
 
     @Override
-    public LevelMember get(String id) {
-        return levelMemberReadDao.get(id);
+    public PackageMember get(String id) {
+        return packageMemberReadDao.get(id);
     }
 
     @Override
-    public List<LevelMember> listPage(LevelMember t, Page page) {
-        return levelMemberReadDao.listPage(t, page);
+    public List<PackageMember> listPage(PackageMember t, Page page) {
+        return packageMemberReadDao.listPage(t, page);
     }
 
     @Override
-    public List<LevelMember> list(LevelMember t) {
-        return levelMemberReadDao.listPage(t, null);
+    public List<PackageMember> list(PackageMember t) {
+        return packageMemberReadDao.listPage(t, null);
     }
 
     @Override
-    public List<LevelMember> batchList(Set<String> ids, LevelMember t, Page page) {
+    public List<PackageMember> batchList(Set<String> ids, PackageMember t, Page page) {
         if (CollectionUtils.isEmpty(ids))
             return Collections.EMPTY_LIST;
 
-        return levelMemberReadDao.batchList(ids, new HashedMap(), page);
+        return packageMemberReadDao.batchList(ids, new HashedMap(), page);
     }
 
+    @Override
+    public PackageMember findByMemberId(PackageMember packageMember) {
+        return packageMemberReadDao.findByMemberId(packageMember);
+    }
 }

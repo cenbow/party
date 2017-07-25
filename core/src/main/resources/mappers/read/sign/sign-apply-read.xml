@@ -40,6 +40,7 @@
         <result column="member_jobTitle" property="memberJobTitle" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="member_mobile" property="memberMobile" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="group_name" property="groupName" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="rank" property="rank" jdbcType="INTEGER" javaType="java.lang.Integer"/>
     </resultMap>
 
 
@@ -109,82 +110,126 @@
 
     <select id="groupMemberList" resultMap="groupMemberMap">
         SELECT
+            te.*, @j :=@j + 1,
+            @k :=
+            IF (@preRank = te.step_num, @k, @j) AS rank,
+            @preRank := te.step_num
+        FROM (
+            SELECT
             sa.id AS id, sa.create_by AS create_by, sa.create_date AS create_date, sa.update_by AS update_by, sa.update_date AS update_date,
             sa.remarks AS remarks, sa.del_flag AS del_flag, sa.project_id AS project_id, sa.group_id AS group_id, sa.member_id AS member_id,
             sa.step_num AS step_num, sa.love_num AS love_num, sa.status AS status, sa.grade_status AS grade_status, m.realname AS member_name,
             m.logo AS member_logo,m.company AS member_company,m.job_title AS member_jobTitle, m.mobile AS member_mobile, sg.name AS group_name
-        FROM
+            FROM
             sign_apply sa
-        INNER JOIN member m ON sa.member_id = m.id
-        LEFT JOIN sign_group sg ON sa.group_id = sg.id
-        <where>
-            <if test="status != null"> sa.status = #{status}</if>
-            <if test="gradeStatus != null"> AND sa.grade_status = #{gradeStatus}</if>
-            <if test="groupId != null and groupId != ''">AND sa.group_id = #{groupId}</if>
-            <if test="projectId != null and projectId != ''">AND sa.project_id = #{projectId}</if>
-            <if test="memberName != null and memberName != ''">AND m.realname LIKE concat('%',#{memberName},'%')</if>
-            <if test="startTime != null">AND TO_DAYS(sa.create_date) &gt;= TO_DAYS(#{startTime}) </if>
-            <if test="endTime != null"> AND TO_DAYS(sa.create_date) &lt;= TO_DAYS(#{endTime}) </if>
-        </where>
-        ORDER BY sa.step_num DESC
+            INNER JOIN member m ON sa.member_id = m.id
+            LEFT JOIN sign_group sg ON sa.group_id = sg.id
+            <where>
+                <if test="status != null"> sa.status = #{status}</if>
+                <if test="gradeStatus != null"> AND sa.grade_status = #{gradeStatus}</if>
+                <if test="groupId != null and groupId != ''">AND sa.group_id = #{groupId}</if>
+                <if test="projectId != null and projectId != ''">AND sa.project_id = #{projectId}</if>
+                <if test="memberName != null and memberName != ''">AND m.realname LIKE concat('%',#{memberName},'%')</if>
+                <if test="startTime != null">AND TO_DAYS(sa.create_date) &gt;= TO_DAYS(#{startTime}) </if>
+                <if test="endTime != null"> AND TO_DAYS(sa.create_date) &lt;= TO_DAYS(#{endTime}) </if>
+            </where>
+            ORDER BY sa.step_num DESC
+        ) AS te,
+        (
+        SELECT
+        @j := 0,
+        @k := 0,
+        @preRank := NULL
+        ) AS t
     </select>
 
     <select id="rankList" resultMap="groupMemberMap">
         SELECT
-            sa.id AS id, sa.create_by AS create_by, sa.create_date AS create_date, sa.update_by AS update_by, sa.update_date AS update_date,
-            sa.remarks AS remarks, sa.del_flag AS del_flag, sa.project_id AS project_id, sa.group_id AS group_id, sa.member_id AS member_id,
-            SUM(sr.step_num) AS step_num, sa.love_num AS love_num, sa.status AS status, sa.grade_status AS grade_status, m.realname AS member_name,
-            m.logo AS member_logo,m.company AS member_company,m.job_title AS member_jobTitle, m.mobile AS member_mobile, sg.name AS group_name
-        FROM
-            sign_apply sa
-        INNER JOIN member m ON sa.member_id = m.id
-        LEFT JOIN sign_group sg ON sa.group_id = sg.id
-        LEFT JOIN sign_record sr ON sr.apply_id = sa.id
-        <where>
-            <if test="param.projectId != null and param.projectId != ''"> sa.project_id = #{param.projectId}</if>
-            <if test="param.status != null "> AND sa.status = #{param.status}</if>
-            <if test="param.gradeStatus != null"> AND sa.grade_status = #{param.gradeStatus}</if>
-            <if test="param.startTime != null">AND TO_DAYS(sr.create_date) &gt;= TO_DAYS(#{param.startTime}) </if>
-            <if test="param.endTime != null"> AND TO_DAYS(sr.create_date) &lt;= TO_DAYS(#{param.endTime}) </if>
-        </where>
-        GROUP BY sa.id
-        ORDER BY SUM(sr.step_num) DESC
+            te.*, @j :=@j + 1,
+            @k :=
+            IF (@preRank = te.step_num, @k, @j) AS rank,
+            @preRank := te.step_num
+        FROM (
+                SELECT
+                sa.id AS id, sa.create_by AS create_by, sa.create_date AS create_date, sa.update_by AS update_by, sa.update_date AS update_date,
+                sa.remarks AS remarks, sa.del_flag AS del_flag, sa.project_id AS project_id, sa.group_id AS group_id, sa.member_id AS member_id,
+                IF(SUM(sr.step_num) IS NULL, 0, SUM(sr.step_num))  AS step_num, sa.love_num AS love_num, sa.status AS status, sa.grade_status AS grade_status, m.realname AS member_name,
+                m.logo AS member_logo,m.company AS member_company,m.job_title AS member_jobTitle, m.mobile AS member_mobile, sg.name AS group_name
+                FROM
+                sign_apply sa
+                INNER JOIN member m ON sa.member_id = m.id
+                LEFT JOIN sign_group sg ON sa.group_id = sg.id
+                LEFT JOIN sign_record sr ON sr.apply_id = sa.id
+                <where>
+                    <if test="param.projectId != null and param.projectId != ''"> sa.project_id = #{param.projectId}</if>
+                    <if test="param.status != null "> AND sa.status = #{param.status}</if>
+                    <if test="param.gradeStatus != null"> AND sa.grade_status = #{param.gradeStatus}</if>
+                    <if test="param.startTime != null">AND TO_DAYS(sr.create_date) &gt;= TO_DAYS(#{param.startTime}) </if>
+                    <if test="param.endTime != null"> AND TO_DAYS(sr.create_date) &lt;= TO_DAYS(#{param.endTime}) </if>
+                </where>
+                GROUP BY sa.id
+                ORDER BY SUM(sr.step_num) DESC
+        ) AS te,
+        (
+        SELECT
+        @j := 0,
+        @k := 0,
+        @preRank := NULL
+        ) AS t
     </select>
 
 
     <select id="rank" resultType="java.lang.Integer">
         SELECT
-        COUNT(1)
-        FROM
-        sign_apply a1
-        <where>
-            a1.step_num &gt;=
-            (
-            SELECT step_num FROM sign_apply a2 WHERE a2.id = #{id}
-            )
-            <if test="param.projectId != null and param.projectId != ''">
-               AND a1.project_id = #{param.projectId}
-            </if>
-            <if test="param.groupId != null and param.groupId != ''">
-                AND a1.group_id = #{param.groupId}
-            </if>
-            <if test="param.gradeStatus != null">
-                AND a1.grade_status = #{param.gradeStatus}
-            </if>
-            <if test="param.status != null">
-                AND a1.status = #{param.status}
-            </if>
-        </where>
+          te.rank
+        FROM (
+                SELECT
+                a1.id,
+                @j :=@j + 1,
+                @k :=
+                IF (@preRank = a1.step_num, @k, @j) AS rank,
+                @preRank := a1.step_num
+                FROM
+                sign_apply a1,
+                (
+                SELECT
+                @j := 0,
+                @k := 0,
+                @preRank := NULL
+                ) t
+                <where>
+                    <if test="param.projectId != null and param.projectId != ''">
+                        AND a1.project_id = #{param.projectId}
+                    </if>
+                    <if test="param.groupId != null and param.groupId != ''">
+                        AND a1.group_id = #{param.groupId}
+                    </if>
+                    <if test="param.gradeStatus != null">
+                        AND a1.grade_status = #{param.gradeStatus}
+                    </if>
+                    <if test="param.status != null">
+                        AND a1.status = #{param.status}
+                    </if>
+                </where>
+        ORDER BY a1.step_num DESC
+        ) AS te
+        WHERE te.id = #{id}
     </select>
 
     <select id="rankRecord" resultType="java.lang.Integer">
         SELECT
-          COUNT(1)
-        FROM(
+          c.rank
+        FROM (
             SELECT
-              a1.id, IF(SUM(sr.step_num) IS NULL, 0, SUM(sr.step_num)) AS step_sum
+            te.*, @j :=@j + 1,
+            @k :=
+            IF (@preRank = te.step_sum, @k, @j) AS rank,
+            @preRank := te.step_sum
+            FROM (
+            SELECT
+            a1.id, IF(SUM(sr.step_num) IS NULL, 0, SUM(sr.step_num)) AS step_sum
             FROM
-              sign_apply a1
+            sign_apply a1
             LEFT JOIN sign_record sr ON a1.id = sr.apply_id
             <where>
                 <if test="param.projectId != null and param.projectId != ''">
@@ -203,8 +248,15 @@
                 <if test="param.endTime != null"> AND TO_DAYS(sr.create_date) &lt;= TO_DAYS(#{param.endTime}) </if>
             </where>
             GROUP BY a1.id
-            HAVING
-              step_sum &gt;= #{param.stepNum}
-            ) AS rank
+            ORDER BY SUM(sr.step_num) DESC
+            ) AS te,
+            (
+            SELECT
+            @j := 0,
+            @k := 0,
+            @preRank := NULL
+            ) AS t
+        ) AS c
+        WHERE c.id = #{param.applyId}
     </select>
 </mapper>

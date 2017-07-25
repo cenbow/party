@@ -22,6 +22,9 @@ public class GroupAuthor extends SignGroup {
     //结束时间
     private String endDate;
 
+    //排名
+    private Integer rank;
+
 
     public String getAuthorName() {
         return authorName;
@@ -55,6 +58,14 @@ public class GroupAuthor extends SignGroup {
         this.endDate = endDate;
     }
 
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
     @Override
     public String toString() {
         return "GroupAuthor{" +
@@ -62,6 +73,7 @@ public class GroupAuthor extends SignGroup {
                 ", authorLogo='" + authorLogo + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
+                ", rank=" + rank +
                 '}';
     }
 }

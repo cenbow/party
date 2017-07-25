@@ -5,7 +5,7 @@ import com.party.core.model.BaseModel;
 /**
  * 等级产品
  */
-public class Level extends BaseModel {
+public class ProductPackage extends BaseModel {
     private String name; // 名称
     private Float price; // 费用
     private String unit; // 单位
@@ -13,6 +13,8 @@ public class Level extends BaseModel {
     private String picture; // 封面图
     private String sysRoleId; // 角色id
     private String sysRoleName; // 角色名称
+    private String style;  //风格
+    private Integer level; //等级
 
     public static final String UNIT_MONTH = "月";
     public static final String UNIT_QUARTER = "季度";
@@ -73,5 +75,21 @@ public class Level extends BaseModel {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }

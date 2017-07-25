@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.party.core.dao.read.charge.LevelReadDao">
+<mapper namespace="com.party.core.dao.read.charge.PackageReadDao">
 
-    <resultMap id="dynamicMap" type="com.party.core.model.charge.Level">
+    <resultMap id="dynamicMap" type="com.party.core.model.charge.ProductPackage">
         <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
@@ -16,15 +16,17 @@
         <result column="unit" property="unit" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
         <result column="picture" property="picture" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="style" property="style" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="sys_role_id" property="sysRoleId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="level" property="level" jdbcType="INTEGER" javaType="java.lang.Integer"/>
     </resultMap>
 
     <select id="get" resultMap="dynamicMap">
-        SELECT * FROM charge_level WHERE id = #{id}
+        SELECT * FROM charge_package WHERE id = #{id}
     </select>
 
     <select id="listPage" resultMap="dynamicMap">
-        SELECT * FROM charge_level
+        SELECT * FROM charge_package
         <where>
             <if test="delFlag != null">
                 del_flag = #{delFlag}
@@ -34,7 +36,7 @@
     </select>
 
     <select id="webListPage" resultMap="dynamicMap">
-        SELECT *  FROM charge_level cl
+        SELECT *  FROM charge_package cl
         <where>
             <if test="level.delFlag != null">AND cl.del_flag = #{level.delFlag}</if>
             <if test="level.name != null and level.name != ''">AND cl.name like concat('%',#{level.name},'%')</if>

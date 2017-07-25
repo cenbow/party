@@ -38,6 +38,7 @@
         <result column="author_name" property="authorName" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="author_logo" property="authorLogo" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="member_num" property="memberNum" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="rank" property="rank" jdbcType="INTEGER" javaType="java.lang.Integer"/>
     </resultMap>
 
     <sql id="groupSql">
@@ -53,15 +54,28 @@
     </select>
 
     <select id="getGroupAuthor" resultMap="groupAuthorMap">
-         SELECT
-           sg.id AS id, sg.create_by AS create_by, sg.create_date AS create_date, sg.update_by AS update_by,
-           sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag, sg.project_id AS project_id,
-           sg.name AS name,sg.step_num AS step_num, sg.apply_num AS apply_num, sg.pass_num AS pass_num,sg.refuse_num AS refuse_num,
-           sg.not_audit_num AS not_audit_num, sg.member_num AS member_num,m.realname AS author_name, m.logo AS author_logo
-        FROM
-            sign_group sg
-          INNER JOIN member m ON  sg.create_by = m.id
-        WHERE sg.id = #{id}
+        SELECT
+            te.*, @j :=@j + 1,
+            @k :=
+            IF (@preRank = te.step_num, @k, @j) AS rank,
+            @preRank := te.step_num
+        FROM (
+              SELECT
+               sg.id AS id, sg.create_by AS create_by, sg.create_date AS create_date, sg.update_by AS update_by,
+               sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag, sg.project_id AS project_id,
+               sg.name AS name,sg.step_num AS step_num, sg.apply_num AS apply_num, sg.pass_num AS pass_num,sg.refuse_num AS refuse_num,
+               sg.not_audit_num AS not_audit_num, sg.member_num AS member_num,m.realname AS author_name, m.logo AS author_logo
+            FROM
+                sign_group sg
+              INNER JOIN member m ON  sg.create_by = m.id
+            WHERE sg.id = #{id}
+        ) AS te,
+         (
+        SELECT
+        @j := 0,
+        @k := 0,
+        @preRank := NULL
+        ) AS t
     </select>
 
     <select id="listPage" resultMap="groupMap">
@@ -79,48 +93,75 @@
 
     <select id="groupAuthorList" resultMap="groupAuthorMap">
         SELECT
-           sg.id AS id, sg.create_by AS create_by, sg.create_date AS create_date, sg.update_by AS update_by,
-           sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag,sg.project_id AS project_id,
-           sg.name AS name,sg.step_num AS step_num, sg.apply_num AS apply_num, sg.pass_num AS pass_num,sg.refuse_num AS refuse_num,
-           sg.not_audit_num AS not_audit_num,sg.member_num AS member_num,m.realname AS author_name, m.logo AS author_logo
-        FROM
-            sign_group sg
-        INNER JOIN member m ON  sg.create_by = m.id
-        <where>
-            <if test="startDate != null and startDate != ''">
-                AND TO_DAYS(sg.create_date) &gt;= TO_DAYS(#{startDate})
-            </if>
-            <if test="endDate != null and endDate != ''">
-                AND TO_DAYS(sg.create_date) &lt;= TO_DAYS(#{endDate})
-            </if>
-            <if test="name != null and name != ''">
-                AND sg.name LIKE concat('%',#{name},'%')
-            </if>
-            <if test="projectId != null and projectId != ''">
-                AND sg.project_id = #{projectId}
-            </if>
-        </where>
-        ORDER BY sg.step_num DESC ,sg.member_num DESC ;
+        te.*, @j :=@j + 1,
+        @k :=
+        IF (@preRank = te.step_num, @k, @j) AS rank,
+        @preRank := te.step_num
+        FROM (
+                SELECT
+                sg.id AS id, sg.create_by AS create_by, sg.create_date AS create_date, sg.update_by AS update_by,
+                sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag,sg.project_id AS project_id,
+                sg.name AS name,sg.step_num AS step_num, sg.apply_num AS apply_num, sg.pass_num AS pass_num,sg.refuse_num AS refuse_num,
+                sg.not_audit_num AS not_audit_num,sg.member_num AS member_num,m.realname AS author_name, m.logo AS author_logo
+                FROM
+                sign_group sg
+                INNER JOIN member m ON  sg.create_by = m.id
+                <where>
+                    <if test="startDate != null and startDate != ''">
+                        AND TO_DAYS(sg.create_date) &gt;= TO_DAYS(#{startDate})
+                    </if>
+                    <if test="endDate != null and endDate != ''">
+                        AND TO_DAYS(sg.create_date) &lt;= TO_DAYS(#{endDate})
+                    </if>
+                    <if test="name != null and name != ''">
+                        AND sg.name LIKE concat('%',#{name},'%')
+                    </if>
+                    <if test="projectId != null and projectId != ''">
+                        AND sg.project_id = #{projectId}
+                    </if>
+                </where>
+                ORDER BY sg.step_num DESC ,sg.member_num DESC
+        ) AS te,
+        (
+        SELECT
+        @j := 0,
+        @k := 0,
+        @preRank := NULL
+        ) AS t
     </select>
 
     <select id="rankList" resultMap="groupAuthorMap">
         SELECT
-           sg.id AS id, sg.create_by AS create_by, sg.create_date AS create_date, sg.update_by AS update_by,
-           sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag,sg.project_id AS project_id,
-           sg.name AS name,SUM(sr.step_num) AS step_num, sg.apply_num AS apply_num, sg.pass_num AS pass_num,sg.refuse_num AS refuse_num,
-           sg.not_audit_num AS not_audit_num,sg.member_num AS member_num,m.realname AS author_name, m.logo AS author_logo
-        FROM
-          sign_group sg
-        INNER JOIN member m ON  sg.create_by = m.id
-        LEFT JOIN sign_apply sa ON sg.id = sa.group_id
+            te.*,
+            @j :=@j + 1,
+            @k :=
+            IF (@preRank = step_num, @k, @j) AS rank,
+            @preRank := step_num
+        FROM (
+            SELECT
+            sg.id AS id, sg.create_by AS create_by, sg.create_date AS create_date, sg.update_by AS update_by,
+            sg.update_date AS update_date, sg.remarks AS remarks, sg.del_flag AS del_flag,sg.project_id AS project_id,
+            sg.name AS name, IF(SUM(sr.step_num) IS NULL , 0 , SUM(sr.step_num)) AS step_num, sg.apply_num AS apply_num, sg.pass_num AS pass_num,sg.refuse_num AS refuse_num,
+            sg.not_audit_num AS not_audit_num,sg.member_num AS member_num,m.realname AS author_name, m.logo AS author_logo
+            FROM
+            sign_group sg
+            INNER JOIN member m ON  sg.create_by = m.id
+            LEFT JOIN sign_apply sa ON sg.id = sa.group_id
             <if test="param.gradeStatus != null"> AND sa.grade_status = #{param.gradeStatus}</if>
-        LEFT JOIN sign_record sr ON sa.id = sr.apply_id
-        <where>
-            <if test="param.projectId != null and param.projectId != ''"> sg.project_id = #{param.projectId}</if>
-            <if test="param.startTime != null">AND TO_DAYS(sr.create_date) &gt;= TO_DAYS(#{param.startTime}) </if>
-            <if test="param.endTime != null"> AND TO_DAYS(sr.create_date) &lt;= TO_DAYS(#{param.endTime}) </if>
-        </where>
-        GROUP BY sg.id
-        ORDER BY SUM(sr.step_num) DESC,sg.member_num DESC ;
+            LEFT JOIN sign_record sr ON sa.id = sr.apply_id
+            <where>
+                <if test="param.projectId != null and param.projectId != ''"> sg.project_id = #{param.projectId}</if>
+                <if test="param.startTime != null">AND TO_DAYS(sr.create_date) &gt;= TO_DAYS(#{param.startTime}) </if>
+                <if test="param.endTime != null"> AND TO_DAYS(sr.create_date) &lt;= TO_DAYS(#{param.endTime}) </if>
+            </where>
+            GROUP BY sg.id
+            ORDER BY SUM(sr.step_num) DESC,sg.member_num DESC
+        ) AS te,
+        (
+        SELECT
+        @j := 0,
+        @k := 0,
+        @preRank := NULL
+        ) t
     </select>
 </mapper>

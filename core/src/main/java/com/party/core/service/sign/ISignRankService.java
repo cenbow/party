@@ -12,20 +12,20 @@ public interface ISignRankService {
     /**
      * 报名在项目中排行
      * @param projectId 项目编号
-     * @param stepNum 步数
+     * @param applyId 步数
      * @param startTime 开始时间
      * @param endTime 结束时间
      * @return 排名
      */
-    Integer projectRankRecord(String projectId, Long stepNum, String startTime, String endTime);
+    Integer projectRankRecord(String projectId, String applyId, String startTime, String endTime);
 
     /**
      * 报名在小组的排行
      * @param groupId 小组编号
-     * @param stepNum 步数
+     * @param applyId 步数
      * @param startTime 开始时间
      * @param endTime 结束时间
      * @return 排名
      */
-    Integer groupRankRecord(String groupId, Long stepNum, String startTime, String endTime);
+    Integer groupRankRecord(String groupId,  String applyId, String startTime, String endTime);
 }

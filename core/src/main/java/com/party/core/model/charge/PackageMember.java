@@ -7,13 +7,21 @@ import java.util.Date;
 /**
  * 等级与会员中间表
  */
-public class LevelMember extends BaseModel {
+public class PackageMember extends BaseModel {
     private String memberId; // 用户
     private String levelId; // 等级
     private String sysRoleId; // 角色
     private Date startTime; // 开始时间
     private Date endTime; // 结束时间
     private Integer status; // 状态 1 有效 2 失效
+
+    public PackageMember() {
+    }
+
+    public PackageMember(String levelId, String memberId) {
+        this.memberId = memberId;
+        this.levelId = levelId;
+    }
 
     public String getMemberId() {
         return memberId;

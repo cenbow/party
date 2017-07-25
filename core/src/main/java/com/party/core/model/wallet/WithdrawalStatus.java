@@ -1,4 +1,4 @@
-package com.party.admin.utils;
+package com.party.core.model.wallet;
 
 import java.util.Map;
 

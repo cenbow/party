@@ -2,11 +2,11 @@ package com.party.core.service.charge.impl;
 
 import com.party.common.paging.Page;
 import com.party.common.utils.StringUtils;
-import com.party.core.dao.read.charge.LevelReadDao;
-import com.party.core.dao.write.charge.LevelWriteDao;
+import com.party.core.dao.read.charge.PackageReadDao;
+import com.party.core.dao.write.charge.PackageWriteDao;
 import com.party.core.model.BaseModel;
-import com.party.core.model.charge.Level;
-import com.party.core.service.charge.ILevelService;
+import com.party.core.model.charge.ProductPackage;
+import com.party.core.service.charge.IPackageService;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +20,17 @@ import java.util.*;
  * @author Administrator
  */
 @Service
-public class LevelService implements ILevelService {
+public class PackageService implements IPackageService {
 
     @Autowired
-    private LevelReadDao levelReadDao;
+    private PackageReadDao packageReadDao;
     @Autowired
-    private LevelWriteDao levelWriteDao;
+    private PackageWriteDao packageWriteDao;
 
     @Override
-    public String insert(Level t) {
+    public String insert(ProductPackage t) {
         BaseModel.preInsert(t);
-        boolean result = levelWriteDao.insert(t);
+        boolean result = packageWriteDao.insert(t);
         if (result) {
             return t.getId();
         }
@@ -38,11 +38,11 @@ public class LevelService implements ILevelService {
     }
 
     @Override
-    public boolean update(Level t) {
+    public boolean update(ProductPackage t) {
         if (null == t)
             return false;
         t.setUpdateDate(new Date());
-        return levelWriteDao.update(t);
+        return packageWriteDao.update(t);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class LevelService implements ILevelService {
         if (StringUtils.isBlank(id))
             return false;
 
-        return levelWriteDao.deleteLogic(id);
+        return packageWriteDao.deleteLogic(id);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class LevelService implements ILevelService {
         if (StringUtils.isBlank(id))
             return false;
 
-        return levelWriteDao.delete(id);
+        return packageWriteDao.delete(id);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class LevelService implements ILevelService {
         if (CollectionUtils.isEmpty(ids))
             return false;
 
-        return levelWriteDao.batchDeleteLogic(ids);
+        return packageWriteDao.batchDeleteLogic(ids);
     }
 
     @Override
@@ -74,35 +74,35 @@ public class LevelService implements ILevelService {
         if (CollectionUtils.isEmpty(ids))
             return false;
 
-        return levelWriteDao.batchDelete(ids);
+        return packageWriteDao.batchDelete(ids);
     }
 
     @Override
-    public Level get(String id) {
-        return levelReadDao.get(id);
+    public ProductPackage get(String id) {
+        return packageReadDao.get(id);
     }
 
     @Override
-    public List<Level> listPage(Level t, Page page) {
-        return levelReadDao.listPage(t, page);
+    public List<ProductPackage> listPage(ProductPackage t, Page page) {
+        return packageReadDao.listPage(t, page);
     }
 
     @Override
-    public List<Level> list(Level t) {
-        return levelReadDao.listPage(t, null);
+    public List<ProductPackage> list(ProductPackage t) {
+        return packageReadDao.listPage(t, null);
     }
 
     @Override
-    public List<Level> batchList(Set<String> ids, Level t, Page page) {
+    public List<ProductPackage> batchList(Set<String> ids, ProductPackage t, Page page) {
         if (CollectionUtils.isEmpty(ids))
             return Collections.EMPTY_LIST;
 
-        return levelReadDao.batchList(ids, new HashedMap(), page);
+        return packageReadDao.batchList(ids, new HashedMap(), page);
     }
 
     @Override
-    public List<Level> webListPage(Level level, Map<String, Object> params, Page page) {
-        return levelReadDao.webListPage(level, params, page);
+    public List<ProductPackage> webListPage(ProductPackage productPackage, Map<String, Object> params, Page page) {
+        return packageReadDao.webListPage(productPackage, params, page);
     }
 
 }

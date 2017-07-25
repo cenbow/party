@@ -16,6 +16,7 @@
         <result column="parent_id" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="parent_ids" property="parentIds" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="content" property="content" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="front_content" property="frontContent" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
         <collection property="childrens" ofType="com.party.core.model.help.Help" column="id" select="findByParentId" />
     </resultMap>

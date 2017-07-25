@@ -13,7 +13,8 @@ public class Help extends BaseModel {
     private String title; // 标题
     private String parentId; // 父节点
     private String parentIds; // 父节点
-    private String content; // 内容
+    private String content; // 后端内容
+    private String frontContent; // 前端内容
     private Integer sort; // 子排序
     private List<Help> childrens = Lists.newArrayList(); // 子节点
 
@@ -78,5 +79,13 @@ public class Help extends BaseModel {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public String getFrontContent() {
+        return frontContent;
+    }
+
+    public void setFrontContent(String frontContent) {
+        this.frontContent = frontContent;
     }
 }

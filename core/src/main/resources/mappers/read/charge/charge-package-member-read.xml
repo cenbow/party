@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.party.core.dao.read.charge.LevelMemberReadDao">
+<mapper namespace="com.party.core.dao.read.charge.PackageMemberReadDao">
 
-    <resultMap id="dynamicMap" type="com.party.core.model.charge.LevelMember">
+    <resultMap id="dynamicMap" type="com.party.core.model.charge.PackageMember">
         <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
@@ -12,7 +12,7 @@
         <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
 
         <result column="member_id" property="memberId" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        <result column="level_id" property="levelId" jdbcType="FLOAT" javaType="java.lang.Float"/>
+        <result column="level_id" property="levelId" jdbcType="FLOAT" javaType="java.lang.String"/>
         <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
         <result column="end_time" property="endTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
         <result column="status" property="status" jdbcType="INTEGER" javaType="java.lang.Integer"/>
@@ -20,14 +20,30 @@
     </resultMap>
 
     <select id="get" resultMap="dynamicMap">
-        SELECT * FROM charge_level_member WHERE id = #{id}
+        SELECT * FROM charge_package_member WHERE id = #{id}
+    </select>
+
+    <select id="findByMemberId" resultMap="dynamicMap">
+        SELECT * FROM charge_package_member pm INNER JOIN charge_package p ON pm.level_id = p.id
+        <where>
+            <if test="memberId != null and memberId != ''">
+                AND pm.member_id = #{memberId}
+            </if>
+            <if test="levelId != null and levelId != ''">
+                AND pm.level_id = #{levelId}
+            </if>
+        </where>
+        ORDER BY p.level desc
     </select>
 
     <select id="listPage" resultMap="dynamicMap">
-        SELECT * FROM charge_level_member
+        SELECT * FROM charge_package_member
         <where>
             <if test="delFlag != null">
-                del_flag = #{delFlag}
+                AND del_flag = #{delFlag}
+            </if>
+            <if test="levelId != null and levelId != ''">
+                AND level_id = #{levelId}
             </if>
         </where>
         ORDER BY update_date DESC

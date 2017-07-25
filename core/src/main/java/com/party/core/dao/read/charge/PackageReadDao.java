@@ -2,7 +2,7 @@ package com.party.core.dao.read.charge;
 
 import com.party.common.paging.Page;
 import com.party.core.dao.read.BaseReadDao;
-import com.party.core.model.charge.Level;
+import com.party.core.model.charge.ProductPackage;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  * 等级
  */
 @Repository
-public interface LevelReadDao extends BaseReadDao<Level> {
+public interface PackageReadDao extends BaseReadDao<ProductPackage> {
 
-    List<Level> webListPage(@Param("level") Level level, @Param("params") Map<String, Object> params, Page page);
+    List<ProductPackage> webListPage(@Param("level") ProductPackage productPackage, @Param("params") Map<String, Object> params, Page page);
 }
