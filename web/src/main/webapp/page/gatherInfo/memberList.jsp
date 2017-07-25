@@ -243,8 +243,10 @@
 								<tr>
 									<td title="${memberInfo.groupName}"><div class="word-break">${empty memberInfo.groupName ? '未分配' : memberInfo.groupName}</div></td>
 									<td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${memberInfo.memberId}','400px','550px')">
+										<div class="member-cell">
 										<div class="member-logo" style="background-image: url('${memberInfo.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
 										<div class="member-name ellipsis-1"><a class="blue" title="${memberInfo.realname}" href="javascript:void(0);" >${memberInfo.realname}</a></div>
+										</div>
 									</td>
 									<td title="${memberInfo.fullname}"><div class="word-break">${memberInfo.fullname}</div></td>
 									<td style="text-align: center;"><c:if test="${memberInfo.sex == 1}">男</c:if><c:if test="${memberInfo.sex == 0}">女</c:if></td>

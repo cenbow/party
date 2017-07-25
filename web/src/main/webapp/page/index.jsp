@@ -17,11 +17,8 @@
             <c:forEach var="advertise" items="${index.advertises}">
                 <li class="slide-item">
                     <div class="banner-img" style="background-image: url('${advertise.pic}'),url(${ctx}/image/img_bg.png)"></div>
-                    <!-- 					<div class="banner-text-shadow"> -->
-                        <%-- 						<div class="text"><a href="javascript:void(0)">${advertise.title}</a></div> --%>
-                    <!-- 					</div> -->
-                        <%--<img src="${advertise.pic}" alt="同行者-中国CEO户外活动与服务平台" onerror="this.src='${ctx}/image/img_bg.png';">--%>
                 </li>
+
             </c:forEach>
         </ul>
     </div>
@@ -77,7 +74,7 @@
                 <div class="f-row">
                     <c:forEach items="${index.bottomList}" var="bottomList" varStatus="status">
                         <div class="f-col-xs-3 col-small">
-                            <a href="javascript:void(0);"  class="col-inner <c:if test="${status.index == 1||status.index == 2}">br bl</c:if> <c:if test="${status.index == 0}">br</c:if> <c:if test="${status.index == 3}">bl</c:if>">
+                            <a href="javascript:void(0);" class="col-inner <c:if test="${status.index == 1||status.index == 2}">br bl</c:if> <c:if test="${status.index == 0}">br</c:if> <c:if test="${status.index == 3}">bl</c:if>">
                                 <img src="${bottomList.pic}?imageMogr2/auto-orient/crop/273x170" alt="${bottomList.title}">
                                 <div class="act-front-content">
                                     <p class="ellipsis-1">${bottomList.title}</p>

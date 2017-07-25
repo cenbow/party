@@ -40,8 +40,10 @@
     <div class="info">
         <ul class="content">
             <li style="width: 15%" class="member-info">
+                <div class="member-cell">
                 <div class="member-logo" style="background-image: url('{{ item.logo }}'),url(${ctx}/image/def_user_logo.png)"></div>
                 <span class="member-name">{{ item.realname || ''}}</span>
+                </div>
             </li>
             <li style="width: 10%">{{ item.username || ''}}</li>
             <li style="width: 10%">{{ item.mobile || ''}}</li>

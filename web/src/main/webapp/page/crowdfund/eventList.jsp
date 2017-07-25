@@ -35,8 +35,8 @@
                     <table class="layui-table">
                         <colgroup>
                             <col width="100">
-                            <col width="100">
-                            <col width="100">
+                            <col width="200">
+                            <col width="">
                         </colgroup>
                         <thead>
                         <tr>

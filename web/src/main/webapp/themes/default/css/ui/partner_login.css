@@ -5,7 +5,8 @@
 .banner-container .banner-bg-blur{
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
+    -webkit-background-size: cover;
+            background-size: cover;
     -webkit-filter: blur(15px);
     -moz-filter: blur(15px);
     -o-filter: blur(15px);
@@ -27,7 +28,9 @@
     top: 0;
     text-align: left;
     -webkit-transform: translate(-50%);
-    transform: translate(-50%);
+    -moz-transform: translate(-50%);
+     -ms-transform: translate(-50%);
+         transform: translate(-50%);
     margin: 0 auto;
     width:1190px;
     height: 100%;

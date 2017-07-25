@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <title>明细记录</title>
+    <title>个人中心</title>
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/table.css">
     <%@include file="../../include/commonFile.jsp" %>
@@ -26,6 +26,21 @@
                     <div class="layui-tab-item layui-show">
                         <form class="layui-form" action="${ctx}/system/member/orderList.do" id="myForm" method="post">
                             <input type="hidden" name="pageNo" id="pageNo"/>
+                            <div class="f-search-bar">
+                                <div class="search-container">
+                                    <ul class="search-form-content">
+                                        <li class="form-item"><label class="search-form-lable">订单类型</label>
+                                            <div class="check-btn-inner">
+                                                <a id="all" href="javascript:void(0);" onclick="setTimeType($(this),'','#myForm')" ${empty orderForm.type ? 'class="active"' : ''}>全部</a>
+                                                <c:forEach var="map" items="${orderTypes}">
+                                                    <a href="javascript:void(0);" onclick="setTimeType($(this),'${map.key}','#myForm')" ${orderForm.type == map.key ? 'class="active"' : ''}>${map.value}</a>
+                                                </c:forEach>
+                                                <input type="hidden" name="type" value="${orderForm.type}" />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </form>
                         <div class="my-act-list-content">
                             <ul class="num">
@@ -76,9 +91,8 @@
                                     </c:if>
                                     <c:forEach var="orderForm" items="${orderForms}">
                                         <tr>
-                                            <td title="${orderForm.title}"
-                                                onclick="openDialogShow('订单详情','${ctx}/order/order/orderInfo.do?id=${orderForm.id}','450px','570px')">
-                                                <a style="width: 265px; cursor: pointer;" class="dib ellipsis-1 blue">${orderForm.title}</a>
+                                            <td title="${orderForm.title}" onclick="openDialogShow('订单详情','${ctx}/order/order/orderInfo.do?id=${orderForm.id}','450px','570px')">
+                                                <div class="member-name ellipsis-1 blue" style="cursor: pointer">${orderForm.title}</div>
                                             </td>
                                             <td class="table-member"
                                                 onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${orderForm.member.id}','400px','470px')">

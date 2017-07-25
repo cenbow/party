@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <title>交易明细</title>
+    <title>个人中心</title>
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/table.css">
     <%@include file="../../include/commonFile.jsp" %>
@@ -38,12 +38,6 @@
                                                 <input type="hidden" name="type" value="${orderForm.type}" />
                                             </div>
                                         </li>
-                                        <li class="form-item-inline">
-                                            <div class="sub-btns">
-                                                <a class="layui-btn layui-btn-danger" href="javascript:submitClk()">确定</a>
-                                                <a class="layui-btn layui-btn-normal" href="javascript:resetFunction('#myForm')">重置</a>
-                                            </div>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -76,16 +70,15 @@
                                     <tbody>
                                     <c:if test="${page.totalCount == 0}">
                                         <tr>
-                                            <td colspan="6">
+                                            <td colspan="5">
                                                 <div class="f16 tc">还没有明细记录</div>
                                             </td>
                                         </tr>
                                     </c:if>
                                     <c:forEach var="orderForm" items="${orderForms}">
                                         <tr>
-                                            <td title="${orderForm.title}"
-                                                onclick="openDialogShow('订单详情','${ctx}/order/order/orderInfo.do?id=${orderForm.id}','450px','570px')">
-                                                <a style="width: 365px; cursor: pointer;" class="dib ellipsis-1 blue">${orderForm.title}</a>
+                                            <td title="${orderForm.title}" onclick="openDialogShow('订单详情','${ctx}/order/order/orderInfo.do?id=${orderForm.id}','450px','570px')">
+                                                <div class="member-name ellipsis-1 blue" style="cursor: pointer">${orderForm.title}</div>
                                             </td>
                                             <td>${orderForm.typeName}</td>
                                             <td>￥${orderForm.payment}</td>

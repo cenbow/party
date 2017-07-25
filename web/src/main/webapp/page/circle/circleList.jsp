@@ -71,12 +71,12 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="250">
-                            <col width="150">
-                            <col width="80">
-                            <col width="80">
-                            <col width="170">
-                            <col width="270">
+                            <col width="10%">
+                            <col width="10%">
+                            <col width="25%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="25%">
                         </colgroup>
                         <thead>
                         <tr>
@@ -92,12 +92,16 @@
                         <c:forEach var="circle" items="${list}">
                             <tr>
                                 <td class="table-member" title="${circle.name}">
+                                    <div class="member-cell" style="max-width: 500px">
                                     <div class="member-logo" style="background-image: url('${circle.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
                                     <div class="member-name ellipsis-1">${circle.name}</div>
+                                    </div>
                                 </td>
                                 <td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${circle.mgrId}','400px','470px')">
+                                    <div class="member-cell">
                                     <div class="member-logo" style="background-image: url('${circle.mgrLogo}'),url(${ctx}/image/def_user_logo.png)"></div>
                                     <div class="member-name ellipsis-1"><a class="blue" title="${circle.mgrRealname}" href="javascript:void(0);">${circle.mgrRealname}</a></div>
+                                    </div>
                                 </td>
                                 <td>
                                     <div>${circle.member_num == null ? 0 : circle.member_num}</div>
@@ -196,7 +200,6 @@
     }
     
     showActive('${input.createStart}', '${input.createEnd}', '#timeType');
-    
 
     
     $(function () {

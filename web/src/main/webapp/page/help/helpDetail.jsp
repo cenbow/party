@@ -107,7 +107,28 @@
                 </div>
             </div>
             <div class="act-detail-head mt20">
-                <div class="img-text-content"><textarea class="dh" id="img-text-temp">${currentHelp.content}</textarea></div>
+                <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this"><span class="title f18 ml5 mr5">后台图文教程</span></li>
+                        <li><span class="title f18 ml5 mr5">手机端预览效果</span></li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div id="content">
+                                <div class="act-main-body img-text-content">
+                                    <textarea class="dh" id="img-text-temp">${currentHelp.content}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div id="applyRelated">
+                                <div class="act-main-body img-text-content">
+                                    <textarea class="dh" id="img-text-temp">${currentHelp.frontContent}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -118,9 +139,30 @@
 <script type="text/javascript" charset="utf-8" src="${ctx}/script/common/img_text.js"></script>
 <script type="text/javascript">
     $(function () {
-        imgText.initImgNew('.img-text-content');
-        setTimeout(function () {
-            $('.lazy-img').picLazyLoad();
+        layui.use(['element'], function () {
+            var element = layui.element();
+
+            element.on('tab', function (data) {
+                if (data.index == 1) {
+                    imgText.initImgNew("#applyRelated .img-text-content");
+
+                    setTimeout(function() {
+                        var detailSettings = {
+                            parent : $('#applyRelated .img-text-content')
+                        };
+                        $('.lazy-img').picLazyLoad(detailSettings);
+                    }, 100);
+                }
+            });
+        });
+
+        imgText.initImgNew("#content .img-text-content");
+
+        setTimeout(function() {
+            var recommendSettings = {
+                parent : $('#content .img-text-content')
+            };
+            $('.lazy-img').picLazyLoad(recommendSettings);
         }, 100);
 
         $(".aside-dl-new dd").delegate('a', 'click', function (e) {

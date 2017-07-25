@@ -1,35 +1,54 @@
 
 .croedfund-detail-content{
-    flex: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+       -moz-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
 }
 .croedfund-detail-content .detail-logo{
     display: inherit;
     width: 300px;
     height: 180px;
-    background-size: cover;
+    -webkit-background-size: cover;
+            background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
     -webkit-flex-shrink: 0;
-    flex-shrink: 0;
+    -ms-flex-negative: 0;
+        flex-shrink: 0;
     -webkit-flex-wrap: nowrap;
-    flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
     -webkit-box-align: center;
     -webkit-align-items: flex-start;
-    align-items: flex-start;
+    -moz-box-align: start;
+     -ms-flex-align: start;
+         align-items: flex-start;
 }
 
 .croedfund-detail-head{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
     display: flex;
 }
 .croedfund-detail-head .content-text{
-    flex: 2;
+    -webkit-box-flex: 2;
+    -webkit-flex: 2;
+       -moz-box-flex: 2;
+        -ms-flex: 2;
+            flex: 2;
     min-height: 2.2rem;
     margin-left: 20px;
     width: 100%;
 }
 .croedfund-detail-head .content-text .text-titel{
     overflow: hidden;
+    width: -webkit-calc(100% - 100px);
+    width: -moz-calc(100% - 100px);
     width: calc(100% - 100px);
     margin-bottom: 10px;
 }

@@ -102,102 +102,104 @@
 	map.addControl(navigationControl);
 	
 	var form = null;
-	layui.use([ 'form'], function() {
-		form = layui.form();
-		// 城市
-		form.on('select(city)', function(data) {
-			var $select = $("[name=cityId]").siblings(".layui-form-select");
-			cityName = $select.find(".layui-this").text();
-			loadCityData(cityName);
-			map.centerAndZoom(cityName, 12);
-			
-			clearPlace();
-		});
+	$(function () {
+        layui.use([ 'form'], function() {
+            form = layui.form();
+            // 城市
+            form.on('select(city)', function(data) {
+                var $select = $("[name=cityId]").siblings(".layui-form-select");
+                cityName = $select.find(".layui-this").text();
+                loadCityData(cityName);
+                map.centerAndZoom(cityName, 12);
 
-		// 区域
-		form.on('select(area)', function(data) {
-			var value = data.value;
-			if (value != "") {
-				map.centerAndZoom(value, 16);
-			}
-			clearPlace();
-		});
-		
-		$("#areaInput").blur(function() {
-			var value = $(this).val();
-			if (value != "") {
-				$("#mapDiv").show();
-				map.centerAndZoom(value, 15);
-				$("#place").removeAttr("readonly");
-			} else {
-				clearPlace();
-			}
-		});
-		
-		$("#place").blur(function() {
-			var value = $(this).val();
-			if (value != "") {
-				appendListData(null);
-			} else {
-				clearPlace();
-			}
-		});
+                clearPlace();
+            });
 
-		if ('${cityName}' != "") {
-			loadCityData('${cityName}');
-		}
-		
-		if ('${activity.area}' != ""){
-			$("#mapDiv").show();
-			map.centerAndZoom('${activity.area}', 16);
-			$("#place").removeAttr("readonly");
-			
-			appendListData(null);
-		}
-		
-		if ('${activity.place}' != '') {
-			var $select = $("[name=cityId]").siblings(".layui-form-select");
-			var cityName = $select.find(".layui-select-title .layui-input").val();
-			$("#mapDiv").show();
-			map.centerAndZoom(cityName, 16);
-			appendListData(null);
-			containerHidden();
-		}
-		
-		// 加载Select数据
-		function loadCityData(cityName) {
-			$("#areaSelect").html("");
-			$.post("${ctx}/activity/activity/getAreaByCityName.do", {
-				"cityName" : cityName
-			}, function(data) {
-				var array = new Array();
-				if (data.length > 0) {
-					for (var i = 0; i < data.length; i++) {
-						if ('${activity.area}' == data[i].name) {
-							array.push("<option value = '"+data[i].name+"' selected='selected'>" + data[i].name + "</option>");
-						} else {
-							array.push("<option value = '"+data[i].name+"'>" + data[i].name + "</option>");
-						}
-					}
-					$("#areaSelect").append(array.join(""));
-					form.render('select');
-					$("#areaInput").hide();
+            // 区域
+            form.on('select(area)', function(data) {
+                var value = data.value;
+                if (value != "") {
+                    map.centerAndZoom(value, 16);
+                }
+                clearPlace();
+            });
 
-					var $select = $("#areaSelect").siblings(".layui-form-select");
-					var areaName = $select.find(".layui-select-title .layui-input").val();
-					$("#mapDiv").show();
-					map.centerAndZoom(areaName, 16);
-					$("#place").removeAttr("readonly");
-				} else {
-					$("#areaInput").show();
-					array.push("<option value = ''>选择区域</option>");
-					$("#areaSelect").append(array.join(""));
-					form.render('select');
-					$("#areaInput").siblings(".layui-form-select").hide();
-				}
-			});
-		}
-	});
+            $("#areaInput").blur(function() {
+                var value = $(this).val();
+                if (value != "") {
+                    $("#mapDiv").show();
+                    map.centerAndZoom(value, 15);
+                    $("#place").removeAttr("readonly");
+                } else {
+                    clearPlace();
+                }
+            });
+
+            $("#place").blur(function() {
+                var value = $(this).val();
+                if (value != "") {
+                    appendListData(null);
+                } else {
+                    clearPlace();
+                }
+            });
+
+            if ('${cityName}' != "") {
+                loadCityData('${cityName}');
+            }
+
+            if ('${activity.area}' != ""){
+                $("#mapDiv").show();
+                map.centerAndZoom('${activity.area}', 16);
+                $("#place").removeAttr("readonly");
+
+                appendListData(null);
+            }
+
+            if ('${activity.place}' != '') {
+                var $select = $("[name=cityId]").siblings(".layui-form-select");
+                var cityName = $select.find(".layui-select-title .layui-input").val();
+                $("#mapDiv").show();
+                map.centerAndZoom(cityName, 16);
+                appendListData(null);
+                containerHidden();
+            }
+
+            // 加载Select数据
+            function loadCityData(cityName) {
+                $("#areaSelect").html("");
+                $.post("${ctx}/activity/activity/getAreaByCityName.do", {
+                    "cityName" : cityName
+                }, function(data) {
+                    var array = new Array();
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            if ('${activity.area}' == data[i].name) {
+                                array.push("<option value = '"+data[i].name+"' selected='selected'>" + data[i].name + "</option>");
+                            } else {
+                                array.push("<option value = '"+data[i].name+"'>" + data[i].name + "</option>");
+                            }
+                        }
+                        $("#areaSelect").append(array.join(""));
+                        form.render('select');
+                        $("#areaInput").hide();
+
+                        var $select = $("#areaSelect").siblings(".layui-form-select");
+                        var areaName = $select.find(".layui-select-title .layui-input").val();
+                        $("#mapDiv").show();
+                        map.centerAndZoom(areaName, 16);
+                        $("#place").removeAttr("readonly");
+                    } else {
+                        $("#areaInput").show();
+                        array.push("<option value = ''>选择区域</option>");
+                        $("#areaSelect").append(array.join(""));
+                        form.render('select');
+                        $("#areaInput").siblings(".layui-form-select").hide();
+                    }
+                });
+            }
+        });
+    })
 	
 	containerHidden();
 	

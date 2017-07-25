@@ -55,11 +55,13 @@
                                         <div class="dib ellipsis-1" style="width: 200px;" title="${order.title}">${order.title}</div>
                                     </li>
                                     <li style="width: 20%" class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${order.buyerId}','400px','470px')">
+                                        <div class="member-cell">
                                         <div class="member-logo"
                                              style="background-image: url('${order.buyerLogo}'),url(${ctx}/image/def_user_logo.png)"
                                         ></div>
                                         <div class="member-name ellipsis-1">
                                             <a class="blue" title="${order.buyer}" href="javascript:void(0);">${order.buyer}</a>
+                                        </div>
                                         </div>
                                     </li>
                                     <li style="width: 17%"><c:choose>
@@ -96,10 +98,11 @@
                                             </c:when>
                                         </c:choose>
                                     </li>
-                                    <li style="width: 4%; padding-left: 0" class="option"><a class='click-obj' href="javascript:void(0)"></a></li>
+                                    <li style="width: 4%; padding-left: 0" class="option"><i class="iconfont icon-unfold"></i>
+                                        <i class="iconfont icon-fold"></i></li>
                                     <div class="cl"></div>
                                 </ul>
-                                <ul class="tr-extra-content" style="display: none;">
+                                <ul class="tr-extra-content">
                                     <c:if test="${order.linkman != ''}">
                                         <li>
                                             <label class="ext-label">联系人</label>
@@ -163,24 +166,14 @@
         //加载分页
         loadPage("page_content", '${page.totalPages}', '${page.page}', '#myForm');
         $('.content-body').delegate('.option', 'click', function (e) {
-            var $target = $(e.target);
-            if ($target.hasClass("click-obj")) {
-                if ($(this).hasClass("option-toggle")) {
-                    $(this).removeClass("option-toggle");
-                    $(this).closest("ul").parent("div").css("background-color", "#fff");
-                    $(this).closest("ul").siblings(".tr-extra-content").hide();
-                } else {
-                    $(".option").removeClass("option-toggle");
-                    $(".content-body .tr-extra-content").hide();
-                    $(".info").css("background-color", "#fff");
-
-                    $(this).addClass("option-toggle");
-                    $(this).closest("ul").parent("div").css("background-color", "#eee");
-                    $(this).closest("ul").siblings(".tr-extra-content").show();
-                }
-                e.stopPropagation();
+            var info = $(this).closest('.info');
+            if (!info.hasClass('active')) {//打开
+                $('.info').removeClass('active');
+                info.toggleClass('active');
+            } else {
+                info.toggleClass('active');
             }
-        })
+        });
     })
 
     function openDialogShow(title, url, width, height, target) {

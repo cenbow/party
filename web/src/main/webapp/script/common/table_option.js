@@ -76,7 +76,7 @@
                         var ofixopts = doc.querySelector('.out-fix-opts'), moreH = this.scrollHeight, moreW = this.scrollWidth;
                         ofixopts.innerHTML = hideOpts.outerHTML;
                         var rect = this.getBoundingClientRect();
-                        ofixopts.style.left = rect.left + 'px';
+                        ofixopts.style.left = (rect.left - 50) + 'px';
                         ofixopts.style.top = (rect.bottom + window.scrollY) + 'px';
                         ofixopts.style.display = 'block';
                     });
@@ -110,11 +110,13 @@
             if (!fixTableCtns || fixTableCtns.length == 0)
                 return;
 
-            for(var i=0;i<fixTableCtns.length;i++){
-                var fixTableCtn = fixTableCtns[i];
+           for(var i=0;i<fixTableCtns.length;i++){
+               var fixTableCtn = fixTableCtns[i];
                 var leftTable = fixTableCtn.querySelector('.jleft-fix-table'),
                     rightTable = fixTableCtn.querySelector('.jright-fix-table');
-                //对比左右高度修改tr高度
+                //修改右边table的宽度
+               rightTable.style.width = (fixTableCtn.clientWidth - leftTable.clientWidth) + 'px';
+               //对比左右高度修改tr高度
                 var leftTableTr = leftTable.querySelectorAll('tbody tr'),rightTableTr = rightTable.querySelectorAll('tbody tr');
                 rightTable.style.marginLeft='-1px';
                 leftTableTr.forEach(function (tr,index) {

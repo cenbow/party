@@ -80,6 +80,7 @@ public class DistributionController {
         List<DistributionListOutput> listOutputs = distributionBizService.targetList(targetId, input, page);
         Activity activity = activityService.get(targetId);
         String zipUrl = stringJedis.getValue(Constant.PRE_ZIP_URL + "distribution" + targetId);
+        stringJedis.delete(Constant.PRE_ZIP_URL + "distribution" + targetId);
         modelAndView.addObject("activity", activity);
         modelAndView.addObject("targetId", targetId);
         modelAndView.addObject("page", page);

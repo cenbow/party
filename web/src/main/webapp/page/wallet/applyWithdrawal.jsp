@@ -205,7 +205,7 @@
                         layer.msg("提现申请成功，请耐心等待", {
                             icon : 1
                         }, function(index) {
-                            location.href="${ctx}/wallet/withdrawalList.do";
+                            location.href="${ctx}/system/member/withdrawList.do";
                         });
                     } else {
                         layer.msg(res.description, {

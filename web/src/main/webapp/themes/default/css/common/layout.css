@@ -4,7 +4,7 @@ html {
 }
 body {
 	background-color: #edf1f5;
-	min-width: 1190px;
+	/*min-width: 1190px;*/
 	overflow: hidden;
 }
 /*黑色头部*/
@@ -23,7 +23,7 @@ body {
 	height: 50px;
 }
 .header-public-main {
-	width: 1190px;
+	padding: 0 20px;
 	height: 50px;
 	margin: 0 auto;
 	position: relative;
@@ -53,17 +53,29 @@ body {
 	padding: 0 24px 0 12px;
 	font-size: 14px;
 	background: inherit;
+	-webkit-transition: all 1s;
+	-moz-transition: all 1s;
 	transition: all 1s;
 }
 .user-address .show-city .dropdown-icon {
 	position: absolute;
 	top: 24px;
 	right: 12px;
-	transform: rotate(0deg);
+	-webkit-transform: rotate(0deg);
+	   -moz-transform: rotate(0deg);
+	    -ms-transform: rotate(0deg);
+	        transform: rotate(0deg);
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
 	transition: all 0.3s;
 }
 .user-address:hover .show-city .dropdown-icon{
-	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	   -moz-transform: rotate(180deg);
+	    -ms-transform: rotate(180deg);
+	        transform: rotate(180deg);
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
 	transition: all 0.3s;
 }
 .user-address:hover .city-box{
@@ -123,7 +135,8 @@ body {
 	background-color: #e5e6e9;
 	float: right;
     margin: 10px 465px 0 0;
-	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	        border-radius: 3px;
 	position: relative;
 }
 .header-public-search input {
@@ -166,6 +179,8 @@ body {
 	height: 50px;
     margin: 0 5px;
 	background: inherit;
+	-webkit-transition: all 1s;
+	-moz-transition: all 1s;
 	transition: all 1s;
 }
 .header-public-nav-l li:hover,.header-public-nav-r li:hover,.user-address .show-city:hover {
@@ -190,10 +205,12 @@ body {
 	vertical-align: top;
 	width: 35px;
 	height: 35px;
-	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
 	line-height: 50px;
 	border: 2px solid #fff;
-	background-size: cover;
+	-webkit-background-size: cover;
+	        background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }
@@ -208,6 +225,7 @@ body {
 /*下载app*/
 .qr-code{
 	position: absolute;
+	right: 0;
 	display: none;
 }
 .qr-code img{
@@ -232,7 +250,12 @@ body {
 }
 
 .user-name:hover .dropdown-icon{
-	transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	   -moz-transform: rotate(180deg);
+	    -ms-transform: rotate(180deg);
+	        transform: rotate(180deg);
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
 	transition: all 0.3s;
 }
 
@@ -266,7 +289,7 @@ body {
 	display: -ms-flexbox;
 	display: -webkit-flex;
 	display: flex;
-	width: 1190px;
+	/*width: 1190px;*/
 /*	overflow: hidden;*/
 	margin: 0 auto;
 	position: relative;
@@ -275,6 +298,7 @@ body {
 .index-outside > aside, .aside-bg {
 	width: 199px;
 	-webkit-transition: width .25s;
+	-moz-transition: width .25s;
 	transition: width .25s;
 }
 .index-outside > aside {
@@ -306,6 +330,7 @@ body {
 	padding-left: 22px;
 	color: #4c5161;
 	-webkit-transition: height .25s;
+	-moz-transition: height .25s;
 	transition: height .25s;
 	overflow: hidden;
 	font-size: 18px;
@@ -314,14 +339,20 @@ body {
 .aside-dt .icon-right{
 	display: inline-block;
 	margin-left: 5px;
-	transform: rotate(0deg);
+	-webkit-transform: rotate(0deg);
+	   -moz-transform: rotate(0deg);
+	    -ms-transform: rotate(0deg);
+	        transform: rotate(0deg);
 	transition:  all .5s;
 	-moz-transition: all .5s;
 	-webkit-transition:  all .5s;
 	-o-transition:  all .5s;
 }
 .aside-open .icon-right{
-	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	   -moz-transform: rotate(90deg);
+	    -ms-transform: rotate(90deg);
+	        transform: rotate(90deg);
 }
 .aside-dd{
 	overflow: hidden;
@@ -337,6 +368,7 @@ body {
 	padding: 12px 30px;
 	color: #4c5161;
 	-webkit-transition: background-color .25s, color .5s;
+	-moz-transition: background-color .25s, color .5s;
 	transition: background-color .25s, color .5s;
 	cursor: pointer;
 	position: relative;
@@ -356,6 +388,8 @@ body {
 	-webkit-flex: 1;
 	-ms-flex: 1;
 	flex: 1;
+	min-height: -webkit-calc(100vh - 50px);
+	min-height: -moz-calc(100vh - 50px);
 	min-height: calc(100vh - 50px);
 /*	overflow: hidden;*/
 	background: #fff;
@@ -380,14 +414,20 @@ body {
 .footer-content .qr-code-content{
     display: -webkit-box;
     display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
     display: flex;
     width: 100%;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-    justify-content: center;
+    -moz-box-pack: center;
+     -ms-flex-pack: center;
+         justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-    align-items: center;
+    -moz-box-align: center;
+     -ms-flex-align: center;
+         align-items: center;
     padding-bottom: 30px;
     margin-bottom: 30px;
     border-bottom: 1px solid #cec8c8;
@@ -420,7 +460,8 @@ body {
 	margin-top: 5px;
 	text-align: center;
 	line-height: 50px;
-	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	        border-radius: 3px;
 	cursor: pointer;
 	translation: all 0.3s;
 }
@@ -433,4 +474,18 @@ body {
 }
 .index-outside > section .page-container{
     text-align: right;
+}
+/*提醒数字*/
+.notify-label {
+	position: absolute;
+	top: 10px;
+	left: 35px;
+	text-align: center;
+	font-size: 12px;
+	padding: 2px 3px;
+	font-weight: bold;
+	line-height: 12px;
+	color: #fff;
+	border-radius: 5px;
+	background-color: #f39c12;
 }

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<title>提现记录</title>
+<title>个人中心</title>
 <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
 <link rel="stylesheet" href="${ctx}/themes/default/css/common/table.css">
 <%@include file="../../include/commonFile.jsp"%>

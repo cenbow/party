@@ -170,11 +170,9 @@
 <script type="text/javascript" charset="utf-8" src="${ctxStatic}/uploadCI/resize.js"></script>
 
 <script>
-    var uploadFile = new UploadFile('', '${ctx}/piccloud/getSign.do');
-    var ue = UE.getEditor('ueditor1');
-
-
     $(function () {
+        var uploadFile = new UploadFile('', '${ctx}/piccloud/getSign.do');
+        var ue = UE.getEditor('ueditor1');
         layui.use(['form', 'laydate'], function () {
             var form = layui.form(), laydate = layui.laydate;
             var radioValue = null;
@@ -368,6 +366,7 @@
                 });
             }
         });
+
     })
 
     // 文本编辑器图片上传

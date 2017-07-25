@@ -1,15 +1,10 @@
 package com.party.web.biz.pay;
 
 import com.party.common.utils.StringUtils;
-import com.party.core.model.order.OrderForm;
-import com.party.core.model.order.OrderStatus;
-import com.party.core.model.order.PaymentState;
-import com.party.core.service.order.IOrderFormService;
 import com.party.pay.model.pay.ali.pc.TradePagePayRequest;
 import org.apache.commons.net.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -38,9 +33,6 @@ public class AliPcBizService {
     public static final String SIGN_ALGORITHMS = "SHA1WithRSA";
 
     public static final String SIGN_SHA256RSA_ALGORITHMS = "SHA256WithRSA";
-
-    @Autowired
-    private IOrderFormService orderFormService;
 
     protected static Logger logger = LoggerFactory.getLogger(AliPcBizService.class);
 

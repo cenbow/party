@@ -1,18 +1,19 @@
 package com.party.web.web.controller.system;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.google.common.collect.Maps;
 import com.party.common.paging.Page;
 import com.party.common.utils.BigDecimalUtils;
 import com.party.common.utils.LangUtils;
 import com.party.core.model.BaseModel;
+import com.party.core.model.charge.PackageMember;
+import com.party.core.model.charge.ProductPackage;
 import com.party.core.model.order.OrderForm;
 import com.party.core.model.order.OrderType;
 import com.party.core.model.wallet.Withdrawals;
+import com.party.core.service.charge.IPackageMemberService;
+import com.party.core.service.charge.IPackageService;
 import com.party.core.service.order.IOrderFormService;
 import com.party.web.biz.order.OrderBizService;
 import com.party.web.biz.wallet.WithdrawalsBizService;
@@ -72,6 +73,10 @@ public class MemberController {
 	private WithdrawalsBizService withdrawalsBizService;
 	@Autowired
 	private IOrderFormService orderFormService;
+	@Autowired
+	private IPackageMemberService packageMemberService;
+	@Autowired
+	private IPackageService packageService;
 
 	protected static Logger logger = LoggerFactory.getLogger(MemberController.class);
 
@@ -358,6 +363,7 @@ public class MemberController {
 			return orderFormOutput;
 		});
 		mv.addObject("orderForms", orderFormOutputs);
+		mv.addObject("page", page);
 
 		memberIndexCommon(mv);
 
@@ -374,10 +380,10 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping("orderList")
-	public ModelAndView orderList(Page page) {
+	public ModelAndView orderList(Page page, OrderForm orderForm) {
 		ModelAndView mv = new ModelAndView("system/member/orderList");
 		page.setLimit(10);
-		List<OrderFormOutput> orderFormOutputs = orderBizService.memberOrderList(page);
+		List<OrderFormOutput> orderFormOutputs = orderBizService.memberOrderList(page, orderForm);
 		mv.addObject("orderForms", orderFormOutputs);
 		mv.addObject("page", page);
 
@@ -388,6 +394,11 @@ public class MemberController {
 		} else {
 			mv.addObject("orderTotal", 0);
 		}
+
+		Map<Integer, String> orderTypes = Maps.newHashMap();
+		orderTypes.put(OrderType.ORDER_ACTIVITY.getCode(), OrderType.ORDER_ACTIVITY.getValue());
+		orderTypes.put(OrderType.ORDER_CROWD_FUND.getCode(), OrderType.ORDER_CROWD_FUND.getValue());
+		mv.addObject("orderTypes", orderTypes);
 
 		memberIndexCommon(mv);
 		return mv;
@@ -425,5 +436,15 @@ public class MemberController {
 		// 余额
 		double totalAccount = orderBizService.getTotalAccount();
 		mv.addObject("totalPayment", totalAccount);
+
+		PackageMember packageMember = packageMemberService.findByMemberId(new PackageMember("", memberId));
+		mv.addObject("packageMember", packageMember);
+		if (packageMember != null) {
+			if (packageMember.getEndTime().before(new Date())){
+				mv.addObject("endTime", "已过期");
+			}
+			ProductPackage productPackage = packageService.get(packageMember.getLevelId());
+			mv.addObject("productPackage", productPackage);
+		}
 	}
 }

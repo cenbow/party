@@ -248,14 +248,7 @@ public class WalletController {
 						}
 					}
 				}
-                if (null != input.getPaymentWay()) {
-                    if (input.getPaymentWay().equals(PaymentWay.ALI_PAY.getCode())) {
-                        orderFormOutput.setPaymentWayName(PaymentWay.ALI_PAY.getValue());
-						orderFormOutput.setMerchantName(MerchantUtil.TXZ_MERCHANT_NAME);
-                    } else if (input.getPaymentWay().equals(PaymentWay.WECHAT_PAY.getCode())) {
-                        orderFormOutput.setPaymentWayName(PaymentWay.WECHAT_PAY.getValue());
-                    }
-                }
+				orderFormOutput.setPaymentWayName(PaymentWay.getValue(input.getPaymentWay()));
 				orderFormOutput.setTypeName(OrderType.getValue(input.getType()));
 				orderFormOutput.setStatusName(OrderStatus.getValue(input.getStatus()));
 				return orderFormOutput;

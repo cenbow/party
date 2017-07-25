@@ -1,5 +1,6 @@
-.index-outside>section {
-	background: transparent !important;
+
+.index-outside {
+	width: 1190px;
 }
 /*banner*/
 .banner {
@@ -8,6 +9,7 @@
 
 .banner-img {
 	background-position: center;
+	-webkit-background-size: cover;
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: inherit;
@@ -25,6 +27,7 @@
 }
 .inner-ctn .ctn-img{
 	height: 250px;
+	-webkit-background-size: cover;
 	background-size: cover;
 	background: no-repeat center;
 }

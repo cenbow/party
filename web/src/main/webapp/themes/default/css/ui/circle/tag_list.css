@@ -18,6 +18,8 @@
 	font-size: 22px;
 	width: 0;
 	overflow: hidden;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
 	transition: all 0.3s;
 }
 .tag-wrap .tag-item:hover{

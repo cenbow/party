@@ -2,16 +2,16 @@ package com.party.web.web.controller.charge;
 
 import com.google.common.collect.Maps;
 import com.party.common.utils.DateUtils;
-import com.party.core.model.charge.Level;
+import com.party.core.model.charge.PackageMember;
+import com.party.core.model.charge.ProductPackage;
 import com.party.core.model.member.Member;
 import com.party.core.model.order.OrderForm;
 import com.party.core.model.order.OrderStatus;
 import com.party.core.model.order.OrderType;
-import com.party.core.service.charge.ILevelService;
+import com.party.core.service.charge.IPackageMemberService;
+import com.party.core.service.charge.IPackageService;
 import com.party.core.service.member.IMemberService;
 import com.party.core.service.order.IOrderFormService;
-import com.party.core.service.system.IMemberSysRoleService;
-import com.party.core.service.system.ISysRoleService;
 import com.party.web.utils.RealmUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,32 +27,34 @@ import java.util.Map;
  * 等级
  */
 @Controller
-@RequestMapping("/charge/level")
-public class LevelController {
+@RequestMapping("/charge/package")
+public class PackageController {
     @Autowired
-    private ILevelService levelService;
-    @Autowired
-    private ISysRoleService sysRoleService;
-    @Autowired
-    private IMemberSysRoleService memberSysRoleService;
+    private IPackageService packageService;
     @Autowired
     private IOrderFormService orderFormService;
     @Autowired
     private IMemberService memberService;
+    @Autowired
+    private IPackageMemberService packageMemberService;
 
-    @RequestMapping("levelList")
+    @RequestMapping("packageList")
     public ModelAndView levelList() {
-        ModelAndView modelAndView = new ModelAndView("charge/levelList");
-        List<Level> levels = levelService.list(new Level());
-        modelAndView.addObject("levels", levels);
-        return modelAndView;
+        ModelAndView mv = new ModelAndView("charge/packageList");
+        List<ProductPackage> productPackages = packageService.list(new ProductPackage());
+        mv.addObject("packages", productPackages);
+
+        String memberId = RealmUtils.getCurrentUser().getId();
+        PackageMember packageMember = packageMemberService.findByMemberId(new PackageMember("", memberId));
+        mv.addObject("packageMember", packageMember);
+        return mv;
     }
 
     @RequestMapping("{levelId}/buyOrder")
     public ModelAndView buyOrder(@PathVariable("levelId") String levelId) {
         ModelAndView mv = new ModelAndView("charge/buyOrder");
-        Level level = levelService.get(levelId);
-        mv.addObject("level", level);
+        ProductPackage productPackage = packageService.get(levelId);
+        mv.addObject("level", productPackage);
 
         // 查看这个套餐当天是否产生未支付的订单，如有则返回；否则生成新订单
         String memberId = RealmUtils.getCurrentUser().getId();
@@ -76,15 +78,15 @@ public class LevelController {
             orderForm.setMemberId(memberId);
             orderForm.setGoodsId(levelId);
             orderForm.setInitiatorId(adminMember.getId());
-            orderForm.setPayment(level.getPrice());
+            orderForm.setPayment(productPackage.getPrice());
             orderForm.setIsPay("0");
             orderForm.setUnit(1);
             orderForm.setLinkman(member.getRealname());
-            String title = level.getName() + "功能";
-            if (level.getUnit().equals(Level.UNIT_HALF_YEAR)) {
-                title += level.getUnit();
+            String title = productPackage.getName() + "功能";
+            if (productPackage.getUnit().equals(ProductPackage.UNIT_HALF_YEAR)) {
+                title += productPackage.getUnit();
             } else {
-                title += ("一" + level.getUnit());
+                title += ("一" + productPackage.getUnit());
             }
             orderForm.setTitle(title);
             orderForm.setPhone(member.getMobile());

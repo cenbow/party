@@ -52,6 +52,10 @@ public class HelpController {
             String content = StringUtils.stringtohtml(help.getContent());
             help.setContent(content);
         }
+        if (StringUtils.isNotEmpty(help.getFrontContent())) {
+            String content = StringUtils.stringtohtml(help.getFrontContent());
+            help.setFrontContent(content);
+        }
         mv.addObject("currentHelp", help);
         String parentId = help.getParentId();
         if ("0".equals(parentId)) {

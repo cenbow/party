@@ -113,8 +113,10 @@
 							<c:forEach var="item" items="${list}">
 								<tr>
 									<td class="table-member" title="${item.mName}"  onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${item.mId}','400px','470px')">
+										<div class="member-cell">
 										<div class="member-logo" style="background-image: url('${item.mLogo}'),url(${ctx}/image/def_user_logo.png)"></div>
 										<div class="member-name ellipsis-1"><a class="blue" title="${item.mName}" href="javascript:void(0);">${item.mName}</a></div>
+										</div>
 									</td>
 									<td>
 										<div>${item.mMobile}</div>

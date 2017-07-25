@@ -14,3 +14,14 @@
 .layui-tab{
     overflow: inherit !important;
 }
+.layui-table tr:hover td, .layui-table[lay-even] tr:nth-child(even) td {
+    background-color: #f8f8f8;
+}
+.layui-table td ,.layui-table th {
+    -moz-transition:all .3s;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+}
+.layui-table tr:hover th, .layui-table[lay-even] tr:nth-child(even) th{
+    background-color: #f8f8f8;
+}

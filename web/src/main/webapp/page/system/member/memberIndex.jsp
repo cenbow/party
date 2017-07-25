@@ -48,14 +48,23 @@
                    style="padding-left: 15px; padding-right: 15px;"><i class="iconfont icon-edit btn-icon"></i>
                     编辑个人资料</a>
             </div>
-            <div class="display-flex">
+            <div class="display-flex mb10">
                 <div class="info-div">
                     <span>账号等级：</span>
-                    <span>个人体验版</span>
-                    <a href="${ctx}/charge/level/levelList.do" target="_blank"
-                       class="layui-btn layui-btn-danger layui-btn-small ml10"
-                       style="padding-left: 15px; padding-right: 15px;"><i
-                            class="iconfont icon-choiceness btn-icon"></i> 升级</a>
+                    <c:if test="${null == productPackage}">
+                        <span>无</span>
+                        <a href="${ctx}/charge/package/packageList.do" target="_blank"
+                           class="layui-btn layui-btn-danger layui-btn-small ml10"
+                           style="padding-left: 15px; padding-right: 15px;"><i
+                                class="iconfont icon-choiceness btn-icon"></i> 开通</a>
+                    </c:if>
+                    <c:if test="${null != productPackage}">
+                        <span>${productPackage.name}</span>
+                        <a href="${ctx}/charge/package/packageList.do" target="_blank"
+                           class="layui-btn layui-btn-danger layui-btn-small ml10"
+                           style="padding-left: 15px; padding-right: 15px;"><i
+                                class="iconfont icon-choiceness btn-icon"></i> 升级</a>
+                    </c:if>
                 </div>
                 <div class="info-div">
                     <span>账户余额： </span>
@@ -66,6 +75,23 @@
                         提现</a>
                 </div>
             </div>
+            <c:if test="${null != productPackage}">
+                <div class="display-flex">
+                    <div class="info-div">
+                        <span>到期时间：</span>
+                        <c:if test="${null == endTime}">
+                            <span><fmt:formatDate value="${packageMember.endTime}" pattern="yyyy-MM-dd HH:mm" /></span>
+                        </c:if>
+                        <c:if test="${null != endTime}">
+                            <span>已过期</span>
+                        </c:if>
+                        <a href="${ctx}/charge/package/packageList.do" target="_blank"
+                           class="layui-btn layui-btn-danger layui-btn-small ml10"
+                           style="padding-left: 15px; padding-right: 15px;"><i
+                                class="iconfont icon-choiceness btn-icon"></i> 续期</a>
+                    </div>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>

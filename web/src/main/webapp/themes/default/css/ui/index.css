@@ -1,7 +1,9 @@
 .index-outside > section {
     background: transparent !important;
 }
-
+.index-outside {
+    width: 1190px;
+}
 /*banner*/
 .banner {
     height: 500px;
@@ -17,7 +19,8 @@
 
 .banner-img {
     background-position: center;
-    background-size: cover;
+    -webkit-background-size: cover;
+            background-size: cover;
     background-repeat: no-repeat;
     height: 500px;
 }
@@ -28,7 +31,9 @@
 
 .slides .banner-text-shadow {
     position: absolute;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -50,50 +55,6 @@
 
 .flex-control-nav {
     display: none;
-}
-
-.flexslider:hover .flex-direction-nav .flex-prev {
-    width: 43px;
-    height: 90px;
-    background: url(../../../../static/jquery.flexslider/images/index_scrollBtn.png) no-repeat 0 0;
-    position: absolute;
-    top: 50%;
-    margin-top: -45px;
-    left: 64px;
-    display: inline-block;
-}
-
-.flexslider:hover .flex-direction-nav .flex-next {
-    width: 43px;
-    height: 90px;
-    background: url(../../../../static/jquery.flexslider/images/index_scrollBtn.png) no-repeat -50px 0;
-    position: absolute;
-    top: 50%;
-    margin-top: -45px;
-    right: 64px;
-    display: inline-block;
-}
-
-.flexslider .flex-direction-nav .flex-prev:hover {
-    width: 43px;
-    height: 90px;
-    background: url(../../../../static/jquery.flexslider/images/index_scrollBtn.png) no-repeat 0 -101px;
-    position: absolute;
-    top: 50%;
-    margin-top: -45px;
-    left: 64px;
-    display: inline-block;
-}
-
-.flexslider .flex-direction-nav .flex-next:hover {
-    width: 43px;
-    height: 90px;
-    background: url(../../../../static/jquery.flexslider/images/index_scrollBtn.png) no-repeat -49px -100px;
-    position: absolute;
-    top: 50%;
-    margin-top: -45px;
-    right: 64px;
-    display: inline-block;
 }
 
 /*活动content*/
@@ -149,7 +110,8 @@
 .acts-content .act-item-bg, .acts-content .act-item-big-bg {
     position: relative;
     background-repeat: no-repeat;
-    background-size: cover;
+    -webkit-background-size: cover;
+            background-size: cover;
     background-position: center;
     height: 170px;
     overflow: hidden;
@@ -162,7 +124,9 @@
 
 .acts-content .act-front-content {
     position: absolute;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -189,7 +153,8 @@
 
 .goods-content .good-item .good-item-bg {
     background-repeat: no-repeat;
-    background-size: cover;
+    -webkit-background-size: cover;
+            background-size: cover;
     background-position: center;
 }
 
@@ -208,7 +173,8 @@
 .good-detail .good-type {
     right: 0;
     padding: 2px 5px;
-    border-radius: 5px;
+    -webkit-border-radius: 5px;
+            border-radius: 5px;
     color: #e8473f;
     border: 1px solid #e8473f;
 }
@@ -258,11 +224,13 @@
 
 .partner-content .partner li .img {
     background-position: center;
-    background-size: cover;
+    -webkit-background-size: cover;
+            background-size: cover;
     background-repeat: no-repeat;
     width: 110px;
     height: 110px;
-    border-radius: 15px;
+    -webkit-border-radius: 15px;
+            border-radius: 15px;
 }
 
 @media screen and (max-width: 1510px) {

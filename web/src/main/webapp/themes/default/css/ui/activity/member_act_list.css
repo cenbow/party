@@ -64,6 +64,27 @@
 	border-right: 1px solid #e2e2e2;
 	border-bottom: 1px solid #e2e2e2;
 }
+.content-body .info.active{
+	background: #eee;
+}
+.content-body .info .icon-unfold{
+	display: block;
+}
+.content-body .info .icon-fold{
+	display: none;
+}
+.content-body .info.active .icon-unfold{
+	display: none;
+}
+.content-body .info.active .icon-fold{
+	display: block;
+}
+.content-body .tr-extra-content{
+	display: none;
+}
+.content-body .info.active .tr-extra-content{
+	display: block;
+}
 .my-act-list-content .content-body ul.content {
 	clear: both;
 	height: 48px;
@@ -96,21 +117,6 @@
 	width: 40%!important
 }
 
-.my-act-list-content .content-body ul.content .option a {
-	display: block;
-	width: 50px;
-	height: 30px;
-	background:
-		url(http://img1.hudongba.com/static_v4/images/manage/jiao4.png)
-		no-repeat 20px;
-}
-
-.my-act-list-content .content-body ul.content .option-toggle a {
-	background:
-		url(http://img1.hudongba.com/static_v4/images/manage/jiao_up.png)
-		no-repeat 20px;
-}
-
-.table-member{
-	max-width: 148px!important;
-}
+/*.table-member{*/
+	/*max-width: 148px!important;*/
+/*}*/

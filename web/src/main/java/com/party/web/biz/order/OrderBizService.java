@@ -124,8 +124,10 @@ public class OrderBizService {
 	 * @param page
 	 * @return
 	 */
-	public List<OrderFormOutput> memberOrderList(Page page) {
-		OrderForm orderForm = new OrderForm();
+	public List<OrderFormOutput> memberOrderList(Page page, OrderForm orderForm) {
+		if (orderForm == null) {
+			orderForm = new OrderForm();
+		}
 		orderForm.setInitiatorId(RealmUtils.getCurrentUser().getId());
 		orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
 		orderForm.setStatus(OrderStatus.ORDER_STATUS_HAVE_PAID.getCode()); // 已支付

@@ -90,8 +90,10 @@
 							<c:forEach var="love" items="${loves}">
 								<tr>
 									<td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${love.author.id}','400px','470px')">
+										<div class="member-cell">
 										<div class="member-logo" style="background-image: url('${love.author.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
 										<div class="member-name ellipsis-1"><a class="blue" title="${love.author.realname}" href="javascript:void(0);" >${love.author.realname}</a></div>
+										</div>
 									</td>
 									<td><fmt:formatDate value="${love.createDate}" pattern="yyyy-MM-dd HH:mm" /></td>
 									<td>

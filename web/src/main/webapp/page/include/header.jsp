@@ -1,21 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<link rel="stylesheet" href="${ctx}/themes/default/css/common/layout.css">
 <style type="text/css">
-	.notify-label {
-		position: absolute;
-		top: 9px;
-		right: 10px;
-		text-align: center;
-		font-size: 9px;
-		padding: 2px 3px;
-		display: inline;
-		font-weight: bold;
-		line-height: 1;
-		color: white;
-		white-space: nowrap;
-		vertical-align: baseline;
-		border-radius: .25em;
-		background-color: #f39c12 !important;
-	}
+
 </style>
 <!--头部-->
 <nav class="header-public">
@@ -65,12 +51,12 @@
 							<li>
 								<p class="f16" id="home_page">我的主页</p>
 							</li>
-							<li>
-								<p class="f16" id="myInfo">个人资料</p>
-							</li>
-							<li>
-								<p class="f16" id="wallet">帐户余额</p>
-							</li>
+							<%--<li>--%>
+								<%--<p class="f16" id="myInfo">个人资料</p>--%>
+							<%--</li>--%>
+							<%--<li>--%>
+								<%--<p class="f16" id="wallet">帐户余额</p>--%>
+							<%--</li>--%>
 							<li>
 								<p class="f16" id="logout" >退出</p>
 							</li>
@@ -285,7 +271,7 @@
 		});
 
 		$('#home_page').on('click', function() {
-			location.href = '${ctx}/activity/activity/activityList.do';
+			location.href = '${ctx}/system/member/memberIndex.do';
 		});
 
 		$("#myInfo").on('click', function() {

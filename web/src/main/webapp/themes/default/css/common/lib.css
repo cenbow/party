@@ -196,6 +196,7 @@ div.dib{*display:inline;*zoom:1;}
 /* transition过渡 */
 .trans {
   -webkit-transition: all 250ms;
+  -moz-transition:all 250ms;
   transition: all 250ms;
 }
 /* 文字无法选中 */
