@@ -130,11 +130,10 @@
 						</div>
 						<table class="layui-table lay-skin="line"">
 							<colgroup>
-								<col width="200">
-								<col width="100">
-								<col width="180">
-								<col width="150">
 								<col>
+								<col width="60px">
+								<col width="150px">
+								<col width="100px">
 							</colgroup>
 							<thead>
 								<tr>

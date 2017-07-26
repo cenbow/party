@@ -104,7 +104,7 @@
                             </div>
                             <div class="layui-form-item">
                                 <div class="layui-inline">
-                                    <label class="layui-form-label">手机号</label>
+                                    <label class="layui-form-label">手机号<span class="f-verify-red">*</span></label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="mobile" lay-verify="mobile" autocomplete="off" class="layui-input"
                                                value="${member.mobile}"
@@ -347,8 +347,8 @@
                 mobile: function (value) {
                     var regex = /^((13[0-9])|(14[5|7])|(15([0-9]))|(18[0-9])|(17[0-9]))\d{8}$/;
                     var username = $("#infoForm").find("[name=username]").val();
-                    if (value == "" && username == "") {
-                        return "用户名或手机号必须填写一个";
+                    if (value == "") {
+                        return "请填写手机号码";
                     } else if (value != "" && !regex.test(value)) {
                         return "请填写正确格式的手机号码";
                     } else if (value != "" && regex.test(value)) {

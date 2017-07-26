@@ -44,7 +44,7 @@
                                     <div class="f-search-bar">
                                         <div class="search-container">
                                             <ul class="search-form-content">
-                                                <li class="form-item-inline"><label class="search-form-lable">众筹者</label>
+                                                <li class="form-item-inline"><label class="search-form-lable" style="text-indent: 13px;">众筹者</label>
                                                     <div class="layui-input-inline">
                                                         <input type="text" name="authorName" autocomplete="off" class="layui-input" value="${projectWithAuthor.authorName}" placeholder="众筹者">
                                                     </div>
@@ -110,16 +110,16 @@
                                     <div class="cl">
                                         <table class="layui-table">
                                             <colgroup>
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
+                                                <col>
+                                                <col>
+                                                <col>
+                                                <col>
+                                                <col width="130px">
+                                                <col width="90px">
+                                                <col width="90px">
+                                                <col width="90px">
+                                                <col width="90px">
+                                                <col>
                                             </colgroup>
                                             <thead>
                                             <tr>

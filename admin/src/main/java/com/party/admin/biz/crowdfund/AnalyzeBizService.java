@@ -2,11 +2,15 @@ package com.party.admin.biz.crowdfund;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.party.admin.utils.excel.ExelClolerType;
 import com.party.admin.utils.excel.ExportExcel;
 import com.party.admin.web.dto.output.crowdfund.AnalyzeOutput;
 import com.party.admin.web.dto.output.crowdfund.ProjectForActivityOutput;
+import com.party.admin.web.dto.output.crowdfund.TypeCountOutput;
+import com.party.common.constant.Constant;
 import com.party.common.paging.Page;
 import com.party.common.utils.BigDecimalUtils;
 import com.party.common.utils.DateUtils;
@@ -20,6 +24,10 @@ import com.party.core.service.crowdfund.IProjectLabelService;
 import com.party.core.service.crowdfund.IProjectService;
 import com.party.core.service.crowdfund.ISupportService;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -29,10 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 众筹分析业务接口
@@ -111,6 +116,7 @@ public class AnalyzeBizService {
         for (Date date : list){
             dateList.add(DateUtils.formatDate(date, "yyyy-MM-dd"));
         }
+        Collections.reverse(dateList);
         return dateList;
     }
 
@@ -153,26 +159,24 @@ public class AnalyzeBizService {
             });
             String lables = Joiner.on(",").join(labelNames);
             output.setLabels(lables);
+            output.setStyle(projectAnalyze.getLabelList().get(0).getStyle());
         }
     }
 
 
     /**
      * 保存标签
-     * @param ids 标签编号
+     * @param id 标签编号
      * @param projectId 项目编号
      */
     @Transactional
-    public void labelSave(Set<String> ids, String projectId){
+    public void labelSave(String id, String projectId){
         //删除项目关系
         projectLabelService.deleteByProjectId(projectId);
-
-        for (String id : ids){
-            ProjectLabel projectLabel = new ProjectLabel();
-            projectLabel.setProjectId(projectId);
-            projectLabel.setLabelId(id);
-            projectLabelService.insert(projectLabel);
-        }
+        ProjectLabel projectLabel = new ProjectLabel();
+        projectLabel.setProjectId(projectId);
+        projectLabel.setLabelId(id);
+        projectLabelService.insert(projectLabel);
     }
 
     /**
@@ -195,7 +199,8 @@ public class AnalyzeBizService {
         ExportExcel exportExcel = new ExportExcel(fileName, headerList);
         exportExcel.setWb(new SXSSFWorkbook(500));
         exportExcel.setSheet(exportExcel.getWb().createSheet("Export"));
-        exportExcel.setStyles(exportExcel.createStyles(exportExcel.getWb()));
+        Map<String, CellStyle> styleMap = exportExcel.createStyles(exportExcel.getWb());
+        exportExcel.setStyles(styleMap);
         exportExcel.initialize(fileName, headerList);
         exportExcel = setDataList(list, exportExcel);
         exportExcel.write(response, fileName).dispose();
@@ -211,26 +216,67 @@ public class AnalyzeBizService {
         List<String> dateList = dateStringList();
         for (AnalyzeOutput analyzeOutput : list){
             Row row = exportExcel.addRow();
-            exportExcel.addCell(row, 0, analyzeOutput.getAuthorName());
-            exportExcel.addCell(row, 1, analyzeOutput.getParentName());
-            exportExcel.addCell(row, 2, analyzeOutput.getCityName());
-            exportExcel.addCell(row, 3, analyzeOutput.getCompany());
-            exportExcel.addCell(row, 4, analyzeOutput.getJobTitle());
-            exportExcel.addCell(row, 5, analyzeOutput.getMobile());
-            exportExcel.addCell(row, 6, analyzeOutput.getIsFriend());
-            exportExcel.addCell(row, 7, analyzeOutput.getIsGroup());
-            exportExcel.addCell(row, 8, analyzeOutput.getIsSuccess());
-            exportExcel.addCell(row, 9, analyzeOutput.getFavorerNum());
-            exportExcel.addCell(row, 10, analyzeOutput.getActualAmount());
-            exportExcel.addCell(row, 11, analyzeOutput.getCreateDate());
-            exportExcel.addCell(row, 12, analyzeOutput.getLabels());
+
+            // row样式
+            CellStyle cellStyle = exportExcel.getWb().createCellStyle();
+            if (null != analyzeOutput.getStyle()
+                    && !analyzeOutput.getStyle().equals(ExelClolerType.WHITE.getValue())){
+                short index = ExelClolerType.getIndex(analyzeOutput.getStyle());
+                cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                cellStyle.setFillForegroundColor(index);
+            }
+            exportExcel.addCell(row, 0, analyzeOutput.getAuthorName(), cellStyle);
+            exportExcel.addCell(row, 1, analyzeOutput.getParentName(), cellStyle);
+            exportExcel.addCell(row, 2, analyzeOutput.getCityName(), cellStyle);
+            exportExcel.addCell(row, 3, analyzeOutput.getCompany(), cellStyle);
+            exportExcel.addCell(row, 4, analyzeOutput.getJobTitle(), cellStyle);
+            exportExcel.addCell(row, 5, analyzeOutput.getMobile(), cellStyle);
+            exportExcel.addCell(row, 6, analyzeOutput.getIsFriend(), cellStyle);
+            exportExcel.addCell(row, 7, analyzeOutput.getIsGroup(), cellStyle);
+            exportExcel.addCell(row, 8, analyzeOutput.getIsSuccess(), cellStyle);
+            exportExcel.addCell(row, 9, analyzeOutput.getFavorerNum(), cellStyle);
+            exportExcel.addCell(row, 10, analyzeOutput.getActualAmount(), cellStyle);
+            exportExcel.addCell(row, 11, analyzeOutput.getCreateDate(), cellStyle);
+            exportExcel.addCell(row, 12, analyzeOutput.getLabels(), cellStyle);
             for (int i = 0; i< dateList.size(); i++){
                 String title = dateList.get(i);
-                exportExcel.addCell(row, 13 + i, analyzeOutput.getMoneyMap().get(title));
+                exportExcel.addCell(row, 13 + i, analyzeOutput.getMoneyMap().get(title), cellStyle);
             }
         }
         return exportExcel;
     }
 
-
+    /**
+     * 统计类型数
+     * @param projectAnalyze 分析视图
+     * @return 统计数
+     */
+    public TypeCountOutput countList(ProjectAnalyze projectAnalyze){
+        TypeCountOutput typeCountOutput = new TypeCountOutput();
+        int all = 0;
+        int underway = 0;
+        int isSuccess = 0;
+        int refunding = 0;
+        int refunded = 0;
+        if (!Strings.isNullOrEmpty(projectAnalyze.getTargetId())){
+            all = projectService.sizeForTargetId(projectAnalyze.getTargetId());
+            underway = projectService.sizeForTargetId(projectAnalyze.getTargetId(), Constant.IS_CROWFUND_ING);
+            isSuccess = projectService.sizeForTargetId(projectAnalyze.getTargetId(), Constant.IS_CROWFUND_SUCCESS);
+            refunding = projectService.sizeForTargetId(projectAnalyze.getTargetId(), Constant.CROWDFUND_PROJECT_REFUNDING);
+            refunded = projectService.sizeForTargetId(projectAnalyze.getTargetId(), Constant.CROWDFUND_PROJECT_REFUNDED);
+        }
+        else if (!Strings.isNullOrEmpty(projectAnalyze.getEventId())){
+            all = projectService.countForEvent(projectAnalyze.getTargetId());
+            underway = projectService.countForEvent(projectAnalyze.getTargetId(), Constant.IS_CROWFUND_ING);
+            isSuccess = projectService.countForEvent(projectAnalyze.getTargetId(), Constant.IS_CROWFUND_SUCCESS);
+            refunding = projectService.countForEvent(projectAnalyze.getTargetId(), Constant.CROWDFUND_PROJECT_REFUNDING);
+            refunded = projectService.countForEvent(projectAnalyze.getTargetId(), Constant.CROWDFUND_PROJECT_REFUNDED);
+        }
+        typeCountOutput.setAll(all);
+        typeCountOutput.setUnderway(underway);
+        typeCountOutput.setSuccess(isSuccess);
+        typeCountOutput.setRefunding(refunding);
+        typeCountOutput.setRefunded(refunded);
+        return typeCountOutput;
+    }
 }

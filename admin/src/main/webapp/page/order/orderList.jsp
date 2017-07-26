@@ -170,14 +170,13 @@
 				<div class="cl">
 					<table class="layui-table">
 						<colgroup>
-							<col width="170">
-							<col width="100">
-							<col width="100">
-							<col width="80">
-							<col width="65">
-							<col width="130">
-							<col width="100">
-							<col width="70">
+							<col>
+							<col>
+							<col>
+							<col width="90px">
+							<col width="90px">
+							<col width="150px">
+							<col width="100px">
 						</colgroup>
 						<thead>
 							<tr>
@@ -193,8 +192,8 @@
 						<tbody>
 							<c:forEach var="orderForm" items="${orderForms}">
 							<tr>
-								<td class="table-member" title="${orderForm.title}" onclick="openDialogNoButton('订单详情','${ctx}/order/order/orderInfo.do?id=${orderForm.id}','450px','570px')">
-									<div class="member-name ellipsis-1 blue" style="cursor: pointer">${orderForm.title}</div>
+								<td class="ellipsis-1 " title="${orderForm.title}" onclick="openDialogNoButton('订单详情','${ctx}/order/order/orderInfo.do?id=${orderForm.id}','450px','570px')">
+									<a style="width: 250px;cursor: pointer;" class="blue">${orderForm.title}</a>
 								</td>
 								<td class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${orderForm.member.id}','400px','470px')">
 									<div class="member-cell">

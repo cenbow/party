@@ -31,7 +31,7 @@
 	width: auto !important;
 }
 </style>
-</head
+</head>
 <!--头部-->
 <%@include file="../include/header.jsp"%>
 <div class="index-outside">

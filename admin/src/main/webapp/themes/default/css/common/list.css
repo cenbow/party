@@ -204,7 +204,6 @@
 	padding-top: 10px;
 }
 .page-content .page-container{
-	width: 760px!important;
 	float: right;
 }
 
@@ -252,4 +251,21 @@
 }
 .layui-tab-brief>.layui-tab-title .layui-this:after{
 	border-bottom-color: #e8473f!important;
+}
+
+/*每页显示条数*/
+.ui-page-size{
+	float: right;
+	display: inline-block;
+	vertical-align: middle;
+	padding: 10px;
+	font-size: 12px;
+	color: #999999;
+}
+.layui-form .ui-page-size input[type=text]{
+	height: 32px;
+	width: 100px !important;
+}
+.ui-page-size .layui-form-select {
+	margin: 0 5px;
 }

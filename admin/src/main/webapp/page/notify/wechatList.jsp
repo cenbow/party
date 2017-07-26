@@ -56,16 +56,16 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="100">
-                            <col width="100">
-                            <col width="100">
-                            <col width="100">
+                            <col>
+                            <col>
+                            <col>
+                            <col>
                         </colgroup>
                         <thead>
                         <tr>
                             <th>消息事件</th>
                             <th>模板编号</th>
-                            <th>连接</th>
+                            <th>链接</th>
                             <th>操作</th>
                         </tr>
                         </thead>

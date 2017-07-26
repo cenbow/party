@@ -90,15 +90,15 @@
 					</div>
 					<p class="cl"></p>
 				</ul>
-				<div class="cl">
+				<div class="cl  ul-extra-table">
 					<ul class="header">
 						<li style="width: 20%;">提现者</li>
 						<li style="width: 20%">提现账号</li>
-						<li style="width: 13%">提现金额</li>
-						<li style="width: 13%">提现时间</li>
+						<li style="width: 100px">提现金额</li>
+						<li style="width: 150px">提现时间</li>
 						<li style="width: 6%">状态</li>
 						<li style="width: 8%">操作</li>
-						<li style="width: 7%">展开详情</li>
+						<li style="width: 30px">展开</li>
 					</ul>
 					<div id="view" class="cl content-body">
 						<c:if test="${page.totalCount == 0}">
@@ -107,7 +107,7 @@
 						<c:forEach var="withdrawal" items="${withdrawals}">
 							<div class="info">
 								<ul class="content">
-									<li style="width: 20%;" class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${withdrawal.member.id}','400px','470px')">
+									<li class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${withdrawal.member.id}','400px','470px')">
 										<div class="member-cell">
 											<div class="member-logo" style="background-image: url('${withdrawal.member.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
 											<div class="member-name ellipsis-1">
@@ -115,10 +115,10 @@
 											</div>
 										</div>
 									</li>
-									<li style="width: 20%">${withdrawal.accountNumber}</li>
-									<li style="width: 13%">¥<fmt:formatNumber pattern="#.##" value="${withdrawal.payment}"/></li>
-									<li style="width: 13%"><fmt:formatDate value="${withdrawal.createDate}" pattern="yyyy-MM-dd HH:mm" /></li>
-									<li style="width: 6%">
+									<li>${withdrawal.accountNumber}</li>
+									<li>¥<fmt:formatNumber pattern="#.##" value="${withdrawal.payment}"/></li>
+									<li><fmt:formatDate value="${withdrawal.createDate}" pattern="yyyy-MM-dd HH:mm" /></li>
+									<li>
 										<c:if test="${withdrawal.status == 1}">
 											<span>处理中</span>
 										</c:if>
@@ -129,13 +129,13 @@
 											<span>已拒绝</span>
 										</c:if>
 									</li>
-									<li style="width: 8%">
+									<li>
 										<c:if test="${withdrawal.status == 1}">
 											<a class="green" href="javascript:check('确认要审核通过该提现吗？', '${withdrawal.id}', '2')" >通过</a>
 											<a class="red" href="javascript:check('确认要审核拒绝该提现吗？', '${withdrawal.id}', '3')" >拒绝</a>
 										</c:if>
 									</li>
-									<li style="width: 7%;" class="option"><i class="iconfont icon-unfold"></i>
+									<li class="option"><i class="iconfont icon-unfold"></i>
 										<i class="iconfont icon-fold"></i></li>
 									<div class="cl"></div>
 								</ul>
@@ -177,6 +177,7 @@
 <!--底部-->
 <%@include file="../include/footer.jsp"%>
 <script type="text/javascript" charset="utf-8" src="${ctx}/script/common/list.js"></script>
+<script type="text/javascript" charset="utf-8" src="${ctx}/script/common/table_option.js"></script>
 <script type="text/javascript">
 
     showActive('${input.createStart}', '${input.createEnd}', '#timeType');

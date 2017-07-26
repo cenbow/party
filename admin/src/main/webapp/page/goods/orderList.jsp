@@ -97,12 +97,13 @@
 				<div class="cl">
 					<table class="layui-table">
 						<colgroup>
-							<col width="180">
-							<col width="120">
-							<col width="120">
-							<col width="80">
-							<col width="100">
 							<col>
+							<col>
+							<col width="130px">
+							<col>
+							<col>
+							<col>
+							<col width="150px">
 							<col>
 						</colgroup>
 						<thead>

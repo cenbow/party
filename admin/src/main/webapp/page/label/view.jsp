@@ -7,10 +7,12 @@
     <%@include file="../include/commonFile.jsp"%>
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
     <link rel="stylesheet" href="${ctx}/themes/default/css/ui/activity/publish_form.css">
+    <link rel="stylesheet" href="${ctx}/themes/default/css/ui/lable/lable.css">
     <style>
         .layui-form-label{
             width: 120px!important
         }
+
     </style>
 </head>
 <!--头部-->
@@ -40,6 +42,25 @@
                                    value="${label.name}"
                             >
                         </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">风格<span class="f-verify-red">*</span></label>
+                    <div class="layui-input-block">
+                        <input name="style" value="blue" lay-verify="style" id="style" type="hidden">
+                        <ul class="styles-body pt5">
+                            <li class="white  <c:if test="${empty label.style || label.style == 'white'}">c-active</c:if>"></li>
+                            <li class="blue  <c:if test="${label.style == 'blue'}">c-active</c:if>"></li>
+                            <li class="darkblue <c:if test="${label.style == 'darkblue'}">c-active</c:if>"></li>
+                            <li class="green <c:if test="${label.style == 'green'}">c-active</c:if>"></li>
+                            <li class="orange <c:if test="${label.style == 'orange'}">c-active</c:if>"></li>
+                            <li class="purple <c:if test="${label.style == 'purple'}">c-active</c:if>"></li>
+                            <li class="pink <c:if test="${label.style == 'pink'}">c-active</c:if>"></li>
+                            <li class="red <c:if test="${label.style == 'red'}">c-active</c:if>"></li>
+                            <li class="gray <c:if test="${label.style == 'gray'}">c-active</c:if>"></li>
+                            <li class="brown <c:if test="${label.style == 'brown'}">c-active</c:if>"></li>
+                        </ul>
                     </div>
                 </div>
 
@@ -84,6 +105,14 @@
                 return false;
             });
 
+            $('.styles-body li').click(function (e) {
+                if(!$(this).hasClass('c-active')){
+                    $('.styles-body .c-active').removeClass('c-active');
+                    style = this.className;
+                    $("#style").val(style.trim());
+                    $(this).addClass('c-active');
+                }
+            })
         });
     })
 

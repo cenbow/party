@@ -21,15 +21,15 @@
 		}
 
 		.styles-body .orange {
-			background: #F90
+			background: #FF9900
 		}
 
 		.styles-body .purple {
-			background: #969
+			background: #996699
 		}
 
 		.styles-body .pink {
-			background: #F99
+			background: #FF9999
 		}
 
 		.styles-body .red {
@@ -37,11 +37,11 @@
 		}
 
 		.styles-body .gray {
-			background: #999
+			background: #999999
 		}
 
 		.styles-body .brown {
-			background: #996
+			background: #999966
 		}
 
 		.styles-body li {

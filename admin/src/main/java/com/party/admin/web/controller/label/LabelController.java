@@ -38,6 +38,7 @@ public class LabelController {
      */
     @RequestMapping(value = "list")
     public ModelAndView list(Label label, Page page){
+        page.setLimit(20);
         ModelAndView modelAndView = new ModelAndView("label/list");
         List<Label> labelList = labelService.listPage(label, page);
         modelAndView.addObject("list", labelList);

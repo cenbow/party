@@ -50,7 +50,7 @@
                         <div class="f-search-bar">
                             <div class="search-container">
                                 <ul class="search-form-content">
-                                    <li class="form-item-inline"><label class="search-form-lable">成员名：</label>
+                                    <li class="form-item-inline"><label class="search-form-lable">成员名</label>
                                         <div class="layui-input-inline">
                                             <input type="text" name="memberName" autocomplete="off" class="layui-input" value="${groupMember.memberName}"
                                                    placeholder="请输入查询成员名"
@@ -58,7 +58,7 @@
                                         </div>
                                     </li>
                                     <c:if test="${show}">
-                                        <li class="form-item-inline"><label class="search-form-lable">所属队伍：</label>
+                                        <li class="form-item-inline"><label class="search-form-lable">所属队伍</label>
                                             <div class="layui-input-inline">
                                                 <select name="groupId" >
                                                     <option value="">全部</option>
@@ -86,15 +86,14 @@
                         <div class="cl">
                             <table class="layui-table">
                                 <colgroup>
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
-                                    <col width="100">
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col width="130px">
+                                    <col>
+                                    <col width="150px">
+                                    <col>
+                                    <col>
                                 </colgroup>
                                 <thead>
                                 <tr>

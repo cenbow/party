@@ -78,12 +78,12 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="100">
-                            <col width="80">
-                            <col width="100">
-                            <col width="80">
-                            <col width="80">
-                            <col width="250">
+                            <col>
+                            <col width="90px">
+                            <col>
+                            <col width="60px">
+                            <col width="90px">
+                            <col>
                         </colgroup>
                         <thead>
                         <tr>

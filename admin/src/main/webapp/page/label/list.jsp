@@ -34,9 +34,9 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="100">
-                            <col width="100">
-                            <col width="100">
+                            <col>
+                            <col width="150px">
+                            <col>
                         </colgroup>
                         <thead>
                         <tr>

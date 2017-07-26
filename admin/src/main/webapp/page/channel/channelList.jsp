@@ -95,7 +95,7 @@
 										</p>
 										<p class="start-time ell" style="width: 90%" title="${ channel.remarks }">描述：${ channel.remarks }</p>
 									</div>
-									<div class="opts-btns tb-opts"  style="bottom:-8px;width:555px">
+									<div class="opts-btns tb-opts" >
 										<div class="comm-opts">
 											<a class="qr-btn" href="javascript:void(0);"><i class="iconfont icon-qrcode btn-icon"></i> 二维码</a>
 											<a href="${ctx}/channel/channel/channelForm.do?id=${channel.id}"> <i class="iconfont icon-edit btn-icon"></i> 编辑</a>

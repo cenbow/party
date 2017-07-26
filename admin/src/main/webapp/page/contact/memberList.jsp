@@ -81,13 +81,13 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="10%">
-                            <col width="15%">
-                            <col width="10%">
-                            <col width="10%">
-                            <col width="25%">
-                            <col width="15%">
-                            <col width="15%">
+                            <col>
+                            <col>
+                            <col>
+                            <col width="130px">
+                            <col width="150px">
+                            <col width="90px">
+                            <col width="110px">
                         </colgroup>
                         <thead>
                         <tr>
@@ -107,7 +107,7 @@
                                     <div class="member-cell">
                                         <div class="member-logo" style="background-image: url('${gmember.logo}'),url(${ctx}/image/def_user_logo.png)"></div>
                                         <div class="member-name ellipsis-1"><a class="blue" title="${gmember.realname}" href="javascript:void(0);">${gmember.realname}</a></div>
-                                        <div class="member-cell">
+                                    </div>
                                 </td>
                                 <td><a style="width:20%" class="ellipsis-1" title="${gmember.company}">${gmember.company}</a></td>
                                 <td><a style="width:20%" class="ellipsis-1" title="${gmember.job_title}">${gmember.job_title}</a></td>

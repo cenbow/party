@@ -78,8 +78,8 @@
 						<colgroup>
 							<col>
 							<col>
-							<col>
-							<col>
+							<col width="90px">
+							<col width="150px">
 							<col>
 						</colgroup>
 						<thead>

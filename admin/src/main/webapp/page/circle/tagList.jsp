@@ -53,11 +53,10 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="300">
-                            <col width="150">
-                            <col width="150">
-                            <col width="180">
-                            <col width="330">
+                            <col>
+                            <col>
+                            <col width="150px">
+                            <col>
                         </colgroup>
                         <thead>
                         <tr>

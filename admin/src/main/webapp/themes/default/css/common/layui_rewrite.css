@@ -21,7 +21,11 @@
     -moz-transition:all .3s;
     transition: all .3s;
     -webkit-transition: all .3s;
+    word-wrap: break-word;
 }
 .layui-table tr:hover th, .layui-table[lay-even] tr:nth-child(even) th{
     background-color: #f8f8f8;
+}
+.section-main .layui-table {
+    table-layout: fixed;
 }

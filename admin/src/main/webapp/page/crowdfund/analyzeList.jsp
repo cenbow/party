@@ -7,7 +7,7 @@
     <%@include file="../include/commonFile.jsp"%>
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/table.css">
-
+    <link rel="stylesheet" href="${ctx}/themes/default/css/ui/lable/lable.css">
 </head>
 <%@include file="../include/header.jsp"%>
 <body>
@@ -27,11 +27,11 @@
             <div class="layui-tab-item layui-show" >
                 <div class="layui-tab layui-tab-brief" lay-filter="zc">
                     <ul class="layui-tab-title" id="zc_tab">
-                        <li <c:if test="${empty projectAnalyze.isSuccess}">class="layui-this"</c:if>>全部</li>
-                        <li <c:if test="${projectAnalyze.isSuccess == 0}">class="layui-this"</c:if>>众筹中</li>
-                        <li <c:if test="${projectAnalyze.isSuccess == 1}">class="layui-this"</c:if>>众筹成功</li>
-                        <li <c:if test="${projectAnalyze.isSuccess == 3}">class="layui-this"</c:if>>退款中</li>
-                        <li <c:if test="${projectAnalyze.isSuccess == 4}">class="layui-this"</c:if>>退款成功</li>
+                        <li <c:if test="${empty projectAnalyze.isSuccess}">class="layui-this"</c:if>>全部<span id="total_0" class="pl5">${count.all}</span>人</li>
+                        <li <c:if test="${projectAnalyze.isSuccess == 0}">class="layui-this"</c:if>>众筹中<span id="total_0" class="pl5">${count.underway}</span>人</li>
+                        <li <c:if test="${projectAnalyze.isSuccess == 1}">class="layui-this"</c:if>>众筹成功<span id="total_0" class="pl5">${count.success}</span>人</li>
+                        <li <c:if test="${projectAnalyze.isSuccess == 3}">class="layui-this"</c:if>>退款中<span id="total_0" class="pl5">${count.refunding}</span>人</li>
+                        <li <c:if test="${projectAnalyze.isSuccess == 4}">class="layui-this"</c:if>>退款成功<span id="total_0" class="pl5">${count.refunded}</span>人</li>
                     </ul>
                     <div class="layui-tab-content">
                         <form class="layui-form" action="${ctx}/crowdfund/analyze/list.do" id="myForm" method="post">
@@ -42,20 +42,20 @@
                             <div class="f-search-bar">
                                 <div class="search-container">
                                     <ul class="search-form-content">
-                                        <li class="form-item-inline"><label class="search-form-lable">众筹者：</label>
+                                        <li class="form-item-inline"><label class="search-form-lable" style="margin-left: 14px;">众筹者</label>
                                             <div class="layui-input-inline">
                                                 <input type="text" name="authorName" autocomplete="off" class="layui-input" value="${projectAnalyze.authorName}"
-                                                       placeholder="众筹者"
+                                                       placeholder="众筹者" style="width: 212px"
                                                 >
                                             </div></li>
-                                        <li class="form-item-inline"><label class="search-form-lable">联系电话：</label>
+                                        <li class="form-item-inline"><label class="search-form-lable" style="margin-left: 28px;">联系电话</label>
                                             <div class="layui-input-inline">
                                                 <input type="text" name="authorMobile" autocomplete="off" class="layui-input" value="${projectAnalyze.mobile}"
-                                                       placeholder="联系电话"
+                                                       placeholder="联系电话" style="width: 212px"
                                                 >
                                             </div>
                                         </li>
-                                        <li class="form-item-inline"><label class="search-form-lable">排序方式：</label>
+                                        <li class="form-item-inline"><label class="search-form-lable">排序方式</label>
                                             <div class="layui-input-inline">
                                                 <select name="sort">
                                                     <option value="0" ${projectAnalyze.sort == 0 ? 'selected="selected"' : ''}>金额最多</option>
@@ -65,14 +65,14 @@
                                         </li>
                                     </ul>
                                     <ul class="search-form-content">
-                                        <li class="form-item-inline"><label class="search-form-lable">渠&nbsp;&nbsp;&nbsp;道：</label>
+                                        <li class="form-item-inline"><label class="search-form-lable" style="margin-left: 28px;">渠道</label>
                                             <div class="layui-input-inline">
                                                 <input type="text" name="parentName" autocomplete="off" class="layui-input" value="${projectAnalyze.parentName}"
-                                                       placeholder="渠道"
+                                                       placeholder="渠道" style="width: 212px"
                                                 >
                                             </div>
                                         </li>
-                                        <li class="form-item-inline"><label class="search-form-lable">加好友：</label>
+                                        <li class="form-item-inline"><label class="search-form-lable" style="margin-left: 14px;">加好友</label>
                                             <div class="layui-input-inline">
                                                 <select name="isFriend">
                                                     <option value="">全部</option>
@@ -81,7 +81,7 @@
                                                 </select>
                                             </div>
                                         </li>
-                                        <li class="form-item-inline"><label class="search-form-lable">入群：</label>
+                                        <li class="form-item-inline"><label class="search-form-lable">入群</label>
                                             <div class="layui-input-inline">
                                                 <select name="isGroup">
                                                     <option value="">全部</option>
@@ -92,7 +92,7 @@
                                         </li>
                                     </ul>
                                     <ul class="search-form-content">
-                                        <li class="form-item-inline"><label class="search-form-lable">筛选金额：</label>
+                                        <li class="form-item-inline"><label class="search-form-lable">筛选金额</label>
                                             <div class="layui-input-inline">
                                                 <select name="operator">
                                                     <option value="0" <c:if test="${projectAnalyze.operator == 0}">selected</c:if>>等于</option>
@@ -112,7 +112,7 @@
                                         </li>
                                     </ul>
                                     <ul class="search-form-content">
-                                        <li class="form-item"><label class="search-form-lable">分析状态： </label>
+                                        <li class="form-item"><label class="search-form-lable">分析状态 </label>
                                             <div class="check-btn-inner" id="timeType">
                                                 <a id="all" href="javascript:void(0);" onclick="setTimeType($(this),'','#myForm')" ${empty projectAnalyze.labelId ? 'class="active"' : ''}>全部</a>
                                                 <c:forEach var="label" items="${labelList}">
@@ -151,7 +151,7 @@
                                     </thead>
                                     <tbody>
                                     <c:forEach var="analyze" items="${list}">
-                                        <tr>
+                                        <tr <c:if test="${not empty analyze.style && analyze.style != 'white'}" >class="${analyze.style}"</c:if> >
                                             <td class="jfix-td-item" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${analyze.authorId}','400px','470px')">
                                                 <div class="table-member">
                                                     <div class="member-cell">
@@ -168,8 +168,8 @@
                                                     <a href="javascript:openDialogShow('数据查看','${ctx}/crowdfund/support/chartView.do?projectId=${analyze.id}','1050px','500px')" target="_self">
                                                         数据查看
                                                     </a>
-                                                    <a href="javascript:openDialog('分配标签','${ctx}/crowdfund/analyze/labelView.do?projectId=${analyze.id}','400px','300px')" target="_self">
-                                                        分配标签
+                                                    <a href="javascript:openDialog('设置状态','${ctx}/crowdfund/analyze/labelView.do?projectId=${analyze.id}','400px','300px')" target="_self">
+                                                        设置状态
                                                     </a>
                                                     <a href="javascript:records('${analyze.id}')" target="_self">
                                                         跟进记录
@@ -223,7 +223,7 @@
                                     </thead>
                                     <tbody >
                                     <c:forEach var="analyze" items="${list}">
-                                        <tr>
+                                        <tr <c:if test="${not empty analyze.style && analyze.style != 'white'}" >class="${analyze.style}"</c:if>>
                                             <td >
                                                     ${analyze.cityName}
                                             </td>

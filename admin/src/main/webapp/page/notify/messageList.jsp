@@ -61,11 +61,11 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="10%">
-                            <col width="10%">
-                            <col width="60%">
-                            <col width="10%">
-                            <col width="10%">
+                            <col width="150px">
+                            <col width="130px">
+                            <col>
+                            <col width="90px">
+                            <col width="90px">
                         </colgroup>
                         <thead>
                         <tr>

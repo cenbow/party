@@ -68,7 +68,7 @@ public class QuartzReviseCrowdfund {
             //更新所有支持
             for (Support support : supportList){
                 OrderForm orderForm = orderFormService.get(support.getOrderId());
-                if (orderForm != null && support.getPayStatus() + 1 != orderForm.getStatus()){
+                if (support.getPayStatus() + 1 != orderForm.getStatus()){
                     support.setPayStatus(orderForm.getStatus() - 1);
                     supportService.update(support);
                 }

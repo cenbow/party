@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
 <link rel="stylesheet" href="${ctx}/themes/default/css/common/table.css">
 <style type="text/css">
-.layui-table td, .layui-table th {
-	padding-left: 5px !important;
-	padding-right: 5px !important;
-}
+/*.layui-table td, .layui-table th {*/
+	/*padding-left: 5px !important;*/
+	/*padding-right: 5px !important;*/
+/*}*/
 
 .word-break {
 	overflow: hidden;
@@ -34,6 +34,12 @@
 	<%@include file="../include/sidebar.jsp"%>
 	<!--内容-->
 	<section>
+		<c:if test="${not empty project.id && empty group.id}">
+		<form class="layui-form" action="${ctx}/gatherInfo/member/list.do?projectId=${project.id}" id="myForm" method="post">
+			</c:if>
+			<c:if test="${not empty group.id}">
+			<form class="layui-form" action="${ctx}/gatherInfo/member/list.do?pGroupId=${group.id}" id="myForm" method="post">
+				</c:if>
 		<div class="section-main">
 			<div class="c-time-list-header">
           		<div class="r">
@@ -64,12 +70,7 @@
 					</c:if>
 				</div>
 			</div>
-			<c:if test="${not empty project.id && empty group.id}">
-				<form class="layui-form" action="${ctx}/gatherInfo/member/list.do?projectId=${project.id}" id="myForm" method="post">
-			</c:if>
-			<c:if test="${not empty group.id}">
-				<form class="layui-form" action="${ctx}/gatherInfo/member/list.do?pGroupId=${group.id}" id="myForm" method="post">
-			</c:if>
+
 				<input type="hidden" name="pageNo" id="pageNo" value="${page.page}" />
 				<div class="f-search-bar">
 					<div class="search-container">
@@ -124,17 +125,6 @@
 						</ul>
 						<ul class="search-form-content">
 							<li class="form-item-inline">
-								<label class="search-form-lable">分&emsp;&emsp;页</label>
-								<div class="layui-input-inline">
-									<select name="limit">
-										<option value="">请选择</option>
-										<option value="20" ${input.limit == 20 ? 'selected="selected"' : ''}>20</option>
-										<option value="50" ${input.limit == 50 ? 'selected="selected"' : ''}>50</option>
-										<option value="100" ${input.limit == 100 ? 'selected="selected"' : ''}>100</option>
-									</select>
-								</div>
-							</li>
-							<li class="form-item-inline">
 								<label class="search-form-lable">性&emsp;&emsp;别</label>
 								<div class="layui-input-inline">
 									<select name="sex">
@@ -161,6 +151,9 @@
 									<div class="sub-btns" style="width: 263px"></div>
 								</li>
 							</c:if>
+							<li class="form-item-inline">
+								<div style="width: 282px"></div>
+							</li>
 						</ul>
 						<ul class="search-form-content">
 							<li class="form-item"><label class="search-form-lable">填写时间</label>
@@ -190,7 +183,7 @@
 						</ul>
 					</div>
 				</div>
-			</form>
+
 			<div class="my-act-list-content">
 				<ul class="num">
 					<div class="r">
@@ -211,17 +204,17 @@
 				<div class="cl">
 					<table class="layui-table">
 						<colgroup>
-							<col width="90">
-							<col width="100">
-							<col width="90">
-							<col width="40">
-							<col width="90">
-							<col width="90">
-							<col width="100">
-							<col width="70">
-							<col width="70">
-							<col width="70">
-							<col width="135">
+							<col>
+							<col>
+							<col width="90px">
+							<col width="60px">
+							<col>
+							<col>
+							<col width="130px">
+							<col width="90px">
+							<col width="90px">
+							<col width="90px">
+							<col>
 						</colgroup>
 						<thead>
 							<tr>
@@ -229,13 +222,13 @@
 								<th>用户</th>
 								<th>真实姓名</th>
 								<th>性别</th>
-								<th style="text-align: center;">公司</th>
-								<th style="text-align: center;">职务</th>
-								<th style="text-align: center;">手机</th>
+								<th>公司</th>
+								<th>职务</th>
+								<th>手机</th>
 								<th>基本信息</th>
 								<th>保险信息</th>
 								<th>行程信息</th>
-								<th style="text-align: center;">操作</th>
+								<th>操作</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -249,11 +242,11 @@
 										</div>
 									</td>
 									<td title="${memberInfo.fullname}"><div class="word-break">${memberInfo.fullname}</div></td>
-									<td style="text-align: center;"><c:if test="${memberInfo.sex == 1}">男</c:if><c:if test="${memberInfo.sex == 0}">女</c:if></td>
+									<td><c:if test="${memberInfo.sex == 1}">男</c:if><c:if test="${memberInfo.sex == 0}">女</c:if></td>
 									<td title="${memberInfo.company}"><div class="word-break">${memberInfo.company}</div></td>
 									<td title="${memberInfo.jobTitle}"><div class="word-break">${memberInfo.jobTitle}</div></td>
 									<td>${memberInfo.mobile}</td>
-									<td style="text-align: center;">
+									<td>
 										<c:if test="${not empty memberInfo.fullname}">
 											<a class="blue" href="javascript:openDialogNoButton('基本信息','${ctx}/gatherInfo/member/getBaseInfo.do?gMemberId=${memberInfo.id}','450px','660px')">查看</a>
 											<c:choose>
@@ -266,7 +259,7 @@
 											/
 										</c:if>
 									</td>
-									<td style="text-align: center;">
+									<td>
 										<c:if test="${not empty memberInfo.idCard}">
 											<a class="blue" href="javascript:openDialogNoButton('保险信息','${ctx}/gatherInfo/member/getInsuranceInfo.do?memberId=${memberInfo.memberId}','450px','600px')">查看</a>
 											<c:choose>
@@ -279,7 +272,7 @@
 											/
 										</c:if>
 									</td>
-									<td style="text-align: center;">
+									<td>
 										<c:if test="${not empty memberInfo.goTime}">
 											<a class="blue" href="javascript:openDialogNoButton('行程信息','${ctx}/gatherInfo/member/getItineraryInfo.do?id=${memberInfo.id}','450px','600px')">查看</a>
 											<c:choose>
@@ -315,12 +308,27 @@
 				</div>
 			</div>
 		</div>
-		<div class="page-content">
-			<c:if test="${page.totalCount > 0}">
-				<div class="l page-totalcount"><span class="f14 red">共<b id="totalCount">${page.totalCount}</b>条记录</span></div>
-			</c:if>
-			<div id="page_content" class="page-container"></div>
-		</div>
+					<div class="page-content">
+						<c:if test="${page.totalCount > 0}">
+							<div class="l page-totalcount"><span class="f14 red">共<b id="totalCount">${page.totalCount}</b>条记录</span></div>
+						</c:if>
+						<div id="page_content" class="page-container"></div>
+						<c:if test="${page.totalCount > 20}">
+						<div class="ui-page-size">
+							<div class="dib">每页显示</div>
+							<div class="layui-input-inline">
+								<select name="limit" lay-filter="limit">
+									<option value="">请选择</option>
+									<option value="20" ${input.limit == 20 ? 'selected="selected"' : ''}>20</option>
+									<option value="50" ${input.limit == 50 ? 'selected="selected"' : ''}>50</option>
+									<option value="100" ${input.limit == 100 ? 'selected="selected"' : ''}>100</option>
+								</select>
+							</div>
+							<div class="dib">条</div>
+						</div>
+						</c:if>
+					</div>
+			</form>
 	</section>
 </div>
 <!--底部-->
@@ -389,6 +397,12 @@
 	$(function() {
         //加载分页
         loadPage("page_content", '${page.totalPages}', '${page.page}', '#myForm');
+        layui.use([ 'form'], function() {
+            var form  = layui.form();
+            form.on('select(limit)', function(data) {
+                submitFunction('#myForm');
+            });
+        });
 		$("#btnExport").click(function() {
 			layer.confirm('确认要导出Excel吗?', {
 				icon : 3,
