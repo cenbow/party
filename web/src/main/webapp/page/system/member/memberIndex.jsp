@@ -34,8 +34,13 @@
     }
 </style>
 
+<div class="c-time-list-header">
+    <div class="ovh">
+        <span class="title f20">个人中心</span>
+    </div>
+</div>
 <!-- 个人资料，余额 -->
-<div class="member-index-top">
+<div class="member-index-top mt20">
     <!-- 左边 -->
     <div class="top-left">
         <div class="mr20"><img class="logo" src="${member.logo}" alt=""></div>
@@ -43,7 +48,7 @@
             <div class="f18 mb15">
                 <span>${member.realname}</span>
                 <span class="iconfont icon-huangguan huangguan-big" ${member.isExpert != 1 ? 'style="display: none;"' : '' } ></span>
-                <a href="${ctx}/system/member/memberForm.do" target="_blank"
+                <a href="${ctx}/system/member/memberForm.do" target="_self"
                    class="layui-btn layui-btn-danger layui-btn-small ml10"
                    style="padding-left: 15px; padding-right: 15px;"><i class="iconfont icon-edit btn-icon"></i>
                     编辑个人资料</a>
@@ -53,14 +58,14 @@
                     <span>账号等级：</span>
                     <c:if test="${null == productPackage}">
                         <span>无</span>
-                        <a href="${ctx}/charge/package/packageList.do" target="_blank"
+                        <a href="${ctx}/charge/package/packageList.do" target="_self"
                            class="layui-btn layui-btn-danger layui-btn-small ml10"
                            style="padding-left: 15px; padding-right: 15px;"><i
                                 class="iconfont icon-choiceness btn-icon"></i> 开通</a>
                     </c:if>
                     <c:if test="${null != productPackage}">
                         <span>${productPackage.name}</span>
-                        <a href="${ctx}/charge/package/packageList.do" target="_blank"
+                        <a href="${ctx}/charge/package/packageList.do" target="_self"
                            class="layui-btn layui-btn-danger layui-btn-small ml10"
                            style="padding-left: 15px; padding-right: 15px;"><i
                                 class="iconfont icon-choiceness btn-icon"></i> 升级</a>
@@ -69,13 +74,13 @@
                 <div class="info-div">
                     <span>账户余额： </span>
                     <span><b class="active-red"><fmt:formatNumber pattern="#,###.##" value="${totalPayment}"/></b>元</span>
-                    <a href="${ctx}/wallet/withdrawals/withdrawalForm.do" target="_blank"
+                    <a href="${ctx}/wallet/withdrawals/withdrawalForm.do" target="_self"
                        class="layui-btn layui-btn-danger layui-btn-small ml10"
                        style="padding-left: 15px; padding-right: 15px;"><i class="iconfont icon-recharge btn-icon"></i>
                         提现</a>
                 </div>
             </div>
-            <c:if test="${null != productPackage}">
+            <%--<c:if test="${null != productPackage}">
                 <div class="display-flex">
                     <div class="info-div">
                         <span>到期时间：</span>
@@ -91,7 +96,24 @@
                                 class="iconfont icon-choiceness btn-icon"></i> 续期</a>
                     </div>
                 </div>
-            </c:if>
+            </c:if>--%>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(function () {
+        layui.use([ 'element' ], function() {
+            var element = layui.element();
+
+            element.on('tab', function (data) {
+                if (data.index == 0) {
+                    location.href = "${ctx}/order/order/tradeList.do";
+                } else if(data.index == 1){
+                    location.href = "${ctx}/order/order/orderList.do";
+                } else if (data.index == 2) {
+                    location.href = "${ctx}/order/order/withdrawList.do";
+                }
+            });
+        });
+    });
+</script>

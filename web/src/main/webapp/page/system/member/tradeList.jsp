@@ -24,23 +24,8 @@
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <form class="layui-form" action="${ctx}/system/member/tradeList.do" id="myForm" method="post">
-                            <input type="hidden" name="pageNo" id="pageNo"/>
-                            <div class="f-search-bar">
-                                <div class="search-container">
-                                    <ul class="search-form-content">
-                                        <li class="form-item"><label class="search-form-lable">订单类型</label>
-                                            <div class="check-btn-inner">
-                                                <a id="all" href="javascript:void(0);" onclick="setTimeType($(this),'','#myForm')" ${empty orderForm.type ? 'class="active"' : ''}>全部</a>
-                                                <c:forEach var="map" items="${orderTypes}">
-                                                    <a href="javascript:void(0);" onclick="setTimeType($(this),'${map.key}','#myForm')" ${orderForm.type == map.key ? 'class="active"' : ''}>${map.value}</a>
-                                                </c:forEach>
-                                                <input type="hidden" name="type" value="${orderForm.type}" />
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <form class="layui-form" action="${ctx}/order/order/tradeList.do" id="myForm" method="post">
+                            <input type="hidden" name="pageNo" id="pageNo" value="${page.page}" />
                         </form>
                         <div class="my-act-list-content">
                             <ul class="num">
@@ -52,11 +37,12 @@
                             <div class="cl">
                                 <table class="layui-table">
                                     <colgroup>
-                                        <col width="400">
-                                        <col width="120">
-                                        <col width="90">
-                                        <col width="90">
-                                        <col width="140">
+                                        <col>
+                                        <col>
+                                        <col>
+                                        <col>
+                                        <col>
+                                        <col>
                                     </colgroup>
                                     <thead>
                                     <tr>
@@ -64,6 +50,7 @@
                                         <th>订单类型</th>
                                         <th>金额</th>
                                         <th>订单状态</th>
+                                        <th>支付方式</th>
                                         <th>下单时间</th>
                                     </tr>
                                     </thead>
@@ -101,6 +88,14 @@
                                                     </c:when>
                                                 </c:choose>
                                             </td>
+                                            <td>
+                                                <div>
+                                                    <c:choose>
+                                                        <c:when test="${orderForm.paymentWay == 1}">微信</c:when>
+                                                        <c:when test="${orderForm.paymentWay == 0}">支付宝</c:when>
+                                                    </c:choose>
+                                                </div>
+                                            </td>
                                             <td><fmt:formatDate value="${orderForm.createDate}" pattern="yyyy-MM-dd HH:mm"/></td>
                                         </tr>
                                     </c:forEach>
@@ -131,20 +126,6 @@
 <script type="text/javascript">
 
     $(function () {
-        layui.use(['element'], function () {
-            var element = layui.element();
-
-            element.on('tab', function (data) {
-                if (data.index == 0) {
-                    location.href = "${ctx}/system/member/tradeList.do";
-                } else if(data.index == 1){
-                    location.href = "${ctx}/system/member/orderList.do";
-                } else if (data.index == 2) {
-                    location.href = "${ctx}/system/member/withdrawList.do";
-                }
-            });
-        });
-
         //加载分页
         loadPage("page_content", '${page.totalPages}', '${page.page}', '#myForm');
 
@@ -154,7 +135,7 @@
                 icon: 3,
                 title: '系统提示'
             }, function (index) {
-                var url = "${ctx}/wallet/exportOrder.do";
+                var url = "${ctx}/order/order/exportTradeOrder.do";
                 var action = $("#myForm").attr("action");
                 $("#myForm").attr("action", url);
                 $("#myForm").submit();

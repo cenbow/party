@@ -223,7 +223,7 @@ public class PayAliPcController {
     @RequestMapping("returnUrlResult")
     public ModelAndView returnUrlResult(HttpServletRequest request) {
         logger.info("收到支付宝同步通知！");
-        ModelAndView mv = new ModelAndView("redirect:/charge/package/packageList.do");
+        ModelAndView mv = new ModelAndView("redirect:/system/member/memberIndex.do");
         Map<String, String> params = Maps.newHashMap();
         //取出所有参数是为了验证签名
         Enumeration<String> parameterNames = request.getParameterNames();

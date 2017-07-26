@@ -106,17 +106,19 @@ body {
 </head>
 <body>
 	<div class="layui-form info-container">
-		<div class="layui-form-item">
-			<div class="layui-inline">
-				<div class="layui-input-inline">
-					<div class="member-logo">
-						<div class="user-infos">
-							<div class="avater-big" id="logo" style="background-image: url('${orderForm.picture}'),url(../../image/avatar1.png);"></div>
+		<c:if test="${not empty orderForm.picture}">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<div class="layui-input-inline">
+						<div class="member-logo">
+							<div class="user-infos">
+								<div class="avater-big" id="logo" style="background-image: url('${orderForm.picture}'),url(../../image/avatar1.png);"></div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</c:if>
 		<div class="layui-form-item">
 			<div class="layui-inline">
 				<label class="layui-form-label">支付金额</label>

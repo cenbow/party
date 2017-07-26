@@ -19,6 +19,7 @@
         <result column="style" property="style" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="sys_role_id" property="sysRoleId" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="level" property="level" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="type" property="type" jdbcType="INTEGER" javaType="java.lang.Integer"/>
     </resultMap>
 
     <select id="get" resultMap="dynamicMap">
@@ -29,7 +30,10 @@
         SELECT * FROM charge_package
         <where>
             <if test="delFlag != null">
-                del_flag = #{delFlag}
+                AND del_flag = #{delFlag}
+            </if>
+            <if test="type != null">
+                AND type = #{type}
             </if>
         </where>
         ORDER BY sort ASC,update_date DESC

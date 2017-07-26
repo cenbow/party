@@ -1,24 +1,10 @@
 package com.party.web.web.controller.system;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.google.common.collect.Maps;
-import com.party.common.paging.Page;
-import com.party.common.utils.BigDecimalUtils;
-import com.party.common.utils.LangUtils;
-import com.party.core.model.BaseModel;
-import com.party.core.model.charge.PackageMember;
-import com.party.core.model.charge.ProductPackage;
-import com.party.core.model.order.OrderForm;
-import com.party.core.model.order.OrderType;
-import com.party.core.model.wallet.Withdrawals;
-import com.party.core.service.charge.IPackageMemberService;
-import com.party.core.service.charge.IPackageService;
-import com.party.core.service.order.IOrderFormService;
-import com.party.web.biz.order.OrderBizService;
-import com.party.web.biz.wallet.WithdrawalsBizService;
-import com.party.web.web.dto.output.order.OrderFormOutput;
-import com.party.web.web.dto.output.wallet.WithdrawalOutput;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,16 +53,6 @@ public class MemberController {
 	
 	@Autowired
 	private IMemberMerchantService memberMerchantService;
-	@Autowired
-	private OrderBizService orderBizService;
-	@Autowired
-	private WithdrawalsBizService withdrawalsBizService;
-	@Autowired
-	private IOrderFormService orderFormService;
-	@Autowired
-	private IPackageMemberService packageMemberService;
-	@Autowired
-	private IPackageService packageService;
 
 	protected static Logger logger = LoggerFactory.getLogger(MemberController.class);
 
@@ -341,110 +317,12 @@ public class MemberController {
 		return AjaxResult.success(map);
 	}
 
+	/**
+	 * 个人中心
+	 * @return
+	 */
 	@RequestMapping("memberIndex")
 	public String memberIndex(){
-		return "redirect:/system/member/tradeList.do";
-	}
-
-
-	@RequestMapping("tradeList")
-	public ModelAndView tradeList(Page page, OrderForm orderForm) {
-		ModelAndView mv = new ModelAndView("system/member/tradeList");
-		page.setLimit(10);
-		orderForm.setMemberId(RealmUtils.getCurrentUser().getId());
-		orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("isCrowdfund", "0");
-		List<OrderForm> orderForms = orderFormService.webListPage(orderForm, params, page);
-		List<OrderFormOutput> orderFormOutputs = LangUtils.transform(orderForms, input -> {
-			OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
-			String label = OrderType.getValue(input.getType());
-			orderFormOutput.setTypeName(label);
-			return orderFormOutput;
-		});
-		mv.addObject("orderForms", orderFormOutputs);
-		mv.addObject("page", page);
-
-		memberIndexCommon(mv);
-
-		Map<Integer, String> orderTypes = Maps.newHashMap();
-		orderTypes.put(OrderType.ORDER_ACTIVITY.getCode(), OrderType.ORDER_ACTIVITY.getValue());
-		orderTypes.put(OrderType.ORDER_CROWD_FUND.getCode(), OrderType.ORDER_CROWD_FUND.getValue());
-		orderTypes.put(OrderType.ORDER_LEVEL.getCode(), OrderType.ORDER_LEVEL.getValue());
-		mv.addObject("orderTypes", orderTypes);
-		return mv;
-	}
-
-	/**
-	 * 个人中心 收益明细
-	 * @return
-	 */
-	@RequestMapping("orderList")
-	public ModelAndView orderList(Page page, OrderForm orderForm) {
-		ModelAndView mv = new ModelAndView("system/member/orderList");
-		page.setLimit(10);
-		List<OrderFormOutput> orderFormOutputs = orderBizService.memberOrderList(page, orderForm);
-		mv.addObject("orderForms", orderFormOutputs);
-		mv.addObject("page", page);
-
-		// 订单总额
-		Double orderTotal = orderBizService.getOrderTotal(false);
-		if (orderTotal != null) {
-			mv.addObject("orderTotal", orderTotal);
-		} else {
-			mv.addObject("orderTotal", 0);
-		}
-
-		Map<Integer, String> orderTypes = Maps.newHashMap();
-		orderTypes.put(OrderType.ORDER_ACTIVITY.getCode(), OrderType.ORDER_ACTIVITY.getValue());
-		orderTypes.put(OrderType.ORDER_CROWD_FUND.getCode(), OrderType.ORDER_CROWD_FUND.getValue());
-		mv.addObject("orderTypes", orderTypes);
-
-		memberIndexCommon(mv);
-		return mv;
-	}
-
-	/**
-	 * 个人中心 提现明细
-	 * @param page
-	 * @return
-	 */
-	@RequestMapping("withdrawList")
-	public ModelAndView withdrawList(Page page) {
-		ModelAndView mv = new ModelAndView("system/member/withdrawList");
-		page.setLimit(10);
-		List<WithdrawalOutput> withdrawalOutputs = withdrawalsBizService.withdrawList(page);
-		mv.addObject("withdrawals", withdrawalOutputs);
-		mv.addObject("page", page);
-
-		// 提现总额
-		Double withdrawalTotal = orderBizService.getWithdrawalTotal();
-		if (withdrawalTotal != null) {
-			mv.addObject("withdrawalTotal", withdrawalTotal);
-		} else {
-			mv.addObject("withdrawalTotal", 0);
-		}
-
-		memberIndexCommon(mv);
-		return mv;
-	}
-
-	private void memberIndexCommon(ModelAndView mv){
-		String memberId = RealmUtils.getCurrentUser().getId();
-		Member member = memberService.get(memberId);
-		mv.addObject("member", member);
-		// 余额
-		double totalAccount = orderBizService.getTotalAccount();
-		mv.addObject("totalPayment", totalAccount);
-
-		PackageMember packageMember = packageMemberService.findByMemberId(new PackageMember("", memberId));
-		mv.addObject("packageMember", packageMember);
-		if (packageMember != null) {
-			if (packageMember.getEndTime().before(new Date())){
-				mv.addObject("endTime", "已过期");
-			}
-			ProductPackage productPackage = packageService.get(packageMember.getLevelId());
-			mv.addObject("productPackage", productPackage);
-		}
+		return "redirect:/order/order/tradeList.do";
 	}
 }

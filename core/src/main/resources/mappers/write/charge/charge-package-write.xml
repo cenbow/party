@@ -21,6 +21,7 @@
             <if test="picture != null"> picture,</if>
             <if test="style != null"> style,</if>
             <if test="level != null"> level,</if>
+            <if test="type != null"> type,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id,jdbcType=VARCHAR},</if>
@@ -39,6 +40,7 @@
             <if test="picture != null"> #{picture,jdbcType=VARCHAR},</if>
             <if test="style != null"> #{style,jdbcType=VARCHAR},</if>
             <if test="level != null"> #{level,jdbcType=INTEGER},</if>
+            <if test="type != null"> #{type,jdbcType=INTEGER},</if>
         </trim>
     </insert>
 
@@ -58,6 +60,7 @@
             <if test="picture != null"> picture = #{picture,jdbcType=VARCHAR},</if>
             <if test="style != null"> style = #{style,jdbcType=VARCHAR},</if>
             <if test="level != null">level = #{level,jdbcType=INTEGER},</if>
+            <if test="type != null">type = #{type,jdbcType=INTEGER},</if>
         </set>
         WHERE id = #{id,jdbcType=VARCHAR}
     </update>

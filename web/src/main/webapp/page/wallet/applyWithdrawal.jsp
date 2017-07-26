@@ -20,7 +20,15 @@
 	<!--内容-->
 	<section>
 		<div class="section-main">
-			<div class="f-search-bar" style="border: 1px solid #dbdee5; padding: 16px; border-radius: 5px;">
+			<div class="c-time-list-header">
+				<div class="r">
+					<a href="${ctx}/system/member/memberIndex.do" class="layui-btn layui-btn-radius layui-btn-danger"> <i class="iconfont icon-refresh btn-icon"></i>返回</a>
+				</div>
+				<div class="ovh">
+					<span class="title f20">个人中心&nbsp;&gt;&nbsp;余额提现</span>
+				</div>
+			</div>
+			<div class="f-search-bar mt20" style="border: 1px solid #dbdee5; padding: 16px; border-radius: 5px;">
 				<div class="search-container">
 					<p class="mb5">可用余额：</p>
 					<div>

@@ -49,7 +49,7 @@
 					<div class="user-info">
 						<ul class="user-info-nav">
 							<li>
-								<p class="f16" id="home_page">我的主页</p>
+								<p class="f16" id="home_page">个人中心</p>
 							</li>
 							<%--<li>--%>
 								<%--<p class="f16" id="myInfo">个人资料</p>--%>
@@ -77,7 +77,9 @@
 					<img src="${ctx}/image/appqr_code.png" alt="">
 				</div>
 			</li>
-            <li><a href="${ctx}/help/help/list.do">帮助教程</a></li>
+			<c:if test="${not empty sessionScope.currentUser}">
+            	<li><a href="${ctx}/help/help/list.do">帮助教程</a></li>
+			</c:if>
 		</ul>
 	</div>
 </nav>

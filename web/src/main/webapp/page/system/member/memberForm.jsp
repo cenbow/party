@@ -31,6 +31,14 @@
 	<!--内容-->
 	<section>
 		<div class="section-main">
+			<div class="c-time-list-header">
+				<div class="r">
+					<a href="${ctx}/system/member/memberIndex.do" class="layui-btn layui-btn-radius layui-btn-danger"> <i class="iconfont icon-refresh btn-icon"></i>返回</a>
+				</div>
+				<div class="ovh">
+					<span class="title f20">个人中心&nbsp;&gt;&nbsp;编辑个人资料</span>
+				</div>
+			</div>
 			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 				<ul class="layui-tab-title">
 					<%--<li><span class="title f20 ml5 mr5">服务升级</span></li>--%>

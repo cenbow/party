@@ -15,6 +15,7 @@ public class ProductPackage extends BaseModel {
     private String sysRoleName; // 角色名称
     private String style;  //风格
     private Integer level; //等级
+    private Integer type; // 类型 1会员等级类型
 
     public static final String UNIT_MONTH = "月";
     public static final String UNIT_QUARTER = "季度";
@@ -91,5 +92,13 @@ public class ProductPackage extends BaseModel {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

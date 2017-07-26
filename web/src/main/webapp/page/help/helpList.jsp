@@ -35,10 +35,16 @@
 <!--头部-->
 <%@include file="../include/header.jsp" %>
 <div class="index-outside">
+    <%@include file="../include/sidebar.jsp"%>
     <!--内容-->
     <section>
         <div class="section-main">
-            <div class="my-act-list-content">
+            <div class="c-time-list-header">
+                <div class="ovh">
+                    <span class="title f20">帮助教程</span>
+                </div>
+            </div>
+            <div class="my-act-list-content mt20">
                 <div class="help-content">
                     <c:forEach var="help" items="${helpList}">
                         <div class="help-item">

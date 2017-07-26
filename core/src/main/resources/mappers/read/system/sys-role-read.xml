@@ -25,7 +25,7 @@
 		FROM s_role
 		WHERE id = #{id}
 	</select>
-	
+
 	<select id="uniqueProperty" resultMap="roleMap">
 		SELECT
 		<include refid="roleSql" />
@@ -56,6 +56,20 @@
 				#{id}
 			</foreach>
 			<if test="param.type != null"> AND type = #{param.type}</if>
+		</where>
+	</select>
+
+	<select id="getRoleByMemberId" resultMap="roleMap">
+		SELECT r.* FROM s_member_role mr inner join s_role r on mr.role_id = r.id
+	  	<where>
+			<if test="params != null and params.size > 0">
+				<if test="params.type != null">
+					AND r.type = #{params.type}
+				</if>
+				<if test="params.memberId != null and params.memberId != ''">
+					AND mr.member_id = #{params.memberId}
+				</if>
+			</if>
 		</where>
 	</select>
 </mapper>

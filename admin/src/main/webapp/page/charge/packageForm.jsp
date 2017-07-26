@@ -130,10 +130,10 @@
 					<label class="layui-form-label">费用<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
 						<input type="radio" name="isFree" lay-filter="isFree" id="noFree" value="noFree" title="收费"
-							${level == null || productPackage.price !=0.0 ? 'checked="checked"' : ''}
+							${productPackage == null || productPackage.price !=0.0 ? 'checked="checked"' : ''}
 						>
 						<input type="radio" name="isFree" lay-filter="isFree" id="free" value="free" title="免费"
-							${level != null && productPackage.price == 0.0 ? 'checked="checked"' : ''}
+							${productPackage != null && productPackage.price == 0.0 ? 'checked="checked"' : ''}
 						>
 					</div>
 				</div>

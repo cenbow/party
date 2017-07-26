@@ -255,6 +255,9 @@ public class OrderFormOutput{
 		OrderFormOutput output = new OrderFormOutput();
 		try {
 			BeanUtils.copyProperties(output, orderForm);
+			if (orderForm.getPaymentWay() == null) {
+				output.setPaymentWay(null);
+			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

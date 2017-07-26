@@ -197,6 +197,11 @@ public class SysRoleService implements ISysRoleService {
 		return set;
 	}
 
+	@Override
+	public List<SysRole> getRoleByMemberId(Map<String, Object> params) {
+		return sysRoleReadDao.getRoleByMemberId(params);
+	}
+
 	/**
 	 * 根据会员编号查询
 	 * @param memberId 会员编号

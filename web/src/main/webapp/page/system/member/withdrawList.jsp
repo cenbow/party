@@ -33,8 +33,8 @@
 					<div class="layui-tab-item"></div>
 					<div class="layui-tab-item"></div>
 					<div class="layui-tab-item layui-show">
-						<form class="layui-form" action="${ctx}/wallet/withdrawalList.do" id="myForm" method="post">
-							<input type="hidden" name="pageNo" id="pageNo" />
+						<form class="layui-form" action="${ctx}/order/order/withdrawList.do" id="myForm" method="post">
+							<input type="hidden" name="pageNo" id="pageNo" value="${page.page}" />
 						</form>
 						<div class="my-act-list-content">
 							<ul class="num">
@@ -145,20 +145,6 @@
 <script type="text/javascript">
 
 	$(function(){
-        layui.use([ 'element' ], function() {
-            var element = layui.element();
-
-            element.on('tab', function (data) {
-                if (data.index == 0) {
-                    location.href = "${ctx}/system/member/tradeList.do";
-                } else if(data.index == 1){
-                    location.href = "${ctx}/system/member/orderList.do";
-                } else if (data.index == 2) {
-                    location.href = "${ctx}/system/member/withdrawList.do";
-                }
-            });
-        });
-
         //加载分页
         loadPage("page_content", '${page.totalPages}', '${page.page}', '#myForm');
 

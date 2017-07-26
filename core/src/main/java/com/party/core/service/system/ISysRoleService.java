@@ -1,6 +1,7 @@
 package com.party.core.service.system;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.party.core.model.system.SysRole;
@@ -38,4 +39,6 @@ public interface ISysRoleService extends IBaseService<SysRole> {
 	 * @return 代码集合
 	 */
 	Set<String> extractCode(List<SysRole> roles);
+
+	List<SysRole> getRoleByMemberId(Map<String, Object> params);
 }

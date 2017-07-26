@@ -33,7 +33,7 @@
                 AND pm.level_id = #{levelId}
             </if>
         </where>
-        ORDER BY p.level desc
+        ORDER BY p.level desc LIMIT 0,1
     </select>
 
     <select id="listPage" resultMap="dynamicMap">

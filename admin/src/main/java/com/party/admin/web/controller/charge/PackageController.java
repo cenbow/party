@@ -103,10 +103,13 @@ public class PackageController {
         }
 
         try {
+            if (productPackage.getType() == null) {
+                productPackage.setType(1);
+            }
+            if (isFree.equals("free")) {
+                productPackage.setPrice(0f);
+            }
             if (StringUtils.isEmpty(productPackage.getId())) {
-                if (isFree.equals("free")) {
-                    productPackage.setPrice(0f);
-                }
                 packageService.insert(productPackage);
             } else {
                 ProductPackage dbProductPackage = packageService.get(productPackage.getId());

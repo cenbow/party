@@ -13,9 +13,7 @@ import com.party.core.model.order.OrderType;
 import com.party.core.model.order.PaymentWay;
 import com.party.core.model.wallet.Withdrawals;
 import com.party.core.service.member.IMemberMerchantService;
-import com.party.core.service.member.impl.MemberService;
 import com.party.core.service.order.IOrderFormService;
-import com.party.core.service.system.IDictService;
 import com.party.core.service.wallet.IWithdrawalService;
 import com.party.web.biz.order.OrderBizService;
 import com.party.web.biz.wallet.WithdrawalsBizService;
@@ -48,10 +46,6 @@ public class WalletController {
 
 	@Autowired
 	private IOrderFormService orderFormService;
-	@Autowired
-	private MemberService memberService;
-	@Autowired
-	private IDictService dictService;
 	@Autowired
 	private OrderBizService orderBizService;
 	@Autowired
@@ -169,7 +163,7 @@ public class WalletController {
 	public String exportWithdrawal(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			String fileName = "提现" + sdf.format(new Date()) + ".xlsx";
+			String fileName = "提现明细" + sdf.format(new Date()) + ".xlsx";
 			Withdrawals withdrawal = new Withdrawals();
 			withdrawal.setCreateBy(RealmUtils.getCurrentUser().getId());
 			withdrawal.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
@@ -214,7 +208,7 @@ public class WalletController {
 	public String exportOrder(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			String fileName = "订单" + sdf.format(new Date()) + ".xlsx";
+			String fileName = "收益明细" + sdf.format(new Date()) + ".xlsx";
 			OrderForm orderForm = new OrderForm();
 			orderForm.setInitiatorId(RealmUtils.getCurrentUser().getId());
 			orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);

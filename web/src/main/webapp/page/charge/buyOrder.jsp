@@ -118,6 +118,7 @@
                     if (res.data.status == 2) {
                         top.layer.msg("订单支付完成", {icon : 1}, function () {
                             clearInterval(checkTimeOut);
+                            top.parent.location.href="${ctx}/system/member/memberIndex.do";
                         });
                     } else if (res.data.status == 0) {
                         console.log("1111");
