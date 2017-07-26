@@ -355,6 +355,52 @@ public class ExportExcel {
 		return this.addCell(row, column, val, 0, Class.class, "");
 	}
 
+
+	/**
+	 * 添加一个单元格
+	 * @param row  行
+	 * @param column 列号
+	 * @param val 值
+	 * @param cellStyle 样式
+	 * @return 单元格对象
+	 */
+	public Cell addCell(Row row, int column, Object val, CellStyle cellStyle){
+		Cell cell = row.createCell(column);
+		cellStyle = null == cellStyle ? wb.createCellStyle() : cellStyle;
+		if (val == null) {
+			cell.setCellValue("");
+			cell.setCellStyle(cellStyle);
+		} else if (val instanceof String) {
+			cell.setCellValue((String) val);
+			cell.setCellStyle(cellStyle);
+		} else if (val instanceof Integer) {
+
+			DataFormat format = wb.createDataFormat();
+			cellStyle.setDataFormat(format.getFormat("0"));
+			cell.setCellStyle(cellStyle);
+			cell.setCellValue((Integer) val);
+		} else if (val instanceof Long) {
+			cell.setCellValue((Long) val);
+			cell.setCellStyle(cellStyle);
+		} else if (val instanceof Double) {
+			DataFormat format = wb.createDataFormat();
+			cellStyle.setDataFormat(format.getFormat("0.00"));
+			cell.setCellStyle(cellStyle);
+			cell.setCellValue((Double) val);
+			cell.setCellStyle(cellStyle);
+		} else if (val instanceof Float) {
+			DataFormat format = wb.createDataFormat();
+			cellStyle.setDataFormat(format.getFormat("0.00"));
+			cell.setCellStyle(cellStyle);
+			cell.setCellValue((Float) val);
+		} else if (val instanceof Date) {
+			String date = DateUtils.formatDate((Date) val, "yyyy-MM-dd HH:mm");
+			cell.setCellValue(date);
+			cell.setCellStyle(cellStyle);
+		}
+		return cell;
+	}
+
 	/**
 	 * 添加一个单元格
 	 * 

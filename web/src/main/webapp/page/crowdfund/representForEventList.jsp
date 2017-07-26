@@ -79,16 +79,16 @@
                             <div class="cl">
                                 <table class="layui-table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col>
+                                        <col>
+                                        <col width="100px">
+                                        <col>
+                                        <col width="120px">
+                                        <col width="100px">
+                                        <col width="100px">
+                                        <col width="100px">
+                                        <col width="100px">
+                                        <col width="100px">
                                     </colgroup>
                                     <thead>
                                     <tr>
@@ -113,8 +113,8 @@
                                                 <div class="member-name ellipsis-1"><a class="blue" title="${distribution.authorName}" href="javascript:void(0);" >${distribution.authorName}</a></div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="dib ellipsis-1" style="width: 70px;" title="${distribution.authorCompany}">${distribution.authorCompany}</div>
+                                            <td class="ellipsis-1" title=" ${distribution.authorCompany}">
+                                                    ${distribution.authorCompany}
                                             </td>
                                             <td>
                                                     ${distribution.cityName}

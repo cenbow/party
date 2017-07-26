@@ -1,21 +1,20 @@
 package com.party.web.biz.pay;
 
-import com.party.common.utils.StringUtils;
-import com.party.pay.model.pay.ali.pc.TradePagePayRequest;
-import org.apache.commons.net.util.Base64;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.*;
+import com.party.common.utils.StringUtils;
+import com.party.pay.model.pay.ali.pc.TradePagePayRequest;
 
 /**
  * 支付宝Pc扫码支付业务
@@ -23,164 +22,7 @@ import java.util.*;
 @Service
 public class AliPcBizService {
 
-    /**
-     * sha256WithRsa 算法请求类型
-     */
-    public static final String SIGN_TYPE_RSA = "RSA";
-
-    public static final String SIGN_TYPE_RSA2 = "RSA2";
-
-    public static final String SIGN_ALGORITHMS = "SHA1WithRSA";
-
-    public static final String SIGN_SHA256RSA_ALGORITHMS = "SHA256WithRSA";
-
     protected static Logger logger = LoggerFactory.getLogger(AliPcBizService.class);
-
-    /**
-     * rsa内容签名
-     *
-     * @param content
-     * @param privateKey
-     * @param charset
-     * @return
-     */
-    public String rsaSign(String content, String privateKey, String charset, String signType) {
-        if (SIGN_TYPE_RSA.equals(signType)) {
-            return rsaSign(content, privateKey, charset);
-        } else if (SIGN_TYPE_RSA2.equals(signType)) {
-            return rsa256Sign(content, privateKey, charset);
-        }
-        return null;
-    }
-
-    /**
-     * sha1WithRsa 加签
-     *
-     * @param content
-     * @param privateKey
-     * @param inputCharset
-     * @return
-     */
-    public String rsaSign(String content, String privateKey, String inputCharset) {
-        try {
-            PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decodeBase64(privateKey));
-            KeyFactory keyFactory = KeyFactory.getInstance(SIGN_TYPE_RSA);
-            PrivateKey priKey = keyFactory.generatePrivate(priPKCS8);
-
-            java.security.Signature signature = java.security.Signature.getInstance(SIGN_ALGORITHMS);
-
-            signature.initSign(priKey);
-            signature.update(content.getBytes(inputCharset));
-
-            byte[] signed = signature.sign();
-            return new String(Base64.encodeBase64(signed));
-        } catch (InvalidKeySpecException ie) {
-            logger.error("RSA私钥格式不正确，请检查是否正确配置了PKCS8格式的私钥", ie);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        return null;
-    }
-
-    /**
-     * sha256WithRsa 加签
-     *
-     * @param content
-     * @param privateKey
-     * @param inputCharset
-     * @return
-     */
-    public String rsa256Sign(String content, String privateKey, String inputCharset) {
-        try {
-            PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decodeBase64(privateKey));
-            KeyFactory keyFactory = KeyFactory.getInstance(SIGN_TYPE_RSA);
-            PrivateKey priKey = keyFactory.generatePrivate(priPKCS8);
-
-            java.security.Signature signature = java.security.Signature.getInstance(SIGN_SHA256RSA_ALGORITHMS);
-
-            signature.initSign(priKey);
-            signature.update(content.getBytes(inputCharset));
-
-            byte[] signed = signature.sign();
-            return new String(Base64.encodeBase64(signed));
-        } catch (InvalidKeySpecException ie) {
-            logger.error("RSA私钥格式不正确，请检查是否正确配置了PKCS8格式的私钥", ie);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        return null;
-    }
-
-    /**
-     * rsa内容验签
-     *
-     * @param content
-     * @param publicKey
-     * @param charset
-     * @return
-     */
-    public boolean rsaCheck(String content, String sign, String publicKey, String charset, String signType) {
-        if (SIGN_TYPE_RSA.equals(signType)) {
-            return rsaCheckContent(content, sign, publicKey, charset);
-        } else if (SIGN_TYPE_RSA2.equals(signType)) {
-            return rsa256CheckContent(content, sign, publicKey, charset);
-        }
-        return false;
-    }
-
-    /**
-     * sha256WithRsa 验签
-     *
-     * @param content
-     * @param sign
-     * @param publicKey
-     * @param charset
-     * @return
-     */
-    public boolean rsa256CheckContent(String content, String sign, String publicKey,
-                                      String charset) {
-        try {
-            KeyFactory keyFactory = KeyFactory.getInstance(SIGN_TYPE_RSA);
-            byte[] encodedKey = Base64.decodeBase64(publicKey);
-            PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
-
-            java.security.Signature signature = java.security.Signature.getInstance(SIGN_SHA256RSA_ALGORITHMS);
-
-            signature.initVerify(pubKey);
-            signature.update(content.getBytes(charset));
-
-            return signature.verify(Base64.decodeBase64(sign.getBytes()));
-        } catch (Exception e) {
-            logger.error("验签失败", e);
-        }
-        return false;
-    }
-
-    /**
-     * sha1WithRsa 验签
-     *
-     * @param content
-     * @param sign
-     * @param publicKey
-     * @param charset
-     * @return
-     */
-    public boolean rsaCheckContent(String content, String sign, String publicKey, String charset) {
-        try {
-            KeyFactory keyFactory = KeyFactory.getInstance(SIGN_TYPE_RSA);
-            byte[] encodedKey = Base64.decodeBase64(publicKey);
-            PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
-
-            java.security.Signature signature = java.security.Signature.getInstance(SIGN_ALGORITHMS);
-
-            signature.initVerify(pubKey);
-            signature.update(content.getBytes(charset));
-            return signature.verify(Base64.decodeBase64(sign.getBytes()));
-        } catch (Exception e) {
-            logger.error("验签失败", e);
-        }
-        return false;
-    }
 
     /**
      * 加签/验签字符串

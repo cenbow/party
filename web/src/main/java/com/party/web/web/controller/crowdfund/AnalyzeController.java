@@ -17,6 +17,7 @@ import com.party.core.service.label.ILabelService;
 import com.party.web.biz.crowdfund.AnalyzeBizService;
 import com.party.web.web.dto.AjaxResult;
 import com.party.web.web.dto.output.crowdfund.AnalyzeOutput;
+import com.party.web.web.dto.output.crowdfund.TypeCountOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,15 +74,17 @@ public class AnalyzeController {
      */
     @RequestMapping(value = "list")
     public ModelAndView list(ProjectAnalyze projectAnalyze, Page page){
-        page.setLimit(20);
+        page.setLimit(15);
         ModelAndView modelAndView = new ModelAndView("crowdfund/analyzeList");
         List<AnalyzeOutput> outputList = analyzeBizService.list(projectAnalyze, page);
         List<String> dateList = analyzeBizService.dateStringList();
         List<Label> labelList = labelService.list(new Label());
+        TypeCountOutput countOutput = analyzeBizService.countList(projectAnalyze);
         modelAndView.addObject("list", outputList);
         modelAndView.addObject("dateList", dateList);
         modelAndView.addObject("labelList", labelList);
         modelAndView.addObject("page", page);
+        modelAndView.addObject("count", countOutput);
         return modelAndView;
     }
 
@@ -171,17 +174,17 @@ public class AnalyzeController {
 
     /**
      * 保存标签
-     * @param ids 标签集合
+     * @param id 标签集合
      * @param projectId 项目编号
      * @return 交互数据
      */
     @ResponseBody
     @RequestMapping(value = "labelSave")
-    public AjaxResult labelSave(String ids, String projectId){
+    public AjaxResult labelSave(String id, String projectId){
         AjaxResult ajaxResult = new AjaxResult();
-        Set<String> idSet = Sets.newHashSet(Splitter.on(",").split(ids));
+        /*Set<String> idSet = Sets.newHashSet(Splitter.on(",").split(ids));*/
         try {
-            analyzeBizService.labelSave(idSet, projectId);
+            analyzeBizService.labelSave(id, projectId);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
@@ -190,6 +193,7 @@ public class AnalyzeController {
         ajaxResult.setSuccess(true);
         return ajaxResult;
     }
+
 
     @ResponseBody
     @RequestMapping(value = "init")

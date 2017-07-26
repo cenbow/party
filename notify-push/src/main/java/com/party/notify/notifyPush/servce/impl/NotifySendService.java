@@ -763,6 +763,8 @@ public class NotifySendService implements INotifySendService {
 
     public void sendBuyLevel(OrderForm orderForm) {
         HashMap<String, Object> constant = Maps.newHashMap();
+        Member member = memberService.get(orderForm.getMemberId());
+        constant.put("{user}", member.getRealname());
         constant.put("createBy", orderForm.getMemberId());
         constant.put("logo", Message.MSG_LOGO_TZ);
         constant.put("tag", MessageTag.UNDEFIND.getCode());

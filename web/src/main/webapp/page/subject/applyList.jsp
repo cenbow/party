@@ -130,13 +130,12 @@
 						<div class="sub-btns tr">
 							<a class="layui-btn layui-btn-danger" id="articleBtn">添加文章</a>
 						</div>
-						<table class="layui-table lay-skin="line"">
+						<table class="layui-table">
 							<colgroup>
-								<col width="200">
-								<col width="100">
-								<col width="180">
-								<col width="150">
 								<col>
+								<col width="60px">
+								<col width="150px">
+								<col width="100px">
 							</colgroup>
 							<thead>
 								<tr>
@@ -181,7 +180,7 @@
 <script type="text/html" id="article_template">
 {{#  layui.each(d, function(index, item){ }}
 <tr>
-	<td title="{{ item.title }}"><a class="ell db" style="width:300px;" href="${ctx}/article/article/articleDetail.do?id={{item.id}}">{{ item.title }}</a></td>
+	<td title="{{ item.title }}"><a class="blue"  href="${ctx}/article/article/articleDetail.do?id={{item.id}}">{{ item.title }}</a></td>
 	<td><a href="javascript:void(0);" class="red qr-btn">查看</a></td>
 	<td>{{ getDateStr(item.updateDate).Format('yyyy-MM-dd hh:mm') }}</td>
 	<td>

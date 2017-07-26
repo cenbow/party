@@ -1,25 +1,11 @@
 package com.party.web.web.controller.pay;
 
-import com.google.common.base.Strings;
-import com.party.common.constant.Constant;
-import com.party.common.constant.WechatConstant;
-import com.party.common.utils.VerifyCodeUtils;
-import com.party.core.model.order.OrderForm;
-import com.party.core.model.order.OrderStatus;
-import com.party.core.model.order.PaymentWay;
-import com.party.core.service.order.IOrderFormInfoService;
-import com.party.core.service.order.IOrderFormService;
-import com.party.pay.model.pay.wechat.NotifyRequest;
-import com.party.pay.model.pay.wechat.NotifyResponse;
-import com.party.pay.model.pay.wechat.UnifiedOrderRequest;
-import com.party.pay.model.pay.wechat.UnifiedOrderResponse;
-import com.party.pay.model.pay.wechat.pc.NativePayRequest;
-import com.party.pay.model.pay.wechat.pc.QrCodeResponse;
-import com.party.web.biz.pay.PayPcOrderBizService;
-import com.party.web.biz.pay.WechatPcBizService;
-import com.party.web.utils.QRCodeUtil;
-import com.party.web.utils.WechatPayUtils;
-import com.party.web.web.dto.AjaxResult;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +15,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
+import com.google.common.base.Strings;
+import com.party.common.constant.Constant;
+import com.party.common.constant.WechatConstant;
+import com.party.common.utils.VerifyCodeUtils;
+import com.party.common.utils.refund.WechatPayUtils;
+import com.party.core.model.order.OrderForm;
+import com.party.core.model.order.OrderStatus;
+import com.party.core.model.order.PaymentWay;
+import com.party.core.service.order.IOrderFormInfoService;
+import com.party.core.service.order.IOrderFormService;
+import com.party.pay.model.pay.wechat.NotifyRequest;
+import com.party.pay.model.pay.wechat.NotifyResponse;
+import com.party.pay.model.pay.wechat.UnifiedOrderResponse;
+import com.party.pay.model.pay.wechat.pc.NativePayRequest;
+import com.party.pay.model.pay.wechat.pc.QrCodeResponse;
+import com.party.pay.model.pay.wechat.pc.UnifiedOrderRequest;
+import com.party.web.biz.pay.PayPcOrderBizService;
+import com.party.web.biz.pay.WechatPcBizService;
+import com.party.web.utils.QRCodeUtil;
+import com.party.web.web.dto.AjaxResult;
 
 /**
  * 微信PC端扫码支付
@@ -175,7 +177,7 @@ public class PayWechatPcController {
             if (Strings.isNullOrEmpty(requestStr)) {
                 return wechatPcBizService.responseNotify(NotifyResponse.error("请求参数为空"));
             }
-            NotifyRequest notifyRequest = WechatPayUtils.deserialize(requestStr, NotifyRequest.class);
+            NotifyRequest notifyRequest = com.party.web.utils.WechatPayUtils.deserialize(requestStr, NotifyRequest.class);
 
             logger.info("订单编号{}", notifyRequest.getOutTradeNo());
             OrderForm orderForm = orderFormService.get(notifyRequest.getOutTradeNo());

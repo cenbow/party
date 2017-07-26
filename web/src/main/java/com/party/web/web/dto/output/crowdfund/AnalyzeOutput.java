@@ -64,6 +64,9 @@ public class AnalyzeOutput {
     //标签名称
     private String labels;
 
+    //样式
+    private String style;
+
     //金额map
     private Map<String, Float> moneyMap;
 
@@ -202,6 +205,14 @@ public class AnalyzeOutput {
 
     public void setMoneyMap(Map<String, Float> moneyMap) {
         this.moneyMap = moneyMap;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
     }
 
     public static AnalyzeOutput transform(ProjectAnalyze projectAnalyze){

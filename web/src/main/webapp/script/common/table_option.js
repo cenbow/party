@@ -110,25 +110,54 @@
             if (!fixTableCtns || fixTableCtns.length == 0)
                 return;
 
-           for(var i=0;i<fixTableCtns.length;i++){
-               var fixTableCtn = fixTableCtns[i];
+            for (var i = 0; i < fixTableCtns.length; i++) {
+                var fixTableCtn = fixTableCtns[i];
                 var leftTable = fixTableCtn.querySelector('.jleft-fix-table'),
                     rightTable = fixTableCtn.querySelector('.jright-fix-table');
                 //修改右边table的宽度
-               rightTable.style.width = (fixTableCtn.clientWidth - leftTable.clientWidth) + 'px';
-               //对比左右高度修改tr高度
-                var leftTableTr = leftTable.querySelectorAll('tbody tr'),rightTableTr = rightTable.querySelectorAll('tbody tr');
-                rightTable.style.marginLeft='-1px';
-                leftTableTr.forEach(function (tr,index) {
-                    var ltrH = tr.clientHeight,rtrH = rightTableTr[index].clientHeight;
-                    if(ltrH>rtrH){
-                        rightTableTr[index].style.height=ltrH+'px';
-                    }else{
-                        tr.style.height=rtrH+'px';
+                rightTable.style.width = (fixTableCtn.clientWidth - leftTable.clientWidth) + 'px';
+                //对比左右高度修改tr高度
+                var leftTableTr = leftTable.querySelectorAll('tbody tr'), rightTableTr = rightTable.querySelectorAll('tbody tr');
+                rightTable.style.marginLeft = '-1px';
+                leftTableTr.forEach(function (tr, index) {
+                    var ltrH = tr.clientHeight, rtrH = rightTableTr[index].clientHeight;
+                    if (ltrH > rtrH) {
+                        rightTableTr[index].style.height = ltrH + 'px';
+                    } else {
+                        tr.style.height = rtrH + 'px';
                     }
                 });
             }
         }
     }
     fixTable.init();
+}(window, document));
+(function (W, doc) {
+    "use strict";
+    W.extraTable = {
+        _getStyle: function (dom, attr) {
+            return (dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom, false)[attr]);
+        },
+        init: function () {
+            var that = this;
+            var extraTables = doc.querySelectorAll('.ul-extra-table');
+            if (!extraTables || extraTables.length == 0)
+                return;
+            for (var i = 0; i < extraTables.length; i++) {
+                var extraTable = extraTables[i], header = extraTable.querySelector('.header'), headerLis = header.querySelectorAll('li');
+                var rows = extraTable.querySelectorAll('.info .content');
+                if (!header)
+                    return;
+                for (var j = 0; j < rows.length; j++) {
+                    var row = rows[j];
+                    var cells = row.querySelectorAll('li');
+                    for (var m = 0; m < cells.length; m++) {
+                        var cell = cells[m];
+                        cell.style.width = that._getStyle(headerLis[m],'width');
+                    }
+                }
+            }
+        }
+    }
+    extraTable.init();
 }(window, document));

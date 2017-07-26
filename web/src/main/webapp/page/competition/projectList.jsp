@@ -76,11 +76,11 @@
                     <table class="layui-table">
                         <colgroup>
                             <col width="300px">
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
+                            <col width="150px">
+                            <col width="100px">
+                            <col width="100px">
+                            <col width="100px">
+                            <col width="150px">
                             <col>
                         </colgroup>
                         <thead>

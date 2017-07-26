@@ -206,13 +206,12 @@
         <include refid="memberSql"/>
         FROM member
         WHERE
-        mobile IS NOT NULL
-        AND logo IS NOT NULL
+        logo IS NOT NULL
         AND logo != ''
         AND LOCATE('http://txzapp-10052192.image.myqcloud.com',logo) = 0
+        ORDER  BY create_date DESC
         <if test="limit != null">
         limit 0,#{limit}
         </if>
-        GROUP BY create_date
     </select>
 </mapper>

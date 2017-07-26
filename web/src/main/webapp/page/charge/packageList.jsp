@@ -79,7 +79,7 @@
             font-size: 14px;
             text-align: center;
             margin: 20px auto 20px;
-            color: #fff;
+            color: #fff!important;
             cursor: pointer;
         }
 
@@ -91,46 +91,55 @@
         .styles-body .blue {
             background: #1c70ea;
             box-shadow: 0 0 8px #1c70ea;
+            color: #1c70ea;
         }
 
         .styles-body .darkblue {
             background: #4e55ff;
             box-shadow: 0 0 8px #4e55ff;
+            color: #4e55ff;
         }
 
         .styles-body .green {
             background: #15dcb5;
             box-shadow: 0 0 8px #15dcb5;
+            color: #15dcb5;
         }
 
         .styles-body .orange {
-            background: #F90;
-            box-shadow: 0 0 8px #F90;
+            background: #FF9900;
+            box-shadow: 0 0 8px #FF9900;
+            color: #FF9900;
         }
 
         .styles-body .purple {
-            background: #969;
-            box-shadow: 0 0 8px #969;
+            background: #996699;
+            box-shadow: 0 0 8px #996699;
+            color: #996699;
         }
 
         .styles-body .pink {
-            background: #F99;
-            box-shadow: 0 0 8px #F99;
+            background: #FF9999;
+            box-shadow: 0 0 8px #FF9999;
+            color: #FF9999;
         }
 
         .styles-body .red {
             background: #f94a4a;
             box-shadow: 0 0 8px #f94a4a;
+            color: #f94a4a;
         }
 
         .styles-body .gray {
-            background: #999;
-            box-shadow: 0 0 8px #999;
+            background: #999999;
+            box-shadow: 0 0 8px #999999;
+            color: #999999;
         }
 
         .styles-body .brown {
-            background: #996;
-            box-shadow: 0 0 8px #996;
+            background: #999966;
+            box-shadow: 0 0 8px #999966;
+            color: #999966;
         }
 
         .header .this-version {

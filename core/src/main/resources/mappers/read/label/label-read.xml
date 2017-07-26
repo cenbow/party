@@ -11,10 +11,11 @@
         <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
         <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="style" property="style" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </resultMap>
 
     <sql id="labelSql">
-        id, create_by, create_date, update_by, del_flag, remarks, name
+        id, create_by, create_date, update_by, del_flag, remarks, name,style
     </sql>
 
 

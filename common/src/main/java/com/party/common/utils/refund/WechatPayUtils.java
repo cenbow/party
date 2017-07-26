@@ -38,6 +38,7 @@ import com.google.common.collect.Ordering;
 import com.party.common.utils.EncryptUtil;
 import com.party.common.utils.XMLBeanUtils;
 import com.party.common.utils.wechat.MyX509TrustManager;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -62,8 +63,13 @@ public class WechatPayUtils {
 	 * @return 签名字符串
 	 */
 	public static <T> String getSign(T data, String apiKey) {
+		Map<String, Object> fieldValues = Maps.newHashMap();
+        if (data instanceof Map){
+            fieldValues = (Map<String,Object>)data;
+        } else{
+            fieldValues = ObjectUtils.getFieldValues(data);
+        }
 
-		Map<String, Object> fieldValues = ObjectUtils.getFieldValues(data);
 		List<Map.Entry<String, Object>> fieldValueEntries = Lists.newArrayList(fieldValues.entrySet());
 
 		// 排序
@@ -397,4 +403,40 @@ public class WechatPayUtils {
 			throw ex;
 		}
 	}
+	
+	/**
+     * 截取字符串
+     *
+     * @param sourceTitle 字符串
+     * @param maxNum      最大长度
+     * @return
+     */
+    public static String subTitle(String sourceTitle, int maxNum) {
+        try {
+            String newTitle = new String(sourceTitle.getBytes("UTF-8"), "UTF-8");
+            byte[] charset_bytes = newTitle.getBytes("UTF-8");
+            logger.info("newTitle:" + newTitle);
+            int length = charset_bytes.length;
+            logger.info("newTitle byte length:" + length);
+
+            if (length > maxNum) {
+                newTitle = newTitle.substring(0, newTitle.length() - 1);
+                newTitle = catString(newTitle, maxNum);
+            }
+            return newTitle;
+        } catch (Exception e) {
+            logger.error("截取字符串异常：{}", e);
+        }
+        return sourceTitle;
+    }
+
+    public static String catString(String sourceTitle, int maxNum) throws UnsupportedEncodingException {
+        int length = sourceTitle.getBytes("UTF-8").length;
+
+        if (length > maxNum) {
+            sourceTitle = sourceTitle.substring(0, sourceTitle.length() - 1);
+            sourceTitle = catString(sourceTitle, maxNum);
+        }
+        return sourceTitle;
+    }
 }

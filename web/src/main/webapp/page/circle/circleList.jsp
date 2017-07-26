@@ -71,12 +71,12 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="10%">
-                            <col width="10%">
-                            <col width="25%">
+                            <col width="20%">
                             <col width="15%">
-                            <col width="15%">
-                            <col width="25%">
+                            <col width="100px">
+                            <col width="100px">
+                            <col width="150px">
+                            <col width="">
                         </colgroup>
                         <thead>
                         <tr>

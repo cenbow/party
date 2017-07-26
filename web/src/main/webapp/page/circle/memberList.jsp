@@ -92,20 +92,20 @@
 				<div class="cl">
 					<table class="layui-table">
 						<colgroup>
-							<col width="250">
-							<col width="120">
-							<col width="100">
-							<col width="180">
-							<col width="180">
-							<col width="300">
+							<col>
+							<col width="130px">
+							<col width="100px">
+							<col width="150px">
+							<col width="200px">
+							<col>
 						</colgroup>
 						<thead>
 							<tr>
 								<th>名称</th>
 								<th>电话号码</th>
 								<th>角色</th>
-								<th>类型</th>
 								<th>加入时间</th>
+								<th>类型</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -125,10 +125,10 @@
 										<div>${item.isAdmin == 1 || item.mId == circle.createBy ? '管理员':'会员'}</div>
 									</td>
 									<td>
-										<div>${item.tagNames}</div>
+										<div><fmt:formatDate value="${item.updateDate}" pattern="yyyy-MM-dd HH:mm" /></div>
 									</td>
 									<td>
-										<div><fmt:formatDate value="${item.updateDate}" pattern="yyyy-MM-dd HH:mm" /></div>
+										<div>${item.tagNames}</div>
 									</td>
 									<td  class="tb-opts">
 										<div class="comm-opts">

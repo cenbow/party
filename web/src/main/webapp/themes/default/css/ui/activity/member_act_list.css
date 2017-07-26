@@ -57,6 +57,9 @@
 	min-height: 20px;
 	line-height: 20px;
 	font-size: 14px;
+	/*text-align: center;*/
+}
+.content-body .option{
 	text-align: center;
 }
 .content-body .info {
@@ -99,7 +102,7 @@
 	height: 30px;
 	line-height: 30px;
 	font-size: 14px;
-	text-align: center;
+	/*text-align: center;*/
 }
 
 .my-act-list-content .content-body ul.member-act-info li {

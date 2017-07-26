@@ -15,12 +15,23 @@ public class Label extends BaseModel {
     //标签名称
     private String name;
 
+    //风格
+    private String style;
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
     }
 
     @Override
@@ -31,7 +42,8 @@ public class Label extends BaseModel {
 
         Label label = (Label) o;
 
-        return name != null ? name.equals(label.name) : label.name == null;
+        if (name != null ? !name.equals(label.name) : label.name != null) return false;
+        return style != null ? style.equals(label.style) : label.style == null;
 
     }
 
@@ -39,6 +51,7 @@ public class Label extends BaseModel {
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (style != null ? style.hashCode() : 0);
         return result;
     }
 
@@ -46,6 +59,7 @@ public class Label extends BaseModel {
     public String toString() {
         return "Label{" +
                 "name='" + name + '\'' +
+                ", style='" + style + '\'' +
                 '}';
     }
 }

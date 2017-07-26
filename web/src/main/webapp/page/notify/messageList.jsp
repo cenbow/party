@@ -56,9 +56,9 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="10%">
-                            <col width="80%">
-                            <col width="10%">
+                            <col width="130px">
+                            <col>
+                            <col width="100px">
                         </colgroup>
                         <thead>
                         <tr>

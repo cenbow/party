@@ -51,30 +51,21 @@ li.checked {
 		</ul>
 	</div>
 	<form id="inputForm" action="${ctx}/crowdfund/analyze/labelSave.do" method="post">
-		<input type="hidden" name="ids" id="ids" />
+		<input type="hidden" name="id" id="id" />
 		<input type="hidden" name="projectId" value="${projectId}" />
 	</form>
 </body>
 <script type="text/javascript">
 	$(function(){
 		$("li").click(function(){
-			if(!$(this).hasClass("checked")){
-				$(this).addClass("checked");	
-			}else{
-				$(this).removeClass("checked");
-			}
+			$('li.checked').removeClass('checked');
+			$(this).addClass('checked');
 		});
 	});
 
 	function doSubmit() {
-		var array = new Array();
-		$("li.checked").each(function(index, ele){
-			var id = $(ele).attr("data-id");
-			array.push(id);
-		});
-		
-		$("#ids").val(array.join(","));
-
+		var id = $('li.checked').data('id');
+		$("#id").val(id);
 		var flag = false;
 
 		$.ajax({

@@ -396,6 +396,7 @@ body {
 	width: 990px;
 }
 .index-outside >section .section-main{
+	min-width: 930px;
 	padding: 30px 30px;
 }
 /*底部*/
@@ -474,6 +475,7 @@ body {
 }
 .index-outside > section .page-container{
     text-align: right;
+	padding-right: 15px;
 }
 /*提醒数字*/
 .notify-label {

@@ -32,7 +32,7 @@
                     <div class="f-search-bar">
                         <div class="search-container">
                             <ul class="search-form-content">
-                                <li class="form-item-inline"><label class="search-form-lable">队伍名称：</label>
+                                <li class="form-item-inline"><label class="search-form-lable">队伍名称</label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="name" autocomplete="off" class="layui-input" value="${signGroupInput.name}"
                                                placeholder="队伍名称"
@@ -41,7 +41,7 @@
                                 </li>
                             </ul>
                             <ul class="search-form-content">
-                                <li class="form-item"><label class="search-form-lable">报名时间：</label>
+                                <li class="form-item"><label class="search-form-lable">报名时间</label>
                                     <div class="check-btn-inner">
                                         <a id="all" href="javascript:void(0);" onclick="setTimeType($(this),0,'#myForm')" ${empty signGroupInput.timeType || signGroupInput.timeType == 0 ? 'class="active"' : ''}>全部</a>
                                         <a href="javascript:void(0);" onclick="setTimeType($(this),1,'#myForm')" ${signGroupInput.timeType == 1 ? 'class="active"' : ''}>今天</a>
@@ -87,12 +87,11 @@
                     <div class="cl">
                         <table class="layui-table">
                             <colgroup>
-                                <col width="100">
-                                <col width="100">
-                                <col width="100">
-                                <col width="100">
-                                <col width="100">
-                                <col width="100">
+                                <col>
+                                <col>
+                                <col>
+                                <col width="150px">
+                                <col>
                             </colgroup>
                             <thead>
                             <tr>
@@ -101,7 +100,7 @@
                                 <th>待审核成员</th>
                                 <th>创建者</th>
                                 <th>创建时间</th>
-                                <th>分享量</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>

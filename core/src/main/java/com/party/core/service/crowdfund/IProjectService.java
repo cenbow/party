@@ -146,11 +146,27 @@ public interface IProjectService extends IBaseService<Project> {
     Integer sizeForTargetId(String targetId);
 
     /**
+     * 项目下的众筹数
+     * @param targetId 项目编号
+     * @param isSuccess 状态
+     * @return 众筹数
+     */
+    Integer sizeForTargetId(String targetId, Integer isSuccess);
+
+    /**
      * 根据事件编号查询项目
      * @param eventId 事件编号
      * @return 项目数
      */
     Integer countForEvent(String eventId);
+
+    /**
+     * 根据事件编号查询项目
+     * @param eventId 事件编号
+     * @param isSuccess 状态
+     * @return 项目数
+     */
+    Integer countForEvent(String eventId, Integer isSuccess);
 
     /**
      * 众筹分析列表

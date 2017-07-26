@@ -74,6 +74,7 @@
         <collection property="labelList" ofType="com.party.core.model.label.Label">
             <id column="label_id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
             <result column="label_name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <result column="style" property="style" jdbcType="VARCHAR" javaType="java.lang.String"/>
         </collection>
     </resultMap>
 
@@ -192,7 +193,10 @@
         INNER JOIN member m ON p.author_id = m.id
         INNER JOIN zc_target_project tg ON p.id = tg.project_id
         INNER JOIN activity a ON tg.target_id = a.id
-        WHERE a.event_id = #{eventId}
+        <where>
+            a.event_id = #{eventId}
+            <if test="isSuccess != null"> AND p.is_success = #{isSuccess}</if>
+        </where>
     </select>
 
     <select id="listForDistributionId" resultMap="projectMap">
@@ -236,13 +240,16 @@
         FROM
             zc_project p
         INNER JOIN zc_target_project tg ON p.id = tg.project_id
-        WHERE tg.target_id = #{targetId}
+        <where>
+            tg.target_id = #{targetId}
+            <if test="isSuccess != null"> AND p.is_success = #{isSuccess}</if>
+        </where>
     </select>
 
     <select id="analyzeList" resultMap="analyzeMap">
         SELECT p.id AS id, p.is_success AS is_success, p.create_date AS create_date, p.favorer_num AS favorer_num, p.actual_amount AS actual_amount,
         a.id AS  author_id, a.realname AS author_name, a.logo AS author_logo, a.company AS author_company, a.job_title AS author_job_title, a.mobile AS author_mobile,
-        pa.realname AS parent_name, za.is_friend AS is_friend, za.is_group AS is_group, pl.label_id AS label_id, l.name AS label_name,sa.name as city_name
+        pa.realname AS parent_name, za.is_friend AS is_friend, za.is_group AS is_group, pl.label_id AS label_id, l.name AS label_name,l.style AS style,sa.name as city_name
         FROM zc_project p
         INNER JOIN member a ON p.author_id = a.id
         LEFT JOIN distributor_detail dd ON dd.target_id = p.id AND type = 3

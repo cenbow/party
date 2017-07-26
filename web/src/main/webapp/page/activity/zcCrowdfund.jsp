@@ -44,7 +44,7 @@
                                     <div class="f-search-bar">
                                         <div class="search-container">
                                             <ul class="search-form-content">
-                                                <li class="form-item-inline"><label class="search-form-lable">众筹者</label>
+                                                <li class="form-item-inline"><label class="search-form-lable" style="text-indent: 13px;">众筹者</label>
                                                     <div class="layui-input-inline">
                                                         <input type="text" name="authorName" autocomplete="off" class="layui-input" value="${projectWithAuthor.authorName}" placeholder="众筹者">
                                                     </div>
@@ -110,16 +110,16 @@
                                     <div class="cl">
                                         <table class="layui-table">
                                             <colgroup>
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
-                                                <col width="10%">
+                                                <col>
+                                                <col>
+                                                <col>
+                                                <col>
+                                                <col width="130px">
+                                                <col width="90px">
+                                                <col width="90px">
+                                                <col width="90px">
+                                                <col width="90px">
+                                                <col>
                                             </colgroup>
                                             <thead>
                                             <tr>
@@ -144,8 +144,8 @@
                                                         <div class="member-name ellipsis-1"><a class="blue" title="${distribution.authorName}" href="javascript:void(0);" >${distribution.authorName}</a></div>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        <div class="dib ellipsis-1" style="width: 100px;" title="${distribution.authorCompany}">${distribution.authorCompany}</div>
+                                                    <td class="ellipsis-1">
+                                                            ${distribution.authorCompany}
                                                     </td>
                                                     <td>
                                                             ${distribution.cityName}

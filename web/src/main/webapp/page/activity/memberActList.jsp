@@ -26,11 +26,8 @@
                     <a href="javascript:history.back();" class="layui-btn layui-btn-radius layui-btn-danger"> <i class="iconfont icon-refresh btn-icon"></i>返回
                     </a>
                 </div>
-                <div class="ovh">
-					<span class="title f20" title="${activity.title}">我发布的活动&nbsp;&gt;&nbsp;
-						<c:if test="${fn:length(activity.title) > 30}">${fn:substring(activity.title,0,30)}...</c:if>
-						<c:if test="${fn:length(activity.title) < 30}">${activity.title}</c:if>
-					</span>
+                <div class="ovh title f20 ellipsis-1">
+                    我发布的活动&nbsp;&gt;&nbsp;${activity.title}
                 </div>
             </div>
             <form class="layui-form" action="${ctx}/activity/memberAct/memberActList.do?actId=${activity.id}" id="myForm" method="post">
@@ -111,17 +108,17 @@
                     </div>
                     <p class="cl"></p>
                 </ul>
-                <div class="cl">
+                <div class="cl ul-extra-table">
                     <ul class="header">
-                        <li class="table-member" style="width: 200px;">参与者</li>
-                        <li style="width: 9%">手机号</li>
-                        <li style="width: 9%">微信号</li>
-                        <li style="width: 13%">报名时间</li>
+                        <li style="width: 13%">参与者</li>
+                        <li style="width:100px;">手机号</li>
+                        <li style="width: 12%">微信号</li>
+                        <li style="width:130px;">报名时间</li>
                         <li style="width: 7%">金额</li>
-                        <li style="width: 6%">状态</li>
-                        <li style="width: 6%">签到</li>
-                        <li style="width: 8%">操作</li>
-                        <li style="width: 7%">展开详情</li>
+                        <li style="width: 7%">状态</li>
+                        <li style="width: 7%">签到</li>
+                        <li style="width: 10%">操作</li>
+                        <li style="width:30px;">展开</li>
                     </ul>
                     <div id="view" class="cl content-body">
                         <c:if test="${page.totalCount == 0}">
@@ -130,23 +127,23 @@
                         <c:forEach var="memberAct" items="${memberActs}">
                             <div class="info">
                                 <ul class="content">
-                                    <li style="width: 200px;" class="table-member" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${memberAct.member.id}','400px','470px')">
+                                    <li onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${memberAct.member.id}','400px','470px')">
                                         <div class="member-cell">
-                                        <div class="member-logo"
-                                             style="background-image: url('${memberAct.member.logo}'),url(${ctx}/image/def_user_logo.png)"
-                                        ></div>
-                                        <div class="member-name ellipsis-1">
-                                            <a class="blue" title="${memberAct.member.realname}" href="javascript:void(0);">${memberAct.member.realname}</a>
-                                        </div>
+                                            <div class="member-logo"
+                                                 style="background-image: url('${memberAct.member.logo}'),url(${ctx}/image/def_user_logo.png)"
+                                            ></div>
+                                            <div class="member-name ellipsis-1">
+                                                <a class="blue" title="${memberAct.member.realname}" href="javascript:void(0);">${memberAct.member.realname}</a>
+                                            </div>
                                         </div>
                                     </li>
-                                    <li style="width: 9%">${memberAct.mobile}</li>
-                                    <li style="width: 9%" class="table-member ellipsis-1">${memberAct.wechatNum}</li>
-                                    <li style="width: 13%"><fmt:formatDate value="${memberAct.createDate}" pattern="yyyy-MM-dd HH:mm"/></li>
-                                    <li style="width: 7%"><c:if test="${memberAct.payment == 0}">免费报名</c:if> <c:if
+                                    <li>${memberAct.mobile}</li>
+                                    <li class="table-member ellipsis-1">${memberAct.wechatNum}</li>
+                                    <li><fmt:formatDate value="${memberAct.createDate}" pattern="yyyy-MM-dd HH:mm"/></li>
+                                    <li><c:if test="${memberAct.payment == 0}">免费报名</c:if> <c:if
                                             test="${memberAct.payment != 0}"
                                     >¥${memberAct.payment}</c:if></li>
-                                    <li style="width: 6%"><c:choose>
+                                    <li><c:choose>
                                         <c:when test="${memberAct.checkStatus == 0}">
                                             <span>审核中</span>
                                         </c:when>
@@ -166,8 +163,8 @@
                                             <span>未参与</span>
                                         </c:when>
                                     </c:choose></li>
-                                    <li style="width: 6%">${memberAct.signin == 1 ? '已签到' : '未签到'}</li>
-                                    <li style="width: 8%">
+                                    <li>${memberAct.signin == 1 ? '已签到' : '未签到'}</li>
+                                    <li>
                                         <c:if test="${memberAct.checkStatus == 0}">
                                             <a class="green" href="javascript:check('确认要审核通过该报名吗？', '${memberAct.id}', '1')" target="_self">通过</a>
                                             <span>|</span>
@@ -182,7 +179,7 @@
                                             </c:if>
                                         </c:if>
                                     </li>
-                                    <li style="width: 7%;" class="option">
+                                    <li class="option">
                                         <i class="iconfont icon-unfold"></i>
                                         <i class="iconfont icon-fold"></i>
                                     </li>
@@ -232,6 +229,7 @@
 <!--底部-->
 <%@include file="../include/footer.jsp" %>
 <script type="text/javascript" charset="utf-8" src="${ctx}/script/common/list.js"></script>
+<script type="text/javascript" charset="utf-8" src="${ctx}/script/common/table_option.js"></script>
 <script type="text/javascript">
 
 

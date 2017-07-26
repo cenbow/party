@@ -11,30 +11,30 @@
     width: 100%;
     -webkit-box-align: center;
     -webkit-align-items: center;
-       -moz-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
     -webkit-box-pack: start;
     -webkit-justify-content: flex-start;
-       -moz-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -moz-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
 }
-.table-member .member-logo {
+.member-cell .member-logo {
     display: inline-block;
     /*float: left;*/
     width: 30px;
     height: 30px;
     -webkit-border-radius: 50%;
-            border-radius: 50%;
+    border-radius: 50%;
     line-height: 50px;
     -webkit-background-size: cover;
-            background-size: cover;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-.table-member .member-name {
+.member-cell .member-name {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
     -ms-flex: 1;
@@ -131,7 +131,7 @@
     text-align: center;
     border: 1px solid #e2e2e2;
     -webkit-border-radius: 5px;
-            border-radius: 5px;
+    border-radius: 5px;
 }
 
 .tb-opts .opt-more .more-btn {
@@ -171,7 +171,8 @@
     float: left;
 }
 
-.jleft-fix-table .jfix-table-wrap {
+.jleft-fix-table .layui-table,.jright-fix-table .layui-table {
+    width:inherit;
 }
 
 .jright-fix-table {

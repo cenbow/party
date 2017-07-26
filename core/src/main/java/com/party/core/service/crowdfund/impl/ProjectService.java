@@ -391,7 +391,19 @@ public class ProjectService implements IProjectService {
      */
     @Override
     public Integer sizeForTargetId(String targetId) {
-        return projectReadDao.sizeForTargetId(targetId);
+        return projectReadDao.sizeForTargetId(targetId, null);
+    }
+
+    /**
+     * 项目下的众筹数
+     * @param targetId 项目编号
+     * @param isSuccess 状态
+     * @return 众筹数
+     */
+    @Override
+    public Integer sizeForTargetId(String targetId, Integer isSuccess) {
+        Integer size = projectReadDao.sizeForTargetId(targetId, isSuccess);
+        return null == size ? 0 : size;
     }
 
     /**
@@ -401,7 +413,19 @@ public class ProjectService implements IProjectService {
      */
     @Override
     public Integer countForEvent(String eventId) {
-        return projectReadDao.countForEvent(eventId);
+        return projectReadDao.countForEvent(eventId, null);
+    }
+
+    /**
+     * 根据事件编号查询项目
+     * @param eventId 事件编号
+     * @param isSuccess 状态
+     * @return 项目数
+     */
+    @Override
+    public Integer countForEvent(String eventId, Integer isSuccess) {
+        Integer size = projectReadDao.countForEvent(eventId, isSuccess);
+        return null == size ? 0 : size;
     }
 
     /**

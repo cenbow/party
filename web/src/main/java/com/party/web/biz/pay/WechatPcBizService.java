@@ -1,32 +1,30 @@
 package com.party.web.biz.pay;
 
-import com.google.common.collect.Maps;
-import com.party.common.constant.Constant;
-import com.party.common.constant.WechatConstant;
-import com.party.common.utils.BigDecimalUtils;
-import com.party.common.utils.VerifyCodeUtils;
-import com.party.core.exception.BusinessException;
-import com.party.core.model.order.OrderForm;
-import com.party.core.service.order.IOrderFormService;
-import com.party.pay.model.pay.wechat.NotifyRequest;
-import com.party.pay.model.pay.wechat.NotifyResponse;
-import com.party.pay.model.pay.wechat.UnifiedOrderRequest;
-import com.party.pay.model.pay.wechat.UnifiedOrderResponse;
-import com.party.pay.model.pay.wechat.pc.QrCodeRequest;
-import com.party.pay.model.pay.wechat.pc.QrCodeResponse;
-import com.party.web.utils.WechatPayUtils;
+import java.net.URLEncoder;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Map;
+import com.google.common.collect.Maps;
+import com.party.common.constant.Constant;
+import com.party.common.constant.WechatConstant;
+import com.party.common.utils.BigDecimalUtils;
+import com.party.common.utils.VerifyCodeUtils;
+import com.party.common.utils.refund.WechatPayUtils;
+import com.party.core.exception.BusinessException;
+import com.party.core.model.order.OrderForm;
+import com.party.core.service.order.IOrderFormService;
+import com.party.pay.model.pay.wechat.NotifyRequest;
+import com.party.pay.model.pay.wechat.NotifyResponse;
+import com.party.pay.model.pay.wechat.UnifiedOrderResponse;
+import com.party.pay.model.pay.wechat.pc.QrCodeRequest;
+import com.party.pay.model.pay.wechat.pc.QrCodeResponse;
+import com.party.pay.model.pay.wechat.pc.UnifiedOrderRequest;
 
 /**
  * 微信Pc扫码支付业务
@@ -91,10 +89,10 @@ public class WechatPcBizService {
             params.put("sign_type", WechatConstant.MD5_TYPE);
             String sign = WechatPayUtils.getSign(params, apiKey);
             params.put("sign", sign);
-            String requestData = com.party.common.utils.refund.WechatPayUtils.mapToXml(params);
+            String requestData = WechatPayUtils.mapToXml(params);
             logger.info("转换短链接请求：{}", requestData);
             String responseData = WechatPayUtils.httpsPost(WechatConstant.QR_LONG_TO_SHORT_URL, requestData);
-            Map<String, String> responseMap = com.party.common.utils.refund.WechatPayUtils.xmlToMap(responseData);
+            Map<String, String> responseMap = WechatPayUtils.xmlToMap(responseData);
             logger.info("转换短链接响应：{}", responseData);
             if (responseMap.get("return_code").equals(Constant.WECHAT_SUCCESS) && responseMap.get("result_code").equals(Constant.WECHAT_SUCCESS)) {
                 String shortUrl = responseMap.get("short_url");
@@ -124,7 +122,7 @@ public class WechatPcBizService {
         unifiedOrderRequest.setMchId(response.getMchId());// 商户编号
         String nonceStr = VerifyCodeUtils.RandomString(WechatConstant.RANDOM_LENGTH);// 获取随机数
         unifiedOrderRequest.setNonceStr(nonceStr);// 随机数
-        String body = subTitle(orderForm.getTitle(), 125);
+        String body = WechatPayUtils.subTitle(orderForm.getTitle(), 125);
         unifiedOrderRequest.setBody(body); // 描述
         unifiedOrderRequest.setOutTradeNo(orderForm.getId()); //商户订单号
         double total = BigDecimalUtils.mul(orderForm.getPayment(), 100);
@@ -211,42 +209,6 @@ public class WechatPcBizService {
         }
         logger.info("卖家身份验证通过");
         return true;
-    }
-
-    /**
-     * 截取字符串
-     *
-     * @param sourceTitle 字符串
-     * @param maxNum      最大长度
-     * @return
-     */
-    public String subTitle(String sourceTitle, int maxNum) {
-        try {
-            String newTitle = new String(sourceTitle.getBytes("UTF-8"), "UTF-8");
-            byte[] charset_bytes = newTitle.getBytes("UTF-8");
-            logger.info("newTitle:" + newTitle);
-            int length = charset_bytes.length;
-            logger.info("newTitle byte length:" + length);
-
-            if (length > maxNum) {
-                newTitle = newTitle.substring(0, newTitle.length() - 1);
-                newTitle = catString(newTitle, maxNum);
-            }
-            return newTitle;
-        } catch (Exception e) {
-            logger.error("截取字符串异常：{}", e);
-        }
-        return sourceTitle;
-    }
-
-    public String catString(String sourceTitle, int maxNum) throws UnsupportedEncodingException {
-        int length = sourceTitle.getBytes("UTF-8").length;
-
-        if (length > maxNum) {
-            sourceTitle = sourceTitle.substring(0, sourceTitle.length() - 1);
-            sourceTitle = catString(sourceTitle, maxNum);
-        }
-        return sourceTitle;
     }
 
     /**

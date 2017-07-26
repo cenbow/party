@@ -34,8 +34,8 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="100">
-                            <col width="200">
+                            <col width="45%">
+                            <col width="150px">
                             <col width="">
                         </colgroup>
                         <thead>
@@ -48,8 +48,8 @@
                         <tbody>
                         <c:forEach var="event" items="${list}">
                             <tr>
-                                <td class="">
-                                    <div class="dib ellipsis-1"  title="${event.name}">${event.name}</div>
+                                <td class="ellipsis-1" title=" ${event.name}">
+                                        ${event.name}
                                 </td>
                                 <td>
                                     <fmt:formatDate value="${event.createDate}" pattern="yyyy-MM-dd HH:mm" />

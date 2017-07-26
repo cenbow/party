@@ -95,14 +95,14 @@
 			                <div class="cl">
 			                    <table class="layui-table">
 			                        <colgroup>
-			                            <col>
-			                            <col>
-			                            <col>
-			                            <col>
-			                            <col>
-			                            <col>
-			                            <col>
-			                            <col>
+										<col width="60px">
+										<col>
+										<col>
+										<col>
+										<col width="90px">
+										<col width="150px">
+										<col width="90px">
+										<col width="90px">
 			                        </colgroup>
 			                        <thead>
 				                        <tr>

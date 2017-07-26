@@ -70,6 +70,10 @@ public class PayAliPcController {
     // 同步返回
     @Value("#{pay_ali_pc['ali.pc.returnUrl']}")
     private String returnUrl;
+    
+    // 同步返回跳转链接
+    @Value("#{pay_ali_pc['ali.pc.callback']}")
+    private String callback;
 
     /********************** 支付宝 ***********************/
 
@@ -84,27 +88,6 @@ public class PayAliPcController {
     private PayPcOrderBizService payPcOrderBizService;
 
     protected static Logger logger = LoggerFactory.getLogger(PayAliPcController.class);
-
-    @RequestMapping("getResponse/{orderId}")
-    public ModelAndView getResponse(@PathVariable("orderId") String orderId) {
-        ModelAndView mv = new ModelAndView("charge/payForward");
-//        AlipayClient alipayClient = new DefaultAlipayClient(gateway, appId, privateKey, "json", "utf-8", publicKey, signType);
-//        AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-//        alipayRequest.setReturnUrl(returnUrl);
-//        alipayRequest.setNotifyUrl(notifyUrl);
-//
-//        OrderForm orderForm = orderFormService.get(orderId);
-//
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        map.put("out_trade_no", orderId); //商户订单号
-//        map.put("product_code", "FAST_INSTANT_TRADE_PAY"); //销售产品码，与支付宝签约的产品码名称
-//        map.put("total_amount", orderForm.getPayment()); //订单总金额，单位为元
-//        map.put("subject", orderForm.getTitle()); //订单标题
-//        alipayRequest.setBizContent(JSONObject.toJSONString(map));
-//        String result = alipayClient.pageExecute(alipayRequest).getBody();
-//        mv.addObject("body", result);
-        return mv;
-    }
 
     /**
      * 支付请求
@@ -223,7 +206,7 @@ public class PayAliPcController {
     @RequestMapping("returnUrlResult")
     public ModelAndView returnUrlResult(HttpServletRequest request) {
         logger.info("收到支付宝同步通知！");
-        ModelAndView mv = new ModelAndView("redirect:/system/member/memberIndex.do");
+        ModelAndView mv = new ModelAndView(callback);
         Map<String, String> params = Maps.newHashMap();
         //取出所有参数是为了验证签名
         Enumeration<String> parameterNames = request.getParameterNames();

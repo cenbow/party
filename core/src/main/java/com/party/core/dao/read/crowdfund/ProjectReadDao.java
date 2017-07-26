@@ -74,14 +74,14 @@ public interface ProjectReadDao extends BaseReadDao<Project> {
      * @param targetId 项目编号
      * @return 众筹数
      */
-    Integer sizeForTargetId(@Param(value = "targetId") String targetId);
+    Integer sizeForTargetId(@Param(value = "targetId") String targetId, @Param(value = "isSuccess") Integer isSuccess);
 
     /**
      * 根据事件编号查询众筹数
      * @param eventId 事件编号
      * @return 众筹数
      */
-    Integer countForEvent(@Param(value = "eventId") String eventId);
+    Integer countForEvent(@Param(value = "eventId") String eventId, @Param(value = "isSuccess") Integer isSuccess);
 
     /**
      * 众筹分析列表
