@@ -11,7 +11,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="${ctx}/image/favicon.ico">
 <!-- 作者：Juliana 时间：2016-02-16 描述：PC公共css-->
 <link rel="stylesheet" href="${ctx}/themes/default/css/common/common.css">
-<link rel="stylesheet" href="${ctxStatic}/layui-v1.0.7/css/layui.css">
+<link rel="stylesheet" href="${ctxStatic}/layui-v1.0.9_rls/css/layui.css">
 <!-- cdn -->
 <script type="text/javascript" charset="utf-8" src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">

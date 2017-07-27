@@ -140,28 +140,38 @@
                         </ul>
 
                         <div class="list-content jfix-table-content">
-                            <div class="jleft-fix-table">
+                            <div class="jleft-fix-table no-hover-table">
                                 <table class="layui-table jfix-table-wrap">
+                                    <colgroup>
+                                        <col width="120px">
+                                        <col width="100px">
+                                        <col width="100px">
+                                        <col width="100px">
+                                    </colgroup>
                                     <thead>
                                     <tr>
-                                        <th style="width: 100px">众筹者</th>
-                                        <th style="width: 100px">渠道</th>
-                                        <th style="width: 100px">操作</th>
+                                        <th>众筹者</th>
+                                        <th>渠道</th>
+                                        <th>分析状态</th>
+                                        <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <c:forEach var="analyze" items="${list}">
-                                        <tr <c:if test="${not empty analyze.style && analyze.style != 'white'}" >class="${analyze.style}"</c:if> >
+                                        <tr <c:if test="${not empty analyze.style && analyze.style != 'white'}" >class="tr_${analyze.style}"</c:if> >
                                             <td class="jfix-td-item" onclick="openDialogShow('用户名片','${ctx}/system/member/memberView.do?id=${analyze.authorId}','400px','470px')">
                                                 <div class="table-member">
                                                     <div class="member-cell">
                                                     <div class="member-logo" style="background-image: url('${analyze.authorLogo}'),url(${ctx}/image/def_user_logo.png)"></div>
-                                                    <div class="member-name ellipsis-1"><a class="blue" title="${analyze.authorName}" href="javascript:void(0);" >${analyze.authorName}</a></div>
+                                                    <div class="member-name ellipsis-1"><a class="tdl" title="${analyze.authorName}" href="javascript:void(0);" >${analyze.authorName}</a></div>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="jfix-td-item">
                                                     ${analyze.parentName}
+                                            </td>
+                                            <td class="jfix-td-item">
+                                                    ${analyze.labels}
                                             </td>
                                             <td  class="tb-opts jfix-td-item" style="width: 100px">
                                                 <div class="comm-opts">
@@ -203,32 +213,46 @@
                             </div>
                             <div class="cl jright-fix-table">
                                 <table class="layui-table">
+                                    <colgroup>
+                                        <col width="100px">
+                                        <col width="200px">
+                                        <col width="150px">
+                                        <col width="130px">
+                                        <col width="90px">
+                                        <col width="90px">
+                                        <col width="90px">
+                                        <col width="90px">
+                                        <col width="100px">
+                                        <col width="130px">
+                                        <c:forEach items="${dateList}" var="date">
+                                            <col width="130px">
+                                        </c:forEach>
+                                    </colgroup>
                                     <thead>
                                     <tr>
-                                        <th style="width: 100px">区域</th>
-                                        <th style="width: 100px">公司</th>
-                                        <th style="width: 100px">职务</th>
-                                        <th style="width: 100px">联系电话</th>
-                                        <th style="width: 100px">加好友</th>
-                                        <th style="width: 100px">入群状态</th>
-                                        <th style="width: 100px">状态</th>
-                                        <th style="width: 100px">支持人数</th>
-                                        <th style="width: 100px">支持金额</th>
-                                        <th style="width: 100px">时间</th>
-                                        <th style="width: 100px">分析状态</th>
+                                        <th>区域</th>
+                                        <th>公司</th>
+                                        <th>职务</th>
+                                        <th>联系电话</th>
+                                        <th>加好友</th>
+                                        <th>入群状态</th>
+                                        <th>状态</th>
+                                        <th>支持人数</th>
+                                        <th>支持金额</th>
+                                        <th>时间</th>
                                         <c:forEach items="${dateList}" var="date">
-                                            <th style="width: 100px">${date}</th>
+                                            <th>${date}</th>
                                         </c:forEach>
                                     </tr>
                                     </thead>
                                     <tbody >
                                     <c:forEach var="analyze" items="${list}">
-                                        <tr <c:if test="${not empty analyze.style && analyze.style != 'white'}" >class="${analyze.style}"</c:if>>
+                                        <tr <c:if test="${not empty analyze.style && analyze.style != 'white'}" >class="tr_${analyze.style}"</c:if>>
                                             <td >
                                                     ${analyze.cityName}
                                             </td>
-                                            <td>
-                                                <div class="dib ellipsis-1" style="width: 100px;" title="${analyze.company}">${analyze.company}</div>
+                                            <td class=" ellipsis-1" title="${analyze.company}">
+                                                    ${analyze.company}
                                             </td>
 
                                             <td>
@@ -247,19 +271,17 @@
                                                     ${analyze.isSuccess}
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0);" class="blue favorerNum count-num" data-id="${analyze.id}" data-name="${analyze.authorName}">${analyze.favorerNum}</a>
+                                                <a href="javascript:void(0);" class="tdl favorerNum count-num" data-id="${analyze.id}" data-name="${analyze.authorName}">${analyze.favorerNum}</a>
 
                                             </td>
                                             <td>
-                                                <a href="javascript:void(0);" class="blue actualAmount count-num" data-id="${analyze.id}" data-name="${analyze.authorName}"> ${analyze.actualAmount}</a>
+                                                <a href="javascript:void(0);" class="tdl actualAmount count-num" data-id="${analyze.id}" data-name="${analyze.authorName}"> ${analyze.actualAmount}</a>
 
                                             </td>
                                             <td>
                                                 <fmt:formatDate value="${analyze.createDate}" pattern="yyyy-MM-dd"/>
                                             </td>
-                                            <td>
-                                                    ${analyze.labels}
-                                            </td>
+
 
 
 

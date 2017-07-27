@@ -1,4 +1,7 @@
 /**表单通用样式 Juliana 20170218**/
+.add-form-content {
+	max-width: 1420px;
+}
 .f-verify-red {
 	position: absolute;
 	right: 6px;
@@ -136,5 +139,16 @@
 	background: no-repeat center;
 	-webkit-background-size: cover;
 	        background-size: cover;
+	vertical-align: middle;
+}
+.cover-content .round-img{
+	display: inline-block;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	margin-right: 20px;
+	background: no-repeat center;
+	-webkit-background-size: cover;
+	background-size: cover;
 	vertical-align: middle;
 }

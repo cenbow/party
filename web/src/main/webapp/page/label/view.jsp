@@ -30,6 +30,7 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/label/label/save.do">
                 <input type="hidden" name="id" value="${label.id}" />
                 <div class="layui-form-item">
@@ -50,6 +51,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

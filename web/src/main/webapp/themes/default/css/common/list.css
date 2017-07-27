@@ -1,12 +1,6 @@
 /* 默认的列表样式 Juliana 2017-03-07 */
 
 /*通用时间列表样式*/
-.c-time-list-header {
-	min-height: 40px;
-	padding-bottom: 10px;
-	line-height: 40px;
-	border-bottom: 1px solid #dbdee5;
-}
 
 .c-time-list-header .title {
 	margin-right: 10px;

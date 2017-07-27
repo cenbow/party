@@ -29,6 +29,7 @@
             </div>
 
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/crowdfund/target/send.do">
                 <input type="hidden" name="id" value="${targetTemplate.id}" />
                 <input type="hidden" name="targetId" value="${targetTemplate.targetId}" />
@@ -64,6 +65,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

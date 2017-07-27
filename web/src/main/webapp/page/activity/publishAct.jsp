@@ -5,15 +5,8 @@
 <head>
     <title>${activity == null ? '发布' : '编辑'}活动</title>
     <%@include file="../include/commonFile.jsp" %>
-    <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
+    <link rel="stylesheet" href="${ctx}/themes/default/css/common/form.css">
     <link rel="stylesheet" href="${ctx}/themes/default/css/ui/activity/publish_act.css">
-    <style type="text/css">
-        .place-text {
-            width: 200px;
-            float: left;
-            margin-right: 10px;
-        }
-    </style>
 </head>
 <!--头部-->
 <%@include file="../include/header.jsp" %>
@@ -33,12 +26,13 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
-            <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/activity/activity/save.do">
+            <div class="add-form-content">
+                <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/activity/activity/save.do">
                 <input type="hidden" name="isCrowdfunded" value="0"/>
                 <div class="layui-form-item">
                     <label class="layui-form-label">活动标题<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" lay-verify="title" style="width: 80%" placeholder="活动标题" class="layui-input"
+                        <input type="text" name="title" lay-verify="title" placeholder="活动标题" class="layui-input"
                                value="${activity.title}"> <input type="hidden" name="id" value="${activity.id}"/>
                     </div>
                 </div>
@@ -55,6 +49,7 @@
                         <div class="u-single-upload">
                             <input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加海报</span>
                         </div>
+                        <div class="form-word-aux">建议尺寸：800x450</div>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -133,18 +128,16 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">活动描述</label>
                     <div class="layui-input-block">
-                        <input type="text" name="remarks" style="width: 80%" placeholder="活动描述" class="layui-input" value="${activity.remarks}">
+                        <input type="text" name="remarks" placeholder="活动描述" class="layui-input" value="${activity.remarks}">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <div class="layui-inline">
                         <label class="layui-form-label">活动详情<span class="f-verify-red">*</span></label>
                         <div class="layui-input-block">
-                            <script id="ueditor1" type="text/plain" style="width: 800px; height: 500px;"></script>
+                            <script id="ueditor1" type="text/plain" style="width:100%; height: 500px;"></script>
                             <div style="display: none" id="contentView">${activityDetail.content}</div>
                             <input type="hidden" name="content" id="content" lay-verify="content"/>
                         </div>
-                    </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
@@ -153,6 +146,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>
@@ -170,11 +164,10 @@
 <script type="text/javascript" charset="utf-8" src="${ctxStatic}/uploadCI/resize.js"></script>
 
 <script>
+    var form;
     $(function () {
-        var uploadFile = new UploadFile('', '${ctx}/piccloud/getSign.do');
-        var ue = UE.getEditor('ueditor1');
         layui.use(['form', 'laydate'], function () {
-            var form = layui.form(), laydate = layui.laydate;
+            form = layui.form(), laydate = layui.laydate;
             var radioValue = null;
 
             form.on('radio(isFree)', function (data) {
@@ -344,7 +337,15 @@
                 end.elem = this
                 laydate(end);
             }
+
+            initMapForm(form);
+            setTimeout(function () {
+                form.render('radio');
+            },100);
         });
+
+        var uploadFile = new UploadFile('', '${ctx}/piccloud/getSign.do');
+        var ue = UE.getEditor('ueditor1');
         ue.addListener('ready', function () {
             if ($("#contentView").html() != "") {
                 this.setHeight(850);

@@ -106,10 +106,10 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col>
+                            <col width="200px">
                             <col>
                             <col width="90px">
-                            <col>
+                            <col width="200px">
                             <col width="90px">
                             <col width="90px">
                             <col width="90px">

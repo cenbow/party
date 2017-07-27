@@ -4,8 +4,7 @@
 	width: 200px;
 	height: 120px;
 	margin-right: 20px;
-	background-position: center;
-	background-repeat: no-repeat;
+	background: no-repeat center;
 	-webkit-background-size: cover;
 	        background-size: cover;
 	vertical-align: middle;
@@ -44,4 +43,8 @@
 	-webkit-background-size: cover;
 	        background-size: cover;
 	vertical-align: middle;
+}
+
+.w85{
+	width: 85%!important;
 }

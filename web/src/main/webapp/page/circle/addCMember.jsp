@@ -47,7 +47,7 @@
 					<label class="layui-form-label">头像<span class="f-verify-red">*</span></label>
 					<div class="cover-content">
 						<input type="hidden" name="logo" id="pic" lay-verify="pic" /> <span id="cover-img"
-							class="cover-img" style="background-image:url(${ctx}/image/avatar1.png)"></span>
+							class="round-img" style="background-image:url(${ctx}/image/avatar1.png)"></span>
 						<div class="u-single-upload">
 							<input type="file" id="upload_single_img" class="u-single-file"> <span
 								class="u-single-upload-icon">+添加头像</span>

@@ -26,13 +26,14 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/circle/topicTag/save.do">
 				<input type="hidden" name="id" value="${tag.id}" />
 				<input type="hidden" name="circle" value="${circleId}" />
 				<div class="layui-form-item">
 					<label class="layui-form-label">名称<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="name" lay-verify="name" style="width: 80%"
+						<input type="text" name="name" lay-verify="name"
 							placeholder="请输入话题类型名称" class="layui-input" value="${tag.name}">
 					</div>
 				</div>
@@ -51,6 +52,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

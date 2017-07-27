@@ -32,7 +32,7 @@
                     <span class="title f20">众筹管理&nbsp;&gt;&nbsp;${empty upRecords.id ? '发布' : '编辑'}跟进记录</span>
                 </div>
             </div>
-
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/records/records/save.do">
                 <input type="hidden" name="id" value="${upRecords.id}" />
                 <div class="layui-form-item">
@@ -56,6 +56,7 @@
                         <div class="u-single-upload">
                             <input type="file" id="upload_logo_img" class="u-single-file"> <span class="u-single-upload-icon">+添加图像</span>
                         </div>
+                        <div class="form-word-aux">建议尺寸：800x450</div>
                     </div>
                 </div>
 
@@ -73,6 +74,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

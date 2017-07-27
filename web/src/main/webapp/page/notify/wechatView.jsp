@@ -30,6 +30,7 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/notify/eventChannel/save.do">
                 <input type="hidden" name="id" value="${message.id}" />
 
@@ -81,6 +82,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

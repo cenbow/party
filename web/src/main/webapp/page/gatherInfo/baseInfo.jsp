@@ -72,6 +72,7 @@ body {
 </style>
 </head>
 <body>
+<div class="add-form-content">
 	<form id="myForm" class="layui-form info-container" action="${ctx}/gatherInfo/member/verifyBaseInfo.do">
 		<div class="layui-form-item">
 			<div class="layui-inline">
@@ -195,6 +196,7 @@ body {
 		</div>
 		<div class="footer-place"></div>
 	</form>
+</div>
 </body>
 <script type="text/javascript">
 

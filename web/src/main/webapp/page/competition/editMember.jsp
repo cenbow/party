@@ -74,7 +74,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">头像</label>
                     <div class="cover-content">
-                        <span id="cover-img" class="cover-img" style="background-image:url('${member.logo}'),url(${ctx}/image/avatar1.png)"></span>
+                        <span id="cover-img" class="round-img" style="background-image:url('${member.logo}'),url(${ctx}/image/avatar1.png)"></span>
                     </div>
                 </div>
                 <div class="layui-form-item">

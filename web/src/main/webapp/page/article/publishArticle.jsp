@@ -25,6 +25,7 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/article/article/save.do">
 				<input type="hidden" name="applyId" value="${subjectApply.id}" />
 				<input type="hidden" name="subjectId" value="${subjectId}" />
@@ -58,6 +59,7 @@
 						<div class="u-single-upload">
 							<input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加封面图</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：800x450</div>
 					</div>
 				</div>
 <%-- 				<c:if test="${empty channel.id}"> --%>
@@ -124,14 +126,12 @@
 					</div>
 				</div>
 				<div class="layui-form-item" id="localDiv" ${article == null || article.type == "local" ? '' : 'style="display: none;"'}>
-					<div class="layui-inline">
 						<label class="layui-form-label">内容<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="ueditor1" type="text/plain" style="width: 800px; height: 500px;"></script>
+							<script id="ueditor1" type="text/plain" style="width: 100%; height: 500px;"></script>
 							<div style="display: none" id="contentView">${article.content}</div>
 							<input type="hidden" name="content" id="content" lay-verify="content" />
 						</div>
-					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
@@ -140,6 +140,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

@@ -6,6 +6,7 @@
     <title>机构登录</title>
     <link rel="stylesheet" href="${ctx}/themes/default/css/ui/index.css">
     <link rel="stylesheet" href="${ctx}/themes/default/css/ui/partner_login.css">
+    <link rel="stylesheet" href="${ctx}/themes/default/css/common/layout.css">
     <%@include file="./include/commonFile.jsp" %>
 </head>
 <!--头部-->

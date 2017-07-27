@@ -36,7 +36,7 @@
 					<a href="${ctx}/system/member/memberIndex.do" class="layui-btn layui-btn-radius layui-btn-danger"> <i class="iconfont icon-refresh btn-icon"></i>返回</a>
 				</div>
 				<div class="ovh">
-					<span class="title f20">个人中心&nbsp;&gt;&nbsp;编辑个人资料</span>
+					<span class="title f20">账户中心&nbsp;&gt;&nbsp;编辑资料</span>
 				</div>
 			</div>
 			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
@@ -53,6 +53,7 @@
 					<%--<div class="layui-tab-item"></div>--%>
 					<div class="layui-tab-item layui-show">
 						<!-- 正文请写在这里 -->
+						<div class="add-form-content">
 						<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/system/member/save.do">
 							<div class="layui-form-item" ${member.username != '' && not empty member.username ? '' : 'style="display:none"'}>
 								<div class="layui-inline">
@@ -84,10 +85,10 @@
 								<div class="cover-content">
 									<input type="hidden" name="logo" id="pic" lay-verify="pic" value="${member.logo}" />
 									<c:if test="${member == null || empty member.logo}">
-										<span id="cover-img" class="cover-img" style="background-image:url(${ctx}/image/def_user_logo.png)"></span>
+										<span id="cover-img" class="round-img" style="background-image:url(${ctx}/image/def_user_logo.png)"></span>
 									</c:if>
 									<c:if test="${member != null && not empty member.logo}">
-										<span id="cover-img" class="cover-img" style="background-image:url('${member.logo}')"></span>
+										<span id="cover-img" class="round-img" style="background-image:url('${member.logo}')"></span>
 									</c:if>
 									<div class="u-single-upload">
 										<input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加头像</span>
@@ -207,8 +208,10 @@
 								</div>
 							</div>
 						</form>
+						</div>
 					</div>
 					<div class="layui-tab-item">
+						<div class="add-form-content">
 						<form id="pwdForm" class="layui-form mt20" method="post" action="${ctx}/system/member/updatePwd.do">
 							<div class="layui-form-item">
 								<div class="layui-inline">
@@ -250,6 +253,7 @@
 								</div>
 							</div>
 						</form>
+						</div>
 					</div>
 <!-- 					<div class="layui-tab-item"> -->
 <%-- 						<form id="mchForm" class="layui-form mt20" method="post" action="${ctx}/system/member/bindMerchant.do"> --%>
@@ -321,6 +325,7 @@
 <!-- 						</form> -->
 <!-- 					</div> -->
 					<div class="layui-tab-item">
+						<div class="add-form-content">
 						<form id="bdPhoneForm" class="layui-form mt20" method="post" action="${ctx}/system/member/bindPhone.do">
 							<input type="hidden" name="id" value="${member.id}" />
 							<div class="layui-form-item">
@@ -343,6 +348,7 @@
 								</div>
 							</div>
 						</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -355,8 +361,6 @@
 <script type="text/javascript" charset="utf-8" src="${ctxStatic}/uploadCI/resize.js"></script>
 <script>
 	var uploadFile = new UploadFile('', '${ctx}/piccloud/getSign.do');
-
-
 
 	$(function() {
         layui.use([ 'form', 'laydate', 'element' ], function() {

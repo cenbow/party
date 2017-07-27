@@ -35,6 +35,7 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/subject/apply/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">专题</label>
@@ -63,6 +64,7 @@
 						<div class="u-single-upload">
 							<input type="file" class="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加栏目图标</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：120x120</div>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -108,6 +110,7 @@
 						<div class="u-single-upload">
 							<input type="file" class="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加封面图</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：800x450</div>
 					</div>
 				</div>
 				<div class="layui-form-item" ${apply == null ? 'style="display:none"' : ''}>
@@ -131,6 +134,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

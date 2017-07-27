@@ -13,6 +13,7 @@
 <div class="index-outside">
     <section>
         <div class="section-main">
+            <div class="add-form-content">
             <form id="myForm" class="layui-form" method="post" action="${ctx}/crowdfund/crowdfund/launch.do">
                 <input name="id" value="${project.id}" type="hidden">
                	<div class="layui-form-item">
@@ -34,6 +35,7 @@
                         <div class="u-single-upload">
                             <input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加封面图</span>
                         </div>
+                        <div class="form-word-aux">建议尺寸：800x450</div>
                     </div>
                 </div>
 	         	<div class="layui-form-item">
@@ -65,6 +67,7 @@
 				  	</div>
 				</div>
             </form>
+            </div>
         </div>
     </section>
 </div>

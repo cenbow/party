@@ -26,6 +26,7 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/competition/project/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">项目名称<span class="f-verify-red">*</span></label>
@@ -47,6 +48,7 @@
 						<div class="u-single-upload">
 							<input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加封面图</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：800x450</div>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -71,6 +73,7 @@
 				  	</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

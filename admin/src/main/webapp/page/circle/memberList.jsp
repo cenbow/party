@@ -89,7 +89,7 @@
 				<div class="cl">
 					<table class="layui-table">
 						<colgroup>
-							<col>
+							<col width="200px">
 							<col width="130px">
 							<col width="100px">
 							<col width="20%">

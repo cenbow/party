@@ -25,7 +25,7 @@
 					<a href="${ctx}/system/member/memberIndex.do" class="layui-btn layui-btn-radius layui-btn-danger"> <i class="iconfont icon-refresh btn-icon"></i>返回</a>
 				</div>
 				<div class="ovh">
-					<span class="title f20">个人中心&nbsp;&gt;&nbsp;余额提现</span>
+					<span class="title f20">账户中心&nbsp;&gt;&nbsp;余额提现</span>
 				</div>
 			</div>
 			<div class="f-search-bar mt20" style="border: 1px solid #dbdee5; padding: 16px; border-radius: 5px;">
@@ -39,6 +39,7 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/wallet/withdrawals/save.do">
 				<div class="layui-form-item">
 					<div class="layui-inline">
@@ -109,6 +110,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

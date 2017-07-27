@@ -36,7 +36,7 @@
 
 <div class="c-time-list-header">
     <div class="ovh">
-        <span class="title f20">个人中心</span>
+        <span class="title f20">账户中心</span>
     </div>
 </div>
 <!-- 个人资料，余额 -->
@@ -51,7 +51,7 @@
                 <a href="${ctx}/system/member/memberForm.do" target="_self"
                    class="layui-btn layui-btn-danger layui-btn-small ml10"
                    style="padding-left: 15px; padding-right: 15px;"><i class="iconfont icon-edit btn-icon"></i>
-                    编辑个人资料</a>
+                    编辑资料</a>
             </div>
             <div class="display-flex mb10">
                 <div class="info-div">

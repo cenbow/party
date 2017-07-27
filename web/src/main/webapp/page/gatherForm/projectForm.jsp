@@ -32,6 +32,7 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/gatherForm/project/save.do">
 				<fieldset class="border mb10">
 					<legend>项目内容</legend>
@@ -56,6 +57,7 @@
 								<input type="file" id="upload_single_img" class="u-single-file">
 								<span class="u-single-upload-icon">+添加封面图</span>
 							</div>
+							<div class="form-word-aux">建议尺寸：800x450</div>
 						</div>
 					</div>
 					<div class="layui-form-item">
@@ -103,6 +105,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

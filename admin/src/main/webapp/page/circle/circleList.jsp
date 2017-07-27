@@ -72,7 +72,7 @@
                     <table class="layui-table">
                         <colgroup>
                             <col>
-                            <col>
+                            <col width="200px">
                             <col width="90px">
                             <col width="90px">
                             <col width="150px">

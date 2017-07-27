@@ -381,6 +381,13 @@ body {
 	background-color: #e8473f;
 	color: #fff;
 }
+/*内容区头部*/
+.c-time-list-header {
+	min-height: 40px;
+	padding-bottom: 10px;
+	line-height: 40px;
+	border-bottom: 1px solid #dbdee5;
+}
 /*内容区*/
 .index-outside > section {
 	-webkit-box-flex: 1;
@@ -397,7 +404,7 @@ body {
 }
 .index-outside >section .section-main{
 	min-width: 930px;
-	padding: 30px 30px;
+	padding: 15px 30px;
 }
 /*底部*/
 .footer-gray{

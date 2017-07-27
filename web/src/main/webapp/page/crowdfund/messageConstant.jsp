@@ -30,6 +30,7 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" >
                 <div class="layui-form-item">
                     <label class="layui-form-label">短信内容</label>
@@ -39,6 +40,7 @@
                 </div>
 
             </form>
+            </div>
         </div>
     </section>
 </div>

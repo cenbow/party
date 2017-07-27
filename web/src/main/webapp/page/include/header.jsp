@@ -49,7 +49,7 @@
 					<div class="user-info">
 						<ul class="user-info-nav">
 							<li>
-								<p class="f16" id="home_page">个人中心</p>
+								<p class="f16" id="home_page">账户中心</p>
 							</li>
 							<%--<li>--%>
 								<%--<p class="f16" id="myInfo">个人资料</p>--%>

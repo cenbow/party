@@ -3,7 +3,7 @@
     background-color:#e8473f;
 }
 .layui-btn.layui-btn-primary:hover{
-    border:1px solid #e8473f;
+	border:1px solid #e8473f;
 }
 .layui-form-select dl dd.layui-this {
     background-color: #e8473f !important;

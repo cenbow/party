@@ -167,7 +167,7 @@
                     <a href="${ctx}/system/member/memberIndex.do" class="layui-btn layui-btn-radius layui-btn-danger"> <i class="iconfont icon-refresh btn-icon"></i>返回</a>
                 </div>
                 <div class="ovh">
-                    <span class="title f20">个人中心&nbsp;&gt;&nbsp;服务升级</span>
+                    <span class="title f20">账户中心&nbsp;&gt;&nbsp;服务升级</span>
                 </div>
             </div>
             <div class="introduce">

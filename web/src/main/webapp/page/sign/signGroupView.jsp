@@ -26,6 +26,7 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/sign/group/save.do">
                 <input type="hidden" name="id" value="${signGroup.id}" />
                 <input type="hidden" name="projectId" value="${signGroup.projectId}" />
@@ -50,6 +51,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

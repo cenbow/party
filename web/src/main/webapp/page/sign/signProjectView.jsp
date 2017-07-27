@@ -32,12 +32,12 @@
                     <span class="title f20">我发布的活动&nbsp;&gt;&nbsp;${empty signProject.id ? '发布' : '编辑'}打卡项目</span>
                 </div>
             </div>
-
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/sign/project/save.do">
                 <div class="layui-form-item">
                     <label class="layui-form-label">活动标题<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" lay-verify="title" style="width: 80%" placeholder="活动标题" class="layui-input" value="${signProject.title}">
+                        <input type="text" name="title" lay-verify="title"  placeholder="活动标题" class="layui-input" value="${signProject.title}">
                         <input type="hidden" name="id" value="${signProject.id}" />
                     </div>
                 </div>
@@ -59,11 +59,11 @@
                     <div class="cover-content">
                         <c:if test="${signProject == null || empty signProject.publisherLogo}">
                             <input type="hidden" name="publisherLogo" id="publisherLogo" lay-verify="publisherLogo" value="${sessionScope.currentUser.logo}" />
-                            <span id="logo-img" class="cover-img" style="background-image:url(${sessionScope.currentUser.logo})"></span>
+                            <span id="logo-img" class="round-img" style="background-image:url(${sessionScope.currentUser.logo})"></span>
                         </c:if>
                         <c:if test="${signProject != null && not empty signProject.publisherLogo}">
                             <input type="hidden" name="publisherLogo" id="publisherLogo" lay-verify="publisherLogo" value="${signProject.publisherLogo}" />
-                            <span id="logo-img" class="cover-img" style="background-image:url('${signProject.publisherLogo}')"></span>
+                            <span id="logo-img" class="round-img" style="background-image:url('${signProject.publisherLogo}')"></span>
                         </c:if>
                         <div class="u-single-upload">
                             <input type="file" id="upload_logo_img" class="u-single-file"> <span class="u-single-upload-icon">+添加头像</span>
@@ -83,6 +83,7 @@
                         <div class="u-single-upload">
                             <input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加项目海报</span>
                         </div>
+                        <div class="form-word-aux">建议尺寸：800x450</div>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -98,6 +99,7 @@
                         <div class="u-single-upload">
                             <input type="file" id="upload_sign_img" class="u-single-file"> <span class="u-single-upload-icon">+添加主页海报</span>
                         </div>
+                        <div class="form-word-aux">建议尺寸：800x450</div>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -165,13 +167,13 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">项目描述</label>
                     <div class="layui-input-block">
-                        <input type="text" name="remarks" style="width: 80%" placeholder="项目描述" class="layui-input" value="${signProject.remarks}">
+                        <input type="text" name="remarks"  placeholder="项目描述" class="layui-input" value="${signProject.remarks}">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">规则<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <textarea name="rule" id="rule" placeholder="规则" lay-verify="rule" class="layui-textarea" style="width: 80%" >${signProject.rule}</textarea>
+                        <textarea name="rule" id="rule" placeholder="规则" lay-verify="rule" class="layui-textarea" >${signProject.rule}</textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -181,6 +183,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>
@@ -333,6 +336,9 @@
                 end.elem = this
                 laydate(end);
             }
+            setTimeout(function () {
+                form.render('radio');
+            },100);
         });
         $('#rule').val(util.htmlToTextarea($('textarea[name=rule]').val()));
 
