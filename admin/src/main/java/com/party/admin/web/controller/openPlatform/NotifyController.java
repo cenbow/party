@@ -2,7 +2,6 @@ package com.party.admin.web.controller.openPlatform;
 
 import com.party.admin.biz.openPlatform.NotifyBizService;
 import com.party.admin.web.dto.AjaxResult;
-import com.party.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/openPlatform/notify")
 public class NotifyController {
-
-    private String componentAppid;
-    private String componentAppsecret;
-
     // 第三方平台申请时填写的接收消息的校验token
-    String token = "yilutongxing2016";
+    private String token = "yilutongxing2016";
     // 第三方平台申请时填写的接收消息的加密解密key
-    String encodingAesKey = "66HoTKSy371Asryx6k8iVzuMWMFRZ6es9ghKR20x6BX";
+    private String encodingAesKey = "66HoTKSy371Asryx6k8iVzuMWMFRZ6es9ghKR20x6BX";
 
     @Autowired
     private NotifyBizService notifyBizService;
@@ -48,15 +43,6 @@ public class NotifyController {
         logger.info("接收Ticket响应数据：{}", responseData);
         // 1.获取component_verify_ticket
         String componentVerifyTicket = notifyBizService.resolveTicket(token, encodingAesKey, responseData);
-        // 2.获取第三方平台component_access_token
-        String accessToken = notifyBizService.getComponentToken(componentAppid, componentAppsecret, componentVerifyTicket);
-        if (StringUtils.isNotEmpty(accessToken)) {
-            // 3.获取预授权码pre_auth_code
-            String preAuthCode = notifyBizService.getPreAuthCode(componentAppid, accessToken);
-            if (StringUtils.isNotEmpty(preAuthCode)) {
-
-            }
-        }
         return AjaxResult.success();
     }
 }
