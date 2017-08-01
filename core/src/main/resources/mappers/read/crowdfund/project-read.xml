@@ -70,6 +70,7 @@
         <result column="parent_name" property="parentName" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="is_friend" property="isFriend" jdbcType="INTEGER" javaType="java.lang.Integer"/>
         <result column="is_group" property="isGroup" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="recently_record" property="recentlyRecord" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="city_name" property="cityName" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <collection property="labelList" ofType="com.party.core.model.label.Label">
             <id column="label_id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
@@ -249,12 +250,12 @@
     <select id="analyzeList" resultMap="analyzeMap">
         SELECT p.id AS id, p.is_success AS is_success, p.create_date AS create_date, p.favorer_num AS favorer_num, p.actual_amount AS actual_amount,
         a.id AS  author_id, a.realname AS author_name, a.logo AS author_logo, a.company AS author_company, a.job_title AS author_job_title, a.mobile AS author_mobile,
-        pa.realname AS parent_name, za.is_friend AS is_friend, za.is_group AS is_group, pl.label_id AS label_id, l.name AS label_name,l.style AS style,sa.name as city_name
+        pa.realname AS parent_name, za.is_friend AS is_friend, za.is_group AS is_group,za.recently_record AS recently_record, pl.label_id AS label_id, l.name AS label_name,l.style AS style,sa.name as city_name
         FROM zc_project p
         INNER JOIN member a ON p.author_id = a.id
         LEFT JOIN distributor_detail dd ON dd.target_id = p.id AND type = 3
         LEFT JOIN distributor_relation dr ON dr.id = dd.distributor_relation_id
-        LEFT JOIN member pa ON dr.parent_id = pa.id
+        LEFT JOIN member pa ON dr.distributor_id = pa.id
         INNER JOIN zc_analyze za ON za.target_id = p.id
         LEFT JOIN zc_project_label pl ON pl.project_id = p.id
         LEFT JOIN label l ON l.id = pl.label_id

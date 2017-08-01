@@ -420,30 +420,16 @@ body {
 	font-size: 14px;
 }
 .footer-content .qr-code-content{
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    width: 100%;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -moz-box-pack: center;
-     -ms-flex-pack: center;
-         justify-content: center;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -moz-box-align: center;
-     -ms-flex-align: center;
-         align-items: center;
+	text-align: center;
+	width: 100%;
     padding-bottom: 30px;
     margin-bottom: 30px;
     border-bottom: 1px solid #cec8c8;
 }
 .footer-content .qr-code-item{
 	width: 150px;
-	float: left;
 	margin: 0 20px;
+	display: inline-block;
 }
 .footer-content .qr-code-item img{
 	width: 110px;

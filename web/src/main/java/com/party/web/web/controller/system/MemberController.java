@@ -323,6 +323,6 @@ public class MemberController {
 	 */
 	@RequestMapping("memberIndex")
 	public String memberIndex(){
-		return "redirect:/order/order/tradeList.do";
+		return "redirect:/order/order/orderList.do";
 	}
 }

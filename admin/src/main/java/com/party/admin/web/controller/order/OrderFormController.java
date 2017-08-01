@@ -1,24 +1,5 @@
 package com.party.admin.web.controller.order;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.party.admin.utils.RealmUtils;
-import com.party.core.model.order.*;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -36,10 +17,10 @@ import com.party.core.model.crowdfund.TargetProject;
 import com.party.core.model.goods.Goods;
 import com.party.core.model.goods.GoodsCoupons;
 import com.party.core.model.member.Member;
-import com.party.core.model.member.MemberMerchant;
-import com.party.core.model.member.MerchantUtil;
+import com.party.core.model.order.*;
 import com.party.core.model.system.Dict;
 import com.party.core.service.activity.IActivityService;
+import com.party.core.service.activity.OrderActivityBizService;
 import com.party.core.service.crowdfund.IProjectService;
 import com.party.core.service.crowdfund.ITargetProjectService;
 import com.party.core.service.goods.IGoodsCouponsService;
@@ -53,6 +34,15 @@ import com.party.core.service.system.IDictService;
 import com.party.core.service.user.IUserService;
 import com.party.pay.model.query.TradeStatus;
 import com.party.pay.model.refund.WechatPayRefundResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 订单
@@ -102,6 +92,8 @@ public class OrderFormController {
     
     @Autowired
     private IMemberMerchantService memberMerchantService;
+    @Autowired
+    private OrderActivityBizService orderActivityBizService;
 	
 	@RequestMapping(value = "goodsOrderList")
 	public ModelAndView goodsOrderList(OrderForm orderForm, Page page, CommonInput commonInput) {
@@ -150,22 +142,12 @@ public class OrderFormController {
 			if (tradeStatusSet.contains(TradeStatus.WX_REFUND.getCode())) {
 				orderForm.setStatus(null);
 			}
-			List<MemberMerchant> merchants = memberMerchantService.list(new MemberMerchant());
 			List<OrderFormOutput> orderFormOutputs = LangUtils.transform(orderForms, input -> {
 				OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
-				if (StringUtils.isNotEmpty(input.getMerchantId())) {
-					if (input.getMerchantId().equals(MerchantUtil.TXZ_WWZ_MERCHANT_ID)
-							|| input.getMerchantId().equals(MerchantUtil.TXZ_APP_MERCHANT_ID)) {
-						orderFormOutput.setMerchantName(MerchantUtil.TXZ_MERCHANT_NAME);
-					} else {
-						for (MemberMerchant memberMerchant : merchants) {
-							if (memberMerchant.getMerchantId().equals(input.getMerchantId())) {
-								orderFormOutput.setMerchantName(merchants.get(0).getMerchantName());
-								break;
-							}
-						}
-					}
-				}
+				// 获取商户名称
+				String merchantName = orderActivityBizService.
+						getMerchantName(input.getMerchantId(), input.getPaymentWay(), input.getInitiatorId());
+				orderFormOutput.setMerchantName(merchantName);
 				orderFormOutput.setPaymentWayName(PaymentWay.getValue(input.getPaymentWay()));
 				orderFormOutput.setTypeName(OrderType.getValue(input.getType()));
 				orderFormOutput.setStatusName(OrderStatus.getValue(input.getStatus()));
@@ -202,6 +184,12 @@ public class OrderFormController {
 		List<OrderForm> orderForms = orderFormService.webListPage(orderForm, params, page);
 		List<OrderFormOutput> orderFormOutputs = LangUtils.transform(orderForms, input -> {
 			OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
+
+			// 获取商户名称
+			String merchantName = orderActivityBizService.
+					getMerchantName(input.getMerchantId(), input.getPaymentWay(), input.getInitiatorId());
+			orderFormOutput.setMerchantName(merchantName);
+
 			return orderFormOutput;
 		});
 		
@@ -314,17 +302,10 @@ public class OrderFormController {
 			}
 		}
 		
-		if (StringUtils.isNotEmpty(orderForm.getMerchantId())) {
-			if (orderForm.getMerchantId().equals(MerchantUtil.TXZ_WWZ_MERCHANT_ID)
-					|| orderForm.getMerchantId().equals(MerchantUtil.TXZ_APP_MERCHANT_ID)) {
-				orderFormOutput.setMerchantName(MerchantUtil.TXZ_MERCHANT_NAME);
-			} else {
-				List<MemberMerchant> memberMerchantList = memberMerchantService.findByMerchantId(orderForm.getMerchantId());
-				if (!CollectionUtils.isEmpty(memberMerchantList) && null != memberMerchantList.get(0)) {
-					orderFormOutput.setMerchantName(memberMerchantList.get(0).getMerchantName());
-				}
-			}
-		}
+		// 获取商户名称
+		String merchantName = orderActivityBizService.
+				getMerchantName(orderForm.getMerchantId(), orderForm.getPaymentWay(), orderForm.getInitiatorId());
+		orderFormOutput.setMerchantName(merchantName);
 
 		//交易流水
 		OrderRefundTrade orderRefundTrade = orderRefundTradeService.recentlyByOrderId(id);
@@ -411,10 +392,15 @@ public class OrderFormController {
 		params.put("isCrowdfund", "0");
 		params.put("payment", 0);
 		List<OrderForm> orderForms = orderFormService.webListPage(orderForm, params, page);
+
 		List<OrderFormOutput> orderFormOutputs = LangUtils.transform(orderForms, input -> {
 			OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
 			String label = OrderType.getValue(input.getType());
 			orderFormOutput.setTypeName(label);
+			// 获取商户名称
+			String merchantName = orderActivityBizService.
+					getMerchantName(input.getMerchantId(), input.getPaymentWay(), input.getInitiatorId());
+			orderFormOutput.setMerchantName(merchantName);
 			return orderFormOutput;
 		});
 		mv.addObject("orderForms", orderFormOutputs);
@@ -425,7 +411,7 @@ public class OrderFormController {
 		mv.addObject("member", member);
 
 		// 余额
-		double totalAccount = orderBizService.getTotalAccount(mmId);
+		double totalAccount = orderBizService.getTotalAccount(mmId, orderForm.getType());
 		mv.addObject("totalPayment", totalAccount);
 
 		Map<Integer, String> orderTypes = Maps.newHashMap();
@@ -436,19 +422,19 @@ public class OrderFormController {
 	}
 
 	/**
-	 * 订单导出
-	 *
+	 * 合作商订单导出
+	 * @param mmId 合作商id
+	 * @param orderForm 订单
 	 * @param response
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value = "exportMemberOrder", method = RequestMethod.POST)
-	public String exportMemberOrder(HttpServletResponse response) {
+	public String exportMemberOrder(String mmId, OrderForm orderForm, HttpServletResponse response) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			String fileName = "订单" + sdf.format(new Date()) + ".xlsx";
-			OrderForm orderForm = new OrderForm();
-			orderForm.setInitiatorId(RealmUtils.getCurrentUser().getId());
+			orderForm.setInitiatorId(mmId);
 			orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
 			orderForm.setStatus(OrderStatus.ORDER_STATUS_HAVE_PAID.getCode()); // 已支付
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -459,27 +445,13 @@ public class OrderFormController {
 			// orderTypes.add(OrderType.ORDER_ACTIVITY.getCode());
 			// orderTypes.add(OrderType.ORDER_CROWD_FUND.getCode());
 			params.put("types", orderTypes);
-			params.put("txzMerchantId", MerchantUtil.TXZ_WWZ_MERCHANT_ID);
 			List<OrderForm> orderForms = orderFormService.webListPage(orderForm, params, null);
-			List<MemberMerchant> merchants = memberMerchantService.list(new MemberMerchant());
-			MemberMerchant merchant = memberMerchantService.findByMemberId(RealmUtils.getCurrentUser().getId());
 			List<OrderFormOutput> orderFormOutputs = LangUtils.transform(orderForms, input -> {
 				OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
-				if (com.party.common.utils.StringUtils.isNotEmpty(input.getMerchantId())) {
-					if (input.getMerchantId().equals(MerchantUtil.TXZ_WWZ_MERCHANT_ID)
-							|| input.getMerchantId().equals(MerchantUtil.TXZ_APP_MERCHANT_ID)) {
-						orderFormOutput.setMerchantName(MerchantUtil.TXZ_MERCHANT_NAME);
-					} else if (merchant != null && merchant.getMerchantId().equals(input.getMerchantId())) {
-						orderFormOutput.setMerchantName(merchant.getMerchantName());
-					} else {
-						for (MemberMerchant memberMerchant : merchants) {
-							if (memberMerchant.getMerchantId().equals(input.getMerchantId())) {
-								orderFormOutput.setMerchantName(merchants.get(0).getMerchantName());
-								break;
-							}
-						}
-					}
-				}
+				// 获取商户名称
+				String merchantName = orderActivityBizService.
+						getMerchantName(input.getMerchantId(), input.getPaymentWay(), input.getInitiatorId());
+				orderFormOutput.setMerchantName(merchantName);
 				orderFormOutput.setPaymentWayName(PaymentWay.getValue(input.getPaymentWay()));
 				orderFormOutput.setTypeName(OrderType.getValue(input.getType()));
 				orderFormOutput.setStatusName(OrderStatus.getValue(input.getStatus()));

@@ -1,14 +1,13 @@
 package com.party.core.dao.read.activity;
 
-import java.util.List;
-import java.util.Map;
-
 import com.party.common.paging.Page;
 import com.party.core.dao.read.BaseReadDao;
 import com.party.core.model.activity.Activity;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * ActivityReadDao活动数据读取
@@ -29,4 +28,6 @@ public interface ActivityReadDao extends BaseReadDao<Activity> {
 	 * @return 统计结果
 	 */
 	Activity countForEventId(@Param(value = "eventId") String eventId);
+
+    Integer getCount(Activity activity);
 }

@@ -25,11 +25,12 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/goods/goods/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">标题<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="title" lay-verify="title" style="width: 80%" placeholder="标题" class="layui-input" value="${goods.title}" />
+						<input type="text" name="title" lay-verify="title" placeholder="标题" class="layui-input" value="${goods.title}" />
 						<input type="hidden" name="id" value="${goods.id}"/>
 						<input type="hidden" name="type" value="1"/>
 					</div>
@@ -47,6 +48,7 @@
 						<div class="u-single-upload">
 							<input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加封面图</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：800x450</div>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -65,53 +67,8 @@
 						</div>
 					</div>
 				</div>
-				<div class="layui-form-item">
-					<div class="layui-inline">
-						<label class="layui-form-label">地点<span class="f-verify-red">*</span></label>
-						<div class="layui-input-inline">
-							<select name="cityId" lay-verify="city">
-								<option value="">选择城市</option>
-								<c:forEach var="city" items="${citys}">
-									<option value="${city.id}" ${goods.cityId == city.id ? 'selected="selected"' : ""}>${city.name}</option>
-								</c:forEach>
-							</select>
-						</div>
-						<div class="layui-input-inline">
-							<input type="text" id="area" name="area" lay-verify="area" placeholder="区域" class="layui-input" value="${goods.area}" />
-						</div>
-						<div class="layui-input-inline">
-							<input type="text" id="place" name="place" lay-verify="place" placeholder="集合地点" value="${goods.place}" class="layui-input"
-								style="width: 400px;"
-							/> <input type="hidden" name="lat" id="lat" lay-verify="lat" value="${goods.lat}" /> <input type="hidden" name="lng" id="lng"
-								value="${goods.lng}"
-							/>
-						</div>
-					</div>
-				</div>
-				<!-- 				<div class="layui-form-item"> -->
-				<!-- 					<div class="layui-inline"> -->
-				<!-- 						<label class="layui-form-label">经度<span class="f-verify-red">*</span></label> -->
-				<!-- 						<div class="layui-input-inline"> -->
-				<%-- 							<input class="layui-input" name="lng" lay-verify="lng" value='${goods.lng}'/> --%>
-				<!-- 						</div> -->
-				<!-- 					</div> -->
-				<!-- 				</div> -->
-				<!-- 				<div class="layui-form-item"> -->
-				<!-- 					<div class="layui-inline"> -->
-				<!-- 						<label class="layui-form-label">纬度<span class="f-verify-red">*</span></label> -->
-				<!-- 						<div class="layui-input-inline"> -->
-				<%-- 							<input class="layui-input" name="lat" lay-verify="lat" value='${goods.lat}'/> --%>
-				<!-- 						</div> -->
-				<!-- 					</div> -->
-				<!-- 				</div> -->
-				<div id="mapDiv" class="layui-form-item" style="display: none;">
-					<div class="layui-inline">
-						<label class="layui-form-label"></label>
-						<div class="layui-input-inline">
-							<div id="allmap" style="height: 500px; width: 800px;"></div>
-						</div>
-					</div>
-				</div>
+
+				<%@include file="./cityAreaMap.jsp" %>
 				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">玩法类型<span class="f-verify-red">*</span></label>
@@ -177,34 +134,28 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<div class="layui-inline">
 						<label class="layui-form-label">推荐理由<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="recommendUEditor" type="text/plain" style="width: 800px; height: 300px;"></script>
+							<script id="recommendUEditor" type="text/plain" style="width: 100%; height: 300px;"></script>
 							<div style="display: none" id="recommendView">${goods.recommend}</div>
 							<input type="hidden" name="recommend" id="recommend" lay-verify="recommend" />
 						</div>
-					</div>
 				</div>
 				<div class="layui-form-item">
-					<div class="layui-inline">
 						<label class="layui-form-label">注意事项<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="noticeUEditor" type="text/plain" style="width: 800px; height: 300px;"></script>
+							<script id="noticeUEditor" type="text/plain" style="width: 100%; height: 300px;"></script>
 							<div style="display: none" id="noticeView">${goods.notice}</div>
 							<input type="hidden" name="notice" id="notice" lay-verify="notice" />
 						</div>
-					</div>
 				</div>
 				<div class="layui-form-item">
-					<div class="layui-inline">
 						<label class="layui-form-label">详情<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="contentUEditor" type="text/plain" style="width: 800px; height: 500px;"></script>
+							<script id="contentUEditor" type="text/plain" style="width: 100%; height: 500px;"></script>
 							<div style="display: none" id="contentView">${goodsDetail.content}</div>
 							<input type="hidden" name="content" id="content" lay-verify="content" />
 						</div>
-					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
@@ -213,6 +164,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>
@@ -397,6 +349,11 @@
                 end.elem = this
                 laydate(end);
             }
+
+            initMapForm(form);
+            setTimeout(function () {
+                form.render('radio');
+            },100);
         });
 		contentUEditor.addListener('ready', function() {
 			if ($("#contentView").html() != "") {

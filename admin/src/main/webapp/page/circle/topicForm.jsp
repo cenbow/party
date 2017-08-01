@@ -53,6 +53,7 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/circle/topic/save.do">
 				<input type="hidden" name="dyId" value="${dynamic.id}" />
 				<input type="hidden" name="circle" value="${circle.id}" />
@@ -117,6 +118,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

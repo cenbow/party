@@ -2,24 +2,18 @@ package com.party.core.service.activity.impl;
 
 import com.party.common.paging.Page;
 import com.party.common.utils.StringUtils;
-import com.party.common.utils.UUIDUtils;
 import com.party.core.dao.read.activity.ActivityReadDao;
 import com.party.core.dao.write.activity.ActivityWriteDao;
 import com.party.core.model.BaseModel;
 import com.party.core.model.activity.Activity;
 import com.party.core.service.activity.IActivityService;
 import com.sun.istack.NotNull;
-
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * ActivityService活动服务实现
@@ -182,5 +176,10 @@ public class ActivityService implements IActivityService{
     @Override
     public Activity countForEventId(String eventId) {
         return activityReadDao.countForEventId(eventId);
+    }
+
+    @Override
+    public Integer getCount(Activity activity) {
+        return activityReadDao.getCount(activity);
     }
 }

@@ -1,17 +1,22 @@
 package com.party.core.service.activity;
 
 import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.party.core.model.activity.Activity;
 import com.party.core.model.member.MemberAct;
+import com.party.core.model.member.MemberMerchant;
+import com.party.core.model.member.MerchantUtil;
 import com.party.core.model.order.OrderForm;
 import com.party.core.model.order.OrderType;
 import com.party.core.model.order.PaymentState;
-import com.party.core.service.activity.impl.ActivityService;
+import com.party.core.model.order.PaymentWay;
+import com.party.core.service.member.IMemberMerchantService;
 import com.party.core.service.order.impl.OrderFormService;
 
 /**
@@ -29,6 +34,9 @@ public class OrderActivityBizService {
 	
 	@Autowired
 	private IActivityService activityService;
+	@Autowired
+	private IMemberMerchantService memberMerchantService;
+	
 
 	/**
 	 * 更新活动订单状态
@@ -95,5 +103,36 @@ public class OrderActivityBizService {
 			activityService.update(activity);
 		}
 		return activity;
+	}
+	
+	/**
+	 * 获取商户名称
+	 * @param merchantId 商户号
+	 * @param paymentWay 支付方式
+	 * @param memberId 用户id
+	 * @return
+	 */
+	public String getMerchantName(String merchantId, Integer paymentWay, String memberId) {
+		String merchantName = "";
+		List<MemberMerchant> merchants = memberMerchantService.list(new MemberMerchant());
+		MemberMerchant merchant = memberMerchantService.findByMemberId(memberId);
+		if (StringUtils.isNotEmpty(merchantId)) {
+			if (merchantId.equals(MerchantUtil.TXZ_WWZ_MERCHANT_ID)
+					|| merchantId.equals(MerchantUtil.TXZ_APP_MERCHANT_ID)) {
+				merchantName = MerchantUtil.TXZ_MERCHANT_NAME;
+			} else if (merchant != null && merchant.getMerchantId().equals(memberId)) {
+				merchantName = merchant.getMerchantName();
+			} else {
+				for (MemberMerchant memberMerchant : merchants) {
+					if (memberMerchant.getMerchantId().equals(merchantId)) {
+						merchantName = merchants.get(0).getMerchantName();
+						break;
+					}
+				}
+			}
+		} else if (null != paymentWay && paymentWay.equals(PaymentWay.ALI_PAY.getCode())) {
+			merchantName = MerchantUtil.TXZ_MERCHANT_NAME;
+		}
+		return merchantName;
 	}
 }

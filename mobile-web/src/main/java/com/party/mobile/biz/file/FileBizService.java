@@ -2,7 +2,7 @@ package com.party.mobile.biz.file;
 
 import com.party.core.model.file.FileEntity;
 import com.party.core.service.file.IFileEntityService;
-import com.party.mobile.web.utils.QRCodeUtil;
+import com.party.common.utils.QRCodeUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

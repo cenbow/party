@@ -30,6 +30,7 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/notify/eventChannel/save.do">
                 <input type="hidden" name="id" value="${eventChannel.id}" />
                 <div class="layui-form-item">
@@ -58,7 +59,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">模板配置<span class="f-verify-red">*</span></label>
                         <div class="layui-input-block">
-                            <textarea name="template" placeholder="模板配置" lay-verify="template" class="layui-textarea" style="width: 85%" >${eventChannel.template}</textarea>
+                            <textarea name="template" placeholder="模板配置" lay-verify="template" class="layui-textarea">${eventChannel.template}</textarea>
                         </div>
                     </div>
 
@@ -77,6 +78,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

@@ -34,19 +34,20 @@
 				</c:if>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/article/article/save.do">
 				<input type="hidden" name="applyId" value="${subjectApply.id}"/> <input type="hidden" name="subjectId" value="${subjectId}"/>
 				<div class="layui-form-item">
 					<label class="layui-form-label">标题<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="title" lay-verify="title" style="width: 80%" autocomplete="off" placeholder="文章标题"
+						<input type="text" name="title" lay-verify="title"  autocomplete="off" placeholder="文章标题"
 							   class="layui-input" value="${article.title}"> <input type="hidden" name="id" value="${article.id}"/>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">简介</label>
 					<div class="layui-input-block">
-						<input type="text" name="subTitle" style="width: 80%" autocomplete="off" placeholder="文章简介" class="layui-input"
+						<input type="text" name="subTitle" autocomplete="off" placeholder="文章简介" class="layui-input"
 							   value="${article.subTitle}">
 					</div>
 				</div>
@@ -63,6 +64,7 @@
 						<div class="u-single-upload">
 							<input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加封面图</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：800x450</div>
 					</div>
 				</div>
 				<c:if test="${empty channel.id && fn:length(channels) > 0}">
@@ -84,7 +86,7 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">频道</label>
 						<div class="layui-input-block">
-							<input type="text" style="width: 80%" class="layui-input" value="${channel.name}" readonly="readonly"/> <input
+							<input type="text"  class="layui-input" value="${channel.name}" readonly="readonly"/> <input
 								type="hidden" value="${channel.id}" name="channelId"/>
 						</div>
 					</div>
@@ -129,7 +131,7 @@
 				<div class="layui-form-item" data-showApply="1"  ${article == null || article.showApply == 0 ? 'style="display:none"' : ''}>
 					<label class="layui-form-label">按钮链接<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="applyUrl" style="width: 80%" autocomplete="off" placeholder="按钮点击链接以http://开头" class="layui-input" lay-verify="applyUrl"
+						<input type="text" name="applyUrl"  autocomplete="off" placeholder="按钮点击链接以http://开头" class="layui-input" lay-verify="applyUrl"
 							   value="${article.applyUrl}">
 					</div>
 				</div>
@@ -163,19 +165,17 @@
 				<div class="layui-form-item" id="urlDiv" ${article != null && article.type == "out" ? '' : 'style="display: none;"'}>
 					<label class="layui-form-label">链接<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="url" style="width: 80%" class="layui-input"  value="${article.url}" lay-verify="url" id="url"
+						<input type="text" name="url"  class="layui-input"  value="${article.url}" lay-verify="url" id="url"
 							   placeholder="以http://开头"/>
 					</div>
 				</div>
 				<div class="layui-form-item" id="localDiv" ${article == null || article.type == null || article.type == ''|| article.type == "local" ? '' : 'style="display: none;"'}>
-					<div class="layui-inline">
 						<label class="layui-form-label">内容<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="ueditor1" type="text/plain"></script>
+							<script id="ueditor1" type="text/plain" style="width: 100%; height: 500px;"></script>
 							<div style="display: none" id="contentView">${article.content}</div>
 							<input type="hidden" name="content" id="content" lay-verify="content"/>
 						</div>
-					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
@@ -189,6 +189,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>
@@ -205,7 +206,6 @@
 <script>
     var uploadFile = new UploadFile('', '${ctx}/piccloud/getSign.do');
     var ue = UE.getEditor('ueditor1',{
-        initialFrameWidth :800,//设置编辑器宽度
         initialFrameHeight:500,//设置编辑器高度
         scaleEnabled:true
     });

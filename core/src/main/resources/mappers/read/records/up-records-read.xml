@@ -66,4 +66,11 @@
             <if test="param.targetId != null and param.targetId != ''"> AND r.target_id = #{param.targetId}</if>
         </where>
     </select>
+
+    <select id="getRecently" resultMap="withProjectMap">
+        SELECT
+        <include refid="upRecordsSql"/>
+        FROM up_records
+        ORDER BY create_date DESC LIMIT 0,1
+    </select>
 </mapper>

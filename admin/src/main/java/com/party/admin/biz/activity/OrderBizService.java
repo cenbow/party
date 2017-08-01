@@ -1,6 +1,5 @@
 package com.party.admin.biz.activity;
 
-import com.party.admin.utils.RealmUtils;
 import com.party.common.utils.BigDecimalUtils;
 import com.party.core.model.BaseModel;
 import com.party.core.model.member.MerchantUtil;
@@ -129,11 +128,12 @@ public class OrderBizService {
 	 *
 	 * @return
 	 */
-	public Double getOrderTotal(boolean isTxz, String memberId) {
+	public Double getOrderTotal(boolean isTxz, String memberId, Integer type) {
 		OrderForm orderForm = new OrderForm();
 		orderForm.setInitiatorId(memberId);
 		orderForm.setStatus(OrderStatus.ORDER_STATUS_HAVE_PAID.getCode()); // 已支付
 		orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
+		orderForm.setType(type);
 		Map<String, Object> params = new HashMap<String, Object>();
 		Set<Integer> orderTypes = new HashSet<Integer>();
 //		orderTypes.add(OrderType.ORDER_ACTIVITY.getCode()); // 活动
@@ -174,9 +174,10 @@ public class OrderBizService {
 	 *
 	 * @return
 	 * @param memberId
+	 * @param type
 	 */
-	public double getTotalAccount(String memberId) {
-		Double orderTotal = getOrderTotal(true, memberId);
+	public double getTotalAccount(String memberId, Integer type) {
+		Double orderTotal = getOrderTotal(true, memberId, type);
 		Double withdrawalTotal = getWithdrawalTotal(memberId);
 
 		double blance = 0.0;

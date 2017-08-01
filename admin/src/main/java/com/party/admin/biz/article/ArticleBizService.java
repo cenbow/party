@@ -1,7 +1,6 @@
 package com.party.admin.biz.article;
 
 import com.party.admin.biz.file.FileBizService;
-import com.party.admin.utils.RealmUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +39,7 @@ public class ArticleBizService {
      */
     public String getQrCode(String id, String memberId){
         String url = this.getDistributionUrl(id, memberId);
-        String path = RealmUtils.getCurrentUser().getId() + "/distribution/";
+        String path = memberId + "/distribution/";
         String qrCodeUrl = fileBizService.getFileEntity(id, path, url);
         return qrCodeUrl;
     }

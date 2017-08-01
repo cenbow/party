@@ -47,7 +47,7 @@ public class WithdrawalsController {
 		ModelAndView mv = new ModelAndView("wallet/applyWithdrawal");
 
 		// 余额
-		double totalAccount = orderBizService.getTotalAccount();
+		double totalAccount = orderBizService.getTotalAccount(null);
 		mv.addObject("totalPayment", totalAccount);
 
 		String memberId = RealmUtils.getCurrentUser().getId();
@@ -70,7 +70,7 @@ public class WithdrawalsController {
 		if (payment == 0.0f) {
 			return AjaxResult.error("请输入0.01元以上的金额。");
 		}
-		double totalAccount = orderBizService.getTotalAccount();
+		double totalAccount = orderBizService.getTotalAccount(null);
 		totalAccount = BigDecimalUtils.round(totalAccount, 2);
 
 		double sub = BigDecimalUtils.sub(totalAccount, payment);
@@ -93,7 +93,7 @@ public class WithdrawalsController {
 			return AjaxResult.error("请输入0.01元以上的金额。");
 		}
 
-		double totalAccount = orderBizService.getTotalAccount();
+		double totalAccount = orderBizService.getTotalAccount(null);
 		totalAccount = BigDecimalUtils.round(totalAccount, 2);
 
 		double sub = BigDecimalUtils.sub(totalAccount, payment);

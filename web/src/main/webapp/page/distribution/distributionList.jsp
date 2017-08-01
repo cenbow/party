@@ -131,8 +131,8 @@
                                     <div class="member-name ellipsis-1"><a class="blue" title="${distribution.distributorName}" href="javascript:void(0);" >${distribution.distributorName}</a></div>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="dib ellipsis-1" style="width: 200px;" title="${distribution.title}">${distribution.title}</div>
+                                <td class="ellipsis-1" title="${distribution.title}">
+                                        ${distribution.title}
                                 </td>
                                 <td>
                                     <c:if test="${distribution.type == 0 || distribution.type == 1}">

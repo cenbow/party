@@ -10,8 +10,19 @@
     <%@include file="../include/commonFile.jsp" %>
     <style type="text/css">
         .f-def-dialog .f-dialog-content {
-            width: 480px !important;
+            width: 530px !important;
             height: 300px !important;
+        }
+
+        .f-def-dialog .f-dialog-content .content {
+            width: 500px;
+            margin: 0px auto;
+            margin-top: 10px;
+            display: flex;
+        }
+
+        .f-def-dialog .f-dialog-content .content > div {
+            flex: 1;
         }
 
         .f-dialog-content .dialog-detail {
@@ -19,7 +30,8 @@
         }
 
         .dialog-detail .download-img {
-            margin-top: 0px !important;
+            margin-top: 5px !important;
+            margin-bottom: 5px !important;
         }
     </style>
 </head>
@@ -204,29 +216,28 @@
                                     <span class="close-icon"><i class="iconfont icon-close"></i></span>
                                     <div class="dialog-detail">
                                         <p class="f16 gray">扫码二维码可预览分享</p>
-                                        <div style="width: 450px; margin: 0px auto; margin-top: 10px">
-                                            <div class="l">
+                                        <div class="content">
+                                            <div>
                                                 <div class="f18">报名二维码</div>
                                                 <img class="download-img" src="${qr_code}/${activity.qrCodeUrl }"/>
                                                 <div>
                                                     <a class="download-qrcode" href="javascript:download('${ctx}','${activity.qrCodeUrl}')">下载二维码</a>
                                                 </div>
                                             </div>
-                                            <div class="l">
+                                            <div>
                                                 <div class="f18">签到二维码</div>
                                                 <img class="download-img" src="${qr_code}/${activity.bmQrCodeUrl }"/>
                                                 <div>
                                                     <a class="download-qrcode" href="javascript:download('${ctx}','${activity.bmQrCodeUrl}')">下载二维码</a>
                                                 </div>
                                             </div>
-                                            <div class="l">
+                                            <div>
                                                 <div class="f18">分销二维码</div>
                                                 <img class="download-img" src="${qr_code}/${activity.disQrCode }"/>
                                                 <div>
                                                     <a class="download-qrcode" href="javascript:download('${ctx}','${activity.disQrCode}')">下载二维码</a>
                                                 </div>
                                             </div>
-                                            <div class="cl"></div>
                                         </div>
                                     </div>
                                 </div>

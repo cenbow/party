@@ -18,9 +18,9 @@
             <%@include file="memberIndex.jsp" %>
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
                 <ul class="layui-tab-title">
-                    <li><span class="title f18 ml5 mr5">交易明细</span></li>
                     <li class="layui-this"><span class="title f18 ml5 mr5">收益明细</span></li>
                     <li><span class="title f18 ml5 mr5">提现明细</span></li>
+                    <li><span class="title f18 ml5 mr5">交易明细</span></li>
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
@@ -71,11 +71,13 @@
                                         <col>
                                         <col>
                                         <col>
+                                        <col width="150px">
                                     </colgroup>
                                     <thead>
                                     <tr>
                                         <th>订单名称</th>
                                         <th>下单者</th>
+                                        <th>商户</th>
                                         <th>订单类型</th>
                                         <th>金额</th>
                                         <th>订单状态</th>
@@ -86,7 +88,7 @@
                                     <tbody>
                                     <c:if test="${page.totalCount == 0}">
                                         <tr>
-                                            <td colspan="7">
+                                            <td colspan="8">
                                                 <div class="f16 tc">还没有明细记录</div>
                                             </td>
                                         </tr>
@@ -104,6 +106,7 @@
                                                     <a class="blue" title="${orderForm.member.realname}" style="cursor: pointer;">${orderForm.member.realname}</a>
                                                 </div>
                                             </td>
+                                            <td>${orderForm.merchantName}</td>
                                             <td>${orderForm.typeName}</td>
                                             <td>￥${orderForm.payment}</td>
                                             <td>
@@ -140,19 +143,20 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    <div class="page-content">
-                        <c:if test="${page.totalCount > 0}">
-                            <div class="l page-totalcount">
+                        <div class="page-content">
+                            <c:if test="${page.totalCount > 0}">
+                                <div class="l page-totalcount">
 								<span class="f14 red">共<b id="totalCount">${page.totalCount}</b>条记录
 								</span>
-                            </div>
-                        </c:if>
-                        <div id="page_content" class="page-container"></div>
+                                </div>
+                            </c:if>
+                            <div id="page_content" class="page-container"></div>
+                            <div class="cl"></div>
+                        </div>
                     </div>
+                    <div class="layui-tab-item"></div>
+                    <div class="layui-tab-item"></div>
                 </div>
-                <div class="layui-tab-item"></div>
-                <div class="layui-tab-item"></div>
             </div>
         </div>
     </section>

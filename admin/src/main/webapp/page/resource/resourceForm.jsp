@@ -26,13 +26,14 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/resource/resource/save.do">
 				<input type="hidden" name="id" value="${resource.id}" />
 				
 				<div class="layui-form-item">
 					<label class="layui-form-label">标题<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="title" style="width: 80%" class="layui-input" value="${resource.title}">
+						<input type="text" name="title"  class="layui-input" value="${resource.title}">
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -66,7 +67,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">链接</label>
 					<div class="layui-input-block">
-						<input type="text" name="link" style="width: 80%" autocomplete="off" class="layui-input" value="${resource.link}" />
+						<input type="text" name="link" autocomplete="off" class="layui-input" value="${resource.link}" />
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -84,6 +85,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

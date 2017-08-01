@@ -57,6 +57,7 @@ body {
 	<!--内容-->
 	<section>
 		<div class="section-main">
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form" method="post" action="${ctx}/dynamic/comment/save.do">
 				<input type="hidden" name="id" value="${comment.id}" />
 				<div class="layui-form-item">
@@ -66,6 +67,7 @@ body {
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

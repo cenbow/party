@@ -221,7 +221,7 @@
     <div class="layui-inline">
         <label class="layui-form-label">活动地点<span class="f-verify-red">*</span></label>
         <div class="layui-input-inline">
-            <select name="cityId" lay-verify="city" lay-filter="city">
+            <select name="cityId" id="cityId" lay-verify="city" lay-filter="city">
                 <option value="">选择城市</option>
                 <c:forEach var="city" items="${citys}">
                     <option value="${city.id}" ${activity.cityId == city.id ? 'selected="selected"' : ""}>${city.name}</option>
@@ -240,6 +240,7 @@
             <input type="hidden" name="lng" id="lng" value="${activity.lng}"/>
             <span id="fadeIn" onclick="" style="display: none;cursor: pointer;">已标记</span>
         </div>
+        <input type="hidden" id="cityName" name="cityName" value="${cityName}" >
     </div>
 </div>
 <div id="mapDiv" class="layui-form-item ovh" style="display: none;">
@@ -266,7 +267,7 @@
 </div>
 <script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=rov0CrEf1g7FMNIsZKtwZD9jAs31BqGz&services=&t=${empty currentDate ? '20170517145936' : currentDate}"></script>
 <script type="text/javascript">
-    var map;
+    var map, layForm;
     function initMap() {
         map = new BMap.Map("allmap", {
             enableMapClick: false
@@ -303,6 +304,29 @@
     }
 
     function initMapForm(formMap) {
+        layForm = formMap;
+
+        if ($('#cityName').val() != "") {
+            loadCityData($('#cityName').val());
+        }
+
+        if ($('#areaInput').val()) {
+            $("#mapDiv").show();
+            map.centerAndZoom($('#areaInput').val(), 16);
+            $("#place").removeAttr("readonly");
+
+            appendListData(null);
+        }
+
+        if ($('#place').val()) {
+            var $select = $("[name=cityId]").siblings(".layui-form-select");
+            var cityName = $select.find(".layui-select-title .layui-input").val();
+            $("#mapDiv").show();
+            map.centerAndZoom(cityName, 16);
+            appendListData(null);
+            $('.field_list_wrap_big').removeClass('open');
+        }
+
         // 城市
         formMap.on('select(city)', function (data) {
             var $select = $("[name=cityId]").siblings(".layui-form-select");
@@ -342,63 +366,41 @@
             }
         });
 
-        if ('${cityName}' != "") {
-            loadCityData('${cityName}');
-        }
-
-        if ('${activity.area}' != "") {
-            $("#mapDiv").show();
-            map.centerAndZoom('${activity.area}', 16);
-            $("#place").removeAttr("readonly");
-
-            appendListData(null);
-        }
-
-        if ('${activity.place}' != '') {
-            var $select = $("[name=cityId]").siblings(".layui-form-select");
-            var cityName = $select.find(".layui-select-title .layui-input").val();
-            $("#mapDiv").show();
-            map.centerAndZoom(cityName, 16);
-            appendListData(null);
-            $('.field_list_wrap_big').removeClass('open');
-        }
-
-        // 加载Select数据
-        function loadCityData(cityName) {
-            $("#areaSelect").html("");
-            $.post("${ctx}/activity/activity/getAreaByCityName.do", {
-                "cityName": cityName
-            }, function (data) {
-                var array = new Array();
-                if (data.length > 0) {
-                    for (var i = 0; i < data.length; i++) {
-                        if ('${activity.area}' == data[i].name) {
-                            array.push("<option value = '" + data[i].name + "' selected='selected'>" + data[i].name + "</option>");
-                        } else {
-                            array.push("<option value = '" + data[i].name + "'>" + data[i].name + "</option>");
-                        }
-                    }
-                    $("#areaSelect").append(array.join(""));
-                    formMap.render('select');
-                    $("#areaInput").hide();
-
-                    var $select = $("#areaSelect").siblings(".layui-form-select");
-                    var areaName = $select.find(".layui-select-title .layui-input").val();
-                    $("#mapDiv").show();
-                    map.centerAndZoom(areaName, 16);
-                    $("#place").removeAttr("readonly");
-                } else {
-                    $("#areaInput").show();
-                    array.push("<option value = ''>选择区域</option>");
-                    $("#areaSelect").append(array.join(""));
-                    formMap.render('select');
-                    $("#areaInput").siblings(".layui-form-select").hide();
-                }
-            });
-            initMap();
-        }
     }
+    // 加载Select数据
+    function loadCityData(cityName) {
+        $("#areaSelect").html("");
+        $.post("${ctx}/activity/activity/getAreaByCityName.do", {
+            "cityName": cityName
+        }, function (data) {
+            var array = new Array();
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    if ('${activity.area}' == data[i].name) {
+                        array.push("<option value = '" + data[i].name + "' selected='selected'>" + data[i].name + "</option>");
+                    } else {
+                        array.push("<option value = '" + data[i].name + "'>" + data[i].name + "</option>");
+                    }
+                }
+                $("#areaSelect").append(array.join(""));
+                layForm.render('select');
+                $("#areaInput").hide();
 
+                var $select = $("#areaSelect").siblings(".layui-form-select");
+                var areaName = $select.find(".layui-select-title .layui-input").val();
+                $("#mapDiv").show();
+                map.centerAndZoom(areaName, 16);
+                $("#place").removeAttr("readonly");
+            } else {
+                $("#areaInput").show();
+                array.push("<option value = ''>选择区域</option>");
+                $("#areaSelect").append(array.join(""));
+                layForm.render('select');
+                $("#areaInput").siblings(".layui-form-select").hide();
+            }
+        });
+        initMap();
+    }
     function width_auto(that) {
         var listWrap = $(that).closest('.field_list_wrap_big');
         listWrap.toggleClass('open');

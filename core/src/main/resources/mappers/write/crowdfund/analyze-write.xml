@@ -16,6 +16,7 @@
             <if test="targetId != null">  target_id,</if>
             <if test="isFriend != null">  is_friend,</if>
             <if test="isGroup != null">  is_group,</if>
+            <if test="recentlyRecord != null">  recently_record,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">  #{id,jdbcType=VARCHAR},</if>
@@ -28,6 +29,7 @@
             <if test="targetId != null">  #{targetId,jdbcType=VARCHAR},</if>
             <if test="isFriend != null">  #{isFriend,jdbcType=INTEGER},</if>
             <if test="isGroup != null">  #{isGroup,jdbcType=INTEGER},</if>
+            <if test="recentlyRecord != null">  #{recentlyRecord,jdbcType=VARCHAR},</if>
         </trim>
     </insert>
 
@@ -41,6 +43,7 @@
             <if test="targetId != null">  target_id = #{targetId,jdbcType=VARCHAR},</if>
             <if test="isFriend != null">  is_friend = #{isFriend,jdbcType=INTEGER},</if>
             <if test="isGroup != null">  is_group = #{isGroup,jdbcType=INTEGER},</if>
+            <if test="recentlyRecord != null">  recently_record = #{recentlyRecord,jdbcType=VARCHAR},</if>
         </set>
         WHERE id = #{id,jdbcType=VARCHAR}
     </update>

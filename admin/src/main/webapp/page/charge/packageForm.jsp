@@ -82,15 +82,16 @@
 					<a href="javascript:history.back();" class="layui-btn layui-btn-radius layui-btn-danger"><i class="iconfont icon-refresh btn-icon"></i> 返回</a>
 				</div>
 				<div class="ovh">
-					<span class="title f20">套餐管理&nbsp;&gt;&nbsp;${member == null ? '创建' : '编辑'}套餐</span>
+					<span class="title f20">套餐管理&nbsp;&gt;&nbsp;${productPackage == null ? '创建' : '编辑'}套餐</span>
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/charge/package/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">名称<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="name" lay-verify="name" style="width: 85%" placeholder="套餐名称" class="layui-input" value="${productPackage.name}">
+						<input type="text" name="name" lay-verify="name" placeholder="套餐名称" class="layui-input" value="${productPackage.name}">
 						<input type="hidden" name="id" value="${productPackage.id}"/>
 					</div>
 				</div>
@@ -182,7 +183,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">描述<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-				   		<textarea name="remarks" placeholder="套餐描述" lay-verify="remarks" class="layui-textarea" style="width: 85%" >${productPackage.remarks}</textarea>
+				   		<textarea name="remarks" placeholder="套餐描述" lay-verify="remarks" class="layui-textarea" >${productPackage.remarks}</textarea>
 				    </div>
 				</div>
 				<div class="layui-form-item">
@@ -192,6 +193,7 @@
 				  	</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

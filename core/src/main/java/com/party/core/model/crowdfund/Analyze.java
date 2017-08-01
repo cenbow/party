@@ -21,6 +21,9 @@ public class Analyze extends BaseModel {
     //是否加群
     private Integer isGroup;
 
+    //最近的跟进记录
+    private String recentlyRecord;
+
     public String getTargetId() {
         return targetId;
     }
@@ -45,6 +48,14 @@ public class Analyze extends BaseModel {
         this.isGroup = isGroup;
     }
 
+    public String getRecentlyRecord() {
+        return recentlyRecord;
+    }
+
+    public void setRecentlyRecord(String recentlyRecord) {
+        this.recentlyRecord = recentlyRecord;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,7 +66,8 @@ public class Analyze extends BaseModel {
 
         if (targetId != null ? !targetId.equals(analyze.targetId) : analyze.targetId != null) return false;
         if (isFriend != null ? !isFriend.equals(analyze.isFriend) : analyze.isFriend != null) return false;
-        return isGroup != null ? isGroup.equals(analyze.isGroup) : analyze.isGroup == null;
+        if (isGroup != null ? !isGroup.equals(analyze.isGroup) : analyze.isGroup != null) return false;
+        return recentlyRecord != null ? recentlyRecord.equals(analyze.recentlyRecord) : analyze.recentlyRecord == null;
 
     }
 
@@ -65,6 +77,7 @@ public class Analyze extends BaseModel {
         result = 31 * result + (targetId != null ? targetId.hashCode() : 0);
         result = 31 * result + (isFriend != null ? isFriend.hashCode() : 0);
         result = 31 * result + (isGroup != null ? isGroup.hashCode() : 0);
+        result = 31 * result + (recentlyRecord != null ? recentlyRecord.hashCode() : 0);
         return result;
     }
 
@@ -74,6 +87,7 @@ public class Analyze extends BaseModel {
                 "targetId='" + targetId + '\'' +
                 ", isFriend=" + isFriend +
                 ", isGroup=" + isGroup +
+                ", recentlyRecord='" + recentlyRecord + '\'' +
                 '}';
     }
 }

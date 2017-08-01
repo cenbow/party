@@ -18,11 +18,13 @@
             <%@include file="memberIndex.jsp" %>
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
                 <ul class="layui-tab-title">
-                    <li class="layui-this"><span class="title f18 ml5 mr5">交易明细</span></li>
                     <li><span class="title f18 ml5 mr5">收益明细</span></li>
                     <li><span class="title f18 ml5 mr5">提现明细</span></li>
+                    <li class="layui-this"><span class="title f18 ml5 mr5">交易明细</span></li>
                 </ul>
                 <div class="layui-tab-content">
+                    <div class="layui-tab-item"></div>
+                    <div class="layui-tab-item"></div>
                     <div class="layui-tab-item layui-show">
                         <form class="layui-form" action="${ctx}/order/order/tradeList.do" id="myForm" method="post">
                             <input type="hidden" name="pageNo" id="pageNo" value="${page.page}" />
@@ -57,7 +59,7 @@
                                     <tbody>
                                     <c:if test="${page.totalCount == 0}">
                                         <tr>
-                                            <td colspan="5">
+                                            <td colspan="6">
                                                 <div class="f16 tc">还没有明细记录</div>
                                             </td>
                                         </tr>
@@ -103,19 +105,17 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    <div class="page-content">
-                        <c:if test="${page.totalCount > 0}">
-                            <div class="l page-totalcount">
+                        <div class="page-content">
+                            <c:if test="${page.totalCount > 0}">
+                                <div class="l page-totalcount">
 								<span class="f14 red">共<b id="totalCount">${page.totalCount}</b>条记录
 								</span>
-                            </div>
-                        </c:if>
-                        <div id="page_content" class="page-container"></div>
+                                </div>
+                            </c:if>
+                            <div id="page_content" class="page-container"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="layui-tab-item"></div>
-                <div class="layui-tab-item"></div>
             </div>
         </div>
     </section>

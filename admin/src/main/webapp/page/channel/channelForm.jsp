@@ -25,11 +25,12 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/channel/channel/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">名称<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="name" lay-verify="name" style="width: 85%" autocomplete="off" placeholder="频道名称" class="layui-input" value="${channel.name}">
+						<input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="频道名称" class="layui-input" value="${channel.name}">
 						<input type="hidden" name="id" value="${channel.id}"/>
 					</div>
 				</div>
@@ -46,6 +47,7 @@
 						<div class="u-single-upload">
 							<input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加封面图</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：800x450</div>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -70,7 +72,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">描述<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-				   		<textarea name="remarks" placeholder="频道描述" lay-verify="remarks" class="layui-textarea" style="width: 85%" >${channel.remarks}</textarea>
+				   		<textarea name="remarks" placeholder="频道描述" lay-verify="remarks" class="layui-textarea">${channel.remarks}</textarea>
 				    </div>
 				</div>
 				<div class="layui-form-item">
@@ -80,6 +82,7 @@
 				  	</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

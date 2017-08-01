@@ -23,4 +23,10 @@ public interface UpRecordsReadDao extends BaseReadDao<UpRecords> {
 
 
     List<UpRecordWithProject> listWithProject(@Param("param")Map<String , Object> param, Page page);
+
+    /**
+     * 获取最近的记录
+     * @return 最近的记录
+     */
+    UpRecords getRecently();
 }

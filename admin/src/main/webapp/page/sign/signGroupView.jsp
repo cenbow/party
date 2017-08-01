@@ -32,14 +32,14 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">队伍名称<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <input type="text" style="width: 85%" name="name" lay-verify="name" autocomplete="off" class="layui-input" value="${signGroup.name}">
+                        <input type="text" name="name" lay-verify="name" autocomplete="off" class="layui-input" value="${signGroup.name}">
                     </div>
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">队伍备注</label>
                     <div class="layui-input-block">
-                        <textarea name="remarks" placeholder="队伍备注" lay-verify="remarks" class="layui-textarea" style="width: 85%" >${signGroup.remarks}</textarea>
+                        <textarea name="remarks" placeholder="队伍备注" lay-verify="remarks" class="layui-textarea" >${signGroup.remarks}</textarea>
                     </div>
                 </div>
 

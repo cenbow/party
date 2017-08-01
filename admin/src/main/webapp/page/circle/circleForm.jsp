@@ -36,12 +36,13 @@
 
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/circle/save.do">
                 <input type="hidden" name="id" value="${circle.id}"/>
                 <div class="layui-form-item">
                     <label class="layui-form-label">名称<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="name" lay-verify="title" style="width: 80%" autocomplete="off" placeholder="请输入圈子名称"
+                        <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入圈子名称"
                                class="layui-input" value="${circle.name}">
                     </div>
                 </div>
@@ -49,7 +50,7 @@
                     <label class="layui-form-label">简介</label>
                     <div class="layui-input-block">
                         <input type="hidden" value="${circle.memo}" name="memo">
-                        <textarea id="memo" style="width: 80%" placeholder="请输入圈子简介" class="layui-textarea"></textarea>
+                        <textarea id="memo" placeholder="请输入圈子简介" class="layui-textarea"></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -65,6 +66,7 @@
                         <div class="u-single-upload">
                             <input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加封面图</span>
                         </div>
+                        <div class="form-word-aux">建议尺寸：800x450</div>
                     </div>
                 </div>
 
@@ -156,7 +158,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">描述</label>
                     <div class="layui-input-block">
-                        <textarea name="remarks" style="width: 80%" placeholder="请输入圈子描述" class="layui-textarea">${circle.remarks}</textarea>
+                        <textarea name="remarks"  placeholder="请输入圈子描述" class="layui-textarea">${circle.remarks}</textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -166,6 +168,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

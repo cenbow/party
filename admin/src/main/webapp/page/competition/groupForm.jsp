@@ -29,11 +29,12 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/competition/group/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">编号<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="groupNo" lay-verify="groupNo" placeholder="编号" class="layui-input" value="${group.groupNo}" style="width: 80%">
+						<input type="text" name="groupNo" lay-verify="groupNo" placeholder="编号" class="layui-input" value="${group.groupNo}" >
 						<input type="hidden" name="id" value="${group.id}"/>
 						<input type="hidden" name="projectId" value="${project.id}"/>
 					</div>
@@ -41,13 +42,13 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">名称<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="groupName" lay-verify="groupName" placeholder="名称" class="layui-input" value="${group.groupName}" style="width: 80%">
+						<input type="text" name="groupName" lay-verify="groupName" placeholder="名称" class="layui-input" value="${group.groupName}">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">描述</label>
 					<div class="layui-input-block">
-						<textarea name="remarks" class="layui-textarea" style="width: 80%">${group.remarks}</textarea>
+						<textarea name="remarks" class="layui-textarea" >${group.remarks}</textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -57,6 +58,7 @@
 				  	</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

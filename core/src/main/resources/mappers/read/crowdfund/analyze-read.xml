@@ -13,11 +13,12 @@
         <result column="target_id" property="targetId" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result column="is_friend" property="isFriend" jdbcType="INTEGER" javaType="java.lang.Integer"/>
         <result column="is_group" property="isGroup" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="recently_record" property="recentlyRecord" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </resultMap>
 
 
     <sql id="analyzeSql">
-        id, create_by, create_date, update_by, update_date, remarks, target_id, is_friend, is_group
+        id, create_by, create_date, update_by, update_date, remarks, target_id, is_friend, is_group, recently_record
     </sql>
 
     <select id="get" resultMap="analyzeMap">

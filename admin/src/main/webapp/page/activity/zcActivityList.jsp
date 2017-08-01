@@ -174,7 +174,7 @@
 											<a href="${ctx}/notify/message/list.do?targetId=${activity.id}"> <i class="iconfont icon-mobile1 btn-icon"></i>
 												消息推送
 											</a>
-											<a href="${ctx}/crowdfund/analyze/list.do?targetId=${activity.id}"> <i class="iconfont icon-news btn-icon"></i>
+											<a target="_blank" href="${ctx}/crowdfund/analyze/list.do?targetId=${activity.id}"> <i class="iconfont icon-news btn-icon"></i>
 												数据分析
 											</a>
 											<c:if test="${removeEvent}">

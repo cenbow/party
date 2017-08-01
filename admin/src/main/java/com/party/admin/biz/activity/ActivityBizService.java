@@ -75,7 +75,7 @@ public class ActivityBizService {
      */
     public String getQrCode(String id, String memberId){
         String url = this.getDistributionUrl(id, memberId);
-        String path = RealmUtils.getCurrentUser().getId() + "/distribution/";
+        String path = memberId + "/distribution/";
         String qrCodeUrl = fileBizService.getFileEntity(id, path, url);
         return qrCodeUrl;
     }

@@ -9,46 +9,14 @@
 <link rel="stylesheet" href="${ctx}/themes/default/css/common/table.css">
 <%@include file="../include/commonFile.jsp"%>
 <style type="text/css">
-body {
-	min-width: auto !important;
-	background-color: white !important;
-}
 
-.index-outside {
-	width: auto !important;
-}
-
-.layui-form-checkbox {
-	width: 22px !important;
-	height: 22px !important;
-	line-height: 22px !important;
-	margin: 0px !important;
-	padding: 0px !important;
-}
-
-.layui-form-checkbox i {
-	right: -2px !important;
-	width: 22px !important;
-}
-
-.layui-form-checked, .layui-form-checked:hover {
-	border: 1px solid red !important;
-}
-.layui-form-checked i, .layui-form-checked:hover i{
-	color: red!important;
-}
-
-.layui-form-radio{
-	margin: 0px !important;
-	padding: 0px !important;
-}
 </style>
 </head>
 <!--头部-->
 <div class="index-outside">
 	<!--内容-->
 	<section>
-		<div class="section-main">
+		<div class="section-main" style="    padding: 15px;">
 			<form class="layui-form" action="${ctx}/goods/goods/selectThirdParty.do" id="myForm" method="post">
 				<input type="hidden" name="pageNo" id="pageNo" />
 				<div class="f-search-bar">

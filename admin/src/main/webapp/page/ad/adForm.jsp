@@ -24,12 +24,13 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/ad/save.do">
                 <input type="hidden" name="id" value="${ad.id}"/>
                 <div class="layui-form-item">
                     <label class="layui-form-label">标题<span class="f-verify-red"></span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" style="width: 80%" autocomplete="off" placeholder="请输入标题"
+                        <input type="text" name="title" autocomplete="off" placeholder="请输入标题"
                                class="layui-input" value="${ad.title}">
                     </div>
                 </div>
@@ -46,6 +47,7 @@
                         <div class="u-single-upload">
                             <input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加广告图片</span>
                         </div>
+                        <div class="form-word-aux">建议尺寸：800x450</div>
                     </div>
                 </div>
 
@@ -108,7 +110,7 @@
                         <span class="f-verify-red">*</span>
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" name="refId" style="width: 80%" lay-verify="refId" autocomplete="off" class="layui-input" value="${ad.refId}">
+                        <input type="text" name="refId"  lay-verify="refId" autocomplete="off" class="layui-input" value="${ad.refId}">
                     </div>
                 </div>
                 <div class="layui-form-item" adOrigin="0" <c:if test="${ad.origin != null && ad.origin != '0'}">style="display: none;"</c:if>>
@@ -116,7 +118,7 @@
                         广告链接地址<span class="f-verify-red">*</span>
                     </label>
                     <div class="layui-input-block">
-                        <input type="text" name="link" lay-verify="link" style="width: 80%" autocomplete="off" class="layui-input" value="${ad.link}" placeholder="以http://开头">
+                        <input type="text" name="link" lay-verify="link"  autocomplete="off" class="layui-input" value="${ad.link}" placeholder="以http://开头">
                     </div>
                 </div>
 
@@ -127,6 +129,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

@@ -25,12 +25,11 @@
 			<%@include file="memberIndex.jsp" %>
 			<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
 				<ul class="layui-tab-title">
-					<li><span class="title f18 ml5 mr5">交易明细</span></li>
 					<li><span class="title f18 ml5 mr5">收益明细</span></li>
 					<li class="layui-this"><span class="title f18 ml5 mr5">提现明细</span></li>
+					<li><span class="title f18 ml5 mr5">交易明细</span></li>
 				</ul>
 				<div class="layui-tab-content">
-					<div class="layui-tab-item"></div>
 					<div class="layui-tab-item"></div>
 					<div class="layui-tab-item layui-show">
 						<form class="layui-form" action="${ctx}/order/order/withdrawList.do" id="myForm" method="post">
@@ -85,7 +84,7 @@
 										<c:if test="${page.totalCount == 0}">
 											<tr>
 												<td colspan="9">
-													<div class="f16 tc">没有更多记录了...</div>
+													<div class="f16 tc">还没有提现记录</div>
 												</td>
 											</tr>
 										</c:if>
@@ -116,24 +115,25 @@
 								</table>
 							</div>
 						</div>
-					</div>
-					<div class="page-content">
-						<c:if test="${page.totalCount > 0}">
-							<div class="l page-totalcount">
+						<div class="page-content">
+							<c:if test="${page.totalCount > 0}">
+								<div class="l page-totalcount">
 								<span class="f14 red">共<b id="totalCount">${page.totalCount}</b>条记录
 								</span>
-							</div>
-						</c:if>
-						<div id="page_content" class="page-container"></div>
+								</div>
+							</c:if>
+							<div id="page_content" class="page-container"></div>
+						</div>
+						<div class="cl">
+							<p>注：</p>
+							<dl style="line-height: 25px;">
+								<dt>提现金额（之和）= 支付净额 - 手续费金额，提现金额（之和）指同一交易起至日期下的提现金额总和</dt>
+								<dd>1.提现记录将在每日12点左右进行更新</dd>
+								<dd>2.提现金额从结算日起1到3个工作日到账</dd>
+							</dl>
+						</div>
 					</div>
-					<div class="cl">
-						<p>注：</p>
-						<dl style="line-height: 25px;">
-							<dt>提现金额（之和）= 支付净额 - 手续费金额，提现金额（之和）指同一交易起至日期下的提现金额总和</dt>
-							<dd>1.提现记录将在每日12点左右进行更新</dd>
-							<dd>2.提现金额从结算日起1到3个工作日到账</dd>
-						</dl>
-					</div>
+					<div class="layui-tab-item"></div>
 				</div>
 			</div>
 		</div>

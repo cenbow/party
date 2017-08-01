@@ -7,6 +7,7 @@
     <title>众筹分析状态</title>
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
     <link rel="stylesheet" href="${ctx}/themes/default/css/common/table.css">
+    <link rel="stylesheet" href="${ctx}/themes/default/css/ui/lable/lable.css">
     <%@include file="../include/commonFile.jsp"%>
 </head>
 <!--头部-->
@@ -41,19 +42,15 @@
                         <thead>
                         <tr>
                             <th>名称</th>
-                            <th>颜色</th>
                             <th>创建时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="label" items="${list}">
-                            <tr>
+                            <tr <c:if test="${not empty label.style && label.style != 'white'}" >class="tr_${label.style}"</c:if> >
                                 <td class="">
                                     <div class="dib ellipsis-1"  title="${label.name}">${label.name}</div>
-                                </td>
-                                <td class="">
-                                        ${label.style}
                                 </td>
                                 <td>
                                     <fmt:formatDate value="${label.createDate}" pattern="yyyy-MM-dd HH:mm" />

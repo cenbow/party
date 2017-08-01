@@ -1,5 +1,6 @@
 package com.party.web.web.controller.order;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.party.common.paging.Page;
 import com.party.common.utils.LangUtils;
@@ -11,15 +12,13 @@ import com.party.core.model.crowdfund.Project;
 import com.party.core.model.goods.Goods;
 import com.party.core.model.goods.GoodsCoupons;
 import com.party.core.model.member.Member;
-import com.party.core.model.member.MemberMerchant;
-import com.party.core.model.member.MerchantUtil;
 import com.party.core.model.order.OrderForm;
 import com.party.core.model.order.OrderStatus;
 import com.party.core.model.order.OrderType;
 import com.party.core.model.order.PaymentWay;
 import com.party.core.model.system.SysRole;
 import com.party.core.service.activity.IActivityService;
-import com.party.core.service.charge.IPackageMemberService;
+import com.party.core.service.activity.OrderActivityBizService;
 import com.party.core.service.charge.IPackageService;
 import com.party.core.service.crowdfund.IProjectService;
 import com.party.core.service.goods.IGoodsCouponsService;
@@ -27,7 +26,7 @@ import com.party.core.service.goods.IGoodsService;
 import com.party.core.service.member.IMemberMerchantService;
 import com.party.core.service.member.impl.MemberService;
 import com.party.core.service.order.IOrderFormService;
-import com.party.core.service.system.ISysRoleService;
+import com.party.web.biz.charge.PackageBizService;
 import com.party.web.biz.order.OrderBizService;
 import com.party.web.biz.wallet.WithdrawalsBizService;
 import com.party.web.utils.RealmUtils;
@@ -35,8 +34,6 @@ import com.party.web.utils.excel.ExportExcel;
 import com.party.web.web.dto.AjaxResult;
 import com.party.web.web.dto.output.order.OrderFormOutput;
 import com.party.web.web.dto.output.wallet.WithdrawalOutput;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +44,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 订单
- * 
+ *
  * @author Administrator
  *
  */
@@ -81,15 +80,15 @@ public class OrderFormController {
 	private OrderBizService orderBizService;
 
 	@Autowired
-    private IMemberMerchantService memberMerchantService;
+	private IMemberMerchantService memberMerchantService;
 	@Autowired
 	private WithdrawalsBizService withdrawalsBizService;
 	@Autowired
-	private IPackageMemberService packageMemberService;
-	@Autowired
 	private IPackageService packageService;
 	@Autowired
-	private ISysRoleService sysRoleService;
+	private PackageBizService packageBizService;
+	@Autowired
+    private OrderActivityBizService orderActivityBizService;
 
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -125,18 +124,10 @@ public class OrderFormController {
 				orderFormOutput.setPicture(goods.getPicsURL());
 			}
 		}
-		
-		if (StringUtils.isNotEmpty(orderForm.getMerchantId())) {
-			if (orderForm.getMerchantId().equals(MerchantUtil.TXZ_WWZ_MERCHANT_ID)
-					|| orderForm.getMerchantId().equals(MerchantUtil.TXZ_APP_MERCHANT_ID)) {
-				orderFormOutput.setMerchantName(MerchantUtil.TXZ_MERCHANT_NAME);
-			} else {
-				List<MemberMerchant> memberMerchantList = memberMerchantService.findByMerchantId(orderForm.getMerchantId());
-				if (!CollectionUtils.isEmpty(memberMerchantList) && null != memberMerchantList.get(0)) {
-					orderFormOutput.setMerchantName(memberMerchantList.get(0).getMerchantName());
-				}
-			}
-		}
+		// 获取商户名称
+		String merchantName = orderActivityBizService.
+				getMerchantName(orderForm.getMerchantId(), orderForm.getPaymentWay(), orderForm.getInitiatorId());
+		orderFormOutput.setMerchantName(merchantName);
 		mv.addObject("orderForm", orderFormOutput);
 		return mv;
 	}
@@ -166,7 +157,7 @@ public class OrderFormController {
 		mv.addObject("orderForms", orderFormOutputs);
 		mv.addObject("page", page);
 
-		memberIndexCommon(mv);
+		memberIndexCommon(mv, null);
 		return mv;
 	}
 
@@ -189,25 +180,12 @@ public class OrderFormController {
 			Map<String, Object> params = Maps.newHashMap();
 			params.put("isCrowdfund", "0");
 			List<OrderForm> orderForms = orderFormService.webListPage(orderForm, params, null);
-			List<MemberMerchant> merchants = memberMerchantService.list(new MemberMerchant());
-			MemberMerchant merchant = memberMerchantService.findByMemberId(RealmUtils.getCurrentUser().getId());
 			List<OrderFormOutput> orderFormOutputs = LangUtils.transform(orderForms, input -> {
 				OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
-				if (com.party.common.utils.StringUtils.isNotEmpty(input.getMerchantId())) {
-					if (input.getMerchantId().equals(MerchantUtil.TXZ_WWZ_MERCHANT_ID)
-							|| input.getMerchantId().equals(MerchantUtil.TXZ_APP_MERCHANT_ID)) {
-						orderFormOutput.setMerchantName(MerchantUtil.TXZ_MERCHANT_NAME);
-					} else if (merchant != null && merchant.getMerchantId().equals(input.getMerchantId())) {
-						orderFormOutput.setMerchantName(merchant.getMerchantName());
-					} else {
-						for (MemberMerchant memberMerchant : merchants) {
-							if (memberMerchant.getMerchantId().equals(input.getMerchantId())) {
-								orderFormOutput.setMerchantName(merchants.get(0).getMerchantName());
-								break;
-							}
-						}
-					}
-				}
+				// 获取商户名称
+				String merchantName = orderActivityBizService.
+						getMerchantName(input.getMerchantId(), input.getPaymentWay(), input.getInitiatorId());
+				orderFormOutput.setMerchantName(merchantName);
 				orderFormOutput.setPaymentWayName(PaymentWay.getValue(input.getPaymentWay()));
 				orderFormOutput.setTypeName(OrderType.getValue(input.getType()));
 				orderFormOutput.setStatusName(OrderStatus.getValue(input.getStatus()));
@@ -234,7 +212,7 @@ public class OrderFormController {
 		mv.addObject("page", page);
 
 		// 订单总额
-		Double orderTotal = orderBizService.getOrderTotal(false);
+		Double orderTotal = orderBizService.getOrderTotal(false, orderForm.getType());
 		if (orderTotal != null) {
 			mv.addObject("orderTotal", orderTotal);
 		} else {
@@ -246,7 +224,7 @@ public class OrderFormController {
 		orderTypes.put(OrderType.ORDER_CROWD_FUND.getCode(), OrderType.ORDER_CROWD_FUND.getValue());
 		mv.addObject("orderTypes", orderTypes);
 
-		memberIndexCommon(mv);
+		memberIndexCommon(mv, orderForm.getType());
 		return mv;
 	}
 
@@ -272,56 +250,21 @@ public class OrderFormController {
 			mv.addObject("withdrawalTotal", 0);
 		}
 
-		memberIndexCommon(mv);
+		memberIndexCommon(mv, null);
 		return mv;
 	}
 
-	private void memberIndexCommon(ModelAndView mv) {
+	private void memberIndexCommon(ModelAndView mv, Integer type) {
 		String memberId = RealmUtils.getCurrentUser().getId();
 		Member member = memberService.get(memberId);
 		mv.addObject("member", member);
 		// 余额
-		double totalAccount = orderBizService.getTotalAccount();
+		double totalAccount = orderBizService.getTotalAccount(type);
 		mv.addObject("totalPayment", totalAccount);
 
-		Map<String, Object> params = Maps.newHashMap();
-		params.put("type", "1");
-		params.put("memberId", memberId);
-		List<SysRole> sysRoles = sysRoleService.getRoleByMemberId(params);
+		List<SysRole> sysRoles = Lists.newArrayList();
+		PackageMember packageMember = packageBizService.getPackageMember(memberId, sysRoles);
 		mv.addObject("sysRoles", sysRoles);
-
-		PackageMember packageMember = packageMemberService.findByMemberId(new PackageMember("", memberId));
-		if (packageMember == null) {
-			ProductPackage t = new ProductPackage();
-			t.setType(1);
-			List<ProductPackage> packages = packageService.list(t);
-			List<ProductPackage> newPackges = new ArrayList<ProductPackage>();
-			for (ProductPackage p : packages) {
-				boolean flag = false;
-				for (SysRole r : sysRoles) {
-					if (p.getSysRoleId().equals(r.getId())) {
-						flag = true;
-						break;
-					}
-				}
-				if (flag) {
-					newPackges.add(p);
-				}
-			}
-			if (newPackges.size() > 0) {
-				Collections.sort(newPackges, new Comparator<ProductPackage>() {
-					@Override
-					public int compare(ProductPackage o1, ProductPackage o2) {
-						return o1.getLevel() > o2.getLevel() ? -1 : 1;
-					}
-				});
-
-				packageMember = new PackageMember();
-				packageMember.setLevelId(newPackges.get(0).getId());
-				packageMember.setSysRoleId(newPackges.get(0).getSysRoleId());
-			}
-		}
-
 		if (packageMember != null) {
 			ProductPackage productPackage = packageService.get(packageMember.getLevelId());
 			mv.addObject("productPackage", productPackage);

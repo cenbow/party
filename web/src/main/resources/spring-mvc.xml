@@ -64,6 +64,11 @@
             <mvc:exclude-mapping path="/pay/ali/pc/notifyUrlResult.do"/>
             <ref bean="loginInterceptor"/>
         </mvc:interceptor>
+        
+        <mvc:interceptor>
+            <mvc:mapping path="/activity/activity/save.do"/>
+            <ref bean="chargeInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean"/>

@@ -53,6 +53,7 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/dynamic/dynamic/save.do">
 				<input type="hidden" name="id" value="${dynamic.id}" />
 				<input type="hidden" name="dynamicWay" value="${dynamic.dynamicWay}" />
@@ -95,6 +96,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

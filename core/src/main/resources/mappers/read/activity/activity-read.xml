@@ -279,4 +279,13 @@
         WHERE
 	    event_id = #{eventId}
     </select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM activity a
+        <where>
+            <if test="delFlag !=null"> AND a.del_flag = #{delFlag} </if>
+            <if test="isCrowdfunded != null"> AND a.is_crowdfunded = #{isCrowdfunded}</if>
+            <if test="memberId != null and memberId != ''"> AND a.member = #{memberId}</if>
+        </where>
+    </select>
 </mapper>

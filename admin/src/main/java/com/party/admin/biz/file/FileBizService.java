@@ -1,6 +1,6 @@
 package com.party.admin.biz.file;
 
-import com.party.admin.utils.QRCodeUtil;
+import com.party.common.utils.QRCodeUtil;
 import com.party.core.model.file.FileEntity;
 import com.party.core.service.file.IFileEntityService;
 import org.apache.commons.lang.StringUtils;

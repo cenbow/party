@@ -31,21 +31,21 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">名称<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="label" lay-verify="typeName" style="width: 80%"
+						<input type="text" name="label" lay-verify="typeName"
 							placeholder="请输入圈子类型名称" class="layui-input" value="${type.label}">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">键值<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="value" lay-verify="typeValue" style="width: 80%"
+						<input type="text" name="value" lay-verify="typeValue"
 							placeholder="请输入圈子类型值" class="layui-input" value="${type.value}">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">描述</label>
 					<div class="layui-input-block">
-						<textarea rows="" cols="" class="layui-textarea" name="description"  style="width: 80%"></textarea>
+						<textarea rows="" cols="" class="layui-textarea" name="description"  ></textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">

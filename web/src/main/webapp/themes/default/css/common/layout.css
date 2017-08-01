@@ -34,15 +34,15 @@ body {
 	padding-top: 4px;
 }
 .header-public-logo img {
-    height: 40px;
+	height: 40px;
 }
 .user-address {
-    display: inline-block;
-    height: 50px;
-    float: left;
-    margin-left: 55px;
-    position: relative;
-    cursor: pointer;
+	display: inline-block;
+	height: 50px;
+	float: left;
+	margin-left: 55px;
+	position: relative;
+	cursor: pointer;
 }
 .user-address .show-city {
 	height: 50px;
@@ -62,18 +62,18 @@ body {
 	top: 24px;
 	right: 12px;
 	-webkit-transform: rotate(0deg);
-	   -moz-transform: rotate(0deg);
-	    -ms-transform: rotate(0deg);
-	        transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-ms-transform: rotate(0deg);
+	transform: rotate(0deg);
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
 }
 .user-address:hover .show-city .dropdown-icon{
 	-webkit-transform: rotate(180deg);
-	   -moz-transform: rotate(180deg);
-	    -ms-transform: rotate(180deg);
-	        transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	transform: rotate(180deg);
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
@@ -134,9 +134,9 @@ body {
 	height: 30px;
 	background-color: #e5e6e9;
 	float: right;
-    margin: 10px 465px 0 0;
+	margin: 10px 465px 0 0;
 	-webkit-border-radius: 3px;
-	        border-radius: 3px;
+	border-radius: 3px;
 	position: relative;
 }
 .header-public-search input {
@@ -177,7 +177,7 @@ body {
 	position: relative;
 	float: left;
 	height: 50px;
-    margin: 0 5px;
+	margin: 0 5px;
 	background: inherit;
 	-webkit-transition: all 1s;
 	-moz-transition: all 1s;
@@ -197,8 +197,8 @@ body {
 /*用户信息*/
 .header-user-info{
 	padding: 6px 10px 4px 10px;
-    height: 40px;
-    cursor: pointer;
+	height: 40px;
+	cursor: pointer;
 }
 .header-user-info .user-logo{
 	display: inline-block;
@@ -206,11 +206,11 @@ body {
 	width: 35px;
 	height: 35px;
 	-webkit-border-radius: 50%;
-	        border-radius: 50%;
+	border-radius: 50%;
 	line-height: 50px;
 	border: 2px solid #fff;
 	-webkit-background-size: cover;
-	        background-size: cover;
+	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }
@@ -237,13 +237,13 @@ body {
 
 /*退出下拉*/
 .user-info{
-    position: absolute;
-    left: 0;
-    display: none;
-    width: 100%;
-    z-index: 5;
-    background: #fff;
-    border: 1px solid #dbdee5;
+	position: absolute;
+	left: 0;
+	display: none;
+	width: 100%;
+	z-index: 5;
+	background: #fff;
+	border: 1px solid #dbdee5;
 }
 .header-user:hover .user-info{
 	display: block;
@@ -251,22 +251,22 @@ body {
 
 .user-name:hover .dropdown-icon{
 	-webkit-transform: rotate(180deg);
-	   -moz-transform: rotate(180deg);
-	    -ms-transform: rotate(180deg);
-	        transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	transform: rotate(180deg);
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
 }
 
 .user-info-nav li{
-    float: none;
-    height: 40px;
-    background: #fff;
-    cursor: pointer;
-    width: 100%;
-    padding: 0;
-    margin: 0;
+	float: none;
+	height: 40px;
+	background: #fff;
+	cursor: pointer;
+	width: 100%;
+	padding: 0;
+	margin: 0;
 }
 
 .user-info-nav li:hover{
@@ -275,11 +275,11 @@ body {
 }
 
 .user-info-nav p{
-    line-height: 40px;
-    width: 100%;
-    margin: auto;
-    text-align: center;
-    border-top: 1px solid #dbdee5;
+	line-height: 40px;
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	border-top: 1px solid #dbdee5;
 }
 /*主体*/
 /*侧边栏*/
@@ -290,10 +290,10 @@ body {
 	display: -webkit-flex;
 	display: flex;
 	/*width: 1190px;*/
-/*	overflow: hidden;*/
+	/*	overflow: hidden;*/
 	margin: 0 auto;
 	position: relative;
-/*	background: #fff;*/
+	/*	background: #fff;*/
 }
 .index-outside > aside, .aside-bg {
 	width: 199px;
@@ -340,9 +340,9 @@ body {
 	display: inline-block;
 	margin-left: 5px;
 	-webkit-transform: rotate(0deg);
-	   -moz-transform: rotate(0deg);
-	    -ms-transform: rotate(0deg);
-	        transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-ms-transform: rotate(0deg);
+	transform: rotate(0deg);
 	transition:  all .5s;
 	-moz-transition: all .5s;
 	-webkit-transition:  all .5s;
@@ -350,9 +350,9 @@ body {
 }
 .aside-open .icon-right{
 	-webkit-transform: rotate(90deg);
-	   -moz-transform: rotate(90deg);
-	    -ms-transform: rotate(90deg);
-	        transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
 }
 .aside-dd{
 	overflow: hidden;
@@ -398,7 +398,7 @@ body {
 	min-height: -webkit-calc(100vh - 50px);
 	min-height: -moz-calc(100vh - 50px);
 	min-height: calc(100vh - 50px);
-/*	overflow: hidden;*/
+	/*	overflow: hidden;*/
 	background: #fff;
 	width: 990px;
 }
@@ -408,7 +408,7 @@ body {
 }
 /*底部*/
 .footer-gray{
-/*	min-height: 300px;*/
+	/*	min-height: 300px;*/
 	width: 100%;
 	text-align: center;
 }
@@ -420,38 +420,24 @@ body {
 	font-size: 14px;
 }
 .footer-content .qr-code-content{
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    width: 100%;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -moz-box-pack: center;
-     -ms-flex-pack: center;
-         justify-content: center;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -moz-box-align: center;
-     -ms-flex-align: center;
-         align-items: center;
-    padding-bottom: 30px;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #cec8c8;
+	text-align: center;
+	width: 100%;
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+	border-bottom: 1px solid #cec8c8;
 }
 .footer-content .qr-code-item{
 	width: 150px;
-	float: left;
 	margin: 0 20px;
+	display: inline-block;
 }
 .footer-content .qr-code-item img{
 	width: 110px;
 	padding: 5px 0;
 }
 .footer-content .copy-right{
-    font-size: 18px;
-    line-height: 30px;
+	font-size: 18px;
+	line-height: 30px;
 }
 /*右边菜单栏*/
 .right-nav-content{
@@ -469,19 +455,19 @@ body {
 	text-align: center;
 	line-height: 50px;
 	-webkit-border-radius: 3px;
-	        border-radius: 3px;
+	border-radius: 3px;
 	cursor: pointer;
 	translation: all 0.3s;
 }
 .right-nav-content a .iconfont{
-  	font-size: 30px;
+	font-size: 30px;
 }
 .right-nav-content a:hover{
 	background: #e8473f;
 	color:#fff;
 }
 .index-outside > section .page-container{
-    text-align: right;
+	text-align: right;
 	padding-right: 15px;
 }
 /*提醒数字*/

@@ -340,13 +340,13 @@ public class ActivityController {
 				output.setLimitNum(dbActivity.getLimitNum());
 
 				// 活动二维码
-				String path = RealmUtils.getCurrentUser().getId() + "/activity/";
+				String path = input.getMemberId() + "/activity/";
 				String content = "hd/hd_detail.html?hdId=" + input.getId();
 				String fileEntity = fileBizService.getFileEntity(input.getId(), path, content);
 				output.setQrCodeUrl(fileEntity);
 
 				// 签到二维码
-				String bmPath = RealmUtils.getCurrentUser().getId() + "/activity/memberAct/";
+				String bmPath = input.getMemberId() + "/activity/memberAct/";
 				String bmContent = "hd/hdbm_sign.html?hdId=" + input.getId();
 				fileEntity = fileBizService.getFileEntity(input.getId(), bmPath, bmContent);
 				output.setBmQrCodeUrl(fileEntity);
@@ -406,13 +406,13 @@ public class ActivityController {
 				}
 
 				// 众筹代言二维码
-				String path = RealmUtils.getCurrentUser().getId() + "/zcActivity/";
+				String path = input.getMemberId() + "/zcActivity/";
 				String content = "project/target_detail.html?id=" + input.getId();
 				String qrCodeUrl = fileBizService.getFileEntity(input.getId(), path, content);
 				output.setQrCodeUrl(qrCodeUrl);
 
 				// 众筹项目详情二维码
-				String detail = RealmUtils.getCurrentUser().getId() + "/zcActivity/detail/";
+				String detail = input.getMemberId() + "/zcActivity/detail/";
 				String detailContent = "project/target_client_detail.html?id=" + input.getId();
 				String detailQrCodeUrl = fileBizService.getFileEntity(input.getId(), detail, detailContent);
 				output.setBmQrCodeUrl(detailQrCodeUrl);

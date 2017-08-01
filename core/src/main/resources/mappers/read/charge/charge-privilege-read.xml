@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.charge.PrivilegeReadDao">
+
+    <resultMap id="dynamicMap" type="com.party.core.model.charge.ProductPrivilege">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="code" property="code" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="sort" property="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="parent_ids" property="parentIds" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <collection property="childrens" ofType="com.party.core.model.charge.ProductPrivilege" column="id" select="findByParentId" />
+    </resultMap>
+
+    <select id="get" resultMap="dynamicMap">
+        SELECT * FROM charge_privilege WHERE id = #{id}
+    </select>
+    
+    <select id="findByParentId" resultMap="dynamicMap">
+        SELECT * FROM charge_privilege sp WHERE sp.parent_id = #{id} ORDER BY sort ASC
+    </select>
+    
+    <select id="webListPage" resultMap="dynamicMap">
+        SELECT * FROM charge_privilege cl
+        <where>
+        	<if test="privilege.parentId != null and privilege.parentId != ''">AND cl.parent_id = #{privilege.parentId}</if>
+            <if test="privilege.delFlag != null">AND cl.del_flag = #{privilege.delFlag}</if>
+            <if test="privilege.name != null and privilege.name != ''">
+            	AND cl.name like concat('%',#{privilege.name},'%')
+            </if>
+            <if test="privilege.code != null and privilege.code != ''">
+            	AND cl.code like concat('%',#{privilege.code},'%')
+            </if>
+            <if test="params != null and params.size > 0">
+                <!-- 创建时间 时间块 -->
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (cl.update_date between #{params.startDate} and #{params.endDate})
+                </if>
+                <!-- 创建时间 时间段 -->
+                <if test="params.c_start != null and params.c_start != ''">
+                    AND TO_DAYS(cl.update_date) &gt;= TO_DAYS(#{params.c_start})
+                </if>
+                <if test="params.c_end != null and params.c_end != ''">
+                    AND TO_DAYS(cl.update_date) &lt;= TO_DAYS(#{params.c_end})
+                </if>
+            </if>
+        </where>
+        ORDER BY cl.sort ASC, cl.update_date DESC
+    </select>
+
+    <select id="listPage" resultMap="dynamicMap">
+        SELECT * FROM charge_privilege
+        <where>
+            <if test="delFlag != null">
+                AND del_flag = #{delFlag}
+            </if>
+            <if test="parentId != null and parentId != ''">
+                AND parent_id = #{parentId}
+            </if>
+        </where>
+        ORDER BY sort ASC, update_date DESC
+    </select>
+</mapper>

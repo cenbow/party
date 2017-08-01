@@ -52,11 +52,12 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/activity/activity/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">活动标题<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="title" lay-verify="title" style="width: 80%" autocomplete="off"
+						<input type="text" name="title" lay-verify="title" autocomplete="off"
 							placeholder="活动标题" class="layui-input" value="${activity.title}"
 						>
 						<input type="hidden" name="id" value="${activity.id}" />
@@ -81,11 +82,11 @@
 					<div class="cover-content">
 						<c:if test="${activity == null || empty activity.publisherLogo}">
 							<input type="hidden" name="publisherLogo" id="publisherLogo" lay-verify="publisherLogo" value="${sessionScope.currentUser.logo}" />
-							<span id="logo-img" class="cover-img" style="background-image:url(${sessionScope.currentUser.logo})"></span>
+							<span id="logo-img" class="round-img" style="background-image:url(${sessionScope.currentUser.logo})"></span>
 						</c:if>
 						<c:if test="${activity != null && not empty activity.publisherLogo}">
 							<input type="hidden" name="publisherLogo" id="publisherLogo" lay-verify="publisherLogo" value="${activity.publisherLogo}" />
-							<span id="logo-img" class="cover-img" style="background-image:url('${activity.publisherLogo}')"></span>
+							<span id="logo-img" class="round-img" style="background-image:url('${activity.publisherLogo}')"></span>
 						</c:if>
 						<div class="u-single-upload">
 							<input type="file" id="upload_logo_img" class="u-single-file"> <span class="u-single-upload-icon">+添加头像</span>
@@ -105,6 +106,7 @@
 						<div class="u-single-upload">
 							<input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加海报</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：800x450</div>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -206,32 +208,32 @@
 					<div class="layui-inline">
 						<label class="layui-form-label"></label>
 						<div class="layui-input-inline">
-							<div id="allmap" style="height: 500px; width: 800px;"></div>
+							<div id="allmap" style="height: 500px;"></div>
 						</div>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">众筹宣言<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="crowdDeclaration" lay-verify="crowd_xy" style="width: 94%" autocomplete="off" placeholder="众筹宣言" class="layui-input" value="${activity.crowdDeclaration}">
+						<input type="text" name="crowdDeclaration" lay-verify="crowd_xy" autocomplete="off" placeholder="众筹宣言" class="layui-input" value="${activity.crowdDeclaration}">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">支持宣言<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="supportDeclaration" lay-verify="support_xy" style="width: 94%" autocomplete="off" placeholder="支持宣言" class="layui-input" value="${activity.supportDeclaration}">
+						<input type="text" name="supportDeclaration" lay-verify="support_xy" autocomplete="off" placeholder="支持宣言" class="layui-input" value="${activity.supportDeclaration}">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">代言宣言<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="representDeclaration" lay-verify="represent_xy" style="width: 94%" autocomplete="off" placeholder="代言宣言" class="layui-input" value="${activity.representDeclaration}">
+						<input type="text" name="representDeclaration" lay-verify="represent_xy" autocomplete="off" placeholder="代言宣言" class="layui-input" value="${activity.representDeclaration}">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">活动描述</label>
 					<div class="layui-input-block">
-						<input type="text" name="remarks" style="width: 94%" placeholder="活动描述" class="layui-input" value="${activity.remarks}">
+						<input type="text" name="remarks"  placeholder="活动描述" class="layui-input" value="${activity.remarks}">
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -256,12 +258,12 @@
 					<div class="layui-input-block">
 						<input type="hidden" name="videoList" id="videoList" />
 						<div style="margin-bottom: 10px;">
-							<textarea class="layui-textarea video-link" style="width: 63%;float: left; margin-right: 10px;resize:none" placeholder="视频链接" id="vide_code">${activity.video.resourceUrl}</textarea>
+							<textarea class="layui-textarea video-link" style="width: calc(100% - 140px);float: left; margin-right: 10px;resize:none" placeholder="视频链接" id="vide_code">${activity.video.resourceUrl}</textarea>
 <%-- 							<input type="text" style="width: 63%;float: left; margin-right: 10px;" placeholder="视频链接" class="layui-input video-link" value="${activity.video.resourceUrl}" id="vide_code"> --%>
 							<a href="javascript:openUploadVideo()" class="layui-btn  layui-btn-danger">+添加视频提示</a>
 							<div class="cl"></div>
 						</div>
-						<input type="text" style="width: 80%" placeholder="视频描述" class="layui-input video-remarks" value="${activity.video.remarks}" >
+						<input type="text"  placeholder="视频描述" class="layui-input video-remarks" value="${activity.video.remarks}" >
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -273,34 +275,28 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<div class="layui-inline">
 						<label class="layui-form-label">活动详情<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="ueditor1" type="text/plain" style="width: 800px; height: 500px;"></script>
+							<script id="ueditor1" type="text/plain" style="width: 100%; height: 500px;"></script>
 							<div style="display: none" id="contentView">${activityDetail.content}</div>
 							<input type="hidden" name="content" id="content" lay-verify="content" />
 						</div>
-					</div>
 				</div>
 				<div class="layui-form-item">
-					<div class="layui-inline">
 						<label class="layui-form-label">报名相关<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="relatedUeditor" type="text/plain" style="width: 800px; height: 500px;"></script>
+							<script id="relatedUeditor" type="text/plain" style="width: 100%; height: 500px;"></script>
 							<div style="display: none" id="applyRelatedView">${activityDetail.applyRelated}</div>
 							<input type="hidden" name="applyRelated" id="applyRelated" lay-verify="applyRelated" />
 						</div>
-					</div>
 				</div>
 				<div class="layui-form-item">
-					<div class="layui-inline">
 						<label class="layui-form-label">参赛标准<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="standardUeditor" type="text/plain" style="width: 800px; height: 500px;"></script>
+							<script id="standardUeditor" type="text/plain" style="width: 100%; height: 500px;"></script>
 							<div style="display: none" id="matchStandardView">${activityDetail.matchStandard}</div>
 							<input type="hidden" name="matchStandard" id="matchStandard" lay-verify="matchStandard" />
 						</div>
-					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
@@ -309,6 +305,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>
@@ -515,6 +512,10 @@
                 end.elem = this
                 laydate(end);
             }
+            initMapForm(form);
+            setTimeout(function () {
+                form.render('radio');
+            },100);
         });
 		ue.addListener('ready', function() {
 			if($("#contentView").html() != "" && $("#contentView").html().length > 500){

@@ -24,4 +24,11 @@ public interface IUpRecordsService extends IBaseService<UpRecords>{
      * @return 记录列表
      */
     List<UpRecordWithProject> listWithProject(UpRecordWithProject upRecordWithProject, Page page);
+
+
+    /**
+     * 最新的跟进记录
+     * @return 最新的跟进记录
+     */
+    UpRecords getRecently();
 }

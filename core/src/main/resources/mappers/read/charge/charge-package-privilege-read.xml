@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.party.core.dao.read.charge.PackagePrivilegeReadDao">
+
+    <resultMap id="dynamicMap" type="com.party.core.model.charge.PackagePrivilege">
+        <id column="id" property="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="del_flag" property="delFlag" jdbcType="CHAR" javaType="java.lang.String"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" javaType="java.lang.String"/>
+
+        <result column="privilege_id" property="privilegeId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="package_id" property="packageId" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="param_value" property="paramValue" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result column="is_number" property="isNumber" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <select id="get" resultMap="dynamicMap">
+        SELECT * FROM charge_package_privilege WHERE id = #{id}
+    </select>
+    
+    <select id="webListPage" resultType="java.util.Map">
+    	SELECT 
+    		cp.`name` AS 'name', cp.`code` AS 'code', cpp.id AS 'id', cp.id AS 'privilegeId', 
+    		cpp.paramValue AS 'paramValue', cpp.is_number, cpp.update_date AS 'updateDate'
+		FROM charge_package_privilege cpp 
+		INNER JOIN charge_privilege cp ON cpp.privilege_id = cp.id
+		<where>
+			<if test="params != null and params.size > 0">
+				<if test="params.packageId != null and params.packageId != ''">
+					AND cpp.package_id = #{params.packageId}
+				</if>
+				<if test="params.name != null and params.name != ''">
+					AND cp.name like contact('%', #{params.name}, '%');
+				</if>
+				<if test="params.code != null and params.code != ''">
+					AND cp.code like contact('%', #{params.code}, '%');
+				</if>
+				<!-- 创建时间 时间块 -->
+                <if test="params.startDate != null and params.endDate != null">
+                    AND (cl.update_date between #{params.startDate} and #{params.endDate})
+                </if>
+                <!-- 创建时间 时间段 -->
+                <if test="params.c_start != null and params.c_start != ''">
+                    AND TO_DAYS(cl.update_date) &gt;= TO_DAYS(#{params.c_start})
+                </if>
+                <if test="params.c_end != null and params.c_end != ''">
+                    AND TO_DAYS(cl.update_date) &lt;= TO_DAYS(#{params.c_end})
+                </if>
+			</if>
+		</where>
+    </select>
+
+    <select id="listPage" resultMap="dynamicMap">
+        SELECT * FROM charge_package_privilege
+        <where>
+            <if test="delFlag != null">
+                AND del_flag = #{delFlag}
+            </if>
+            <if test="packageId != null and packageId != ''">
+                AND package_id = #{packageId}
+            </if>
+            <if test="privilegeId != null and privilegeId != ''">
+                AND package_id = #{packageId}
+            </if>
+        </where>
+        ORDER BY update_date DESC
+    </select>
+
+    <select id="getUnique" resultMap="dynamicMap">
+        SELECT * FROM charge_package_privilege
+        <where>
+            <if test="packageId != null and packageId != ''">
+                AND package_id = #{packageId}
+            </if>
+            <if test="privilegeId != null and privilegeId != ''">
+                AND privilege_id = #{privilegeId}
+            </if>
+        </where>
+        LIMIT 0,1
+    </select>
+    
+    <select id="findByPackage" resultMap="dynamicMap">
+        select * from charge_package_privilege cpp inner join charge_privilege cp on cpp.privilege_id = cp.id
+        <where>
+            <if test="params != null and params.size > 0">
+                cpp.package_id = #{params.packageId} and cp.code = #{params.code}
+            </if>
+        </where>
+        LIMIT 0,1
+    </select>
+</mapper>

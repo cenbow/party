@@ -2,14 +2,11 @@ package com.party.admin.biz.sign;
 
 import com.google.common.base.Function;
 import com.party.admin.biz.file.FileBizService;
-import com.party.admin.utils.RealmUtils;
 import com.party.admin.web.dto.output.sign.SignProjectOutput;
 import com.party.common.paging.Page;
 import com.party.common.utils.LangUtils;
-import com.party.core.model.member.Member;
 import com.party.core.model.sign.SignProjectAuthor;
 import com.party.core.service.sign.ISignProjectService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +46,7 @@ public class SignProjectBizService {
             @Override
             public SignProjectOutput apply(SignProjectAuthor signProjectAuthor) {
                 SignProjectOutput signProjectOutput = SignProjectOutput.transform(signProjectAuthor);
-                String url = getQrCode(signProjectAuthor.getId());
+                String url = getQrCode(signProjectAuthor.getId(), signProjectAuthor.getCreateBy());
                 signProjectOutput.setQrCode(url);
                 return signProjectOutput;
             }
@@ -60,11 +57,12 @@ public class SignProjectBizService {
     /**
      * 获取二维码
      * @param id 报名项目编号
+     * @param memberId 创建者
      * @return 二维码
      */
-    public String getQrCode(String id){
-        Member member = RealmUtils.getCurrentUser();
-        String path = member.getId() + CODE_PATH;
+    public String getQrCode(String id, String memberId){
+        // Member member = RealmUtils.getCurrentUser();
+        String path = memberId + CODE_PATH;
         String content = url + id;
         String qrCodeUrl = fileBizService.getFileEntity(id, path, content);
         return qrCodeUrl;

@@ -23,6 +23,7 @@ import com.party.core.model.label.Label;
 import com.party.core.service.crowdfund.IProjectLabelService;
 import com.party.core.service.crowdfund.IProjectService;
 import com.party.core.service.crowdfund.ISupportService;
+import com.party.core.service.label.ILabelService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -59,6 +60,9 @@ public class AnalyzeBizService {
     @Autowired
     private IProjectLabelService projectLabelService;
 
+    @Autowired
+    private ILabelService labelService;
+
 
     public List<AnalyzeOutput> list(ProjectAnalyze projectAnalyze, Page page){
         List<ProjectAnalyze> list = projectService.analyzeList(projectAnalyze, page);
@@ -80,14 +84,14 @@ public class AnalyzeBizService {
                 for (Date date : dateList){
                     Float mapSum = 0f;
                     for (SupportCount supportCount : countList){
-                        if (DateUtils.formatDate(date, "yyyy-MM-dd").equals(DateUtils.formatDate(supportCount.getDate(), "yyyy-MM-dd"))){
+                        if (DateUtils.formatDate(date, "yy/MM/dd").equals(DateUtils.formatDate(supportCount.getDate(), "yy/MM/dd"))){
                             mapSum = supportCount.getPayment();
                         }
                     }
 
                     mapSum = BigDecimalUtils.add(mapSum, sum);
                     mapSum = BigDecimalUtils.round(mapSum, 2);
-                    moneyMap.put(DateUtils.formatDate(date, "yyyy-MM-dd"), mapSum);
+                    moneyMap.put(DateUtils.formatDate(date, "yy/MM/dd"), mapSum);
                     sum = mapSum;
                 }
                 output.setMoneyMap(moneyMap);
@@ -114,7 +118,7 @@ public class AnalyzeBizService {
         List<Date> list = dateList();
         List<String> dateList = Lists.newArrayList();
         for (Date date : list){
-            dateList.add(DateUtils.formatDate(date, "yyyy-MM-dd"));
+            dateList.add(DateUtils.formatDate(date, "yy/MM/dd"));
         }
         Collections.reverse(dateList);
         return dateList;
@@ -160,6 +164,7 @@ public class AnalyzeBizService {
             String lables = Joiner.on(",").join(labelNames);
             output.setLabels(lables);
             output.setStyle(projectAnalyze.getLabelList().get(0).getStyle());
+            output.setLabelId(projectAnalyze.getLabelList().get(0).getId());
         }
     }
 
@@ -170,13 +175,15 @@ public class AnalyzeBizService {
      * @param projectId 项目编号
      */
     @Transactional
-    public void labelSave(String id, String projectId){
+    public String labelSave(String id, String projectId){
         //删除项目关系
         projectLabelService.deleteByProjectId(projectId);
         ProjectLabel projectLabel = new ProjectLabel();
         projectLabel.setProjectId(projectId);
         projectLabel.setLabelId(id);
         projectLabelService.insert(projectLabel);
+        Label label = labelService.get(id);
+        return label.getStyle();
     }
 
     /**
@@ -266,11 +273,11 @@ public class AnalyzeBizService {
             refunded = projectService.sizeForTargetId(projectAnalyze.getTargetId(), Constant.CROWDFUND_PROJECT_REFUNDED);
         }
         else if (!Strings.isNullOrEmpty(projectAnalyze.getEventId())){
-            all = projectService.countForEvent(projectAnalyze.getTargetId());
-            underway = projectService.countForEvent(projectAnalyze.getTargetId(), Constant.IS_CROWFUND_ING);
-            isSuccess = projectService.countForEvent(projectAnalyze.getTargetId(), Constant.IS_CROWFUND_SUCCESS);
-            refunding = projectService.countForEvent(projectAnalyze.getTargetId(), Constant.CROWDFUND_PROJECT_REFUNDING);
-            refunded = projectService.countForEvent(projectAnalyze.getTargetId(), Constant.CROWDFUND_PROJECT_REFUNDED);
+            all = projectService.countForEvent(projectAnalyze.getEventId());
+            underway = projectService.countForEvent(projectAnalyze.getEventId(), Constant.IS_CROWFUND_ING);
+            isSuccess = projectService.countForEvent(projectAnalyze.getEventId(), Constant.IS_CROWFUND_SUCCESS);
+            refunding = projectService.countForEvent(projectAnalyze.getEventId(), Constant.CROWDFUND_PROJECT_REFUNDING);
+            refunded = projectService.countForEvent(projectAnalyze.getEventId(), Constant.CROWDFUND_PROJECT_REFUNDED);
         }
         typeCountOutput.setAll(all);
         typeCountOutput.setUnderway(underway);

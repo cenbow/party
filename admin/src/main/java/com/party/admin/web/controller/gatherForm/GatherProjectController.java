@@ -80,7 +80,7 @@ public class GatherProjectController {
 			output.setFieldNum(fieldNum);
 
 			// 二维码
-			String path = RealmUtils.getCurrentUser().getId() + "/gatherForm/form/";
+			String path = member.getId() + "/gatherForm/form/";
 			String content = "gather_form/form_info.html?projectId=" + input.getId();
 			String baseQrCodeUrl = fileBizService.getFileEntity(input.getId(), path, content);
 			output.setQrCodeUrl(baseQrCodeUrl);

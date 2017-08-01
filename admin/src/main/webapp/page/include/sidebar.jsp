@@ -41,7 +41,8 @@
 				<a href="${ctx}/system/member/distributorList.do" data-tag="system/member/distributor" class="aside-nav " id="fx_list" data-title="分销商管理">分销商管理</a>
 				<a href="${ctx}/system/role/roleList.do" data-tag="system/role/roleList"class="aside-nav " data-title="角色管理" id="role_list">角色管理</a>
 				<a href="${ctx}/system/privilege/list.do" data-tag="system/privilege/list|system/privilege/view"class="aside-nav " data-title="权限管理" id="privilege_list">权限管理</a>
-				<a href="${ctx}/charge/package/packageList.do" data-tag = "charge/package" class = "aside-nav" data-title="等级管理" id="package_list">产品套餐管理</a>
+				<a href="${ctx}/charge/package/packageList.do" data-tag = "charge/package" class = "aside-nav" data-title="产品套餐管理" id="package_list">产品套餐管理</a>
+				<a href="${ctx}/charge/privilege/list.do" data-tag = "charge/privilege" class = "aside-nav" data-title="产品权限管理" id="pro_privilege_list">产品权限管理</a>
 			</dd>
 		</dl>
 		<div class="aside-divide"></div>

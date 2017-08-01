@@ -173,8 +173,10 @@
 							<col>
 							<col>
 							<col>
-							<col width="90px">
-							<col width="90px">
+							<col>
+							<col>
+							<col>
+							<col>
 							<col width="150px">
 							<col width="100px">
 						</colgroup>
@@ -182,8 +184,10 @@
 							<tr>
 								<th>订单名称</th>
 								<th>下单者</th>
+								<th>商户</th>
 								<th>类型</th>
 								<th>金额</th>
+								<th>支付方式</th>
 								<th>状态</th>
 								<th>下单时间</th>
 								<th>操作</th>
@@ -201,6 +205,7 @@
 									<div class="member-name ellipsis-1"><a class="blue" title="${orderForm.member.realname}" style="cursor: pointer;">${orderForm.member.realname}</a></div>
 									</div>
 								</td>
+								<td><div>${orderForm.merchantName}</div></td>
 								<td width="12%">
 									<c:choose>
 										<c:when test="${orderForm.type == 0}"><span>标准商品订单</span></c:when>
@@ -211,6 +216,14 @@
 									</c:choose>
 								</td>
 								<td>￥${orderForm.payment}</td>
+								<td width="7%">
+									<div>
+										<c:choose>
+											<c:when test="${orderForm.paymentWay == 1}">微信</c:when>
+											<c:when test="${orderForm.paymentWay == 0}">支付宝</c:when>
+										</c:choose>
+									</div>
+								</td>
 								<td width="7%">
 									<c:choose>
 										<c:when test="${orderForm.status == 0}">

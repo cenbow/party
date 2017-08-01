@@ -32,14 +32,14 @@
                     <span class="title f20">众筹管理&nbsp;&gt;&nbsp;${empty upRecords.id ? '发布' : '编辑'}跟进记录</span>
                 </div>
             </div>
-
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/records/records/save.do">
                 <input type="hidden" name="id" value="${upRecords.id}" />
                 <div class="layui-form-item">
                     <label class="layui-form-label">众筹者<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
                         <input type="hidden" name="targetId" value="${upRecords.targetId}" />
-                        <input type="text"  style="width: 80%"  class="layui-input" value="${authorName}">
+                        <input type="text"   class="layui-input" value="${authorName}" readonly>
                     </div>
                 </div>
 
@@ -62,7 +62,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">内容<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <textarea name="content" id="content" placeholder="内容" lay-verify="content" class="layui-textarea" style="width: 80%" >${upRecords.content}</textarea>
+                        <textarea name="content" id="content" placeholder="内容" lay-verify="content" class="layui-textarea" >${upRecords.content}</textarea>
                     </div>
                 </div>
 
@@ -73,6 +73,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

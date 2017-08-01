@@ -361,7 +361,7 @@
 					AND m.realname like concat('%',#{params.memberName},'%')
 				</if>
 				<if test="params.txzMerchantId != null and params.txzMerchantId.size != 0">
-					AND (of.payment_way = '0' OR  of.merchant_id IN
+					AND (of.payment_way = 0 OR  of.merchant_id IN
                     <foreach item="st" index="index" collection="params.txzMerchantId" open="(" separator="," close=")">
                         #{st}
                     </foreach>

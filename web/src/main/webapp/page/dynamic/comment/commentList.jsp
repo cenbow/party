@@ -69,10 +69,10 @@
 				<ul id="view">
 					<table class="layui-table">
 						<colgroup>
-							<col width="150">
-							<col width="200">
-							<col width="150">
-							<col width="150">
+							<col>
+							<col>
+							<col width="150px">
+							<col>
 						</colgroup>
 						<thead>
 							<tr>

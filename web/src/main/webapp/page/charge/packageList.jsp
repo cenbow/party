@@ -153,6 +153,74 @@
             line-height: 30px;
             font-weight: 600;
         }
+
+        .privilege-table {
+            width: 1200px;
+            border: 1px solid #efefef;
+            margin: 20px auto 0px;
+        }
+
+        .proFuncHead, .privilege-main .proFuncContent {
+            width: 100%;
+            display: flex;
+            border-bottom: 1px solid #efefef;
+        }
+
+
+        .proFuncHead .tableHead {
+            flex: 1;
+            padding: 15px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+
+        .privilege-main > .proFuncContent:last-child  {
+            border-bottom: 0px;
+        }
+
+        .privilege-main .tableContent {
+            flex: 1;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+        }
+
+        .layui-table{
+            width: 1200px;
+            margin: 20px auto 0px;
+        }
+
+        .layui-table td, .layui-table th{
+            text-align: center!important;
+            padding: 18px 15px!important;
+            font-size: 16px!important;
+        }
+
+        .layui-table tr:first-child td div{
+            font-size: 18px!important;
+        }
+        .layui-table tr:first-child td div:first-child{
+            margin-bottom: 5px!important;
+        }
+
+        .layui-table .btn-icon{
+            font-size: 25px!important;
+            font-weight: bold!important;
+        }
+
+        .layui-table tr:nth-child(even) {
+            background-color: rgb(255, 255, 255);
+        }
+
+        .layui-table tr:nth-child(odd) {
+            background-color: rgb(237, 246, 255);
+        }
+
+        .layui-table tr:hover td{
+            background-color: transparent!important;
+        }
+
     </style>
 </head>
 <!--头部-->
@@ -171,7 +239,7 @@
                 </div>
             </div>
             <div class="introduce">
-                <ul>
+                <ul class="tc">
                     <c:forEach var="productPackage" items="${packages}">
                         <c:set var="isHas" value="false" />
                         <c:set var="thisVersion" value="false" />
@@ -184,7 +252,7 @@
                             </c:if>
                         </c:forEach>
                         <li data-id="${productPackage.id}" class="styles-body">
-                            <%--<div class="header" style="background: url('${level.picture}') no-repeat; background-size: 100% auto">--%>
+                                <%--<div class="header" style="background: url('${level.picture}') no-repeat; background-size: 100% auto">--%>
                             <div class="header ${productPackage.style}">
                                 <h3>${productPackage.name}</h3>
                                 <c:if test="${productPackage.price == 0.0}">
@@ -214,6 +282,68 @@
                         </li>
                     </c:forEach>
                 </ul>
+                <%--<div class="privilege-table">
+                    <div class="proFuncHead">
+                        <div class="tableHead"></div>
+                        <c:forEach var="dbPackage" items="${packages}">
+                            <div class="tableHead">
+                                <div>${dbPackage.name}</div>
+                                <div>${dbPackage.price}</div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <div class="privilege-main">
+                        <c:forEach var="privilege" items="${privileges}">
+                            <div class="proFuncContent">
+                                <div class="tableContent">${privilege.privilege.name}</div>
+                                <c:forEach var="result" items="${privilege.results}">
+                                    <div class="tableContent">${result.paramValue}</div>
+                                </c:forEach>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>--%>
+
+                <table class="layui-table">
+                    <tr>
+                        <td></td>
+                        <c:forEach var="dbPackage" items="${packages}">
+                            <td>
+                                <div>${dbPackage.name}</div>
+                                <c:choose>
+                                    <c:when test="${dbPackage.price == 0.0}">
+                                        <div>免费</div>
+                                    </c:when>
+                                    <c:when test="${dbPackage.price > 0.0}">
+                                        <div>${dbPackage.price}/${dbPackage.unit}</span></div>
+                                    </c:when>
+                                </c:choose>
+                            </td>
+                        </c:forEach>
+                    </tr>
+                    <c:forEach var="privilege" items="${privileges}">
+                        <tr>
+                            <td>
+                                <div>${privilege.privilege.name}</div>
+                            </td>
+                            <c:forEach var="result" items="${privilege.results}">
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${result.paramValue == null || result.paramValue == 'false'}">
+                                            <i class="iconfont icon-close btn-icon red"></i>
+                                        </c:when>
+                                        <c:when test="${result.paramValue == 'true'}">
+                                            <i class="iconfont icon-check btn-icon green"></i>
+                                        </c:when>
+                                        <c:when test="${result.paramValue != null}">
+                                            <div>${result.paramValue}</div>
+                                        </c:when>
+                                    </c:choose>
+                                </td>
+                            </c:forEach>
+                        </tr>
+                    </c:forEach>
+                </table>
             </div>
         </div>
     </section>

@@ -58,17 +58,17 @@
                     <span>账号等级：</span>
                     <c:if test="${null == productPackage}">
                         <span>无</span>
-                        <a href="${ctx}/charge/package/packageList.do" target="_self"
+                        <%--<a href="${ctx}/charge/package/packageList.do" target="_self"
                            class="layui-btn layui-btn-danger layui-btn-small ml10"
                            style="padding-left: 15px; padding-right: 15px;"><i
-                                class="iconfont icon-choiceness btn-icon"></i> 开通</a>
+                                class="iconfont icon-choiceness btn-icon"></i> 开通</a>--%>
                     </c:if>
                     <c:if test="${null != productPackage}">
                         <span>${productPackage.name}</span>
-                        <a href="${ctx}/charge/package/packageList.do" target="_self"
+                        <%--<a href="${ctx}/charge/package/packageList.do" target="_self"
                            class="layui-btn layui-btn-danger layui-btn-small ml10"
                            style="padding-left: 15px; padding-right: 15px;"><i
-                                class="iconfont icon-choiceness btn-icon"></i> 升级</a>
+                                class="iconfont icon-choiceness btn-icon"></i> 升级</a>--%>
                     </c:if>
                 </div>
                 <div class="info-div">
@@ -107,11 +107,11 @@
 
             element.on('tab', function (data) {
                 if (data.index == 0) {
-                    location.href = "${ctx}/order/order/tradeList.do";
-                } else if(data.index == 1){
                     location.href = "${ctx}/order/order/orderList.do";
-                } else if (data.index == 2) {
+                } else if(data.index == 1){
                     location.href = "${ctx}/order/order/withdrawList.do";
+                } else if (data.index == 2) {
+                    location.href = "${ctx}/order/order/tradeList.do";
                 }
             });
         });

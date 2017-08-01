@@ -30,4 +30,6 @@ public interface IActivityService extends IBaseService<Activity> {
 	 * @return 统计结果
 	 */
 	Activity countForEventId(String eventId);
+
+    Integer getCount(Activity activity);
 }

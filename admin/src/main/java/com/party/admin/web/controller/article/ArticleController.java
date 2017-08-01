@@ -104,8 +104,6 @@ public class ArticleController {
 
 		List<Article> articles = articleService.webListPage(article, params, page);
 
-		String path = RealmUtils.getCurrentUser().getId() + "/article/";
-
 		List<ArticleOutput> articleOutputs = LangUtils.transform(articles, input -> {
 			ArticleOutput articleOutput = ArticleOutput.transform(input);
 			String articleType = input.getArticleType();
@@ -123,6 +121,7 @@ public class ArticleController {
 				articleOutput.setChannel(channel);
 			}
 
+			String path = input.getMemberId() + "/article/";
 			String content = "article/article_detail.html?id=" + input.getId();
 			String fileEntity = fileBizService.getFileEntity(input.getId(), path, content);
 			articleOutput.setQrCodeUrl(fileEntity);

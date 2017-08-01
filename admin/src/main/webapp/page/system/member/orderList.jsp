@@ -27,8 +27,9 @@
 					</span>
                 </div>
             </div>
-            <form class="layui-form" action="${ctx}/order/order/memberOrderList.do?mmId=${member.id}" id="myForm" method="post">
+            <form class="layui-form" action="${ctx}/order/order/memberOrderList.do" id="myForm" method="post">
                 <input type="hidden" name="pageNo" id="pageNo" value="${page.page}" />
+                <input type="hidden" name="mmId" value="${member.id}" />
                 <div class="f-search-bar">
                     <div class="search-container">
                         <ul class="search-form-content">
@@ -62,27 +63,31 @@
                 <div class="cl">
                     <table class="layui-table">
                         <colgroup>
-                            <col width="300">
-                            <col width="150">
-                            <col width="120">
-                            <col width="90">
-                            <col width="90">
-                            <col width="140">
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
                         </colgroup>
                         <thead>
                         <tr>
                             <th>订单名称</th>
                             <th>下单者</th>
                             <th>订单类型</th>
+                            <th>商户</th>
                             <th>金额</th>
                             <th>订单状态</th>
+                            <th>支付方式</th>
                             <th>下单时间</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:if test="${page.totalCount == 0}">
                             <tr>
-                                <td colspan="6">
+                                <td colspan="8">
                                     <div class="f16 tc">还没有明细记录</div>
                                 </td>
                             </tr>
@@ -99,6 +104,7 @@
                                     </div>
                                 </td>
                                 <td>${orderForm.typeName}</td>
+                                <td>${orderForm.merchantName}</td>
                                 <td>￥${orderForm.payment}</td>
                                 <td>
                                     <c:choose>
@@ -118,6 +124,14 @@
                                             <span>已退款</span>
                                         </c:when>
                                     </c:choose>
+                                </td>
+                                <td>
+                                    <div>
+                                        <c:choose>
+                                            <c:when test="${orderForm.paymentWay == 1}">微信</c:when>
+                                            <c:when test="${orderForm.paymentWay == 0}">支付宝</c:when>
+                                        </c:choose>
+                                    </div>
                                 </td>
                                 <td><fmt:formatDate value="${orderForm.createDate}" pattern="yyyy-MM-dd HH:mm"/></td>
                             </tr>

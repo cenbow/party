@@ -26,6 +26,7 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/gatherInfo/project/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">名称<span class="f-verify-red">*</span></label>
@@ -83,6 +84,7 @@
 				  	</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

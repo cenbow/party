@@ -75,13 +75,13 @@ public class ChannelController {
 		channel.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
 		Map<String, Object> params = CommonInput.appendParams(commonInput);
 		mv.addObject("input", commonInput);
-		String path = RealmUtils.getCurrentUser().getId() + "/channel/";
 		List<Channel> channels = channelService.webListPage(channel, params, page);
 		List<ChannelOutput> channelOutputs = LangUtils.transform(channels, input -> {
 			ChannelOutput channelOutput = ChannelOutput.transform(input);
 			List<Article> articles = articleService.getByChannelId(input.getId());
 			channelOutput.setArticleNum(articles.size());
 
+			String path = input.getMemberId() + "/channel/";
 			String content = "channel/channel_detail.html?channelId=" + input.getId();
 			String fileEntity = fileBizService.getFileEntity(input.getId(), path, content);
 			channelOutput.setQrCodeUrl(fileEntity);

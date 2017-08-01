@@ -47,6 +47,9 @@ public class ProjectAnalyze {
     //是否加群
     private Integer isGroup;
 
+    //最近沟通记录
+    private String recentlyRecord;
+
     //众筹状态
     private Integer isSuccess;
 
@@ -268,6 +271,15 @@ public class ProjectAnalyze {
         this.eventId = eventId;
     }
 
+
+    public String getRecentlyRecord() {
+        return recentlyRecord;
+    }
+
+    public void setRecentlyRecord(String recentlyRecord) {
+        this.recentlyRecord = recentlyRecord;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -286,6 +298,8 @@ public class ProjectAnalyze {
         if (mobile != null ? !mobile.equals(that.mobile) : that.mobile != null) return false;
         if (isFriend != null ? !isFriend.equals(that.isFriend) : that.isFriend != null) return false;
         if (isGroup != null ? !isGroup.equals(that.isGroup) : that.isGroup != null) return false;
+        if (recentlyRecord != null ? !recentlyRecord.equals(that.recentlyRecord) : that.recentlyRecord != null)
+            return false;
         if (isSuccess != null ? !isSuccess.equals(that.isSuccess) : that.isSuccess != null) return false;
         if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
         if (favorerNum != null ? !favorerNum.equals(that.favorerNum) : that.favorerNum != null) return false;
@@ -314,6 +328,7 @@ public class ProjectAnalyze {
         result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
         result = 31 * result + (isFriend != null ? isFriend.hashCode() : 0);
         result = 31 * result + (isGroup != null ? isGroup.hashCode() : 0);
+        result = 31 * result + (recentlyRecord != null ? recentlyRecord.hashCode() : 0);
         result = 31 * result + (isSuccess != null ? isSuccess.hashCode() : 0);
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         result = 31 * result + (favorerNum != null ? favorerNum.hashCode() : 0);
@@ -343,6 +358,7 @@ public class ProjectAnalyze {
                 ", mobile='" + mobile + '\'' +
                 ", isFriend=" + isFriend +
                 ", isGroup=" + isGroup +
+                ", recentlyRecord='" + recentlyRecord + '\'' +
                 ", isSuccess=" + isSuccess +
                 ", createDate=" + createDate +
                 ", favorerNum=" + favorerNum +

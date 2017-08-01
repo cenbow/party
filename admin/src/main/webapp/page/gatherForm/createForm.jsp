@@ -243,6 +243,7 @@
 </style>
 <fieldset class="event-create-body border">
     <legend>信息收集内容</legend>
+
     <div id="edit_template_items" class="event-create-sign-form"
          style="min-height: 518px; min-width: 650px; float: left;">
         <div id="event_template_form_items" style="padding-top: 10px">

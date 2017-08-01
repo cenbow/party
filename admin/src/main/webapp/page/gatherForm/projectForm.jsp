@@ -8,11 +8,7 @@
 <link rel="stylesheet" href="${ctx}/themes/default/css/common/list.css">
 <link rel="stylesheet" href="${ctx}/themes/default/css/common/form.css">
 <link rel="stylesheet" href="${ctx}/themes/default/css/ui/activity/publish_form.css">
-<style type="text/css">
-	.w85{
-		width: 85%!important;
-	}
-</style>
+
 </head>
 <!--头部-->
 <%@include file="../include/header.jsp"%>
@@ -32,13 +28,15 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/gatherForm/project/save.do">
 				<fieldset class="border mb10">
 					<legend>项目内容</legend>
+					<div class="add-form-content" style="padding-right: 15px;">
 					<div class="layui-form-item">
 						<label class="layui-form-label">名称<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<input type="text" name="title" lay-verify="title" placeholder="项目名称" class="layui-input w85" value="${project.title}">
+							<input type="text" name="title" lay-verify="title" placeholder="项目名称" class="layui-input" value="${project.title}">
 							<input type="hidden" name="id" value="${project.id}" />
 						</div>
 					</div>
@@ -56,6 +54,7 @@
 								<input type="file" id="upload_single_img" class="u-single-file">
 								<span class="u-single-upload-icon">+添加封面图</span>
 							</div>
+							<div class="form-word-aux">建议尺寸：800x450</div>
 						</div>
 					</div>
 					<div class="layui-form-item">
@@ -83,16 +82,17 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">描述<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<textarea name="remarks" class="layui-textarea w85" lay-verify="remarks" style="resize:none;height: 100px">${project.remarks}</textarea>
+							<textarea name="remarks" class="layui-textarea" lay-verify="remarks" style="resize:none;height: 100px">${project.remarks}</textarea>
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<label class="layui-form-label">详情<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="ueditor1" type="text/plain" style="width: 677px; height: 400px;"></script>
+							<script id="ueditor1" type="text/plain" style="width: 100%; height: 400px;"></script>
 							<div style="display: none" id="contentView">${project.content}</div>
 							<input type="hidden" name="content" id="content" lay-verify="content" />
 						</div>
+					</div>
 					</div>
 				</fieldset>
 				<%@include file="createForm.jsp" %>

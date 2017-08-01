@@ -79,7 +79,8 @@ public class AnalyzeController {
      */
     @RequestMapping(value = "list")
     public ModelAndView list(ProjectAnalyze projectAnalyze, Page page){
-        page.setLimit(15);
+        int limit = page.getLimit() < 20 ? 20 : page.getLimit();
+        page.setLimit(limit);
         ModelAndView modelAndView = new ModelAndView("crowdfund/analyzeList");
         List<AnalyzeOutput> outputList = analyzeBizService.list(projectAnalyze, page);
         List<String> dateList = analyzeBizService.dateStringList();
@@ -188,13 +189,15 @@ public class AnalyzeController {
     public AjaxResult labelSave(String id, String projectId){
         AjaxResult ajaxResult = new AjaxResult();
         /*Set<String> idSet = Sets.newHashSet(Splitter.on(",").split(ids));*/
+        String style = "";
         try {
-            analyzeBizService.labelSave(id, projectId);
+            style = analyzeBizService.labelSave(id, projectId);
         } catch (Exception e) {
             e.printStackTrace();
             ajaxResult.setSuccess(false);
             return ajaxResult;
         }
+        ajaxResult.setData(style);
         ajaxResult.setSuccess(true);
         return ajaxResult;
     }

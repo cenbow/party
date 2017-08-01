@@ -69,11 +69,11 @@ public class SubjectController {
 		Map<String, Object> params = CommonInput.appendParams(commonInput);
 		mv.addObject("input", commonInput);
 		List<Subject> subjects = subjectService.webListPage(subject, params, page);
-		String path = RealmUtils.getCurrentUser().getId() + "/subject/";
 		for (Subject entity : subjects) {
 			List<SubjectApply> applies = subjectApplyService.getBySubjectId(entity.getId());
 			entity.setSubjectApplies(applies);
 
+			String path = entity.getMemberId() + "/subject/";
 			String content = "subject/subject_detail.html?id=" + entity.getId();
 			String fileEntity = fileBizService.getFileEntity(entity.getId(), path, content);
 			entity.setQrCodeUrl(fileEntity);

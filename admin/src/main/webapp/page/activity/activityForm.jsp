@@ -25,11 +25,12 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/activity/activity/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">活动标题<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="title" lay-verify="title" style="width: 80%" autocomplete="off"
+						<input type="text" name="title" lay-verify="title" autocomplete="off"
 							placeholder="活动标题" class="layui-input" value="${activity.title}"
 						>
 						<input type="hidden" name="id" value="${activity.id}" />
@@ -49,7 +50,7 @@
 						<div class="u-single-upload">
 							<input type="file" id="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加海报</span>
 						</div>
-						<div class="form-word-aux">建议尺寸：600*350</div>
+						<div class="form-word-aux">建议尺寸：800x450</div>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -93,7 +94,7 @@
 					<div class="layui-inline">
 						<label class="layui-form-label"></label>
 						<div class="layui-input-inline">
-							<div id="allmap" style="height: 500px; width: 800px;"></div>
+							<div id="allmap" style="height: 500px;"></div>
 						</div>
 					</div>
 				</div>
@@ -204,18 +205,16 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">活动描述</label>
 					<div class="layui-input-block">
-						<input type="text" name="remarks" style="width: 80%" placeholder="活动描述" class="layui-input" value="${activity.remarks}">
+						<input type="text" name="remarks" placeholder="活动描述" class="layui-input" value="${activity.remarks}">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<div class="layui-inline">
 						<label class="layui-form-label">活动详情<span class="f-verify-red">*</span></label>
 						<div class="layui-input-block">
-							<script id="ueditor1" type="text/plain" style="width: 800px; height: 500px;"></script>
+							<script id="ueditor1" type="text/plain" style="width: 100%; height: 500px;"></script>
 							<div style="display: none" id="contentView">${activityDetail.content}</div>
 							<input type="hidden" name="content" id="content" lay-verify="content" />
 						</div>
-					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
@@ -224,6 +223,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>
@@ -240,8 +240,6 @@
 <script>
 	var uploadFile = new UploadFile('', '${ctx}/piccloud/getSign.do');
 	var ue = UE.getEditor('ueditor1');
-
-
 
 	$(function() {
         layui.use([ 'form', 'laydate' ], function() {
@@ -456,6 +454,11 @@
                 end.elem = this
                 laydate(end);
             }
+
+            initMapForm(form);
+            setTimeout(function () {
+                form.render('radio');
+            },100);
         });
 		ue.addListener('ready', function() {
 			if ($("#contentView").html() != "") {

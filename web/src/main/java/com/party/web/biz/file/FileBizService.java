@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.party.core.model.file.FileEntity;
 import com.party.core.service.file.IFileEntityService;
-import com.party.web.utils.QRCodeUtil;
+import com.party.common.utils.QRCodeUtil;
 
 @Service
 public class FileBizService {

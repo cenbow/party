@@ -86,7 +86,7 @@ public class CompetitionProjectController {
 				int scheduleNum = competitionScheduleService.listPage(new CompetitionSchedule(input.getId()), null).size();
 				output.setScheduleNum(scheduleNum);
 				// 项目详情二维码
-				String path = RealmUtils.getCurrentUser().getId() + "/competition/all/";
+				String path = member.getId() + "/competition/all/";
 				String content = "competition/all_person_rank.html?projectId=" + input.getId();
 				String baseQrCodeUrl = fileBizService.getFileEntity(input.getId(), path, content);
 				output.setQrCodeUrl(baseQrCodeUrl);

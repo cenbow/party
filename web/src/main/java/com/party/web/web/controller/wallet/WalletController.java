@@ -1,9 +1,26 @@
 package com.party.web.web.controller.wallet;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.party.common.paging.Page;
 import com.party.common.utils.BigDecimalUtils;
 import com.party.common.utils.LangUtils;
-import com.party.common.utils.StringUtils;
 import com.party.core.model.BaseModel;
 import com.party.core.model.member.MemberMerchant;
 import com.party.core.model.member.MerchantUtil;
@@ -12,6 +29,7 @@ import com.party.core.model.order.OrderStatus;
 import com.party.core.model.order.OrderType;
 import com.party.core.model.order.PaymentWay;
 import com.party.core.model.wallet.Withdrawals;
+import com.party.core.service.activity.OrderActivityBizService;
 import com.party.core.service.member.IMemberMerchantService;
 import com.party.core.service.order.IOrderFormService;
 import com.party.core.service.wallet.IWithdrawalService;
@@ -22,17 +40,6 @@ import com.party.web.utils.WithdrawalStatus;
 import com.party.web.utils.excel.ExportExcel;
 import com.party.web.web.dto.output.order.OrderFormOutput;
 import com.party.web.web.dto.output.wallet.WithdrawalOutput;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 /**
  * 钱包
@@ -54,6 +61,8 @@ public class WalletController {
 	private WithdrawalsBizService withdrawalsBizService;
 	@Autowired
 	private IMemberMerchantService memberMerchantService;
+	@Autowired
+    private OrderActivityBizService orderActivityBizService;
 
 	/**
 	 * 明细记录
@@ -77,14 +86,13 @@ public class WalletController {
 		// orderTypes.add(OrderType.ORDER_ACTIVITY.getCode());
 		// orderTypes.add(OrderType.ORDER_CROWD_FUND.getCode());
 		// params.put("types", orderTypes);
-		// params.put("txzMerchantId", MerchantUtil.TXZ_WWZ_MERCHANT_ID);
 
 		// 余额
-		double totalAccount = orderBizService.getTotalAccount();
+		double totalAccount = orderBizService.getTotalAccount(null);
 		mv.addObject("totalPayment", totalAccount);
 
 		// 订单总额
-		Double orderTotal = orderBizService.getOrderTotal(false);
+		Double orderTotal = orderBizService.getOrderTotal(false, null);
 		if (orderTotal != null) {
 			mv.addObject("orderTotal", orderTotal);
 		} else {
@@ -118,7 +126,7 @@ public class WalletController {
 		withdrawal.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
 
 		// 余额
-		double totalAccount = orderBizService.getTotalAccount();
+		double totalAccount = orderBizService.getTotalAccount(null);
 		mv.addObject("totalPayment", totalAccount);
 
 		// 提现总额
@@ -197,19 +205,16 @@ public class WalletController {
 
 	/**
 	 * 订单导出
-	 * 
-	 * @param page
-	 * @param request
+	 * @param orderForm
 	 * @param response
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value = "exportOrder", method = RequestMethod.POST)
-	public String exportOrder(HttpServletRequest request, HttpServletResponse response) {
+	public String exportOrder(OrderForm orderForm, HttpServletResponse response) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			String fileName = "收益明细" + sdf.format(new Date()) + ".xlsx";
-			OrderForm orderForm = new OrderForm();
 			orderForm.setInitiatorId(RealmUtils.getCurrentUser().getId());
 			orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
 			orderForm.setStatus(OrderStatus.ORDER_STATUS_HAVE_PAID.getCode()); // 已支付
@@ -221,27 +226,13 @@ public class WalletController {
 			// orderTypes.add(OrderType.ORDER_ACTIVITY.getCode());
 			// orderTypes.add(OrderType.ORDER_CROWD_FUND.getCode());
 			params.put("types", orderTypes);
-			params.put("txzMerchantId", MerchantUtil.TXZ_WWZ_MERCHANT_ID);
 			List<OrderForm> orderForms = orderFormService.webListPage(orderForm, params, null);
-			List<MemberMerchant> merchants = memberMerchantService.list(new MemberMerchant());
-			MemberMerchant merchant = memberMerchantService.findByMemberId(RealmUtils.getCurrentUser().getId());
 			List<OrderFormOutput> orderFormOutputs = LangUtils.transform(orderForms, input -> {
 				OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
-				if (StringUtils.isNotEmpty(input.getMerchantId())) {
-					if (input.getMerchantId().equals(MerchantUtil.TXZ_WWZ_MERCHANT_ID)
-							|| input.getMerchantId().equals(MerchantUtil.TXZ_APP_MERCHANT_ID)) {
-						orderFormOutput.setMerchantName(MerchantUtil.TXZ_MERCHANT_NAME);
-					} else if (merchant != null && merchant.getMerchantId().equals(input.getMerchantId())) {
-						orderFormOutput.setMerchantName(merchant.getMerchantName());
-					} else {
-						for (MemberMerchant memberMerchant : merchants) {
-							if (memberMerchant.getMerchantId().equals(input.getMerchantId())) {
-								orderFormOutput.setMerchantName(merchants.get(0).getMerchantName());
-								break;
-							}
-						}
-					}
-				}
+				// 获取商户名称
+				String merchantName = orderActivityBizService.
+						getMerchantName(input.getMerchantId(), input.getPaymentWay(), input.getInitiatorId());
+				orderFormOutput.setMerchantName(merchantName);
 				orderFormOutput.setPaymentWayName(PaymentWay.getValue(input.getPaymentWay()));
 				orderFormOutput.setTypeName(OrderType.getValue(input.getType()));
 				orderFormOutput.setStatusName(OrderStatus.getValue(input.getStatus()));

@@ -30,6 +30,7 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/notify/eventChannel/save.do">
                 <input type="hidden" name="id" value="${message.id}" />
 
@@ -49,28 +50,28 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">消息编号<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <input type="text" style="width: 85%" name="templateId" lay-verify="templateId" autocomplete="off" class="layui-input" value="${message.templateId}">
+                        <input type="text" name="templateId" lay-verify="templateId" autocomplete="off" class="layui-input" value="${message.templateId}">
                     </div>
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">消息连接<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <textarea name="url" placeholder="消息连接" lay-verify="msgurl" class="layui-textarea" style="width: 85%" >${message.url}</textarea>
+                        <textarea name="url" placeholder="消息连接" lay-verify="msgurl" class="layui-textarea" >${message.url}</textarea>
                     </div>
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">消息题目<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <textarea name="first" placeholder="消息题目" lay-verify="first" class="layui-textarea" style="width: 85%" >${message.first}</textarea>
+                        <textarea name="first" placeholder="消息题目" lay-verify="first" class="layui-textarea" >${message.first}</textarea>
                     </div>
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">消息备注<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <textarea name="remark" placeholder="消息备注" lay-verify="remark" class="layui-textarea" style="width: 85%" >${message.remark}</textarea>
+                        <textarea name="remark" placeholder="消息备注" lay-verify="remark" class="layui-textarea" >${message.remark}</textarea>
                     </div>
                 </div>
 
@@ -81,6 +82,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

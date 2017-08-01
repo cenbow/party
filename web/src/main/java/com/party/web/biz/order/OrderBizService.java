@@ -1,15 +1,5 @@
 package com.party.web.biz.order;
 
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.party.common.paging.Page;
 import com.party.common.utils.BigDecimalUtils;
 import com.party.common.utils.LangUtils;
@@ -19,11 +9,17 @@ import com.party.core.model.order.OrderForm;
 import com.party.core.model.order.OrderStatus;
 import com.party.core.model.order.OrderType;
 import com.party.core.model.wallet.Withdrawals;
+import com.party.core.service.activity.OrderActivityBizService;
 import com.party.core.service.order.IOrderFormService;
 import com.party.core.service.wallet.IWithdrawalService;
 import com.party.web.utils.RealmUtils;
 import com.party.web.utils.WithdrawalStatus;
 import com.party.web.web.dto.output.order.OrderFormOutput;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.text.DecimalFormat;
+import java.util.*;
 
 @Service
 public class OrderBizService {
@@ -33,6 +29,8 @@ public class OrderBizService {
 
 	@Autowired
 	private IWithdrawalService withdrawalService;
+	@Autowired
+	private OrderActivityBizService orderActivityBizService;
 
 	final DecimalFormat COMMA_FORMAT = new DecimalFormat("#,###.##");
 
@@ -40,10 +38,11 @@ public class OrderBizService {
 	 * 活动，众筹已支付的订单总额
 	 * @return
 	 */
-	public Double getOrderTotal(boolean isTxz) {
+	public Double getOrderTotal(boolean isTxz, Integer type) {
 		OrderForm orderForm = new OrderForm();
 		orderForm.setInitiatorId(RealmUtils.getCurrentUser().getId());
 		orderForm.setStatus(OrderStatus.ORDER_STATUS_HAVE_PAID.getCode()); // 已支付
+		orderForm.setType(type);
 		orderForm.setDelFlag(BaseModel.DEL_FLAG_NORMAL);
 		Map<String, Object> params = new HashMap<String, Object>();
 		Set<Integer> orderTypes = new HashSet<Integer>();
@@ -94,8 +93,8 @@ public class OrderBizService {
 	 * 
 	 * @return
 	 */
-	public double getTotalAccount() {
-		Double orderTotal = getOrderTotal(true);
+	public double getTotalAccount(Integer type) {
+		Double orderTotal = getOrderTotal(true, type);
 		Double withdrawalTotal = getWithdrawalTotal();
 
 		double blance = 0.0;
@@ -143,6 +142,10 @@ public class OrderBizService {
 			OrderFormOutput orderFormOutput = OrderFormOutput.transform(input);
 			String label = OrderType.getValue(input.getType());
 			orderFormOutput.setTypeName(label);
+			// 获取商户名称
+			String merchantName = orderActivityBizService.
+					getMerchantName(input.getMerchantId(), input.getPaymentWay(), input.getInitiatorId());
+			orderFormOutput.setMerchantName(merchantName);
 			return orderFormOutput;
 		});
 		return orderFormOutputs;

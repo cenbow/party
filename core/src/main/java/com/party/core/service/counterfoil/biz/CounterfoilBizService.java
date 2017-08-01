@@ -1,15 +1,5 @@
 package com.party.core.service.counterfoil.biz;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Transformer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.party.common.utils.StringUtils;
 import com.party.core.model.BaseModel;
 import com.party.core.model.activity.Activity;
@@ -19,6 +9,15 @@ import com.party.core.service.activity.IActivityService;
 import com.party.core.service.counterfoil.ICounterfoilBusinessService;
 import com.party.core.service.counterfoil.ICounterfoilService;
 import com.party.core.service.member.IMemberActService;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CounterfoilBizService {
@@ -113,11 +112,7 @@ public class CounterfoilBizService {
 			Float min = Collections.min(prices); // 最小票价
 			Float max = Collections.max(prices); // 最大票价
 			if (min.equals(max)) {
-				if (min.equals(new Float("0.0"))) {
-					return "免费";
-				} else {
-					return min.toString();
-				}
+				return min.toString();
 			} else {
 				return min.toString() + "-" + max.toString();
 			}

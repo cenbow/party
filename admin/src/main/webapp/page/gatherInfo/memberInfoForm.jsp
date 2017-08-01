@@ -96,10 +96,10 @@
 								<div class="cover-content">
 									<input type="hidden" name="logo" id="pic" lay-verify="pic" value="${member.logo}" />
 									<c:if test="${member == null || empty member.logo}">
-										<span id="cover-img" class="cover-img" style='background-image: url("${ctx}/image/avatar1.png")'></span>
+										<span id="cover-img" class="round-img" style='background-image: url("${ctx}/image/avatar1.png")'></span>
 									</c:if>
 									<c:if test="${member != null || not empty member.logo}">
-										<span id="cover-img" class="cover-img" style='background-image: url("${member.logo}")'></span>
+										<span id="cover-img" class="round-img" style='background-image: url("${member.logo}")'></span>
 									</c:if>
 									<div class="u-single-upload">
 										<input type="file" id="upload_single_img" class="u-single-file">

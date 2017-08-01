@@ -1,5 +1,6 @@
 package com.party.web.web.controller.charge;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.party.common.utils.DateUtils;
 import com.party.core.model.charge.PackageMember;
@@ -9,11 +10,10 @@ import com.party.core.model.order.OrderForm;
 import com.party.core.model.order.OrderStatus;
 import com.party.core.model.order.OrderType;
 import com.party.core.model.system.SysRole;
-import com.party.core.service.charge.IPackageMemberService;
 import com.party.core.service.charge.IPackageService;
 import com.party.core.service.member.IMemberService;
 import com.party.core.service.order.IOrderFormService;
-import com.party.core.service.system.ISysRoleService;
+import com.party.web.biz.charge.PackageBizService;
 import com.party.web.utils.RealmUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 等级
@@ -36,9 +38,7 @@ public class PackageController {
     @Autowired
     private IMemberService memberService;
     @Autowired
-    private IPackageMemberService packageMemberService;
-    @Autowired
-    private ISysRoleService sysRoleService;
+    private PackageBizService packageBizService;
 
     @RequestMapping("packageList")
     public ModelAndView levelList() {
@@ -47,43 +47,13 @@ public class PackageController {
         mv.addObject("packages", productPackages);
 
         String memberId = RealmUtils.getCurrentUser().getId();
-        Map<String, Object> params = Maps.newHashMap();
-        params.put("type", "1");
-        params.put("memberId", memberId);
-        List<SysRole> sysRoles = sysRoleService.getRoleByMemberId(params);
+        List<SysRole> sysRoles = Lists.newArrayList();
+        PackageMember packageMember = packageBizService.getPackageMember(memberId, sysRoles);
+        mv.addObject("packageMember", packageMember);
         mv.addObject("sysRoles", sysRoles);
 
-        PackageMember packageMember = packageMemberService.findByMemberId(new PackageMember("", memberId));
-        if (packageMember == null) {
-            ProductPackage t = new ProductPackage();
-            t.setType(1);
-            List<ProductPackage> packages = packageService.list(t);
-            List<ProductPackage> newPackges = new ArrayList<ProductPackage>();
-            for (ProductPackage p : packages) {
-                boolean flag = false;
-                for (SysRole r : sysRoles) {
-                    if (p.getSysRoleId().equals(r.getId())) {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag) {
-                    newPackges.add(p);
-                }
-            }
-            if (newPackges.size() > 0) {
-                Collections.sort(newPackges, new Comparator<ProductPackage>() {
-                    @Override
-                    public int compare(ProductPackage o1, ProductPackage o2) {
-                        return o1.getLevel() > o2.getLevel() ? -1 : 1;
-                    }
-                });
-
-                packageMember = new PackageMember();
-                packageMember.setSysRoleId(newPackges.get(0).getSysRoleId());
-            }
-        }
-        mv.addObject("packageMember", packageMember);
+        List<Map<String, Object>> privileges = packageBizService.getPackagePrivilegeList(productPackages);
+        mv.addObject("privileges", privileges);
         return mv;
     }
 

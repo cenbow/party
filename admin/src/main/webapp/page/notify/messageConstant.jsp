@@ -30,15 +30,17 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" >
                 <div class="layui-form-item">
                     <label class="layui-form-label">短信内容</label>
                     <div class="layui-input-block">
-                        <textarea name="title" placeholder="短信内容"  class="layui-textarea" readonly="readonly" style="width: 85%" >${message.title}</textarea>
+                        <textarea name="title" placeholder="短信内容"  class="layui-textarea" readonly="readonly">${message.title}</textarea>
                     </div>
                 </div>
 
             </form>
+            </div>
         </div>
     </section>
 </div>

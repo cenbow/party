@@ -26,6 +26,7 @@
                 </div>
             </div>
             <!-- 正文请写在这里 -->
+            <div class="add-form-content">
             <form id="myForm" class="layui-form mt20" method="post" action="${ctx}/help/help/save.do">
                 <input type="hidden" name="id" value="${help.id}"/>
                 <div class="layui-form-item">
@@ -33,10 +34,10 @@
                     <div class="layui-input-block">
                         <input id="parentId" name="parentId" value="${parentHelp.id}" hidden>
                         <c:if test="${empty help.id}">
-                            <input type="text" class="layui-input w85" value="${parentHelp.title}" id="selectParent" readonly="readonly" onclick="clickParent()" />
+                            <input type="text" class="layui-input" value="${parentHelp.title}" id="selectParent" readonly="readonly" onclick="clickParent()" />
                         </c:if>
                         <c:if test="${not empty help.id}">
-                            <input type="text" class="layui-input w85" value="${parentHelp.title}" id="selectParent" readonly="readonly" />
+                            <input type="text" class="layui-input" value="${parentHelp.title}" id="selectParent" readonly="readonly" />
                         </c:if>
                     </div>
                 </div>
@@ -56,13 +57,13 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">教程标题<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input w85" value="${help.title}">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input" value="${help.title}">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">后台内容<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <script id="ueditor1" type="text/plain" style="width: 677px; height: 400px;"></script>
+                        <script id="ueditor1" type="text/plain" style="width:100%; height: 400px;"></script>
                         <div style="display: none" id="contentView">${help.content}</div>
                         <input type="hidden" name="content" id="content" lay-verify="content" />
                     </div>
@@ -70,7 +71,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">前端内容<span class="f-verify-red">*</span></label>
                     <div class="layui-input-block">
-                        <script id="ueditor2" type="text/plain" style="width: 677px; height: 400px;"></script>
+                        <script id="ueditor2" type="text/plain" style="width: 100%; height: 400px;"></script>
                         <div style="display: none" id="contentView2">${help.frontContent}</div>
                         <input type="hidden" name="frontContent" id="content2" lay-verify="frontContent" />
                     </div>
@@ -82,6 +83,7 @@
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </section>
 </div>

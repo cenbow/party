@@ -761,10 +761,15 @@ public class NotifySendService implements INotifySendService {
     	notifyService.push(SUCCESS_FORM, telephone, gatherProject.getCreateBy(), constant);
     }
 
+    /**
+     * 会员升级成功推送
+     * @param orderForm 订单
+     */
     public void sendBuyLevel(OrderForm orderForm) {
         HashMap<String, Object> constant = Maps.newHashMap();
         Member member = memberService.get(orderForm.getMemberId());
         constant.put("{user}", member.getRealname());
+        constant.put("{title}", orderForm.getTitle());
         constant.put("createBy", orderForm.getMemberId());
         constant.put("logo", Message.MSG_LOGO_TZ);
         constant.put("tag", MessageTag.UNDEFIND.getCode());

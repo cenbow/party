@@ -36,18 +36,19 @@
 				</div>
 			</div>
 			<!-- 正文请写在这里 -->
+			<div class="add-form-content">
 			<form id="myForm" class="layui-form mt20" method="post" action="${ctx}/subject/apply/save.do">
 				<div class="layui-form-item">
 					<label class="layui-form-label">专题</label>
 					<div class="layui-input-block">
-						<input type="text" style="width: 80%" class="layui-input" value="${subject.name}" readonly="readonly" />
+						<input type="text"  class="layui-input" value="${subject.name}" readonly="readonly" />
 						<input type="hidden" name="subjectId" value="${subject.id}" />
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">栏目名称<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="name" lay-verify="name" style="width: 80%" autocomplete="off" placeholder="栏目名称" class="layui-input"
+						<input type="text" name="name" lay-verify="name"  autocomplete="off" placeholder="栏目名称" class="layui-input"
 							value="${apply.name}">
 						<input type="hidden" name="id" value="${apply.id}" />
 					</div>
@@ -65,6 +66,7 @@
 						<div class="u-single-upload">
 							<input type="file" class="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加栏目图标</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：120x120</div>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -84,7 +86,7 @@
 				<div class="layui-form-item" id="type_url" ${apply == null || apply.type == 'url' ? 'style="display:block"' : 'style="display:none"'}>
 					<label class="layui-form-label">链接<span class="f-verify-red">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" name="url" lay-verify="url" style="width: 80%" autocomplete="off" placeholder="单链接" class="layui-input" value="${apply.url}" />
+						<input type="text" name="url" lay-verify="url"  autocomplete="off" placeholder="单链接" class="layui-input" value="${apply.url}" />
 					</div>
 				</div>
 				<!-- 频道封面图 -->
@@ -101,6 +103,7 @@
 						<div class="u-single-upload">
 							<input type="file" class="upload_single_img" class="u-single-file"> <span class="u-single-upload-icon">+添加封面图</span>
 						</div>
+						<div class="form-word-aux">建议尺寸：800x450</div>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -114,7 +117,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">描述</label>
 					<div class="layui-input-block">
-						<textarea name="remarks" placeholder="栏目描述" lay-verify="remarks" class="layui-textarea" style="width: 80%">${apply.remarks}</textarea>
+						<textarea name="remarks" placeholder="栏目描述" lay-verify="remarks" class="layui-textarea" >${apply.remarks}</textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -124,6 +127,7 @@
 					</div>
 				</div>
 			</form>
+			</div>
 		</div>
 	</section>
 </div>

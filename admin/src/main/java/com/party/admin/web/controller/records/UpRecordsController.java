@@ -85,6 +85,25 @@ public class UpRecordsController {
         return modelAndView;
     }
 
+
+    /**
+     * 跟进记录
+     * @param projectId 项目编号
+     * @return 交互视图
+     */
+    @RequestMapping(value = "asynView")
+    public ModelAndView asynView(String projectId){
+        ModelAndView modelAndView = new ModelAndView("crowdfund/recordsView");
+        UpRecords upRecords = new UpRecords();
+        upRecords.setTargetId(projectId);
+        Project project = projectService.get(upRecords.getTargetId());
+        Member member = memberService.get(project.getAuthorId());
+        modelAndView.addObject("authorName", member.getRealname());
+        modelAndView.addObject("upRecords", upRecords);
+        return modelAndView;
+    }
+
+
     /**
      * 保存记录信息
      * @param upRecords 跟进记录

@@ -77,9 +77,9 @@
 					<img src="${ctx}/image/appqr_code.png" alt="">
 				</div>
 			</li>
-			<c:if test="${not empty sessionScope.currentUser}">
+			<%--<c:if test="${not empty sessionScope.currentUser}">
             	<li><a href="${ctx}/help/help/list.do">帮助教程</a></li>
-			</c:if>
+			</c:if>--%>
 		</ul>
 	</div>
 </nav>

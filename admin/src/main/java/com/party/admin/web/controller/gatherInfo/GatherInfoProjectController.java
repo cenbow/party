@@ -87,17 +87,17 @@ public class GatherInfoProjectController {
 			output.setGroupNum(groups.size());
 
 			// 活动二维码
-			String path = RealmUtils.getCurrentUser().getId() + "/gatherInfo/base/";
+			String path = member.getId() + "/gatherInfo/base/";
 			String content = "gather_info/base_info.html?projectId=" + input.getId();
 			String baseQrCodeUrl = fileBizService.getFileEntity(input.getId(), path, content);
 			output.setBaseQrCodeUrl(baseQrCodeUrl);
 
-			path = RealmUtils.getCurrentUser().getId() + "/gatherInfo/insurance/";
+			path = member.getId() + "/gatherInfo/insurance/";
 			content = "gather_info/insurance_info.html?projectId=" + input.getId();
 			baseQrCodeUrl = fileBizService.getFileEntity(input.getId(), path, content);
 			output.setInsuranceQrCodeUrl(baseQrCodeUrl);
 
-			path = RealmUtils.getCurrentUser().getId() + "/gatherInfo/itinerary/";
+			path = member.getId() + "/gatherInfo/itinerary/";
 			content = "gather_info/itinerary_info.html?projectId=" + input.getId();
 			baseQrCodeUrl = fileBizService.getFileEntity(input.getId(), path, content);
 			output.setItineraryQrCodeUrl(baseQrCodeUrl);

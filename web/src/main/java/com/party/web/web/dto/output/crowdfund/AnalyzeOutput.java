@@ -64,8 +64,14 @@ public class AnalyzeOutput {
     //标签名称
     private String labels;
 
+    //标签号
+    private String labelId;
+
     //样式
     private String style;
+
+    //最近沟通记录
+    private String recentlyRecord;
 
     //金额map
     private Map<String, Float> moneyMap;
@@ -213,6 +219,22 @@ public class AnalyzeOutput {
 
     public void setStyle(String style) {
         this.style = style;
+    }
+
+    public String getLabelId() {
+        return labelId;
+    }
+
+    public void setLabelId(String labelId) {
+        this.labelId = labelId;
+    }
+
+    public String getRecentlyRecord() {
+        return recentlyRecord;
+    }
+
+    public void setRecentlyRecord(String recentlyRecord) {
+        this.recentlyRecord = recentlyRecord;
     }
 
     public static AnalyzeOutput transform(ProjectAnalyze projectAnalyze){

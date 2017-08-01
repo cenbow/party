@@ -3,9 +3,13 @@ package com.party.core.service.records.impl;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.party.common.paging.Page;
+import com.party.core.dao.read.crowdfund.AnalyzeReadDao;
 import com.party.core.dao.read.records.UpRecordsReadDao;
+import com.party.core.dao.write.crowdfund.AnalyzeWriteDao;
 import com.party.core.dao.write.records.UpRecordsWriteDao;
+import com.party.core.exception.BusinessException;
 import com.party.core.model.BaseModel;
+import com.party.core.model.crowdfund.Analyze;
 import com.party.core.model.records.UpRecordWithProject;
 import com.party.core.model.records.UpRecords;
 import com.party.core.service.records.IUpRecordsService;
@@ -13,6 +17,7 @@ import com.sun.istack.NotNull;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -34,15 +39,31 @@ public class UpRecordsService implements IUpRecordsService {
     @Autowired
     private UpRecordsWriteDao upRecordsWriteDao;
 
+    @Autowired
+    private AnalyzeWriteDao analyzeWriteDao;
+
+    @Autowired
+    private AnalyzeReadDao analyzeReadDao;
+
     /**
      * 插入根据记录
      * @param upRecords 根进记录
      * @return 插入结果（true/false）
      */
     @Override
+    @Transactional
     public String insert(UpRecords upRecords) {
         BaseModel.preInsert(upRecords);
         boolean result = upRecordsWriteDao.insert(upRecords);
+
+        //更新众筹分析
+        Analyze analyze = analyzeReadDao.findByTargetId(upRecords.getTargetId());
+        if (null == analyze){
+            throw new BusinessException("众筹分析信息不存在");
+        }
+        analyze.setRecentlyRecord(upRecords.getContent());
+        analyzeWriteDao.update(analyze);
+
         if (result){
             return upRecords.getId();
         }
@@ -55,7 +76,16 @@ public class UpRecordsService implements IUpRecordsService {
      * @return 更新结果（true/false）
      */
     @Override
+    @Transactional
     public boolean update(UpRecords upRecords) {
+        //更新众筹分析
+        Analyze analyze = analyzeReadDao.findByTargetId(upRecords.getTargetId());
+        if (null == analyze){
+            throw new BusinessException("众筹分析信息不存在");
+        }
+        analyze.setRecentlyRecord(upRecords.getContent());
+        analyzeWriteDao.update(analyze);
+
         return upRecordsWriteDao.update(upRecords);
     }
 
@@ -78,11 +108,26 @@ public class UpRecordsService implements IUpRecordsService {
      * @return 删除结果(true/false)
      */
     @Override
+    @Transactional
     public boolean delete(@NotNull String id) {
         if (Strings.isNullOrEmpty(id)){
             return false;
         }
-        return upRecordsWriteDao.delete(id);
+        UpRecords upRecords = get(id);
+        //更新众筹分析
+        Analyze analyze = analyzeReadDao.findByTargetId(upRecords.getTargetId());
+        boolean result = upRecordsWriteDao.delete(id);
+        if (null != analyze){
+            UpRecords recently = getRecently();
+            if (null == recently){
+              analyze.setRecentlyRecord("");
+            }
+            else {
+                analyze.setRecentlyRecord(recently.getContent());
+            }
+            analyzeWriteDao.update(analyze);
+        }
+        return result;
     }
 
     /**
@@ -155,6 +200,15 @@ public class UpRecordsService implements IUpRecordsService {
         param.put("projectTitle", upRecordWithProject.getProjectTitle());
         param.put("targetId", upRecordWithProject.getTargetId());
         return upRecordsReadDao.listWithProject(param, page);
+    }
+
+    /**
+     * 最新的跟进记录
+     * @return 最新的跟进记录
+     */
+    @Override
+    public UpRecords getRecently() {
+        return upRecordsReadDao.getRecently();
     }
 
     @Override

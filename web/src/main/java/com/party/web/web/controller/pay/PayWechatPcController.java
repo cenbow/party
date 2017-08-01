@@ -33,7 +33,7 @@ import com.party.pay.model.pay.wechat.pc.QrCodeResponse;
 import com.party.pay.model.pay.wechat.pc.UnifiedOrderRequest;
 import com.party.web.biz.pay.PayPcOrderBizService;
 import com.party.web.biz.pay.WechatPcBizService;
-import com.party.web.utils.QRCodeUtil;
+import com.party.common.utils.QRCodeUtil;
 import com.party.web.web.dto.AjaxResult;
 
 /**

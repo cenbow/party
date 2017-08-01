@@ -11,14 +11,14 @@
     width: 100%;
     -webkit-box-align: center;
     -webkit-align-items: center;
-       -moz-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
     -webkit-box-pack: start;
     -webkit-justify-content: flex-start;
-       -moz-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -moz-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
 }
 .member-cell .member-logo {
     display: inline-block;
@@ -26,10 +26,10 @@
     width: 30px;
     height: 30px;
     -webkit-border-radius: 50%;
-            border-radius: 50%;
+    border-radius: 50%;
     line-height: 50px;
     -webkit-background-size: cover;
-            background-size: cover;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -122,6 +122,10 @@
     padding: 0;
 }
 
+.tb-opts .opt-more .more-btn {
+    display: block;
+}
+
 .out-fix-opts {
     display: none;
     position: absolute;
@@ -131,11 +135,7 @@
     text-align: center;
     border: 1px solid #e2e2e2;
     -webkit-border-radius: 5px;
-            border-radius: 5px;
-}
-
-.tb-opts .opt-more .more-btn {
-    display: block;
+    border-radius: 5px;
 }
 
 .out-fix-opts .options-content li {
@@ -161,6 +161,27 @@
 }
 
 /**fix-col 固定列**/
+
+.jfix-table{
+    table-layout: fixed;
+    width: 100%;
+    margin: 10px 0;
+    background-color: #fff;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.jfix-table thead tr {
+    background-color: #f2f2f2;
+}
+.jfix-table td, .jfix-table th {
+    padding: 3px 5px;
+    min-height: 20px;
+    line-height: 20px;
+    border: 1px solid #e2e2e2;
+    font-size: 12px;
+}
+
+
 .jfix-table-content {
     position: relative;
     overflow: auto;
@@ -171,9 +192,6 @@
     float: left;
 }
 
-.jleft-fix-table .layui-table,.jright-fix-table .layui-table {
-    width:inherit;
-}
 
 .jright-fix-table {
     overflow: auto;
@@ -206,4 +224,50 @@
 
 .tr-extra-content .ext-value {
     display: table-cell;
+}
+/*表格选择*/
+.j-table-sel-warp{
+    position: relative;
+}
+.j-table-sel-warp :after{
+    content: '▼';
+    position: absolute;
+    top: 0;
+}
+.j-table-sel-warp .j-table-sel{
+    display: none;
+}
+.j-table-sel option{
+    width: inherit;
+}
+.out-fix-sel {
+    display: none;
+    position: absolute;
+    background: #fff;
+    z-index: 1;
+    min-width: 100px;
+    text-align: center;
+    border: 1px solid #e2e2e2;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+.out-fix-sel .j-table-sel{
+    display: block;
+}
+.out-fix-sel .j-table-sel li {
+    border-bottom: 1px solid #dbdee5;
+    padding: 3px;
+    border-left: 0px;
+    cursor: pointer;
+    font-size: 12px;
+}
+.out-fix-sel .j-table-sel li:hover {
+    color: #777;
+}
+.out-fix-sel .j-table-sel li.active {
+    color: #ea5952;
+}
+
+.out-fix-sel .j-table-sel li:last-child {
+    border: none;
 }

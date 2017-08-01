@@ -263,3 +263,34 @@
 .ui-page-size .layui-form-select {
 	margin: 0 5px;
 }
+/*tab样式*/
+.l-tab-inner{
+	position: relative;
+}
+.l-tab-inner .l-toggle-inner{
+	display: none;
+}
+.l-tab-inner.active .l-toggle-inner{
+	display: inherit;
+	margin-bottom: 10px;
+}
+.form-tab-show{
+	position: absolute;
+	right: 0;
+	top: -44px;
+}
+.form-tab-show .iconfont{
+	font-size: 12px;
+}
+.form-tab-show .icon-unfold{
+	display: inline-block;
+}
+.form-tab-show .icon-fold{
+	display: none;
+}
+.l-tab-inner.active .form-tab-show .icon-unfold{
+	display: none;
+}
+.l-tab-inner.active .form-tab-show .icon-fold{
+	display: inline-block;
+}

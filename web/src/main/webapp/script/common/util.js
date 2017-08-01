@@ -53,6 +53,19 @@
                     ls.setItem(key, v);
                 }
             }
+        },removeStorage: function (key) {
+            localStorage.removeItem(key);
+        },
+        serializeForm:function (serializeArray) {
+            if(!typeof serializeArray === 'Array'){
+                return {};
+            }else{
+                var ret = {};
+                serializeArray.forEach(function (item) {
+                    ret[item.name] = item.value || '';
+                });
+                return ret;
+            }
         },
         checkNumber : function(value) {
         	var reg = /^\d+$/g;
